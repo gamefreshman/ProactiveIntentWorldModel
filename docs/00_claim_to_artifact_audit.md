@@ -1,6 +1,6 @@
 # PIWM Claim-to-Artifact Audit
 
-更新时间：2026-04-29
+更新时间：2026-04-29（Phase 1 expert_corpus 已落地后再次更新）
 
 ## 1. 目的
 
@@ -17,7 +17,7 @@
 
 | Claim | 论文位置 / 内容 | 当前工件 | 状态 | 缺口 | 必须修正 |
 |---|---|---|---|---|---|
-| Pedagogy-derived action space | action set compiled from retail training manuals | `piwm_data/rules.py` | blocking | 规则是硬编码；无 source / rationale / conflict log | 新增 `expert_corpus`，六张运行时映射从 JSONL 编译 |
+| Pedagogy-derived action space | action set compiled from retail training manuals | `piwm_data/rules.py` + `piwm_data/expert_corpus/distilled/conditional_rules.jsonl` (72 entries, all `seed_rule`) | covered（first batch 是 honest seed，后续可接受真实蒸馏条目） | 第一批是 seed_rule，不是真实教材引用；后续条目按需补 `manual_distillation`/`pedagogy_text` 来源 | 视论文叙事强度，决定是否第二批补真实教材蒸馏 |
 | AIDA-BDI state | `s_t=(sigma_t,b_t,d_t,i_t)` | `aida_stage` + `latent_state` + `intent` | blocking | 无显式 BDI；`latent_state` 与 `sigma` 语义混用 | `aida_stage=sigma`；新增 `bdi`；`latent_state` 定位为 `state_subtype` |
 | Perception target | `<sigma,b,d,i,rho,C>` | `state_inference.output` | partial | `aida_stage` 在 meta，不在 output；缺 BDI | `output.aida_stage`、`output.bdi` 进入监督目标 |
 | Deliberation target | `<sigma_next,b_next,d_next,i_next,risk,benefit,reward>` | `transition_modeling.output` | partial | 已有 `next_state/risk/benefit/reward`；缺 `next_bdi`；`next_state` 不是 AIDA sigma | 增加 `next_aida_stage` 或明确映射；增加 `next_bdi` |
@@ -123,7 +123,9 @@ real-store 样本仍需：
 
 ## 5. 当前最急修正
 
-1. 将“规则表五张”修为“六张运行时映射”；
+> 进度：第 1 项已完成（`expert_corpus` + 72 条 JSONL + 13 个测试），具体见 RESEARCH_LOG 2026-04-29 22:30。
+
+1. ~~将"规则表五张"修为"六张运行时映射"~~（**已完成 2026-04-29**：72 条 = 10/14/9/9/9/21，pytest 49 passed）
 2. 明确 `aida_stage=sigma`，`latent_state=state_subtype`；
 3. `state_inference.output` 增加 `aida_stage` 与 `bdi`；
 4. `transition_modeling.output` 增加 `next_bdi`，并明确 next stage 字段；

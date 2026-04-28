@@ -74,7 +74,7 @@ session/
 
 | 问题 | 当前状态 | 修正目标 | 验收 |
 |---|---|---|---|
-| 专家规则来源不足 | `rules.py` 直接硬编码 | 新增 `piwm_data/expert_corpus`，从 JSONL 编译运行时表 | 六张规则映射均可追溯；测试不回退 |
+| ~~专家规则来源不足~~ | ~~`rules.py` 直接硬编码~~ | ~~新增 `piwm_data/expert_corpus`，从 JSONL 编译运行时表~~ | **✅ 完成 2026-04-29**：72 条 JSONL（10/14/9/9/9/21）+ 13 测试 + pytest 49 passed |
 | BDI 缺失 | schema 只有 `intent`，无 `belief/desire/intention` | 增加 `BDISummary`；exporter 输出 `bdi` / `next_bdi` | 三字段非空；训练 target 可读取 |
 | `sigma` 与 `latent_state` 混淆 | 论文 `sigma` 是 AIDA；代码 `latent_state` 是行为子状态 | 明确：`aida_stage = sigma`，`latent_state` 改定位为 `behavioral_state/state_subtype` | `state_inference.output.aida_stage` 进入监督目标 |
 | reward 公式未落地 | 代码 reward 是标量 magic number | 记录 `reward_components`，用 `alpha*delta_stage + beta*delta_mental - gamma*action_cost` 校验 | `final_reward` 与组件公式一致 |

@@ -23,6 +23,34 @@
 
 ## High-Density Updates
 
+### [2026-04-29 22:30:00 CST] | Phase: Phase 1 Expert Corpus Landed
+
+**Key Progress**
+- 实现 `piwm_data/expert_corpus/`：`schemas.py`（Pydantic v2 discriminated union）、`compile.py`、`distilled/conditional_rules.jsonl`（72 条）、`_seed_generator.py`（一次性把 `rules.py` 字面量翻成 JSONL）。
+- 72 条 = 10 + 14 + 9 + 9 + 9 + 21，与 `01_data_generation_loop_status.md §5` 承诺一致。
+- 新增 `piwm_data/tests/test_expert_corpus.py`（13 个测试），核心断言 6 个 `*_matches_literal`：编译产物与 `rules.py` 字面量逐字段相等，任何漂移立刻 fail。
+- pytest **49 passed**（原 36 + 新 13），原测试零回退。
+- 每条 rule 携带显式 `provenance.rationale + provenance.author + provenance.added_at`，第一批全部诚实标注 `source_kind = "seed_rule"`，不伪装真实教材引用。
+- 编译器 fail-fast：未知 enum、duplicate rule_id、(rule_type, key) 冲突三类错误均 raise `CorpusValidationError`。
+
+**Data Loop Insight**
+- `rules.py` 保持字面量 runtime cache 不变 → 现有 36 测试零风险。
+- JSONL 升格为"语料源真相"，字面量降格为"runtime fast-path"；测试断言两者必须一致。
+- 第一批 72 条全部 `seed_rule`：论文 v6 中"pedagogy-derived"声明现在有了**可审计的代码证据**（每条 rule_id + rationale），但没有伪造真实教材引用。
+- 后续从教材/SOP 蒸馏出新规则时，新条目用 `manual_distillation` 或 `pedagogy_text`，与第一批 seed 区分。
+
+**Pending Criticals**
+- DoD-Expert：✅ 已满足（六张运行时映射可从 expert corpus 编译，pytest 不回退，seed 标注诚实）
+- 下一阶段进入 Phase 2 数据契约升级（BDI / next_bdi / state_summary / candidate_block / reward_components）
+- 仍未启动：Phase 3 sampler/prompt_builder、Phase 4 Kling+抽帧+QA、Phase 5 dataset pilot
+
+**Ref Reference**
+- `piwm_data/expert_corpus/schemas.py`
+- `piwm_data/expert_corpus/compile.py`
+- `piwm_data/expert_corpus/distilled/conditional_rules.jsonl`
+- `piwm_data/tests/test_expert_corpus.py`
+- [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)（"Pedagogy-derived action space" 行可由 `blocking` 改为 `partial→covered`）
+
 ### [2026-04-29 02:19:27 CST] | Phase: Documentation Refactor / Claim-Data Alignment
 
 **Key Progress**
