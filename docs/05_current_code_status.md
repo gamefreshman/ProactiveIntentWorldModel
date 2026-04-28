@@ -199,7 +199,7 @@ python3 -m piwm_data.build_dataset \
 |---|---|
 | `kling/generate_session.js` | 读取规范 `prompt.json`，调用 Kling 生成视频 |
 | `kling/package.json` | Node 依赖声明 |
-| `docs/kling_api_usage.md` | Kling 调用说明 |
+| `docs/07_kling_api_usage.md` | Kling 调用说明 |
 
 Kling 工具输出：
 
@@ -346,4 +346,3 @@ python3 -m piwm_data.build_dataset \
 ```
 
 这样可以形成真正的新数据闭环。
-

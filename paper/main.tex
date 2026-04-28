@@ -1,73 +1,694 @@
-% ============================================================
-% PIWM: Proactive Intent World Model for In-store Sales Guidance
-% NeurIPS 2026 Main Track Submission
-% Introduction + Related Work — Draft v6
-% ============================================================
-% Revision log vs v5:
-%   • Compressed Introduction from 8 pieces down to 6, matching the
-%     MindPower / ContextAgent rhythm.
-%   • Reduced \paragraph subheadings inside Introduction from 3 to 2.
-%     "Prospection" is no longer a subheading — it is folded into the
-%     PIWM-introduction paragraph as the central motivation.
-%   • Removed the explicit P(s_{t+1}|s_t,a_t) symbol from Introduction.
-%     The symbol now appears only in Related Work, where it anchors the
-%     dialogue-world-model lineage.
-%   • Replaced "transition module" with "action-conditioned next-state
-%     prediction" and described inference as VLM-as-internal-simulator.
-%   • Did NOT add schema field listings or ablation enumerations to
-%     Introduction. Both belong in the methods/experiments sections.
-%   • Contributions kept at 4 bullets, with the fourth rewritten to
-%     emphasize the OOD result rather than ablation breadth.
-% ============================================================
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2026
+
+% The authors should use one of these tracks.
+% Before accepting by the NeurIPS conference, select one of the options below.
+% 0. "default" for submission
+\usepackage{neurips_2026}
+% the "default" option is equal to the "main" option, which is used for the Main Track with double-blind reviewing.
+% 1. "main" option is used for the Main Track
+%  \usepackage[main]{neurips_2026}
+% 2. "position" option is used for the Position Paper Track
+%  \usepackage[position]{neurips_2026}
+% 3. "eandd" option is used for the Evaluations & Datasets Track
+ % \usepackage[eandd]{neurips_2026}
+ % if you want to opt-in for a de-anomymized submission (not recommended, but OK):
+ %\usepackage[eandd, nonanonymous]{neurips_2026}
+% 4. "creativeai" option is used for the Creative AI Track
+%  \usepackage[creativeai]{neurips_2026}
+% 5. "sglblindworkshop" option is used for the Workshop with single-blind reviewing
+ % \usepackage[sglblindworkshop]{neurips_2026}
+% 6. "dblblindworkshop" option is used for the Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop]{neurips_2026}
+
+% After being accepted, the authors should add "final" behind the track to compile a camera-ready version.
+% 1. Main Track
+ % \usepackage[main, final]{neurips_2026}
+% 2. Position Paper Track
+%  \usepackage[position, final]{neurips_2026}
+% 3. Evaluations & Datasets Track
+ % \usepackage[eandd, final]{neurips_2026}
+% 4. Creative AI Track
+%  \usepackage[creativeai, final]{neurips_2026}
+% 5. Workshop with single-blind reviewing
+%  \usepackage[sglblindworkshop, final]{neurips_2026}
+% 6. Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop, final]{neurips_2026}
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote.
+% For workshops (5., 6.), the authors should add the name of the workshop, "\workshoptitle" command is used to set the workshop title.
+% \workshoptitle{WORKSHOP TITLE}
+
+% "preprint" option is used for arXiv or other preprint submissions
+ % \usepackage[preprint]{neurips_2026}
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2026}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{amsmath}
+
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote. 
+\title{Proactive Intent World Model}
+
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to break the
+% lines. Using \AND forces a line break at that point. So, if LaTeX puts 3 of 4
+% authors names on the first line, and the last on the second line, try using
+% \AND instead of \And before the third author name.
+
+
+\author{%
+  David S.~Hippocampus\thanks{Use footnote for providing further information
+    about author (webpage, alternative address)---\emph{not} for acknowledging
+    funding agencies.} \\
+  Department of Computer Science\\
+  Cranberry-Lemon University\\
+  Pittsburgh, PA 15213 \\
+  \texttt{hippo@cs.cranberry-lemon.edu} \\
+  % examples of more authors
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \AND
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+
+
+\begin{abstract}
+  The abstract paragraph should be indented \nicefrac{1}{2}~inch (3~picas) on both the left- and right-hand margins. Use 10~point type, with a vertical spacing (leading) of 11~points. The word \textbf{Abstract} must be centered, bold, and in point size 12. Two line spaces precede the abstract. The abstract must be limited to one paragraph.
+\end{abstract}
 
 \section{Introduction}
 
-Vision-language models now drive autonomous agents across digital and physical domains, from web navigation~\cite{Mind2Web,SeeClick,WebAgent} and software engineering~\cite{SWEAgent,CodeAgent} to household robotics~\cite{SayCan} and health companionship~\cite{DrHouse,ConversationalHealth}. Most of these agents still respond only when asked: a user issues a command, the agent executes, and the loop closes. Such reactivity fits poorly with service domains where the value of a human expert lies in choosing the right moment to speak and the right thing to say, rather than in executing a stated instruction. Retail sales is the canonical example. A skilled floor salesperson reads a shopper's posture, gaze, dwell time, and product handling, judges whether the shopper is ready to be approached, and decides what to say --- often before a single word is exchanged. Replicating this behavior requires an agent that is not only multimodal but also \emph{prospective}: it must anticipate how a candidate intervention would change the customer's mental state before committing to it.
+A skilled floor salesperson decides what to say to a customer before the customer says a word. She reads posture, gaze, dwell time, and product handling; judges the shopper's readiness to be approached; and mentally simulates how each candidate intervention --- including silence --- would shift the customer's disposition. Building an autonomous agent that replicates this \emph{prospective} skill requires three capabilities that no existing system combines: perceiving a third party's latent intent from streaming multimodal cues, simulating how each candidate action would change that intent, and selecting the best action under constraints derived from domain expertise rather than from historically successful scripts.
 
-\paragraph{What current systems miss.}
-Two communities have moved part of the way toward such an agent. Proactive multimodal agents have learned to decide \emph{when} to speak in streaming video~\cite{MMDuet,MMDuet2,StreamBridge,Dispider,ViSpeak,ProactiveVideoQA}, wearable streams~\cite{ContextAgent,SocialMind}, and egocentric procedural assistance~\cite{ProAssist}. These systems share one assumption: the observed subject is the \emph{user} wearing the device, and the inferred intent is the wearer's own. A salesperson faces the opposite setup --- the observed subject is a third party, and the intent to be modeled is an external interlocutor's. Sales-dialogue systems have learned the other half: they generate persuasive language conditioned on dialogue history~\cite{PersuasionForGood,Hiraoka2016,SalesBot,SalesBot2,SalesAgent,CSales,AffectMind,SalesRLAgent}, and the most recent entry, AI-Salesman~\cite{AISalesman}, mines high-conversion telemarketing transcripts, clusters them into a script library, and retrieves stage-specific guidance turn by turn. These systems act only after the customer has engaged in conversation; they operate in a purely linguistic channel; and their action choices are induced from what \emph{worked} in past transcripts, which captures success patterns but not the conditional rules behind them.
+Vision-language models now drive agents across digital and physical domains~\cite{Mind2Web,SeeClick,SWEAgent,SayCan,DrHouse}, yet these agents remain reactive: a user issues a command, the agent executes, and the loop closes. Service domains demand the opposite. The value of a human expert in retail sales, medical triage, or educational tutoring lies in choosing \emph{when} and \emph{what} to say, not in executing a stated instruction. We use in-store retail as the concrete instance in this paper because it offers the cleanest version of all three capability requirements: the customer is visibly present, the strategy space is finite and well-codified by decades of marketing pedagogy, and the cost of a wrong intervention is immediately observable. The methodological pieces we develop --- pedagogy-anchored action constraints, a structured customer-state representation, and an action-conditioned predictive module trained from generated scenarios --- are not specific to retail; we return to this generalization in Section~\ref{sec:discussion}.
 
-\paragraph{What pedagogy already encodes.}
-Sales strategies, however, are not unstructured. Retail training programs and classical marketing frameworks --- AIDA~\cite{Lewis1898,StrongHughes}, SPIN Selling~\cite{Rackham} --- have for decades organized the sales conversation as a finite, stage-dependent action set, written in the form ``if the customer is at stage $X$ and shows cue $Y$, then strategy $Z$ is appropriate.'' This conditional structure is exactly the supervision an agent needs to generalize across product categories and customer personas, and it is exactly what is missing from outcome-mined script libraries. Yet no current sales agent treats this pedagogical knowledge as a first-class supervision source. Combined with the perception gap above, this means today's agents lack both the visual ground for state inference and the conditional ground for action selection. They also lack the third capability that distinguishes a salesperson from a respondent: the ability to imagine how the customer will react to each candidate intervention before choosing one.
+\paragraph{Gap 1: Proactive agents model the first-person user, not a third party.}
+Proactive multimodal agents have learned to decide \emph{when} to speak in streaming video~\cite{MMDuet,MMDuet2,StreamBridge,Dispider,ViSpeak,ProactiveVideoQA}, wearable streams~\cite{ContextAgent,SocialMind}, and egocentric procedural assistance~\cite{ProAssist}. These systems share one structural assumption: the observed subject is the user wearing the device, and the inferred intent is the wearer's own. A salesperson faces the opposite setup --- the subject is a third party whose latent state must be inferred from external behavioral cues, and the agent never shares the perceptual frame.
 
-We address these gaps with \textbf{PIWM} (\emph{Proactive Intent World Model}), a multimodal world model of customer intent that serves as the predictive core of an in-store guidance agent. PIWM is organized along a three-level hierarchy --- Perception, Deliberation, and Action --- that mirrors the salesperson's own decision loop:
+\paragraph{Gap 2: Sales agents act after engagement, not before it.}
+Sales-dialogue systems generate persuasive language conditioned on dialogue history~\cite{PersuasionForGood,Hiraoka2016,SalesBot,SalesBot2,SalesAgent,CSales,AffectMind,SalesRLAgent,AISalesman}. The most recent, AI-Salesman~\cite{AISalesman}, mines high-conversion telemarketing transcripts, clusters them into a script library, and retrieves stage-specific guidance turn by turn. Two limitations are shared across this line. First, the input modality is text or voice, not the visual behavioral cues that an in-store salesperson actually uses. Second, the action space is induced from \emph{what worked} in past transcripts, which captures success patterns but not the conditional rules behind them. Marketing pedagogy --- AIDA~\cite{Lewis1898,StrongHughes}, SPIN Selling~\cite{Rackham} --- has for a century encoded those conditional rules in the form ``if the customer is at stage $X$ and shows cue $Y$, then strategy $Z$ is appropriate.'' That structure transfers across products and customers; mined script clusters do not. Combining the two existing lines does not close the gap, because neither provides the third missing piece: a way to forecast how a candidate intervention will reshape the customer's state \emph{before} committing to it.
+
+\paragraph{The PIWM approach.}
+We address this gap with \textbf{PIWM} (\emph{Proactive Intent World Model}), the predictive core of an in-store guidance agent. PIWM is a single vision-language model fine-tuned with three coupled objectives that mirror the salesperson's decision loop:
 \begin{itemize}
-  \item \emph{Perception} parses multimodal cues (posture, gaze, dwell, product handling) into an AIDA-aligned estimate of the customer's purchasing stage and a structured Belief--Desire--Intention summary.
-  \item \emph{Deliberation} treats the underlying VLM as an internal simulator. For each candidate intervention, the model is queried again to predict the customer's next state, the likely reaction, and a coarse risk--benefit assessment, producing a short hypothetical rollout per action.
-  \item \emph{Action} selects the intervention --- including the choice to remain silent --- after comparing rollouts. The action set is finite and drawn from a state machine extracted from retail training manuals, rather than from clusters of historically successful utterances.
+  \item \emph{Perception.} Given a short visual window and a structured history summary, predict the customer's current purchase stage (a four-way label drawn from AIDA) together with a structured triple summarizing what the customer believes about the situation, what they want, and what they intend to do next~\cite{Bratman}.
+  \item \emph{Deliberation.} Given the current state $s_t$ and a candidate action $a$, predict the customer's next state $\hat{s}_{t+1}^{(a)}$ together with a coarse risk--benefit assessment. This is not prompt-only chain-of-thought: the same VLM is fine-tuned with an action-conditioned next-state prediction objective $\mathcal{L}_{\text{trans}} = -\log p_\theta(s_{t+1} \mid o_t, s_t, a)$, so that its internal representations distinguish state transitions caused by different interventions.
+  \item \emph{Action.} Score each candidate by its predicted reward, prefer actions whose rollouts the model has been preference-aligned to favor, and select the best action --- including the option to remain silent. The action set is finite and drawn from a state machine compiled from retail training manuals, not from clusters of historically successful utterances.
 \end{itemize}
-The key shift is at Deliberation: PIWM does not commit to a single forward generation. It uses the same VLM to walk through alternative interventions in imagination and chooses among them. This is what gives the agent its \emph{prospective} character.
+At inference, the same fine-tuned VLM is queried multiple times within one decision: once to infer the current state, once per candidate action to predict its consequence, and once to select among candidates. The model serves as its own simulator. Calling the same model with three role prompts is a familiar pattern; what is new is that the model has been \emph{trained} for each role, against supervision derived from sales pedagogy rather than imitation of past dialogues.
 
-Training a model of this form needs paired supervision linking observation, current state, candidate action, and next state --- in a setting where real in-store video is hard to obtain at scale. Privacy and licensing barriers are high, rare but diagnostically important personas are under-sampled, and ground-truth mental states are not directly observable. We sidestep these constraints with a pedagogy-anchored data pipeline. The pedagogical source supplies the conditional structure: which cues correspond to which customer states, and which strategies are appropriate at which stages. A controllable video generation model (Kling~\cite{Kling}) renders the visual side of each scenario, conditioned on tuples of (product category, persona type, AIDA stage, target cue) drawn from the same state machine that governs the action space. A small anchor set of real-store recordings calibrates realism. Each generated record is canonicalized into a unified interaction schema and exported into supervision formats for the three hierarchy levels, so that Perception, Deliberation, and Action are trained against the same underlying interaction graph rather than against three disconnected datasets.
+\paragraph{Pedagogy-anchored data without privacy or licensing risk.}
+Training a model with the objectives above requires paired supervision linking observation, current state, candidate action, next state, and reward. Real in-store video is hard to obtain at this scale: privacy and licensing barriers are high, rare but diagnostically important customer personas are under-sampled, and ground-truth mental states are not directly observable. Our data pipeline sidesteps these constraints in two stages. A pedagogy layer first compiles authored retail training manuals and the AIDA framework into a machine-readable rule set: each rule states what cue corresponds to which customer state, and which actions are appropriate under that state. A controllable video-generation model (Kling~\cite{Kling}) then renders the visual side of each rule into multimodal scenarios, conditioned on tuples of (product category, persona type, AIDA stage, target cue) drawn from the rule set. Each generated record is canonicalized into a unified interaction schema and exported into supervision formats for the three training objectives, ensuring that Perception, Deliberation, and Action are trained against the same underlying interaction graph. A reserved set of [N$_\text{real}$] real-store scenes across [M] product categories serves two purposes: it calibrates synthetic-to-real visual fidelity (FID/FVD) and provides a real-store test split that is held out from training. We report all main results on both synthetic and real splits so that the sim-to-real gap is quantified rather than assumed.
 
-We evaluate PIWM against three groups of baselines: general-purpose VLMs under zero-shot and few-shot prompting (GPT-4V~\cite{GPT4V}, Gemini-2.5-Pro~\cite{Gemini25}, Claude-3.7-Sonnet~\cite{Claude37}, Qwen2.5-VL~\cite{Qwen25VL}); a perception-only variant of our model trained only for current-state inference; and a transferred AI-Salesman baseline~\cite{AISalesman} together with a text-only dialogue world model~\cite{XuCOLING}. PIWM improves intervention-timing F1 by [X]\% and strategy-selection accuracy by [Y]\% over the strongest VLM baseline. The more revealing test is the out-of-distribution split, in which product categories and customer personas seen at training are held out: PIWM's gap from in-distribution shrinks by [Z]\% relative to AI-Salesman, indicating that pedagogy-derived rules transfer where outcome-mined scripts do not. A qualitative analysis shows that the perception-only variant fails differently from the full model: it can identify the current customer state but commits to interventions that misjudge the next-state consequences --- evidence that the gain comes from Deliberation, not from better perception alone.
+\paragraph{Findings.}
+We evaluate PIWM against three groups of baselines: general-purpose VLMs under zero-shot and few-shot prompting (GPT-4V~\cite{GPT4V}, Gemini-2.5-Pro~\cite{Gemini25}, Claude-3.7-Sonnet~\cite{Claude37}, Qwen2.5-VL~\cite{Qwen25VL}); a perception-only variant of our model trained with only the Perception objective; and a transferred AI-Salesman baseline~\cite{AISalesman} together with a text-only dialogue world model~\cite{XuCOLING}. On the synthetic in-distribution split, PIWM improves intervention-timing F1 by [X]\% and strategy-selection accuracy by [Y]\% over the strongest VLM baseline. On the real-store test split, the improvement is [X$_\text{real}$]\%/[Y$_\text{real}$]\%, indicating a sim-to-real gap of [G]\%. On the out-of-distribution synthetic split, in which product categories and customer personas seen at training are held out, PIWM's gap from in-distribution shrinks by [Z]\% relative to AI-Salesman --- evidence that pedagogy-derived rules transfer where outcome-mined scripts do not. A qualitative analysis shows that the perception-only variant fails differently from the full model: it can identify the current customer state but commits to interventions that misjudge the next-state consequences, locating the gain inside Deliberation rather than Perception alone.
 
-We summarize our contributions as follows.
-
+\paragraph{Contributions.}
 \begin{itemize}
-  \item We formalize \emph{in-store proactive sales guidance} as a third-person multimodal decision problem, requiring customer-state perception, action-conditioned consequence prediction, and pedagogy-constrained intervention. We show that existing reactive VLMs, sales-dialogue systems, and generic proactive agents are each insufficient along at least one of these axes.
-  \item We propose \textbf{PIWM}, a Proactive Intent World Model organized along a Perception--Deliberation--Action hierarchy. PIWM couples an AIDA--BDI state representation with a pedagogy-derived action space, and it trains the underlying VLM with action-conditioned next-state prediction so that, at inference, the model serves as an internal simulator that compares hypothetical interventions before committing to one.
-  \item We introduce a pedagogy-anchored data pipeline that converts retail training knowledge into a unified interaction schema and renders each record into supervision formats for state inference, action-conditioned transition prediction, and policy preference. Controllable video synthesis supplies the multimodal observations; the schema preserves the expert-derived links among cues, latent state, candidate strategies, and expected outcomes.
-  \item We evaluate PIWM against general VLMs, a perception-only variant, and sales-dialogue and dialogue-world-model adaptations. PIWM achieves up to [X]\% higher intervention-timing F1 and [Y]\% higher strategy-selection accuracy, with a [Z]\% smaller out-of-distribution gap than the strongest baseline.
+  \item We formalize \emph{in-store proactive sales guidance} as a third-person multimodal decision problem requiring perception of a third party's latent state, action-conditioned consequence prediction, and pedagogy-constrained intervention. We show that existing reactive VLMs, sales-dialogue systems, and generic proactive agents are each insufficient along at least one of these axes (Section~\ref{sec:related}).
+  \item We propose \textbf{PIWM}, a single VLM trained with coupled Perception, Deliberation, and Action objectives, organized so that the model can be queried as its own simulator at inference time. The Deliberation objective trains the VLM to predict next states under candidate actions, giving it a learned action-conditioned transition behavior rather than a prompt-only reasoning shortcut.
+  \item We introduce a pedagogy-anchored data pipeline that compiles retail training manuals into a machine-readable rule set, materializes each rule into multimodal scenarios via controllable video generation, and exports the same interaction graph into three supervision formats aligned with the three training objectives.
+  \item We evaluate PIWM against general VLMs, a perception-only variant, sales-dialogue baselines, and a dialogue world model, on both synthetic and real-store splits and on an out-of-distribution split that holds out unseen products and personas. We report a [G]\% sim-to-real gap and isolate the contribution of each training objective via ablation.
 \end{itemize}
+
 
 \section{Related Work}
 \label{sec:related}
 
 \paragraph{Reactive and Proactive Agents.}
-Mind2Web~\cite{Mind2Web}, SeeClick~\cite{SeeClick}, and SWE-Agent~\cite{SWEAgent} established that large language and vision-language models can carry out multi-step digital tasks in response to explicit user instructions. A parallel line has asked whether such agents can initiate actions on their own. Early efforts~\cite{ProactiveAgent,CodingGenie,AskBeforePlan,ProAgent} monitor closed digital environments --- desktop UIs, code editors, planning dialogues --- and trigger when a predefined condition is met. ContextAgent~\cite{ContextAgent} generalizes this to open-world wearable streams, predicting whether a proactive response is warranted given egocentric video, audio, and user personas. On the streaming-video side, MMDuet~\cite{MMDuet}, MMDuet2~\cite{MMDuet2}, StreamBridge~\cite{StreamBridge}, Dispider~\cite{Dispider}, and ViSpeak~\cite{ViSpeak} push timing-aware response generation, with ProactiveVideoQA~\cite{ProactiveVideoQA} providing the PAUC metric for joint timing--quality evaluation. These works optimize the timing and content of a response, but they do not require the agent to compare multiple candidate interventions by forecasting how each one would change a third party's latent state. They also share a first-person setup: the agent and the subject are the same person. The salesperson setting reverses both --- the subject is a third party, and the decision is which counterfactual future to bring about, not whether to speak now.
+Mind2Web~\cite{Mind2Web}, SeeClick~\cite{SeeClick}, and SWE-Agent~\cite{SWEAgent} established that large language and vision-language models can carry out multi-step digital tasks in response to explicit user instructions. A parallel line has asked whether such agents can initiate actions on their own. Early efforts~\cite{ProactiveAgent,CodingGenie,AskBeforePlan,ProAgent} monitor closed digital environments and trigger when a predefined condition is met. ContextAgent~\cite{ContextAgent} generalizes this to open-world wearable streams, predicting whether a proactive response is warranted given egocentric video, audio, and personas. On the streaming-video side, MMDuet~\cite{MMDuet}, MMDuet2~\cite{MMDuet2}, StreamBridge~\cite{StreamBridge}, Dispider~\cite{Dispider}, and ViSpeak~\cite{ViSpeak} push timing-aware response generation, with ProactiveVideoQA~\cite{ProactiveVideoQA} providing the PAUC metric for joint timing--quality evaluation. These works optimize the timing and content of a response, but they do not require the agent to compare candidate interventions by forecasting how each one would change a third party's latent state. They also share a first-person setup: the agent and the subject are the same person. The salesperson setting reverses both --- the subject is a third party, and the decision is which counterfactual future to bring about, not whether to speak now.
 
 \paragraph{Sales and Persuasion Dialogue.}
-Hiraoka et al.~\cite{Hiraoka2016} and PersuasionForGood~\cite{PersuasionForGood} provided the community its first strategy-annotated sales and persuasion corpora, with flat per-utterance labels. SalesBot and SalesBot 2.0~\cite{SalesBot,SalesBot2} introduced the chit-chat-to-task transition as a phenomenon to model, and SalesAgent~\cite{SalesAgent} scaled this to e-commerce. SalesRLAgent~\cite{SalesRLAgent} framed conversion prediction as a reinforcement-learning problem on 1.2M synthetic dialogues. CSI/CSales~\cite{CSales} unified preference elicitation, recommendation, and persuasion into a single agent, and AffectMind~\cite{AffectMind} added joint emotion--intent modeling. The closest entry is AI-Salesman~\cite{AISalesman}: it releases TeleSalesCorpus, mines high-conversion telemarketing transcripts, extracts persuasive scripts with GPT-4, clusters them into a template library, and retrieves stage-specific guidance at inference. Two properties separate our setting from this line. First, the input modality: all of the above operate on text or voice, not on the visual behavioral cues an in-store salesperson actually uses. Second, the supervision source: AI-Salesman's script library is induced from dialogue outcomes, capturing what worked but not why; a pedagogy-derived action space, by contrast, encodes the conditional rules under which a strategy is appropriate, which matters when the agent must handle products or personas absent from the training transcripts. We adapt AI-Salesman as a transferred baseline in Section~\ref{sec:experiments}.
+Hiraoka et al.~\cite{Hiraoka2016} and PersuasionForGood~\cite{PersuasionForGood} provided the first strategy-annotated sales and persuasion corpora, with flat per-utterance labels. SalesBot and SalesBot~2.0~\cite{SalesBot,SalesBot2} introduced the chit-chat-to-task transition as a phenomenon to model, SalesAgent~\cite{SalesAgent} scaled this to e-commerce, and SalesRLAgent~\cite{SalesRLAgent} framed conversion prediction as a reinforcement-learning problem on 1.2M synthetic dialogues. CSI/CSales~\cite{CSales} unified preference elicitation, recommendation, and persuasion into a single agent, and AffectMind~\cite{AffectMind} added joint emotion--intent modeling. The closest entry is AI-Salesman~\cite{AISalesman}: it releases TeleSalesCorpus, mines high-conversion telemarketing transcripts, extracts persuasive scripts with GPT-4, clusters them into a template library, and retrieves stage-specific guidance at inference. Two properties separate our setting from this line. The input modality is visual behavior rather than text or voice, and the supervision source is pedagogically authored conditional rules rather than outcome-mined script clusters. The latter difference matters most under distribution shift: a script library encodes \emph{what worked} on a finite product--persona slice, while a rule-set encodes \emph{why} a strategy is appropriate in terms that transfer to unseen products and personas. We adapt AI-Salesman as a transferred baseline in Section~\ref{sec:experiments} by feeding it the textual portion of the same scenarios.
 
-\paragraph{World Models for Dialogue and Interactive Agents.}
-Ha and Schmidhuber~\cite{HaSchmidhuber} introduced the modern notion of a learned world model --- a transition function $P(s_{t+1} \mid s_t, a_t)$ that supports planning in imagination --- and subsequent work has scaled this primitive to games~\cite{IRIS}, interactive environments~\cite{Genie}, and embodied control~\cite{DreamerV3}. In the dialogue domain, DDQ~\cite{DDQ} was the first to train a dialogue policy with a learned user-response model, and its successors~\cite{SwitchDDQ,BudgetDDQ,DRD3Q} improved sample efficiency. Xu et al.~\cite{XuCOLING} recently proposed an autoregressive Transformer world model coupled with a causal-chain module for dialogue policy. These formulations are text-only and are evaluated on abstract task-completion domains such as movie booking and medical diagnosis: their state is a structured slot--value record and their action is a dialogue act. A separate strand develops LLM-based user simulators for sales and persuasion --- RetailSim~\cite{RetailSim}, CSUser~\cite{CSales}, UserLM-R1~\cite{UserLMR1}, HumanLM~\cite{HumanLM}, GenTUS~\cite{GenTUS}, Personality-Aware RL~\cite{PersonalityRL}, and the Bayesian-persuasion formulation of Harris et al.~\cite{AlgorithmicPersuasion}. These are simulation frameworks: they generate trajectories by prompting or fine-tuning a user-role LLM, but do not provide the action-conditioned next-state object that supports planning in the Ha--Schmidhuber sense. PIWM differs from both strands in what is being modeled: the transition is not between dialogue slots or simulator states, but between visually inferred customer-intent states under sales interventions, with the action space drawn from marketing pedagogy rather than from a dialogue-act ontology.
+\paragraph{Dialogue Policy World Models.}
+Ha and Schmidhuber~\cite{HaSchmidhuber} introduced the modern notion of a learned world model --- a transition function $P(s_{t+1} \mid s_t, a_t)$ that supports planning in imagination --- and subsequent work has scaled this primitive to games~\cite{IRIS}, interactive environments~\cite{Genie}, and embodied control~\cite{DreamerV3}. In the dialogue domain, DDQ~\cite{DDQ} was the first to train a dialogue policy with a learned user-response model, and its successors~\cite{SwitchDDQ,BudgetDDQ,DRD3Q} improved sample efficiency. Xu et al.~\cite{XuCOLING} recently proposed an autoregressive Transformer world model coupled with a causal-chain module for dialogue policy. These formulations are text-only and are evaluated on abstract task-completion domains such as movie booking and medical diagnosis: their state is a structured slot--value record, their action is a dialogue act, and observations are utterances. PIWM differs in what is being modeled: the observation is multimodal customer behavior, the state is a customer-mind summary, and the action space is drawn from sales pedagogy rather than from a dialogue-act ontology. The transition function is realized inside the same VLM that serves perception and policy, rather than as a separate dynamics module.
+
+\paragraph{LLM-based User Simulators.}
+A separate strand develops LLM-based user simulators for sales and persuasion --- RetailSim~\cite{RetailSim}, CSUser~\cite{CSales}, UserLM-R1~\cite{UserLMR1}, HumanLM~\cite{HumanLM}, GenTUS~\cite{GenTUS}, Personality-Aware RL~\cite{PersonalityRL}, and the Bayesian-persuasion formulation of Harris et al.~\cite{AlgorithmicPersuasion}. These are simulation frameworks: they generate trajectories by prompting or fine-tuning a user-role LLM. They produce data, not transition functions. In the language of model-based RL, they sit on the data side of the loop, while PIWM sits on the model side --- it is the learned predictor of next states, trained on data that simulators of this kind could in principle help to produce. Our data pipeline does play a similar synthesis role at training time, but the artifact we evaluate is a transition-aware policy, not the simulator itself.
 
 \paragraph{Theory of Mind for Embodied Agents.}
-MindPower~\cite{MindPower} is the closest recent work in spirit. It introduces a Perception--Mental Reasoning--Decision--Action hierarchy over $\langle$Belief$\rangle$, $\langle$Desire$\rangle$, $\langle$Intention$\rangle$ tags and evaluates whether VLM-based embodied agents can reason about human mental states in first-person robot scenarios. MindForge~\cite{MindForge} applies belief tracking to cultural learning in Minecraft, and Jafari et al.~\cite{ToMConversational} probe whether ToM components extracted from LLM hidden states improve conversational alignment. We share MindPower's commitment to an explicit Perception--Deliberation--Action decomposition and to BDI-structured mental states. We diverge in three respects. First, the observed subject is a third-party customer rather than the first-person user of the robot, and the inferred state is the customer's purchasing disposition rather than the human's task-level goal. Second, the action space is constrained by a sales-pedagogy state machine, not by the open repertoire of an embodied robot. Third, MindPower performs a single forward reasoning pass that classifies the current mental state and selects a response; PIWM is trained with an action-conditioned world-modeling objective, and at inference it queries the same VLM repeatedly to compare hypothetical futures before acting. The difference matters most in the decision whether to intervene at all, where the agent must compare counterfactuals rather than classify the current frame.
+MindPower~\cite{MindPower} is the closest recent work in spirit. It introduces a Perception--Mental Reasoning--Decision--Action hierarchy and evaluates whether VLM-based embodied agents can reason about human mental states in first-person robot scenarios. MindForge~\cite{MindForge} applies belief tracking to cultural learning in Minecraft, and Jafari et al.~\cite{ToMConversational} probe whether mental-state components extracted from LLM hidden states improve conversational alignment. We share MindPower's commitment to an explicit Perception--Deliberation--Action decomposition. The architectural difference is that MindPower classifies the current mental state and selects a response in a single forward pass, whereas PIWM is trained with an action-conditioned transition objective and compares counterfactual futures at inference. This difference matters most in the decision \emph{not} to intervene: a forward-pass classifier offers no mechanism for evaluating the cost of silence against the cost of speaking, while a transition-aware model can predict that the next state under a silent action is preferable to the next state under any speaking action.
 
 \paragraph{Knowledge Distillation from Expert Sources.}
-Document-to-dialogue pipelines synthesize multi-turn supervised data from unstructured corpora~\cite{R2S,SamsungManual}, and teacher-LLM distillation formalizes the extraction of interaction-ready guidance~\cite{GER}. Rationale-based distillation~\cite{RBKD} and conversational tutoring self-distillation~\cite{TutoringSelfDistill} go further, transferring reasoning traces rather than only outputs. The shared assumption is that a stronger LLM teacher is the source of knowledge, which means the distilled rules inherit the teacher's biases and offer no guarantee of matching domain expertise. Our source is different in kind: authored retail training manuals and the AIDA marketing framework, written by human sales instructors to teach conditional rules of the form ``if the customer is at stage $X$ with cue $Y$, then strategy $Z$.'' That conditional structure is the foundation of both our state machine and the action-conditioned transition supervision PIWM consumes.
+Document-to-dialogue pipelines synthesize multi-turn supervised data from unstructured corpora~\cite{R2S,SamsungManual}, and teacher-LLM distillation formalizes the extraction of interaction-ready guidance~\cite{GER}. Rationale-based distillation~\cite{RBKD} and conversational tutoring self-distillation~\cite{TutoringSelfDistill} go further, transferring reasoning traces rather than only outputs. The shared assumption is that a stronger LLM teacher is the source of knowledge, which means the distilled rules inherit the teacher's biases and offer no guarantee of matching domain expertise. Our source is different in kind: authored retail training manuals and the AIDA marketing framework, written by human sales instructors to teach conditional rules of the form ``if the customer is at stage $X$ with cue $Y$, then strategy $Z$.'' That conditional structure becomes the foundation of both the action constraints and the next-state supervision PIWM consumes; we describe the compilation step in Section~\ref{sec:method}.
 
 \paragraph{Retail and Shopper Behavior Modeling.}
-Retail computer vision has long analyzed shopper trajectories, gaze heatmaps, and product engagement, but its downstream target is inventory and layout optimization~\cite{RetailCVSurvey,SariSandbox} rather than conversational intervention. A mixed-reality agent for banking customer experience~\cite{FinancialCX3D} integrates scene understanding with proactive service, but in a counter-service setting with no sales strategy space. MIND~\cite{MIND} distills 1.26M shopping intentions from product-image pairs, but its input is product imagery rather than customer behavior. None of these provides the combination --- visually-observed third-party customer, proactive intervention, pedagogy-constrained action --- that the PIWM setting requires.
+Retail computer vision has long analyzed shopper trajectories, gaze heatmaps, and product engagement~\cite{RetailCVSurvey}, but its downstream target is inventory and layout optimization rather than conversational intervention. Sari Sandbox~\cite{SariSandbox} provides a 3D simulator for embodied retail tasks. A mixed-reality agent for banking customer experience~\cite{FinancialCX3D} integrates scene understanding with proactive service in a counter-service setting. MIND~\cite{MIND} distills 1.26M shopping intentions from product-image pairs, but its input is product imagery rather than customer behavior. Closest in motivation are commercial deployments of in-store guidance assistants in Asia (footnote: see~\cite{IndustrialDeployments} for an industry survey), which to our knowledge have not been published with reproducible training pipelines or evaluation protocols. None of these works provides the combination --- visually-observed third-party customer, action-conditioned consequence prediction, pedagogy-constrained action --- that the PIWM setting requires.
+
+% ============================================================
+% PIWM: Proactive Intent World Model for In-store Sales Guidance
+% NeurIPS 2026 Main Track Submission
+% Method Section — Draft v2 (paper version)
+% ============================================================
+% Revision log vs v1:
+%   • Removed all code-artifact references; those moved to a
+%     separate Implementation Spec document.
+%   • Added a "design rationale" subparagraph after every component
+%     that introduces a non-obvious choice (state factorization,
+%     parameter sharing, two-phase training, rollout depth).
+%   • Reward function fully formalized: per-transition decomposition,
+%     treatment of the silence action, treatment of multi-step
+%     rollouts, and the data source for reward values.
+%   • New §3.5 "Why train one VLM with three coupled objectives?"
+%     argues for the coupling against three plausible alternatives.
+%   • New §3.6 "Failure modes and what they imply" describes when
+%     PIWM is expected to break and why.
+%   • The belief/desire/intention triple is justified, not adopted
+%     by appeal to authority. We explain why three slots and not
+%     four or two.
+% ============================================================
+
+\section{The PIWM Framework}
+\label{sec:method}
+
+PIWM is a single vision-language model fine-tuned with three coupled objectives. The first emits the customer's current state from raw multimodal observation; the second predicts how that state would change under each candidate intervention; the third commits to one intervention. We organize this section around four design questions whose answers together determine the framework: how to factor the customer state so that downstream prediction is tractable (§\ref{sec:method:state}); what supervision signals make the model behave like a transition function rather than like a chain-of-thought reasoner (§\ref{sec:method:objectives}); how to compose the three trained behaviors into a single decision at inference time (§\ref{sec:method:inference}); and why training one model with three roles is preferable to training three specialized models (§\ref{sec:method:coupling}). We close with a discussion of failure modes (§\ref{sec:method:failure}). Section~\ref{sec:data} describes how the supervision is constructed; here we treat it as given.
+
+\subsection{State and Action Spaces}
+\label{sec:method:state}
+
+\paragraph{Observation.}
+At decision time $t$, the agent observes a short visual window $o_t = (f_{t-K+1}, \ldots, f_t)$ of $K$ frames sampled at one-second intervals from a streaming camera, plus an optional history summary $h_t$ that records the customer states inferred at earlier decision points. We use $K=3$ in the main experiments. The window is not a full video clip: most cues that matter at the level of customer disposition --- a shift of weight, a glance away, a hand reaching toward a price tag --- are visible within two to three seconds, and longer windows wash out the discriminative micro-behavior with redundant frames. We confirm this empirically in §\ref{sec:experiments}.
+
+\paragraph{Customer state: a stage label plus a three-slot mental summary.}
+We factor the customer state $s_t$ into a discrete stage and a structured triple:
+\[
+s_t = (\sigma_t, b_t, d_t, i_t).
+\]
+The stage $\sigma_t \in \{\text{attention}, \text{interest}, \text{desire}, \text{action}\}$ comes from the AIDA taxonomy~\cite{Lewis1898,StrongHughes}, which has anchored sales pedagogy for over a century. The triple $(b_t, d_t, i_t)$ summarizes, in three short textual spans, what the customer believes about the situation (e.g., ``the watch is overpriced for me''), what they want (``a comparable model at a lower price point''), and what they intend to do next (``compare two more shelves before deciding''). The decomposition into belief, desire, and intention has a long history in agent mental-state representation~\cite{Bratman,RaoBDI}; we use it as a field schema, not as a theoretical commitment.
+
+\textit{Why three slots, not two and not five?} Two slots --- belief alone, or belief plus intention --- are insufficient because two customers can hold the same belief and form the same intention while wanting different outcomes (one wants the cheapest option, one wants the safest), and the appropriate intervention depends on which want is operative. Going beyond three (e.g., adding emotion or trust) initially looked attractive but produced inconsistent annotation in pilot studies: pedagogy texts encode rules in terms of belief--desire--intention, and adding axes that the source material does not condition on yields supervision noise without a corresponding gain in policy quality. We therefore fix three slots and absorb finer affective state into the verbal content of $b_t$ when it is salient.
+
+\textit{Why factor at all?} A monolithic free-text state representation, as used by some chain-of-thought sales agents, is more flexible but defeats the purpose of training a transition model: if next-state predictions are free-form text, the loss is dominated by surface-form variance and the model receives little signal about which structural component of the state changed under a given action. Factoring the state forces the supervision to localize: a strategy that elicits a belief shift (``you should not worry about resale value'') is supervised differently from one that elicits an intention shift (``call the manager and have them check stock'').
+
+\paragraph{Proactive score.}
+The Perception step also emits a scalar $\rho_t \in \{1, \ldots, 5\}$ indicating how strongly an intervention is warranted at $t$, with $\rho_t = 1$ meaning ``do not disturb'' and $\rho_t = 5$ meaning ``intervene immediately.'' We treat $\rho_t$ as a property of the situation, not of the customer, so it is not part of $s_t$. It functions as a gate: when $\rho_t \le \tau_\text{silence}$, the agent abstains without invoking Deliberation. Without this gate, the agent must simulate every silence-worthy moment, which is computationally wasteful and, more importantly, biases the training distribution toward intervene-some-action when the correct decision is silence.
+
+\paragraph{Action space.}
+The action space $\mathcal{A}$ is finite. Each $a \in \mathcal{A}$ is a high-level strategy label drawn from a state machine compiled from retail training manuals; the realized utterance is generated downstream conditioned on $(s_t, a)$. The action $a = \texttt{A1\_silent\_observe}$, the choice not to intervene, is a first-class element of $\mathcal{A}$ and competes with intervention choices on the same reward scale. The set of \emph{candidate actions} at $t$, denoted $\mathcal{C}_t \subseteq \mathcal{A}$, is filtered by $\sigma_t$: a customer at the attention stage cannot be sold to with a closing strategy regardless of what visual cues say. This filtering is what makes the action space pedagogy-constrained rather than a flat enumeration.
+
+\paragraph{Reward.}
+We define a scalar reward $r(s_t, a, s_{t+1}) \in [-1, 1]$ for every transition, decomposed as
+\[
+r(s_t, a, s_{t+1}) = \alpha\, \Delta_\sigma(\sigma_t, \sigma_{t+1}) + \beta\, \Delta_m(m_t, m_{t+1}) - \gamma\, c(a),
+\]
+with $\alpha + \beta + \gamma = 1$. The three terms encode three distinct desiderata. $\Delta_\sigma$ rewards forward movement along the AIDA stage axis (attention $\to$ interest $\to$ desire $\to$ action) and penalizes regression. $\Delta_m$ rewards beneficial shifts in the mental-state triple, judged by a fixed pedagogy-derived rubric: a belief that becomes more accurate, a desire that becomes more concrete, or an intention that aligns with a purchase path. $c(a)$ is a small fixed cost per non-silent action that captures the social cost of speaking when speaking is unwarranted; without this term, gratuitous engagement actions would tie with silence under any tied $\Delta_\sigma + \Delta_m$ outcome and the model would learn a chatty bias.
+
+\textit{Where do reward values come from?} The reward is not learned. Each entry of the transition table $r(s_t, a, s_{t+1})$ is fixed at data-construction time from the same pedagogy compilation that produces $\mathcal{A}$ and $\mathcal{C}_t$ (Section~\ref{sec:data}). Pedagogy texts encode reward in a graded but not numerical way (``strongly recommended,'' ``acceptable,'' ``avoid,'' ``never''); we map these to four discrete levels and then place them on a continuous $[-1, 1]$ scale by ranking within each $(\sigma_t, \text{persona})$ group. This avoids both the brittleness of fully discrete rewards and the arbitrariness of a free-form numerical assignment.
+
+\textit{Why fix reward instead of learn it?} Reward learning from sales outcome data is what AI-Salesman~\cite{AISalesman} and SalesRLAgent~\cite{SalesRLAgent} effectively do. The distribution of historical conversion outcomes, however, is biased toward whichever strategies happened to be in the training transcripts, and is silent on counterfactuals (``what would have happened if the salesperson had stayed silent here?''). Pedagogy texts answer the counterfactual directly because they are written prescriptively, not descriptively. We trade the realism of outcome data for the coverage of prescriptive supervision; §\ref{sec:experiments} measures the price of this trade-off.
+
+\textit{The silence reward.}
+Silence is not a special case. Under our decomposition, $r(s_t, \texttt{A1\_silent\_observe}, s_{t+1})$ depends on whether silence preserves the customer's forward motion ($\Delta_\sigma \ge 0$) and on the cost-of-speaking term being zero. A silent action followed by a customer staying engaged earns positive reward; a silent action followed by a customer disengaging earns negative reward; the magnitude is calibrated so that abstention is preferred over intervention only when no candidate intervention has clearly positive expected $\Delta_\sigma + \Delta_m$. Without explicit silence reward, the agent has no signal that ``waiting is also a decision,'' and reverts to interventionist behavior under any reward parameterization.
+
+\subsection{Training Objectives}
+\label{sec:method:objectives}
+
+A single vision-language model $\pi_\theta$ is fine-tuned with three objectives operating on disjoint supervision splits derived from the same interaction graph.
+
+\paragraph{Perception objective.}
+Given $(o_t, h_t)$, the model emits the current state, the proactive score, and the candidate set, in a sequence-to-sequence target with explicit field tags:
+\[
+y_\text{perc} = \langle\sigma_t, b_t, d_t, i_t, \rho_t, \mathcal{C}_t\rangle.
+\]
+The loss is the standard token-level negative log-likelihood:
+\[
+\mathcal{L}_\text{perc}(\theta) = -\mathbb{E}_{(o_t, h_t, y_\text{perc})} \big[ \log \pi_\theta(y_\text{perc} \mid o_t, h_t) \big].
+\]
+Field tags are not cosmetic. They allow per-field loss weighting (we upweight $\sigma_t$ and the $\langle$intention$\rangle$ field by a factor of two, since these two slots dominate downstream Deliberation accuracy), and they allow the Action stage to extract structured fields from the model's own output without parsing free-form prose.
+
+\paragraph{Deliberation objective.}
+Given $(o_t, s_t, a)$ for a candidate $a \in \mathcal{C}_t$, the model predicts the next state, a coarse risk-benefit assessment $(\eta_a, \beta_a) \in \{\text{low}, \text{medium}, \text{high}\}^2$, and the scalar reward:
+\[
+y_\text{delib} = \langle \sigma_{t+1}, b_{t+1}, d_{t+1}, i_{t+1}, \eta_a, \beta_a, r_a \rangle.
+\]
+\[
+\mathcal{L}_\text{delib}(\theta) = -\mathbb{E}_{(o_t, s_t, a, y_\text{delib})} \big[ \log \pi_\theta(y_\text{delib} \mid o_t, s_t, a) \big].
+\]
+This is the objective that gives PIWM its world-model character. The supervision is conditioned on $a$: the same $(o_t, s_t)$ paired with two different actions yields two different targets, and the model learns to produce different next-state distributions accordingly. The risk-benefit fields are not rationalization; they are independent supervision signals that calibrate the model's confidence and prevent it from over-committing to extreme reward predictions when the visual evidence is ambiguous.
+
+\textit{Why is this not chain-of-thought prompting?} Chain-of-thought elicits reasoning from a frozen model by prompting alone. Here, the model's parameters are updated to minimize next-state prediction loss against ground-truth transitions; the conditional structure $p_\theta(s_{t+1} \mid o_t, s_t, a)$ is therefore a learned object, not a prompt-time effect. A frozen VLM, asked the same Deliberation prompt, produces fluent but uncalibrated predictions: the rate at which different $a$ values yield genuinely different $s_{t+1}$ distributions is an empirical question we report on in §\ref{sec:experiments}, and the gap between frozen and trained behavior is the empirical content of the world-model claim.
+
+\paragraph{Action objective.}
+At decision time, the agent selects $a^\star \in \mathcal{C}_t$ given the current state, the candidate set, and the per-candidate Deliberation outputs. We train this with Direct Preference Optimization (DPO)~\cite{DPO} on preference pairs $(a^\star, a^-)$ extracted from the data, where $a^\star$ is the highest-reward candidate at $s_t$ and $a^-$ is the lowest. With $y^\star, y^-$ denoting the structured targets containing rationale and chosen action,
+\[
+\mathcal{L}_\text{act}(\theta) = -\mathbb{E}_{(x, y^\star, y^-)} \log \sigma\!\Big( \beta_\text{DPO} \big[ \log \tfrac{\pi_\theta(y^\star \mid x)}{\pi_\text{ref}(y^\star \mid x)} - \log \tfrac{\pi_\theta(y^- \mid x)}{\pi_\text{ref}(y^- \mid x)} \big] \Big),
+\]
+with $\pi_\text{ref}$ frozen at the end of supervised fine-tuning.
+
+\textit{Why DPO rather than PPO with a learned reward model?} A learned reward model in this domain would either be redundant (we already have pedagogy-derived $r$) or noisy (training a reward model on the same pedagogy-derived data adds an unnecessary approximation step). DPO consumes preference pairs directly and avoids both pathologies. A second consideration is that the action space is small ($|\mathcal{C}_t|$ in single digits), which makes the implicit value computation in DPO well-conditioned.
+
+\paragraph{Two-phase schedule.}
+Phase 1 minimizes $\mathcal{L}_\text{SFT} = \lambda_p\, \mathcal{L}_\text{perc} + \lambda_d\, \mathcal{L}_\text{delib}$ jointly, with $\lambda_p = \lambda_d = 1$ in the main experiments. Phase 2 applies $\mathcal{L}_\text{act}$ on the SFT-tuned model. Mixing $\mathcal{L}_\text{act}$ into Phase 1 directly is unstable: the DPO log-ratio gradient and the SFT cross-entropy gradient have different magnitudes, and naively summing them either drowns the preference signal or destabilizes the language-modeling pretrain. The two-phase schedule with $\pi_\text{ref}$ pinned at the end of Phase 1 is the standard fix~\cite{DPO,LLaVA15} and we adopt it without modification.
+
+\subsection{Inference: One Model, Three Roles}
+\label{sec:method:inference}
+
+At decision time $t$, the same fine-tuned $\pi_\theta$ is queried under three role prompts that differ only in their structured templates and in which slots are masked. The decision loop has three steps:
+
+\textbf{Step 1 (Perception).}
+The model is prompted with $(o_t, h_t)$ and emits $(\sigma_t, b_t, d_t, i_t, \rho_t, \mathcal{C}_t)$. If $\rho_t \le \tau_\text{silence}$, the agent abstains and returns $\texttt{A1\_silent\_observe}$ without invoking Step 2. The threshold $\tau_\text{silence} = 1$ in our main experiments, which means only completely-disengaged states bypass deliberation; we ablate higher thresholds in §\ref{sec:experiments}.
+
+\textbf{Step 2 (Deliberation).}
+For each $a \in \mathcal{C}_t$, the model is prompted with $(o_t, s_t, a)$ and emits the predicted next state $\hat{s}_{t+1}^{(a)}$ along with $(\hat{\eta}_a, \hat{\beta}_a, \hat{r}_a)$. The candidates are evaluated independently and in parallel; there is no information flow from one candidate's rollout to another's.
+
+\textbf{Step 3 (Action).}
+The model is prompted with the union of Step 1's output and Step 2's per-candidate outputs and emits the chosen $a^\star$. Step 3's prompt is built from the structured tags returned by Steps 1 and 2; no free-form parsing of model output is required.
+
+\textit{Rollout depth.}
+The main experiments use one-step rollouts ($H=1$). Multi-step rollouts ($H \ge 2$) require the model to consume its own next-state prediction as the input state for a second Deliberation call, which compounds prediction error. We report a multi-step ablation in §\ref{sec:experiments} that quantifies this compounding; for the main results, the per-step error rate already justifies $H=1$ on a budgeted-inference basis. The single-step constraint also pins down what ``planning'' means in PIWM: it is one-shot counterfactual selection over a finite candidate set, not tree search.
+
+\textit{Why query the same model three times instead of once?}
+A single prompt that asks for state, transitions, and chosen action together would in principle be sufficient. Empirically, however, joint generation is dominated by error in the most-uncertain slot: when the action is hard to choose, the model also commits to weak state inference, and the joint output is worse than its parts trained independently. Splitting the call into three roles and using the structured tags as inter-role contracts is what allows each role to fail loudly and locally rather than corrupting the others.
+
+\subsection{Why train one VLM with three coupled objectives?}
+\label{sec:method:coupling}
+
+The choice to share parameters across Perception, Deliberation, and Action is the most consequential design decision in PIWM, and it is worth examining against three alternatives.
+
+\textit{Alternative 1: three specialized models.}
+A perception VLM, a transition predictor, and a policy head can be trained independently and chained at inference. This is the cleanest design. It performs worse in our setting (§\ref{sec:experiments}) for two reasons. First, multimodal grounding learned in Perception transfers to Deliberation: the visual features that distinguish ``approaching the counter'' from ``walking away'' are exactly the features that disambiguate which next-state prediction is plausible, and freezing them across roles preserves that disambiguation. Second, the Action head benefits from access to Deliberation's parameters during DPO: the preference signal updates not just the action choice but also the implicit ranking of imagined futures that informed the choice.
+
+\textit{Alternative 2: one VLM, one objective (joint generation of state-transition-action).}
+A single training objective that predicts the full $(s_t, \{(a, s_{t+1}^{(a)}, r_a)\}, a^\star)$ tuple from $(o_t, h_t)$ would couple the three roles maximally. We tried this and observed that the model learns to short-circuit: high-reward actions correlate with specific input patterns in the training data, and the model learns to predict $a^\star$ directly from $(o_t, h_t)$ without faithfully passing through state inference and transition prediction. The Deliberation objective effectively collapses, and the model behaves like a reactive baseline. The three-objective decomposition prevents this collapse by forcing the model to produce intermediate structured outputs that Step 3 must consume.
+
+\textit{Alternative 3: one VLM, two objectives (Perception and Action; no Deliberation).}
+This is the perception-only ablation we report in §\ref{sec:experiments}. It performs reasonably on in-distribution data --- the Action head can learn shortcuts from $(o_t, s_t)$ to $a^\star$ without going through transition prediction --- but degrades sharply under distribution shift, because state-action shortcuts do not transfer to unseen products and personas while the explicit transition does. Deliberation is what carries the pedagogy-derived structure across distribution boundaries.
+
+\subsection{Failure Modes and What They Imply}
+\label{sec:method:failure}
+
+PIWM is expected to fail in three identifiable regimes.
+
+\textit{When the customer's mental state is illegible from short-window visual cues.}
+A customer who walks slowly and gazes uniformly at every shelf provides no visual signal about which AIDA stage applies. Perception then defaults to the prior, Deliberation receives an uncertain $s_t$, and Action either picks a low-cost intervention (acknowledge and wait) or abstains. The system degrades gracefully in this regime but does not fail loudly --- the agent looks indifferent rather than wrong --- which is acceptable for proactive deployment.
+
+\textit{When the pedagogy is wrong.}
+PIWM inherits whatever errors are present in the source manuals. If a manual prescribes an intervention that, in practice, alienates a particular customer persona, PIWM will faithfully reproduce that alienation. This is an intentional trade-off: pedagogy supervision gains coverage and counterfactual reasoning at the cost of inheriting the source's blind spots. The remedy is not algorithmic but editorial: revising the source (Section~\ref{sec:data}) propagates to the model. We view this as a feature of the architecture --- the failure is auditable and fixable by domain experts without retraining from scratch --- but we acknowledge it as a constraint on automatic improvement.
+
+\textit{When the candidate set $\mathcal{C}_t$ omits the right action.}
+The pedagogy-derived candidate filter $\sigma_t \mapsto \mathcal{C}_t$ is conservative: it forbids actions that pedagogy texts describe as inappropriate at a given stage. If the right action for a particular customer falls outside the conservative set, PIWM cannot recover it. This is most visible at stage transitions, where the customer is between two AIDA labels and the candidate sets do not overlap. We mitigate this by allowing $\mathcal{C}_t$ to be the union of the two adjacent stages whenever the model's stage prediction has confidence below a threshold, and we report the impact of this widening in §\ref{sec:experiments}. A more aggressive remedy would be to learn the candidate filter rather than fix it; we leave this to future work.
+
+\section{Submission of papers to NeurIPS 2026}
+
+
+Please read the instructions below carefully and follow them faithfully.
+
+
+\subsection{Style}
+
+
+Papers to be submitted to NeurIPS 2026 must be prepared according to the
+instructions presented here. Papers may only be up to {\bf nine} pages long, including figures. \textbf{Papers that exceed the page limit will not be reviewed (or in any other way considered) for presentation at the conference.}
+Additional pages \emph{containing acknowledgments, references, checklist, and optional technical appendices} do not count as content pages. 
+
+
+The margins in 2026 are the same as those in previous years.
+
+
+Authors are required to use the NeurIPS \LaTeX{} style files obtainable at the NeurIPS website as indicated below. Please make sure you use the current files and not previous versions. Tweaking the style files may be grounds for desk rejection.
+
+
+\subsection{Retrieval of style files}
+
+
+The style files for NeurIPS and other conference information are available on the website at
+\begin{center}
+  \url{https://neurips.cc}.
+\end{center}
+% The file \verb+neurips_2026.pdf+ contains these instructions and illustrates the various formatting requirements your NeurIPS paper must satisfy.
+
+
+The only supported style file for NeurIPS 2026 is \verb+neurips_2026.sty+, rewritten for \LaTeXe{}. \textbf{Previous style files for \LaTeX{} 2.09,  Microsoft Word, and RTF are no longer supported.}
+
+
+The \LaTeX{} style file contains three optional arguments: 
+\begin{itemize}
+\item \verb+final+, which creates a camera-ready copy, 
+\item \verb+preprint+, which creates a preprint for submission to, e.g., arXiv, \item \verb+nonatbib+, which will not load the \verb+natbib+ package for you in case of package clash.
+\end{itemize}
+
+
+\paragraph{Preprint option}
+If you wish to post a preprint of your work online, e.g., on arXiv, using the NeurIPS style, please use the \verb+preprint+ option. This will create a nonanonymized version of your work with the text ``Preprint. Work in progress.'' in the footer. This version may be distributed as you see fit, as long as you do not say which conference it was submitted to. Please \textbf{do not} use the \verb+final+ option, which should \textbf{only} be used for papers accepted to NeurIPS.
+
+
+At submission time, please omit the \verb+final+ and \verb+preprint+ options. This will anonymize your submission and add line numbers to aid review. Please do \emph{not} refer to these line numbers in your paper as they will be removed during generation of camera-ready copies.
+
+
+The file \verb+neurips_2026.tex+ may be used as a ``shell'' for writing your paper. All you have to do is replace the author, title, abstract, and text of the paper with your own.
+
+
+The formatting instructions contained in these style files are summarized in Sections \ref{gen_inst}, \ref{headings}, and \ref{others} below.
+
+
+\section{General formatting instructions}
+\label{gen_inst}
+
+
+The text must be confined within a rectangle 5.5~inches (33~picas) wide and
+9~inches (54~picas) long. The left margin is 1.5~inch (9~picas).  Use 10~point
+type with a vertical spacing (leading) of 11~points.  Times New Roman is the
+preferred typeface throughout, and will be selected for you by default.
+Paragraphs are separated by \nicefrac{1}{2}~line space (5.5 points), with no
+indentation.
+
+
+The paper title should be 17~point, initial caps/lower case, bold, centered
+between two horizontal rules. The top rule should be 4~points thick and the
+bottom rule should be 1~point thick. Allow \nicefrac{1}{4}~inch space above and
+below the title to rules. All pages should start at 1~inch (6~picas) from the
+top of the page.
+
+
+For the final version, authors' names are set in boldface, and each name is
+centered above the corresponding address. The lead author's name is to be listed
+first (left-most), and the co-authors' names (if different address) are set to
+follow. If there is only one co-author, list both author and co-author side by
+side.
+
+
+Please pay special attention to the instructions in Section \ref{others}
+regarding figures, tables, acknowledgments, and references.
+
+\section{Headings: first level}
+\label{headings}
+
+
+All headings should be lower case (except for first word and proper nouns),
+flush left, and bold.
+
+
+First-level headings should be in 12-point type.
+
+
+\subsection{Headings: second level}
+
+
+Second-level headings should be in 10-point type.
+
+
+\subsubsection{Headings: third level}
+
+
+Third-level headings should be in 10-point type.
+
+
+\paragraph{Paragraphs}
+
+
+There is also a \verb+\paragraph+ command available, which sets the heading in
+bold, flush left, and inline with the text, with the heading followed by 1\,em
+of space.
+
+
+\section{Citations, figures, tables, references}
+\label{others}
+
+
+These instructions apply to everyone.
+
+
+\subsection{Citations within the text}
+
+
+The \verb+natbib+ package will be loaded for you by default.  Citations may be
+author/year or numeric, as long as you maintain internal consistency.  As to the
+format of the references themselves, any style is acceptable as long as it is
+used consistently.
+
+
+The documentation for \verb+natbib+ may be found at
+\begin{center}
+  \url{http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}
+\end{center}
+Of note is the command \verb+\citet+, which produces citations appropriate for
+use in inline text.  For example,
+\begin{verbatim}
+   \citet{hasselmo} investigated\dots
+\end{verbatim}
+produces
+\begin{quote}
+  Hasselmo, et al.\ (1995) investigated\dots
+\end{quote}
+
+
+If you wish to load the \verb+natbib+ package with options, you may add the
+following before loading the \verb+neurips_2026+ package:
+\begin{verbatim}
+   \PassOptionsToPackage{options}{natbib}
+\end{verbatim}
+
+
+If \verb+natbib+ clashes with another package you load, you can add the optional
+argument \verb+nonatbib+ when loading the style file:
+\begin{verbatim}
+   \usepackage[nonatbib]{neurips_2026}
+\end{verbatim}
+
+
+As submission is double blind, refer to your own published work in the third
+person. That is, use ``In the previous work of Jones et al.\ [4],'' not ``In our
+previous work [4].'' If you cite your other papers that are not widely available
+(e.g., a journal paper under review), use anonymous author names in the
+citation, e.g., an author of the form ``A.\ Anonymous'' and include a copy of the anonymized paper in the supplementary material.
+
+
+\subsection{Footnotes}
+
+
+Footnotes should be used sparingly.  If you do require a footnote, indicate
+footnotes with a number\footnote{Sample of the first footnote.} in the
+text. Place the footnotes at the bottom of the page on which they appear.
+Precede the footnote with a horizontal rule of 2~inches (12~picas).
+
+
+Note that footnotes are properly typeset \emph{after} punctuation
+marks.\footnote{As in this example.}
+
+
+\subsection{Figures}
+
+
+\begin{figure}
+  \centering
+  \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
+  \caption{Sample figure caption. Explain what the figure shows and add a key take-away message to the caption.}
+\end{figure}
+
+
+All artwork must be neat, clean, and legible. Lines should be dark enough for
+ reproduction purposes. The figure number and caption always appear after the
+figure. Place one line space before the figure caption and one line space after
+the figure. The figure caption should be lower case (except for the first word and proper nouns); figures are numbered consecutively.
+
+
+You may use color figures.  However, it is best for the figure captions and the
+paper body to be legible if the paper is printed in either black/white or in
+color.
+
+
+\subsection{Tables}
+
+
+All tables must be centered, neat, clean, and legible.  The table number and
+title always appear before the table.  See Table~\ref{sample-table}.
+
+
+Place one line space before the table title, one line space after the
+table title, and one line space after the table. The table title must
+be lower case (except for the first word and proper nouns); tables are
+numbered consecutively.
+
+
+Note that publication-quality tables \emph{do not contain vertical rules}. We
+strongly suggest the use of the \verb+booktabs+ package, which allows for
+typesetting high-quality, professional tables:
+\begin{center}
+  \url{https://www.ctan.org/pkg/booktabs}
+\end{center}
+This package was used to typeset Table~\ref{sample-table}.
+
+
+\begin{table}
+  \caption{Sample table caption. Explain what the table shows and add a key take-away message to the caption.}
+  \label{sample-table}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    \multicolumn{2}{c}{Part}                   \\
+    \cmidrule(r){1-2}
+    Name     & Description     & Size ($\mu$m) \\
+    \midrule
+    Dendrite & Input terminal  & $\approx$100     \\
+    Axon     & Output terminal & $\approx$10      \\
+    Soma     & Cell body       & up to $10^6$  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Math}
+Note that display math in bare TeX commands will not create correct line numbers for submission. Please use LaTeX (or AMSTeX) commands for unnumbered display math. (You really shouldn't be using \$\$ anyway; see \url{https://tex.stackexchange.com/questions/503/why-is-preferable-to} and \url{https://tex.stackexchange.com/questions/40492/what-are-the-differences-between-align-equation-and-displaymath} for more information.)
+
+\subsection{Final instructions}
+
+Do not change any aspects of the formatting parameters in the style files.  In
+particular, do not modify the width or length of the rectangle the text should
+fit into, and do not change font sizes. Please note that pages should be
+numbered.
+
+
+\section{Preparing PDF files}
+
+
+Please prepare submission files with paper size ``US Letter,'' and not, for
+example, ``A4.''
+
+
+Fonts were the main cause of problems in the past years. Your PDF file must only
+contain Type 1 or Embedded TrueType fonts. Here are a few instructions to
+achieve this.
+
+
+\begin{itemize}
+
+
+\item You should directly generate PDF files using \verb+pdflatex+.
+
+
+\item You can check which fonts a PDF files uses.  In Acrobat Reader, select the
+  menu Files$>$Document Properties$>$Fonts and select Show All Fonts. You can
+  also use the program \verb+pdffonts+ which comes with \verb+xpdf+ and is
+  available out-of-the-box on most Linux machines.
+
+
+\item \verb+xfig+ ``patterned'' shapes are implemented with bitmap fonts.  Use
+  "solid" shapes instead.
+
+
+\item The \verb+\bbold+ package almost always uses bitmap fonts.  You should use
+  the equivalent AMS Fonts:
+\begin{verbatim}
+   \usepackage{amsfonts}
+\end{verbatim}
+followed by, e.g., \verb+\mathbb{R}+, \verb+\mathbb{N}+, or \verb+\mathbb{C}+
+for $\mathbb{R}$, $\mathbb{N}$ or $\mathbb{C}$.  You can also use the following
+workaround for reals, natural and complex:
+\begin{verbatim}
+   \newcommand{\RR}{I\!\!R} %real numbers
+   \newcommand{\Nat}{I\!\!N} %natural numbers
+   \newcommand{\CC}{I\!\!\!\!C} %complex numbers
+\end{verbatim}
+Note that \verb+amsfonts+ is automatically loaded by the \verb+amssymb+ package.
+
+
+\end{itemize}
+
+
+If your file contains type 3 fonts or non embedded TrueType fonts, we will ask
+you to fix it.
+
+
+\subsection{Margins in \LaTeX{}}
+
+
+Most of the margin problems come from figures positioned by hand using
+\verb+\special+ or other commands. We suggest using the command
+\verb+\includegraphics+ from the \verb+graphicx+ package. Always specify the
+figure width as a multiple of the line width as in the example below:
+\begin{verbatim}
+   \usepackage[pdftex]{graphicx} ...
+   \includegraphics[width=0.8\linewidth]{myfile.pdf}
+\end{verbatim}
+See Section 4.4 in the graphics bundle documentation
+(\url{http://mirrors.ctan.org/macros/latex/required/graphics/grfguide.pdf})
+
+
+A number of width problems arise when \LaTeX{} cannot properly hyphenate a
+line. Please give LaTeX hyphenation hints using the \verb+\-+ command when
+necessary.
+
+\begin{ack}
+Use unnumbered first level headings for the acknowledgments. All acknowledgments
+go at the end of the paper before the list of references. Moreover, you are required to declare
+funding (financial activities supporting the submitted work) and competing interests (related financial activities outside the submitted work).
+More information about this disclosure can be found at: \url{https://neurips.cc/Conferences/2026/PaperInformation/FundingDisclosure}.
+
+
+Do {\bf not} include this section in the anonymized submission, only in the final paper. You can use the \texttt{ack} environment provided in the style file to automatically hide this section in the anonymized submission.
+\end{ack}
+
+\section*{References}
+
+
+References follow the acknowledgments in the camera-ready paper. Use unnumbered first-level heading for
+the references. Any choice of citation style is acceptable as long as you are
+consistent. It is permissible to reduce the font size to \verb+small+ (9 point)
+when listing the references.
+Note that the Reference section does not count towards the page limit.
+\medskip
+
+\begin{ack}
+Use unnumbered first level headings for the acknowledgments. All acknowledgments
+go at the end of the paper before the list of references. Moreover, you are required to declare
+funding (financial activities supporting the submitted work) and competing interests (related financial activities outside the submitted work).
+More information about this disclosure can be found at: \url{https://neurips.cc/Conferences/2026/PaperInformation/FundingDisclosure}.
+
+Do {\bf not} include this section in the anonymized submission, only in the final paper. You can use the \texttt{ack} environment provided in the style file to automatically hide this section in the anonymized submission.
+\end{ack}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+\section{Technical appendices and supplementary material}
+Technical appendices with additional results, figures, graphs, and proofs may be submitted with the paper submission before the full submission deadline (see above). You can upload a ZIP file for videos or code, but do not upload a separate PDF file for the appendix. There is no page limit for the technical appendices. 
+
+Note: Think of the appendix as ``optional reading'' for reviewers. The paper must be able to stand alone without the appendix; for example, adding critical experiments that support the main claims to an appendix is inappropriate. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\input{checklist.tex}
+
+\end{document}
