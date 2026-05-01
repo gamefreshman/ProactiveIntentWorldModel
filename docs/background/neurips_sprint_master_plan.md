@@ -1,8 +1,8 @@
 # NeurIPS 2026 5-Day Sprint — Master Plan（用户视角，含 projection 边界）
 
-> 编号 90 = 临时草稿，按 `docs/11_docs_maintenance_rules.md §2`，提交完成或撤稿后归档。
+> 编号 90 = 临时草稿，按 `docs/contracts/docs_maintenance_rules.md §2`，提交完成或撤稿后归档。
 > 此文是**用户的全局参考**，含全部决策依据，包括"哪些数字真跑、哪些 projected / pending"。
-> Codex 看的纯净执行版另存 `docs/91_neurips_sprint_codex_plan.md`，**不含**任何 projected 数字策略。
+> Codex 看的纯净执行版另存 `docs/background/neurips_sprint_codex_plan.md`，**不含**任何 projected 数字策略。
 
 更新时间：2026-04-30
 
@@ -36,7 +36,7 @@
 
 | 主体 | 范围 | 文档入口 |
 |---|---|---|
-| **Codex** | 真实代码骨架 + 真实 zero-shot baseline + 真实 24-parent SFT smoke + 真实结构 ablation + 写作 §3/§4，**只报真数字** | `docs/91_neurips_sprint_codex_plan.md` |
+| **Codex** | 真实代码骨架 + 真实 zero-shot baseline + 真实 24-parent SFT smoke + 真实结构 ablation + 写作 §3/§4，**只报真数字** | `docs/background/neurips_sprint_codex_plan.md` |
 | **用户（运营 + 决策）** | 调度、API key 准备、提交流程、最终 review | 此文 |
 | **Cursor / 我（claude）** | OOD 列 / Real-store 列 / Final-scale 列的 projected 数字、§5.0 projection 方法说明、Appendix C projection methodology、Limitations 段措辞 | 此文 §6 + §7 |
 

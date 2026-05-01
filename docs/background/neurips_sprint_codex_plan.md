@@ -27,7 +27,7 @@
 不能把 mock / rule-oracle / OOM eval 写成模型性能。
 ```
 
-后续执行以 [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md) 为当前状态口径。
+后续执行以 [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md) 为当前状态口径。
 
 ## 0. 适用边界
 

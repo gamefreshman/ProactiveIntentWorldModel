@@ -27,9 +27,11 @@ def test_sft_dry_run_writes_smoke_artifacts(tmp_path: Path) -> None:
     assert "not a training result" in summary["note"]
     assert summary["n_examples"] == len(rows) == 90
     assert summary["task_counts"] == {
-        "continuation_caption": 0,
-        "deliberation": 66,
         "perception": 24,
+        "deliberation": 66,
+        "continuation_caption": 0,
+        "future_verification": 0,
+        "action_selection": 0,
     }
     assert summary["image_path_count"] > 0
     assert summary["has_continuation_examples"] is False
@@ -50,10 +52,12 @@ def test_sft_dry_run_function_returns_summary(tmp_path: Path) -> None:
 def test_sft_dry_run_includes_continuation_head_when_available(tmp_path: Path) -> None:
     summary = sft.run_dry_run(DATA_DIR_WITH_CONTINUATIONS, tmp_path)
 
-    assert summary["n_examples"] == 134
+    assert summary["n_examples"] == 218
     assert summary["task_counts"] == {
-        "continuation_caption": 44,
-        "deliberation": 66,
         "perception": 24,
+        "deliberation": 66,
+        "continuation_caption": 44,
+        "future_verification": 84,
+        "action_selection": 0,
     }
     assert summary["has_continuation_examples"] is True

@@ -54,6 +54,22 @@ TAG_REWARD_CLOSE = "</reward>"
 TAG_REACTION_CAPTION_OPEN = "<reaction_caption>"
 TAG_REACTION_CAPTION_CLOSE = "</reaction_caption>"
 
+# Future-verification tags.
+TAG_MATCH_OPEN = "<match>"
+TAG_MATCH_CLOSE = "</match>"
+TAG_EXPECTED_STATE_OPEN = "<expected_state>"
+TAG_EXPECTED_STATE_CLOSE = "</expected_state>"
+TAG_BODY_CHANGE_OPEN = "<body_change>"
+TAG_BODY_CHANGE_CLOSE = "</body_change>"
+TAG_GAZE_CHANGE_OPEN = "<gaze_change>"
+TAG_GAZE_CHANGE_CLOSE = "</gaze_change>"
+TAG_HAND_CHANGE_OPEN = "<hand_change>"
+TAG_HAND_CHANGE_CLOSE = "</hand_change>"
+TAG_MOVEMENT_CHANGE_OPEN = "<movement_change>"
+TAG_MOVEMENT_CHANGE_CLOSE = "</movement_change>"
+TAG_REASON_OPEN = "<reason>"
+TAG_REASON_CLOSE = "</reason>"
+
 # Action tags.
 TAG_RATIONALE_OPEN = "<rationale>"
 TAG_RATIONALE_CLOSE = "</rationale>"
@@ -94,6 +110,16 @@ DELIBERATION_TAGS = (
 
 CONTINUATION_TAGS = (
     TagPair(TAG_REACTION_CAPTION_OPEN, TAG_REACTION_CAPTION_CLOSE, "reaction_caption"),
+)
+
+FUTURE_VERIFICATION_TAGS = (
+    TagPair(TAG_MATCH_OPEN, TAG_MATCH_CLOSE, "match"),
+    TagPair(TAG_EXPECTED_STATE_OPEN, TAG_EXPECTED_STATE_CLOSE, "expected_state"),
+    TagPair(TAG_BODY_CHANGE_OPEN, TAG_BODY_CHANGE_CLOSE, "body_change"),
+    TagPair(TAG_GAZE_CHANGE_OPEN, TAG_GAZE_CHANGE_CLOSE, "gaze_change"),
+    TagPair(TAG_HAND_CHANGE_OPEN, TAG_HAND_CHANGE_CLOSE, "hand_change"),
+    TagPair(TAG_MOVEMENT_CHANGE_OPEN, TAG_MOVEMENT_CHANGE_CLOSE, "movement_change"),
+    TagPair(TAG_REASON_OPEN, TAG_REASON_CLOSE, "reason"),
 )
 
 ACTION_TAGS = (

@@ -11,6 +11,7 @@ from piwm_train.targets import (
     build_action_target,
     build_continuation_caption_target,
     build_deliberation_target,
+    build_future_verification_target,
     build_perception_target,
     build_sft_target,
 )
@@ -84,6 +85,22 @@ def test_build_continuation_caption_target_from_shape() -> None:
     assert target.count(config.TAG_REACTION_CAPTION_OPEN) == 1
 
 
+def test_build_future_verification_target() -> None:
+    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations/future_verification.jsonl")
+    target = build_future_verification_target(row)
+    for tag in config.FUTURE_VERIFICATION_TAGS:
+        assert target.count(tag.open) == 1
+        assert target.count(tag.close) == 1
+    assert f"{config.TAG_MATCH_OPEN}{row['output']['match']}{config.TAG_MATCH_CLOSE}" in target
+    assert f"{config.TAG_EXPECTED_STATE_OPEN}{row['output']['expected_next_state']}{config.TAG_EXPECTED_STATE_CLOSE}" in target
+
+
+def test_build_sft_target_future_verification() -> None:
+    row = _first_jsonl("data/piwm_dataset_pilot30_with_continuations/future_verification.jsonl")
+    target = build_sft_target(row, "future_verification")
+    assert target.count(config.TAG_REASON_OPEN) == 1
+
+
 def test_build_action_target_chosen_and_rejected() -> None:
     row = _first_jsonl("data/piwm_dataset_pilot30/policy_preference.jsonl")
     chosen = build_action_target(row, "chosen")
@@ -91,6 +108,12 @@ def test_build_action_target_chosen_and_rejected() -> None:
     assert f"{config.TAG_CHOSEN_OPEN}{row['chosen']}{config.TAG_CHOSEN_CLOSE}" in chosen
     assert f"{config.TAG_CHOSEN_OPEN}{row['rejected']}{config.TAG_CHOSEN_CLOSE}" in rejected
     assert row["chosen"] != row["rejected"]
+
+
+def test_build_sft_target_action_selection() -> None:
+    row = _first_jsonl("data/piwm_dataset_pilot30/policy_preference.jsonl")
+    target = build_sft_target(row, "action_selection")
+    assert f"{config.TAG_CHOSEN_OPEN}{row['chosen']}{config.TAG_CHOSEN_CLOSE}" in target
 
 
 def test_build_sft_target_rejects_unknown_task() -> None:
@@ -103,4 +126,3 @@ def test_perception_target_candidate_actions_are_valid() -> None:
     target = build_perception_target(row)
     cands = target.split(config.TAG_CANDS_OPEN)[1].split(config.TAG_CANDS_CLOSE)[0].split(", ")
     assert all(action in rules.ACTIONS for action in cands)
-

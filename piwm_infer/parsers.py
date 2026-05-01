@@ -67,6 +67,27 @@ def parse_continuation_caption_output(raw: str) -> dict:
     return {"reaction_caption": caption}
 
 
+def parse_future_verification_output(raw: str) -> dict:
+    values = _extract_tags(raw, config.FUTURE_VERIFICATION_TAGS)
+    match = values["match"].lower()
+    if match not in {"yes", "no"}:
+        raise MalformedOutputError(f"match must be yes or no: {values['match']}")
+    expected_state = values["expected_state"]
+    if expected_state not in rules.LATENT_STATES:
+        raise MalformedOutputError(f"invalid expected_state: {expected_state}")
+    return {
+        "match": match,
+        "expected_next_state": expected_state,
+        "visible_reaction": {
+            "body_change": values["body_change"],
+            "gaze_change": values["gaze_change"],
+            "hand_change": values["hand_change"],
+            "movement_change": values["movement_change"],
+        },
+        "reason": values["reason"],
+    }
+
+
 def parse_action_output(raw: str, valid_actions: Iterable[str] | None = None) -> dict:
     values = _extract_tags(raw, config.ACTION_TAGS)
     chosen = values["chosen"]
@@ -115,4 +136,3 @@ def _parse_candidates(value: str) -> list[str]:
     if len(candidates) != len(set(candidates)):
         raise MalformedOutputError("candidate list contains duplicates")
     return candidates
-

@@ -24,8 +24,10 @@ if str(REPO_ROOT) not in sys.path:
 
 from piwm_infer.parsers import (
     MalformedOutputError,
+    parse_action_output,
     parse_continuation_caption_output,
     parse_deliberation_output,
+    parse_future_verification_output,
     parse_perception_output,
 )
 
@@ -49,6 +51,10 @@ def _task_parser(task: str):
         return parse_deliberation_output
     if task == "continuation_caption":
         return parse_continuation_caption_output
+    if task == "future_verification":
+        return parse_future_verification_output
+    if task == "action_selection":
+        return parse_action_output
     raise ValueError(f"unsupported task: {task}")
 
 
@@ -110,6 +116,19 @@ def _score(parsed: dict[str, Any], gold: dict[str, Any], task: str) -> dict[str,
         }
     if task == "continuation_caption":
         return {"caption_exact": parsed.get("reaction_caption") == gold.get("reaction_caption")}
+    if task == "future_verification":
+        parsed_reaction = parsed.get("visible_reaction", {})
+        gold_reaction = gold.get("visible_reaction", {})
+        return {
+            "match_exact": parsed.get("match") == gold.get("match"),
+            "expected_state_exact": parsed.get("expected_next_state") == gold.get("expected_next_state"),
+            "body_change_exact": parsed_reaction.get("body_change") == gold_reaction.get("body_change"),
+            "gaze_change_exact": parsed_reaction.get("gaze_change") == gold_reaction.get("gaze_change"),
+            "hand_change_exact": parsed_reaction.get("hand_change") == gold_reaction.get("hand_change"),
+            "movement_change_exact": parsed_reaction.get("movement_change") == gold_reaction.get("movement_change"),
+        }
+    if task == "action_selection":
+        return {"chosen_exact": parsed.get("chosen") == gold.get("chosen")}
     return {}
 
 
@@ -151,6 +170,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         }
         try:
             pred_raw = _generate_one(model, processor, row, args)
+            record["prediction"] = pred_raw
             parsed = parser(_primary_structured_block(pred_raw))
             parse_success += 1
             scores = _score(parsed, gold, task)

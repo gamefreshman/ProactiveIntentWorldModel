@@ -44,3 +44,16 @@ data/_scenario_stats_viewpoint_review10.json
 data/scenario_manifest.jsonl
 data/scenario_manifest_pilot30.jsonl
 data/scenario_manifest_viewpoint_review10.jsonl
+
+# Priority-queue manifests / prompt archives (generated)
+data/priority_generation_queue/
+Archive_prompts_priority500_new_after280/
+Archive_prompts_priority1000_new_after280/
+
+# Large derived datasets (local only)
+data/piwm_dataset_pilot30_with_continuations/
+data/piwm_dataset_priority280_unreviewed/
+data/piwm_dataset_priority40_qareviewed_sample/
+
+# Experiment outputs (JSON / markdown / eval dumps)
+data/piwm_results/

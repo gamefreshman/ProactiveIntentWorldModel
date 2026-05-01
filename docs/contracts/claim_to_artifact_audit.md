@@ -116,11 +116,11 @@ real-store 样本仍需：
 | DoD | 对应文档 | 验收条件 |
 |---|---|---|
 | DoD-0 | 本文 | P0 claims 均标注 `covered/partial/blocking`，不得把缺失 claim 写成已完成 |
-| DoD-Expert | [01_data_generation_loop_status.md](01_data_generation_loop_status.md) | 六张运行时映射可从 expert corpus 编译 |
+| DoD-Expert | [data_generation_loop_status.md](../background/data_generation_loop_status.md) | 六张运行时映射可从 expert corpus 编译 |
 | DoD-Reward | 本文 | reward components 可解释并校验 final reward |
-| DoD-Visual | [04_visual_input_contract.md](04_visual_input_contract.md) | sampled frames 支持 target cue |
-| DoD-WM | [03_world_model_supervision_contract.md](03_world_model_supervision_contract.md) | 同一 parent state 有多条 action-conditioned future |
-| DoD-View | [04_visual_input_contract.md](04_visual_input_contract.md) | viewpoint 字段贯穿 schema/sampler/prompt/qa/exporter；first_person_pov 暂缓；view-shift 实验记录 |
+| DoD-Visual | [visual_input_contract.md](visual_input_contract.md) | sampled frames 支持 target cue |
+| DoD-WM | [world_model_supervision_contract.md](world_model_supervision_contract.md) | 同一 parent state 有多条 action-conditioned future |
+| DoD-View | [visual_input_contract.md](visual_input_contract.md) | viewpoint 字段贯穿 schema/sampler/prompt/qa/exporter；first_person_pov 暂缓；view-shift 实验记录 |
 | DoD-Real | 本文 | real-store split 有 schema、privacy metadata 与 QA |
 
 ## 5. 当前最急修正

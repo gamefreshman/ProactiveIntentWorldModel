@@ -1,6 +1,6 @@
 # PIWM Docs Maintenance Rules
 
-更新时间：2026-04-29
+更新时间：2026-05-01
 
 ## 1. 核心原则
 
@@ -39,7 +39,7 @@
 | `10-19` | 背景说明、维护规则、辅助决策 |
 | `90-99` | 临时草稿，仅短期存在 |
 
-当前活跃顺序以 `RESEARCH_LOG.md` 的 Active Document Index 为准。
+当前活跃顺序以 `docs/README.md` 为第一入口，`RESEARCH_LOG.md` 的 Active Document Index 只保留当前 sprint 入口与方法契约，不再索引所有背景文档。
 
 ## 3. 新增文档规则
 
@@ -95,7 +95,10 @@ docs/archive/01_...
 
 ## 6. RESEARCH_LOG 更新规则
 
-每次新增、重命名、归档活跃文档，必须更新 `RESEARCH_LOG.md`。
+每次新增、重命名、归档活跃文档，必须更新：
+
+1. `docs/README.md`：说明它是不是当前入口、方法契约、历史背景，还是 archive；
+2. `RESEARCH_LOG.md`：只在它影响当前 sprint 入口、方法契约或执行口径时更新。
 
 日志格式保持：
 
@@ -115,7 +118,7 @@ docs/archive/01_...
 - ...
 ```
 
-`RESEARCH_LOG.md` 只索引活跃文档，不索引所有 archive 文档。archive 只在相关日志条目中引用。
+`RESEARCH_LOG.md` 只索引当前 sprint 入口与方法契约，不索引所有历史背景和 archive 文档。archive 只在相关日志条目中引用。
 
 ## 7. 命名规则
 
@@ -152,13 +155,27 @@ python3 -m pytest
 
 ## 9. 当前新增文档优先级
 
-当前只允许优先新增以下类别：
+当前 NeurIPS sprint 阶段优先更新已有文档，除非必须新增。优先顺序：
 
-1. claim-to-artifact 修正；
-2. expert corpus 设计与验收；
-3. reward decomposition 契约；
-4. real-store split 契约；
-5. sampler / prompt builder / QA gate 契约；
-6. dataset pilot 状态报告。
+1. 实验结果速览：优先更新 `docs/current/experiment_result_digest.md`；
+2. 主表、消融、Future Verification：优先更新 `docs/current/experiment_status_main_table_v2.md`；
+3. 数据规模、Kling 队列、QA 口径：优先更新 `docs/current/priority_generation_policy.md` 或 `docs/current/current_sprint_status_and_reporting_policy.md`；
+4. 远端命令和运行入口：优先更新 `docs/current/remote_sprint_runbook.md`；
+5. 方法契约发生变化时，更新 `docs/contracts/world_model_supervision_contract.md` / `docs/contracts/visual_input_contract.md`。
 
 其它文档默认先进入草稿或 archive，不作为执行入口。
+
+## 10. 当前不再扩写的文档
+
+以下文档保留历史价值，但不再作为当前 sprint 入口扩写：
+
+- `docs/background/data_generation_loop_status.md`
+- `docs/background/data_loop_master_plan.md`
+- `docs/background/current_code_status.md`
+- `docs/background/readable_data_plan_background.md`
+- `docs/background/pilot30_continuation_review_report.md`
+- `docs/background/neurips_sprint_master_plan.md`
+- `docs/background/neurips_sprint_codex_plan.md`
+- `docs/background/neurips_sprint_result_snapshot_20260430.md`
+
+如果必须继续引用这些文件，应先确认是否可以改为引用 `docs/README.md`、`docs/current/experiment_result_digest.md` 或 `docs/current/experiment_status_main_table_v2.md`。

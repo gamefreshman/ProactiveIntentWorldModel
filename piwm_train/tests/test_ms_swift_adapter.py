@@ -36,3 +36,23 @@ def test_ms_swift_export_cli_respects_max_examples(tmp_path: Path) -> None:
     assert all(row["images"] for row in rows)
     assert all(row["messages"][-1]["role"] == "assistant" for row in rows)
     assert all(row["messages"][-1]["content"] for row in rows)
+
+
+def test_ms_swift_export_cli_can_build_no_deliberation_profile(tmp_path: Path) -> None:
+    output_jsonl = tmp_path / "ms_swift_sft.jsonl"
+
+    exit_code = main(
+        [
+            "--data-dir",
+            str(DATA_DIR),
+            "--output-jsonl",
+            str(output_jsonl),
+            "--no-deliberation",
+            "--no-continuation",
+            "--include-action",
+        ]
+    )
+
+    assert exit_code == 0
+    rows = [json.loads(line) for line in output_jsonl.read_text(encoding="utf-8").splitlines()]
+    assert {row["task"] for row in rows} == {"perception", "action_selection"}

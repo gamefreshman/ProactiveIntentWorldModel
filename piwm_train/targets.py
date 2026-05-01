@@ -46,6 +46,23 @@ def build_continuation_caption_target(record: dict) -> str:
     return f"{config.TAG_REACTION_CAPTION_OPEN}{caption}{config.TAG_REACTION_CAPTION_CLOSE}"
 
 
+def build_future_verification_target(record: dict) -> str:
+    """Build the action-conditioned future-verification target."""
+    out = record["output"]
+    reaction = out["visible_reaction"]
+    return "\n".join(
+        [
+            f"{config.TAG_MATCH_OPEN}{out['match']}{config.TAG_MATCH_CLOSE}",
+            f"{config.TAG_EXPECTED_STATE_OPEN}{out['expected_next_state']}{config.TAG_EXPECTED_STATE_CLOSE}",
+            f"{config.TAG_BODY_CHANGE_OPEN}{reaction['body_change']}{config.TAG_BODY_CHANGE_CLOSE}",
+            f"{config.TAG_GAZE_CHANGE_OPEN}{reaction['gaze_change']}{config.TAG_GAZE_CHANGE_CLOSE}",
+            f"{config.TAG_HAND_CHANGE_OPEN}{reaction['hand_change']}{config.TAG_HAND_CHANGE_CLOSE}",
+            f"{config.TAG_MOVEMENT_CHANGE_OPEN}{reaction['movement_change']}{config.TAG_MOVEMENT_CHANGE_CLOSE}",
+            f"{config.TAG_REASON_OPEN}{out['reason']}{config.TAG_REASON_CLOSE}",
+        ]
+    )
+
+
 def build_action_target(record: dict, side: Literal["chosen", "rejected"]) -> str:
     """Build a chosen or rejected action target from one preference row."""
     block = record[f"{side}_json"]
@@ -57,7 +74,10 @@ def build_action_target(record: dict, side: Literal["chosen", "rejected"]) -> st
     )
 
 
-def build_sft_target(record: dict, task: Literal["perception", "deliberation", "continuation_caption"]) -> str:
+def build_sft_target(
+    record: dict,
+    task: Literal["perception", "deliberation", "continuation_caption", "future_verification", "action_selection"],
+) -> str:
     """Dispatch target construction for SFT rows."""
     if task == "perception":
         return build_perception_target(record)
@@ -65,5 +85,8 @@ def build_sft_target(record: dict, task: Literal["perception", "deliberation", "
         return build_deliberation_target(record)
     if task == "continuation_caption":
         return build_continuation_caption_target(record)
+    if task == "future_verification":
+        return build_future_verification_target(record)
+    if task == "action_selection":
+        return build_action_target(record, "chosen")
     raise ValueError(f"unknown SFT task: {task}")
-

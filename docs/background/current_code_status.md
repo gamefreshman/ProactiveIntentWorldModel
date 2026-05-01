@@ -7,9 +7,9 @@
 当前工程目标是实现 PIWM 数据产出链路。早期实现以一份外部 spec 为基准，但
 现在 spec 已被以下活跃文档替代：
 
-- 数据契约：`docs/03_world_model_supervision_contract.md`、`docs/04_visual_input_contract.md`
-- 阶段顺序：`docs/02_data_loop_master_plan.md`
-- 现状诊断：`docs/01_data_generation_loop_status.md`
+- 数据契约：`docs/contracts/world_model_supervision_contract.md`、`docs/contracts/visual_input_contract.md`
+- 阶段顺序：`docs/background/data_loop_master_plan.md`
+- 现状诊断：`docs/background/data_generation_loop_status.md`
 
 本阶段只负责训练数据产出，不包括：
 
@@ -232,7 +232,7 @@ python3 -m piwm_data.build_dataset \
 |---|---|
 | `kling/generate_session.js` | 读取规范 `prompt.json`，调用 Kling 生成视频 |
 | `kling/package.json` | Node 依赖声明 |
-| `docs/07_kling_api_usage.md` | Kling 调用说明 |
+| `docs/contracts/kling_api_usage.md` | Kling 调用说明 |
 
 Kling 工具输出：
 

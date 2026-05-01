@@ -5,8 +5,8 @@
 > 后续契约。新人入口请使用：
 >
 > - `README.md`（5 分钟 quickstart）
-> - `docs/04_visual_input_contract.md`（视觉输入与多视角契约）
-> - `docs/05_current_code_status.md`（当前代码现状）
+> - `docs/contracts/visual_input_contract.md`（视觉输入与多视角契约）
+> - `docs/background/current_code_status.md`（当前代码现状）
 >
 > 本文保留供历史溯源，不要再作为执行入口。
 

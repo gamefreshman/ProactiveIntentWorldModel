@@ -17,16 +17,18 @@ from .prompts import (
     build_action_prompt,
     build_continuation_caption_prompt,
     build_deliberation_prompt,
+    build_future_verification_prompt,
     build_perception_prompt,
 )
 from .targets import (
     build_action_target,
     build_continuation_caption_target,
     build_deliberation_target,
+    build_future_verification_target,
     build_perception_target,
 )
 
-SFTTask = Literal["perception", "deliberation", "continuation_caption"]
+SFTTask = Literal["perception", "deliberation", "continuation_caption", "future_verification", "action_selection"]
 
 
 @dataclass
@@ -53,40 +55,48 @@ class DPOExample:
 def build_sft_examples(
     data_dir: Path,
     *,
+    include_perception: bool = True,
+    include_deliberation: bool = True,
     include_continuation: bool = True,
+    include_future_verification: bool = True,
+    include_action: bool = False,
     perception_recap: bool = True,
 ) -> list[SFTExample]:
     examples: list[SFTExample] = []
-    for row in _read_jsonl_if_exists(data_dir / "state_inference.jsonl"):
-        target = build_perception_target(row)
-        if perception_recap:
-            target = _append_perception_recap(target, row)
-        examples.append(
-            SFTExample(
-                task="perception",
-                source_id=row["state_id"],
-                prompt=build_perception_prompt(row),
-                target=target,
-                images=list(row["input"].get("frames", [])),
-                meta={"split": row.get("meta", {}).get("split"), "viewpoint": row.get("meta", {}).get("viewpoint")},
+    if include_perception:
+        for row in _read_jsonl_if_exists(data_dir / "state_inference.jsonl"):
+            target = build_perception_target(row)
+            if perception_recap:
+                target = _append_perception_recap(target, row)
+            examples.append(
+                SFTExample(
+                    task="perception",
+                    source_id=row["state_id"],
+                    prompt=build_perception_prompt(row),
+                    target=target,
+                    images=list(row["input"].get("frames", [])),
+                    meta={"split": row.get("meta", {}).get("split"), "viewpoint": row.get("meta", {}).get("viewpoint")},
+                )
             )
-        )
-    for row in _read_jsonl_if_exists(data_dir / "transition_modeling.jsonl"):
-        examples.append(
-            SFTExample(
-                task="deliberation",
-                source_id=row["state_id"],
-                prompt=build_deliberation_prompt(row),
-                target=build_deliberation_target(row),
-                images=list(row["input"].get("frames", [])),
-                meta={
-                    "parent_state_id": row.get("meta", {}).get("parent_state_id"),
-                    "candidate_action": row["input"].get("candidate_action"),
-                    "split": row.get("meta", {}).get("split"),
-                    "viewpoint": row.get("meta", {}).get("viewpoint"),
-                },
+
+    if include_deliberation:
+        for row in _read_jsonl_if_exists(data_dir / "transition_modeling.jsonl"):
+            examples.append(
+                SFTExample(
+                    task="deliberation",
+                    source_id=row["state_id"],
+                    prompt=build_deliberation_prompt(row),
+                    target=build_deliberation_target(row),
+                    images=list(row["input"].get("frames", [])),
+                    meta={
+                        "parent_state_id": row.get("meta", {}).get("parent_state_id"),
+                        "candidate_action": row["input"].get("candidate_action"),
+                        "split": row.get("meta", {}).get("split"),
+                        "viewpoint": row.get("meta", {}).get("viewpoint"),
+                    },
+                )
             )
-        )
+
     if include_continuation:
         for row in _read_jsonl_if_exists(data_dir / "world_model_continuation.jsonl"):
             examples.append(
@@ -103,6 +113,44 @@ def build_sft_examples(
                         "continuation_frames": row["output"].get("continuation_frames", []),
                         "split": row.get("meta", {}).get("split"),
                         "viewpoint": row.get("meta", {}).get("viewpoint"),
+                    },
+                )
+            )
+        if include_future_verification:
+            for row in _read_jsonl_if_exists(data_dir / "future_verification.jsonl"):
+                current_frames = list(row["input"].get("current_frames", []))
+                continuation_frames = list(row["input"].get("continuation_frames", []))
+                examples.append(
+                    SFTExample(
+                        task="future_verification",
+                        source_id=row["state_id"],
+                        prompt=build_future_verification_prompt(row),
+                        target=build_future_verification_target(row),
+                        images=current_frames + continuation_frames,
+                        meta={
+                            "parent_state_id": row.get("meta", {}).get("parent_state_id"),
+                            "continuation_id": row.get("meta", {}).get("continuation_id"),
+                            "candidate_action": row["input"].get("candidate_action"),
+                            "is_positive_pair": row.get("meta", {}).get("is_positive_pair"),
+                            "split": row.get("meta", {}).get("split"),
+                            "viewpoint": row.get("meta", {}).get("viewpoint"),
+                        },
+                    )
+                )
+
+    if include_action:
+        for row in _read_jsonl_if_exists(data_dir / "policy_preference.jsonl"):
+            examples.append(
+                SFTExample(
+                    task="action_selection",
+                    source_id=row["state_id"],
+                    prompt=build_action_prompt(row),
+                    target=build_action_target(row, "chosen"),
+                    images=list(row.get("meta", {}).get("frames", [])),
+                    meta={
+                        "split": row.get("meta", {}).get("split"),
+                        "viewpoint": row.get("meta", {}).get("viewpoint"),
+                        "reward_gap": row.get("reward_gap"),
                     },
                 )
             )

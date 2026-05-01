@@ -6,29 +6,121 @@
 
 ## Active Document Index
 
+当前唯一阅读入口： [docs/README.md](docs/README.md)。
+
+### Current Sprint Entry Points
+
 | Active Doc | Role |
 |---|---|
-| [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md) | 最高优先级审计：论文 claim 与代码/数据工件差距 |
-| [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md) | 数据生成闭环现状、问题、目标 |
-| [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md) | 当前执行计划：阶段顺序与 DoD |
-| [docs/03_world_model_supervision_contract.md](docs/03_world_model_supervision_contract.md) | World Model 监督契约：action-conditioned transition |
-| [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md) | 视觉输入契约：Kling、抽帧、frame manifest、QA |
-| [docs/05_current_code_status.md](docs/05_current_code_status.md) | 当前代码状态：schema/rules/exporter/Kling wrapper |
-| [docs/07_kling_api_usage.md](docs/07_kling_api_usage.md) | Kling API wrapper 使用说明 |
-| [docs/08_intro_related_work_v6.md](docs/08_intro_related_work_v6.md) | 最新 intro + related work 草稿，定义当前论文 claim |
-| [docs/09_related_work_expert_distillation.md](docs/09_related_work_expert_distillation.md) | 高价值 related-work 审阅：专家知识蒸馏与销售/视觉 agent 差异 |
-| [docs/10_readable_data_plan_background.md](docs/10_readable_data_plan_background.md) | 可读版背景说明，非执行入口 |
-| [docs/11_docs_maintenance_rules.md](docs/11_docs_maintenance_rules.md) | docs 维护守则：新增、编号、归档、日志更新规范 |
-| [docs/12_expert_provenance_upgrade_plan.md](docs/12_expert_provenance_upgrade_plan.md) | expert corpus 从 seed_rule 升级到理论/教材/专家来源的补救计划 |
-| [docs/13_pilot30_continuation_review_report.md](docs/13_pilot30_continuation_review_report.md) | Phase 7 continuation pilot 生成、QA、fix3 验证与下一步问题 |
-| [docs/14_priority_generation_policy.md](docs/14_priority_generation_policy.md) | Kling API 受限时的重要样本优先生成策略 |
-| [docs/90_neurips_sprint_master_plan.md](docs/90_neurips_sprint_master_plan.md) | NeurIPS sprint 用户视角总计划，含 projection 边界与诚信红线 |
-| [docs/91_neurips_sprint_codex_plan.md](docs/91_neurips_sprint_codex_plan.md) | Codex sprint 执行计划，禁止 mock/projected-as-real |
-| [docs/92_neurips_sprint_result_snapshot.md](docs/92_neurips_sprint_result_snapshot.md) | 当前 sprint 结果快照：数据、训练、评估口径 |
-| [docs/93_remote_sprint_runbook.md](docs/93_remote_sprint_runbook.md) | 远端数据盘、Kling、ms-swift 运行入口 |
-| [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md) | 当前状态与对外报告口径：QA-reviewed / synthetic train / diagnostic-only 三层 |
+| [docs/current/experiment_result_digest.md](docs/current/experiment_result_digest.md) | 当前已落盘实验结果速览：能写什么、还缺什么 |
+| [docs/current/experiment_status_main_table_v2.md](docs/current/experiment_status_main_table_v2.md) | 主表 v2、visual ablation、frame budget、Future Verification 结果 |
+| [docs/current/company_openrouter_funding_brief.md](docs/current/company_openrouter_funding_brief.md) | 给公司看的精简预算沟通版：实验进度与 OpenRouter 模型对比投入说明 |
+| [docs/current/company_data_status_for_openrouter.md](docs/current/company_data_status_for_openrouter.md) | 组内技术版：数据资产、当前结果与风险边界 |
+| [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md) | 对外报告口径：QA-reviewed / synthetic train / diagnostic-only 边界 |
+| [docs/current/priority_generation_policy.md](docs/current/priority_generation_policy.md) | 新增 Kling 额度如何扩到 500/1000 parent synthetic |
+| [docs/current/remote_sprint_runbook.md](docs/current/remote_sprint_runbook.md) | 远端数据盘、Kling、ms-swift 运行入口 |
+
+### Method Contracts
+
+| Reference Doc | Role |
+|---|---|
+| [docs/contracts/claim_to_artifact_audit.md](docs/contracts/claim_to_artifact_audit.md) | 论文 claim 与代码/数据工件对应关系 |
+| [docs/contracts/world_model_supervision_contract.md](docs/contracts/world_model_supervision_contract.md) | World Model 监督契约 |
+| [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md) | 多视角、抽帧、frame manifest、QA gate |
+| [docs/contracts/expert_provenance_upgrade_plan.md](docs/contracts/expert_provenance_upgrade_plan.md) | 专家规则 provenance 补强计划 |
+| [docs/contracts/docs_maintenance_rules.md](docs/contracts/docs_maintenance_rules.md) | docs 维护守则 |
+
+### Historical / Background Docs
+
+历史计划、早期状态和解释材料统一放在 `docs/background/`；它们保留参考价值，但不再作为当前 sprint 决策入口。具体定位见 [docs/README.md](docs/README.md)。
 
 ## High-Density Updates
+
+### [2026-05-01 06:06:30 CST] | Phase: NeurIPS Sprint / Training Data Scale-Up
+
+**Key Progress**
+- 冻结 DPO 之外的训练扩展方向：新增 Kling 额度优先用于 parent synthetic SFT，而不是 preference/DPO。
+- 生成 `priority500` 与 `priority1000` 两档目标 manifest，并按 `priority280_unreviewed` 已入库 parent 去重。
+- 生成新增 prompt 包：`priority500_new_after280=248` 条，`priority1000_new_after280=748` 条。
+- 完成静态 prompt QA：prompt 文件 100% 存在，forbidden label leakage = 0 sessions。
+
+**Data Loop Insight**
+- 当前训练规模可以用未人工审阅 synthetic 扩大，但评估可信度必须仍由 QA-reviewed subset 支撑。
+- `pilot30` continuation/Future Verification 的 218 条样本适合作为 World Model 视觉监督与消融，不适合作为主 SFT 规模来源。
+
+**Pending Criticals**
+- DoD-Scale-1：先生产 `priority500_new_after280`，合并已有 `priority280_unreviewed` 后构建约 500 parent 的 SFT split。
+- DoD-Scale-2：另抽 QA-reviewed eval parent 到 80-120 条；未审阅 synthetic 不得写成 QA-pass。
+- DoD-Scale-3：若 API 与时间允许，再追加 `priority1000_new_after280` 剩余队列。
+
+**Ref Reference**
+- [docs/current/priority_generation_policy.md](docs/current/priority_generation_policy.md)
+- [data/priority_generation_queue/scenario_manifest_priority500_new_after280.jsonl](data/priority_generation_queue/scenario_manifest_priority500_new_after280.jsonl)
+- [data/priority_generation_queue/scenario_manifest_priority1000_new_after280.jsonl](data/priority_generation_queue/scenario_manifest_priority1000_new_after280.jsonl)
+
+### [2026-05-01 04:50:00 CST] | Phase: NeurIPS Sprint / Future Verification
+
+**Key Progress**
+- 将路线 C 落地为 `future_verification.jsonl`：`current_frames + action + continuation_frames -> match / expected_state / visible_reaction`。
+- 修正 negative pair 泄漏：`expected_state` 仍来自候选 action 专家规则，`visible_reaction` 改为 swapped continuation frames 的实际反应。
+- 生成 84 条 future verification 样本（44 positive / 40 negative），并导出 218 条 ms-swift SFT 样本。
+- 使用 4 卡 ms-swift 重训 Qwen2.5-VL-7B LoRA：3 epochs / 162 steps，`train_loss=0.18426619`，`token_acc=0.99136691`。
+- 完成 full-6 vs current-only smoke：balanced-8 上 `match_exact` 从 `0.625` 降到 `0.500`，visible reaction fields 从 `0.375` 降到 `0.250`。
+
+**Data Loop Insight**
+- Continuation frames 已从 QA/审计附件进入训练输入；当前证据显示移除未来帧会降低 future verification 表现。
+- 该任务比 continuation caption 更能支撑 World Model 叙事：PIWM 验证 action-conditioned future observation 是否与专家规则后果一致，而不是只复述文本转移表。
+
+**Pending Criticals**
+- DoD-FV-1：将 future verification eval 从 balanced smoke 扩到全部 84 行。
+- DoD-FV-2：补充更强视觉差异的 best/worst continuation pairs，降低模板化反应导致的 text shortcut。
+- DoD-FV-3：将 future verification 结果纳入主实验表或附录表，保持 pilot-scale 口径。
+
+**Ref Reference**
+- [docs/current/experiment_status_main_table_v2.md](docs/current/experiment_status_main_table_v2.md)
+- [data/piwm_results/future_verification_observed_results.md](data/piwm_results/future_verification_observed_results.md)
+- [scripts/build_future_verification.py](scripts/build_future_verification.py)
+
+### [2026-05-01 05:45:00 CST] | Phase: NeurIPS Sprint / Frame Budget Ablation
+
+**Key Progress**
+- 新增 `scripts/build_frame_budget_eval.py`，从同一 video session 旁路抽取 K=1/K=3/K=5 eval frames，不污染默认 K=3 数据。
+- 在 `priority40_qareviewed_sample` perception rows 上完成 frame-budget ablation。
+- 结果：K=1 stage/score/candidates = `0.722/0.694/0.694`；K=3 = `0.861/0.722/0.722`；K=5 = `0.861/0.722/0.722`。
+
+**Data Loop Insight**
+- K=3 相比单帧提供关键收益，但 K=5 没有继续提升，支持默认 K=3 作为 onset--peak--settle 的最小行为片段预算。
+- 该实验回答的是 frame budget tradeoff，而不是泛泛证明多帧有用。
+
+**Pending Criticals**
+- DoD-FB-1：将 frame-budget 表格纳入实验章节或附录。
+- DoD-FB-2：若时间允许，在 pilot30 continuation set 上复核一次 K=1/K=3/K=5，但当前 priority40 QA-reviewed 结果已足够支撑默认 K=3 的设计选择。
+
+**Ref Reference**
+- [docs/current/experiment_status_main_table_v2.md](docs/current/experiment_status_main_table_v2.md)
+- [data/piwm_results/frame_budget_ablation_results.md](data/piwm_results/frame_budget_ablation_results.md)
+- [scripts/build_frame_budget_eval.py](scripts/build_frame_budget_eval.py)
+
+### [2026-05-01 06:02:00 CST] | Phase: NeurIPS Sprint / Future Verification Full Eval
+
+**Key Progress**
+- 将 Future Verification 从 balanced smoke 扩展到全部 84 条记录。
+- 使用 8×4090 shard 并行评估 full6 与 current3 两种条件。
+- Full6：`match_exact=0.595`，visible reaction fields=`0.667`，`expected_state=0.988`。
+- Current3：`match_exact=0.488`，visible reaction fields=`0.583`，`expected_state=0.988`。
+
+**Data Loop Insight**
+- continuation frames 的增益集中在 match 与 visible reaction，而不是 expected_state；这与任务定义一致，因为 expected_state 主要由 action-conditioned expert rule 决定。
+- 结果支持路线 C：continuation frames 已经作为 action-conditioned future verification 的视觉证据进入监督，而不是只作为审计附件。
+
+**Pending Criticals**
+- DoD-FV-2：后续若继续扩大，应优先生成视觉差异更明显的 best/worst continuation pairs，而不是平均扩样。
+- DoD-Write：将 Future Verification 作为附录表或 World Model visual grounding 小节，不写成 full benchmark。
+
+**Ref Reference**
+- [data/piwm_results/future_verification_observed_all84_results.md](data/piwm_results/future_verification_observed_all84_results.md)
+- [docs/current/experiment_status_main_table_v2.md](docs/current/experiment_status_main_table_v2.md)
+- [docs/current/experiment_result_digest.md](docs/current/experiment_result_digest.md)
 
 ### [2026-04-30 21:08:00 CST] | Phase: Priority QA Sample / Low-Memory Checkpoint Eval
 
@@ -54,7 +146,7 @@
 - `data/piwm_dataset_priority40_qareviewed_sample/_stats.json`
 - `data/piwm_results/sft_checkpoint_eval_balanced24_1frame_lowpix.json`
 - `data/piwm_results/sft_checkpoint_eval_balanced24_3frame_lowpix.json`
-- [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md)
+- [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md)
 
 ### [2026-04-30 20:50:00 CST] | Phase: Sprint Status Audit / Reporting Policy
 
@@ -65,7 +157,7 @@
 - `data/piwm_dataset_pilot30_with_continuations/` 保持 QA-reviewed pilot：24 parent、44 continuation。
 - ms-swift 4 x 4090 SFT 完成：Qwen2.5-VL-7B-Instruct + LoRA，1321 examples，660/660 steps，train loss 0.0404377，checkpoint-660 落盘。
 - checkpoint eval 已尝试 24 条 balanced input，但全部 CUDA OOM；当前没有有效模型推理指标，不能报告 accuracy=0。
-- 新增 [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md)，并更新 docs/14/90/91/92/93 的数据与口径。
+- 新增 [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md)，并更新 docs/14/90/91/92/93 的数据与口径。
 
 **Data Loop Insight**
 - 大批量数据已经从 prompt queue 转为可训练 synthetic split；当前瓶颈不再是 Kling parent generation，而是 visual QA 抽样、低显存 checkpoint eval 与论文口径控制。
@@ -77,14 +169,14 @@
 - DoD-PaperSafeTables：所有论文表格区分 QA-reviewed subset、synthetic train split、diagnostic-only artifacts。
 
 **Ref Reference**
-- [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md)
-- [docs/92_neurips_sprint_result_snapshot.md](docs/92_neurips_sprint_result_snapshot.md)
+- [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md)
+- [docs/background/neurips_sprint_result_snapshot_20260430.md](docs/background/neurips_sprint_result_snapshot_20260430.md)
 - `/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/sft_train_summary.json`
 
 ### [2026-04-30 15:05:31 CST] | Phase: NeurIPS Sprint 91 / Training Skeleton + Mock Eval
 
 **Key Progress**
-- 阅读 `docs/91_neurips_sprint_codex_plan.md` 后确认无阻塞歧义；执行假设：不自动 commit，不写 projected 数字，先做纯 Python Day1/Day2 任务。
+- 阅读 `docs/background/neurips_sprint_codex_plan.md` 后确认无阻塞歧义；执行假设：不自动 commit，不写 projected 数字，先做纯 Python Day1/Day2 任务。
 - 新增 `piwm_train/config.py`、`targets.py`、`prompts.py`、`data_collator.py`、`sft.py`，覆盖 perception / deliberation / continuation_caption / action 四头训练文本契约。
 - 新增 `piwm_infer/parsers.py`、`prompts.py`、`decision_loop.py` 与 `MockVLM` fixture，MockVLM 可跑 perception -> deliberation -> continuation caption -> action 的 4 头闭环。
 - 新增 `scripts/run_pilot_eval.py`，生成真实 pipeline artifact `data/piwm_results/pilot24_mock_pipeline_eval.json`；明确 `model=MockVLM`、`is_training_result=false`。
@@ -103,7 +195,7 @@
 - DoD-Paper-Numbers：论文中所有数字只能引用 `data/piwm_results/*.json`；MockVLM artifact 不得写成 PIWM training result。
 
 **Ref Reference**
-- [docs/91_neurips_sprint_codex_plan.md](docs/91_neurips_sprint_codex_plan.md)
+- [docs/background/neurips_sprint_codex_plan.md](docs/background/neurips_sprint_codex_plan.md)
 - [data/piwm_results/pilot24_mock_pipeline_eval.json](data/piwm_results/pilot24_mock_pipeline_eval.json)
 - [data/piwm_results/sft_adapter_smoke/sft_smoke_summary.json](data/piwm_results/sft_adapter_smoke/sft_smoke_summary.json)
 
@@ -130,7 +222,7 @@
 **Ref Reference**
 - `/root/lanyun-fs/ProactiveIntentWorldModel/Archive_generated_fix3/_fix3_qa_summary.json`
 - `/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_dataset_fix3_continuation_validation/_stats.json`
-- [docs/13_pilot30_continuation_review_report.md](docs/13_pilot30_continuation_review_report.md)
+- [docs/background/pilot30_continuation_review_report.md](docs/background/pilot30_continuation_review_report.md)
 
 ### [2026-04-30 01:16:00 CST] | Phase: Data Quality Patch / Pilot30 Prompt Pack
 
@@ -156,9 +248,9 @@
 - `Archive_prompts_pilot30/_prompt_index.jsonl`
 - `data/_scenario_stats_pilot30.json`
 - `data/piwm_dataset_viewpoint_review/_stats.json`
-- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
-- [docs/05_current_code_status.md](docs/05_current_code_status.md)
+- [docs/background/data_generation_loop_status.md](docs/background/data_generation_loop_status.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
+- [docs/background/current_code_status.md](docs/background/current_code_status.md)
 
 ### [2026-04-30 00:40:00 CST] | Phase: Mixed-View Kling Real Batch / QA-Gated Dataset
 
@@ -184,8 +276,8 @@
 **Ref Reference**
 - `Archive_generated_viewpoint_review/_qa_index.jsonl`
 - `data/piwm_dataset_viewpoint_review/_stats.json`
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
-- [docs/05_current_code_status.md](docs/05_current_code_status.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
+- [docs/background/current_code_status.md](docs/background/current_code_status.md)
 
 ### [2026-04-30 00:12:00 CST] | Phase: Mixed-View Kling Batch Runner
 
@@ -208,8 +300,8 @@
 **Ref Reference**
 - `scripts/run_kling_batch.py`
 - `Archive_generated_viewpoint_review/_batch_summary_dry_run.json`
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
-- [docs/05_current_code_status.md](docs/05_current_code_status.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
+- [docs/background/current_code_status.md](docs/background/current_code_status.md)
 
 ### [2026-04-30 00:35:00 CST] | Phase: Provenance Weak-Point Cleanup
 
@@ -232,7 +324,7 @@
 **Ref Reference**
 - `piwm_data/expert_corpus/distilled/_provenance_coverage.json`
 - `piwm_data/expert_corpus/distilled/rule_source_links.jsonl`
-- [docs/12_expert_provenance_upgrade_plan.md](docs/12_expert_provenance_upgrade_plan.md)
+- [docs/contracts/expert_provenance_upgrade_plan.md](docs/contracts/expert_provenance_upgrade_plan.md)
 
 ### [2026-04-30 00:20:00 CST] | Phase: Automated Textbook Distillation / First Reviewable Pass
 
@@ -258,7 +350,7 @@
 - `piwm_data/expert_corpus/distilled/_provenance_coverage.json`
 - `piwm_data/expert_corpus/provenance.py`
 - `piwm_data/tests/test_provenance.py`
-- [docs/12_expert_provenance_upgrade_plan.md](docs/12_expert_provenance_upgrade_plan.md)
+- [docs/contracts/expert_provenance_upgrade_plan.md](docs/contracts/expert_provenance_upgrade_plan.md)
 
 ### [2026-04-29 23:58:00 CST] | Phase: Multi-View Visual Contract V1-V4
 
@@ -288,8 +380,8 @@
 - `scripts/qa_gate.py`
 - `Archive_prompts_viewpoint_review/_prompt_index.jsonl`
 - `data/scenario_manifest_viewpoint_review10.jsonl`
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
-- [docs/05_current_code_status.md](docs/05_current_code_status.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
+- [docs/background/current_code_status.md](docs/background/current_code_status.md)
 
 ### [2026-04-29 23:45:00 CST] | Phase: Extract Frames / QA-Passing Pilot Dataset
 
@@ -321,14 +413,14 @@
 - `Archive_generated_pilot/_one_complete_qa_pass_data_preview.json`
 - `data/piwm_dataset/_stats.json`
 - `data/piwm_dataset_pilot/_stats.json`
-- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+- [docs/background/data_generation_loop_status.md](docs/background/data_generation_loop_status.md)
+- [docs/background/data_loop_master_plan.md](docs/background/data_loop_master_plan.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
 
 ### [2026-04-29 23:40:00 CST] | Phase: Expert Provenance Implementation
 
 **Key Progress**
-- 更新 `docs/12_expert_provenance_upgrade_plan.md`：现有 72 条规则不再作为必须映射对象，而是 seed baseline，可保留、修改、删除或被 source-backed rules 替换。
+- 更新 `docs/contracts/expert_provenance_upgrade_plan.md`：现有 72 条规则不再作为必须映射对象，而是 seed baseline，可保留、修改、删除或被 source-backed rules 替换。
 - 将 provenance 拆为 sales/modeling 两条线；BDI 只进入 modeling source registry，不允许作为 sales-rule evidence。
 - 新增 `piwm_data/expert_corpus/sources/sales_source_registry.jsonl` 与 `modeling_source_registry.jsonl`。
 - 新增 `rule_source_links.jsonl`：先覆盖 9 条 `state_aida_to_candidates` + 21 条 `transition`，共 30 条 `theory_anchored`。
@@ -345,7 +437,7 @@
 - DoD-Review：人工审阅 source registry 与 30 条 rule_source_links，确认 mapping 是否牵强。
 
 **Ref Reference**
-- [docs/12_expert_provenance_upgrade_plan.md](docs/12_expert_provenance_upgrade_plan.md)
+- [docs/contracts/expert_provenance_upgrade_plan.md](docs/contracts/expert_provenance_upgrade_plan.md)
 - `piwm_data/expert_corpus/provenance.py`
 - `piwm_data/expert_corpus/sources/sales_source_registry.jsonl`
 - `piwm_data/expert_corpus/sources/modeling_source_registry.jsonl`
@@ -357,7 +449,7 @@
 
 **Key Progress**
 - 确认现有 docs 只记录了 `seed_rule` 风险和方向性建议，没有一份可执行的 provenance 补救计划。
-- 新增 `docs/12_expert_provenance_upgrade_plan.md`，把当前状态定义为 `expert corpus container: done`、`expert provenance content: incomplete`。
+- 新增 `docs/contracts/expert_provenance_upgrade_plan.md`，把当前状态定义为 `expert corpus container: done`、`expert provenance content: incomplete`。
 - 设定四级升级链：`seed_rule -> theory_anchored -> manual_supported -> expert_reviewed`。
 - 明确新增工件：`source_registry.jsonl`、`rule_source_links.jsonl`、`source_backed_rules.jsonl`、`_provenance_coverage.json`。
 - 明确论文措辞边界：当前不能声称 all rules are distilled from retail manuals。
@@ -373,9 +465,9 @@
 - DoD-Provenance-4：manual-supported 规则不得包含长版权原文，只保留 source id、位置和 paraphrase note。
 
 **Ref Reference**
-- [docs/12_expert_provenance_upgrade_plan.md](docs/12_expert_provenance_upgrade_plan.md)
-- [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)
-- [docs/09_related_work_expert_distillation.md](docs/09_related_work_expert_distillation.md)
+- [docs/contracts/expert_provenance_upgrade_plan.md](docs/contracts/expert_provenance_upgrade_plan.md)
+- [docs/contracts/claim_to_artifact_audit.md](docs/contracts/claim_to_artifact_audit.md)
+- [docs/background/related_work_expert_distillation.md](docs/background/related_work_expert_distillation.md)
 
 ### [2026-04-29 23:05:00 CST] | Phase: QA Gate / Visual-Only State Inference
 
@@ -402,8 +494,8 @@
 - `piwm_data/exporters.py`
 - `Archive_generated_test/_qa_index.jsonl`
 - `Archive_generated_test/_one_complete_data_preview.json`
-- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+- [docs/background/data_generation_loop_status.md](docs/background/data_generation_loop_status.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
 
 ### [2026-04-29 22:30:00 CST] | Phase: Phase 1 Expert Corpus Landed
 
@@ -431,7 +523,7 @@
 - `piwm_data/expert_corpus/compile.py`
 - `piwm_data/expert_corpus/distilled/conditional_rules.jsonl`
 - `piwm_data/tests/test_expert_corpus.py`
-- [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)（"Pedagogy-derived action space" 行可由 `blocking` 改为 `partial→covered`）
+- [docs/contracts/claim_to_artifact_audit.md](docs/contracts/claim_to_artifact_audit.md)（"Pedagogy-derived action space" 行可由 `blocking` 改为 `partial→covered`）
 
 ### [2026-04-29 21:40:00 CST] | Phase: Kling Smoke Test / Visual Contract Check
 
@@ -453,7 +545,7 @@
 **Ref Reference**
 - `Archive_generated_test/_smoke_test_report.json`
 - `Archive_generated_test/phase4_test_contact_sheet.jpg`
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
 
 ### [2026-04-29 21:15:00 CST] | Phase: Phase 3 Scenario Sampler / Prompt Builder
 
@@ -480,8 +572,8 @@
 - `data/scenario_manifest.jsonl`
 - `data/_scenario_stats.json`
 - `Archive_prompts_review/_prompt_index.jsonl`
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
+- [docs/background/data_loop_master_plan.md](docs/background/data_loop_master_plan.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
 
 ### [2026-04-29 20:55:00 CST] | Phase: Phase 2 Data Contract Upgrade
 
@@ -508,10 +600,10 @@
 - `piwm_data/archive_loader.py`
 - `piwm_data/exporters.py`
 - `piwm_data/build_dataset.py`
-- [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)
-- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
-- [docs/03_world_model_supervision_contract.md](docs/03_world_model_supervision_contract.md)
+- [docs/contracts/claim_to_artifact_audit.md](docs/contracts/claim_to_artifact_audit.md)
+- [docs/background/data_generation_loop_status.md](docs/background/data_generation_loop_status.md)
+- [docs/background/data_loop_master_plan.md](docs/background/data_loop_master_plan.md)
+- [docs/contracts/world_model_supervision_contract.md](docs/contracts/world_model_supervision_contract.md)
 
 ### [2026-04-29 02:19:27 CST] | Phase: Documentation Refactor / Claim-Data Alignment
 
@@ -533,17 +625,17 @@
 - DoD-Real：real-store split 有 schema、privacy metadata 与 QA 入口。
 
 **Ref Reference**
-- [docs/00_claim_to_artifact_audit.md](docs/00_claim_to_artifact_audit.md)
-- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
-- [docs/03_world_model_supervision_contract.md](docs/03_world_model_supervision_contract.md)
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
-- [docs/11_docs_maintenance_rules.md](docs/11_docs_maintenance_rules.md)
+- [docs/contracts/claim_to_artifact_audit.md](docs/contracts/claim_to_artifact_audit.md)
+- [docs/background/data_generation_loop_status.md](docs/background/data_generation_loop_status.md)
+- [docs/background/data_loop_master_plan.md](docs/background/data_loop_master_plan.md)
+- [docs/contracts/world_model_supervision_contract.md](docs/contracts/world_model_supervision_contract.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
+- [docs/contracts/docs_maintenance_rules.md](docs/contracts/docs_maintenance_rules.md)
 
 ### [2026-04-29 01:59:59 CST] | Phase: Data Loop Design / World Model Supervision
 
 **Key Progress**
-- 在 `docs/03_world_model_supervision_contract.md` 中固化“World Model 性质如何在训练中体现”。
+- 在 `docs/contracts/world_model_supervision_contract.md` 中固化“World Model 性质如何在训练中体现”。
 - 明确 PIWM 的最小 World Model 判据：`same observation + same current state + different action -> different predicted future`。
 - 将 `transition_modeling.jsonl` 定义为核心 world-modeling 证据，`state_inference` 仅负责 state estimation，`policy_preference` 只间接体现。
 - 新增 action 对照组统计要求：`n_parent_states`、`n_transition_rows`、`avg_actions_per_state`、`n_states_with_action_contrast`。
@@ -558,13 +650,13 @@
 - DoD-WM-3：`transition_modeling.jsonl` 保留 `parent_state_id`、`candidate_action`、`current_state_summary` 与完整 next-state outcome。
 
 **Ref Reference**
-- [docs/03_world_model_supervision_contract.md](docs/03_world_model_supervision_contract.md)
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
+- [docs/contracts/world_model_supervision_contract.md](docs/contracts/world_model_supervision_contract.md)
+- [docs/background/data_loop_master_plan.md](docs/background/data_loop_master_plan.md)
 
 ### [2026-04-29 00:46:39 CST] | Phase: Data Loop Design / Visual Input Contract
 
 **Key Progress**
-- 在 `docs/04_visual_input_contract.md` 中固化“视觉样本形态与训练模式决策”。
+- 在 `docs/contracts/visual_input_contract.md` 中固化“视觉样本形态与训练模式决策”。
 - 将第一版主线固定为 `单视频 -> 多图抽帧 -> 单轮样本 -> 推理时多次调用`。
 - 明确 `state_inference`、`transition_modeling`、`policy_preference` 均共享同一组 sampled frames，差异只在文本任务。
 - 新增 `frame_manifest.json`、`training_input_mode`、`cue_visible_in_sampled_frames` 等字段要求，防止视频整体有 cue 但训练帧无 cue。
@@ -579,13 +671,13 @@
 - DoD-Visual-3：QA gate 同时检查整段视频与 sampled frames，sampled frames 不支持标签时拒绝样本。
 
 **Ref Reference**
-- [docs/04_visual_input_contract.md](docs/04_visual_input_contract.md)
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
+- [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md)
+- [docs/background/data_loop_master_plan.md](docs/background/data_loop_master_plan.md)
 
 ### [2026-04-29 00:40:31 CST] | Phase: Data Loop Documentation / Cold Start
 
 **Key Progress**
-- 新增 `docs/01_data_generation_loop_status.md`，把当前数据生成闭环拆成已实现模块、缺口、实现目标、非优先事项。
+- 新增 `docs/background/data_generation_loop_status.md`，把当前数据生成闭环拆成已实现模块、缺口、实现目标、非优先事项。
 - 明确当前 `data/piwm_dataset/*.jsonl` 是空数据产物，不代表已有可训练数据。
 - 将训练/推理侧阻塞具体化为 `bdi`、`next_bdi`、`state_summary`、`candidate_block` 四个缺失字段。
 - 固化下一步最小任务：先做 `claim_to_artifact_audit.md`，再做 `expert_corpus` 规则来源迁移。
@@ -595,22 +687,22 @@
 - 文档将“可运行的 schema 骨架”和“可训练的数据闭环”明确区分，降低后续实现者误判项目进度的风险。
 
 **Pending Criticals**
-- DoD-0：`docs/00_claim_to_artifact_audit.md` 完成，P0 claim 不得误标为 covered。
+- DoD-0：`docs/contracts/claim_to_artifact_audit.md` 完成，P0 claim 不得误标为 covered。
 - DoD-1：`expert_corpus` 编译出的五张核心规则表 + fallback intent 表保持现有行为不漂移。
 - DoD-2：BDI 与 preference meta 字段进入 data pipeline，而不是只存在于训练 spec。
 - DoD-3：Kling 生成样本必须经过 target cue 可见性 QA。
 
 **Ref Reference**
-- [docs/01_data_generation_loop_status.md](docs/01_data_generation_loop_status.md)
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
-- [docs/05_current_code_status.md](docs/05_current_code_status.md)
+- [docs/background/data_generation_loop_status.md](docs/background/data_generation_loop_status.md)
+- [docs/background/data_loop_master_plan.md](docs/background/data_loop_master_plan.md)
+- [docs/background/current_code_status.md](docs/background/current_code_status.md)
 
 ### [2026-04-29 00:31:27 CST] | Phase: Research Documentation / Data Loop Governance
 
 **Key Progress**
 - 将项目文档控制原则固化为“数据生成闭环优于单一架构优化”。
-- 新增 `docs/02_data_loop_master_plan.md`，把专家规则、Kling、QA gate、schema/exporter、训练解锁条件串成单一闭环。
-- 保存最新 v6 论文草稿到 `docs/08_intro_related_work_v6.md`，作为当前 claim 源。
+- 新增 `docs/background/data_loop_master_plan.md`，把专家规则、Kling、QA gate、schema/exporter、训练解锁条件串成单一闭环。
+- 保存最新 v6 论文草稿到 `docs/background/intro_related_work_v6.md`，作为当前 claim 源。
 - 将 Claude method-side implementation spec 保存到 `docs/archive/06_piwm_implementation_spec_method_side_blocked.md`，标记为被 BDI 与 preference meta 数据契约阻塞。
 - 清理过时/低活跃文档到 `docs/archive/`，活跃索引只保留当前闭环相关入口。
 
@@ -619,13 +711,13 @@
 - 下一步应先完成 `expert_corpus -> runtime rules -> sampler/prompt_builder -> Kling video -> QA -> dataset JSONL`，否则 architecture code 会绑定不存在的数据格式。
 
 **Pending Criticals**
-- DoD-0：完成 `docs/00_claim_to_artifact_audit.md`，确认 v6 每个 P0 claim 对应代码/数据工件。
+- DoD-0：完成 `docs/contracts/claim_to_artifact_audit.md`，确认 v6 每个 P0 claim 对应代码/数据工件。
 - DoD-1：`conditional_rules.jsonl` 覆盖当前五张核心规则表 + fallback intent 表，编译后既有 pytest 不回退。
 - DoD-2：data pipeline 输出显式 `bdi` / `next_bdi` / `meta.state_summary` / `meta.candidate_block`。
 - DoD-3：Kling prompt 由 sampler + prompt builder 生成，且 QA gate 能拒绝 cue 不可见样本。
 
 **Ref Reference**
-- [docs/02_data_loop_master_plan.md](docs/02_data_loop_master_plan.md)
-- [docs/08_intro_related_work_v6.md](docs/08_intro_related_work_v6.md)
-- [docs/10_readable_data_plan_background.md](docs/10_readable_data_plan_background.md)
+- [docs/background/data_loop_master_plan.md](docs/background/data_loop_master_plan.md)
+- [docs/background/intro_related_work_v6.md](docs/background/intro_related_work_v6.md)
+- [docs/background/readable_data_plan_background.md](docs/background/readable_data_plan_background.md)
 - [docs/archive/06_piwm_implementation_spec_method_side_blocked.md](docs/archive/06_piwm_implementation_spec_method_side_blocked.md)

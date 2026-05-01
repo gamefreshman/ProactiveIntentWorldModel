@@ -187,7 +187,7 @@ python3 -m scripts.summarize_sprint_results \
   --sft-summary data/piwm_results/sft_train_summary.json \
   --zero-shot data/piwm_results/pilot24_zero_shot_baselines.json \
   --summary-out data/piwm_results/sprint_summary.json \
-  --markdown-out docs/92_neurips_sprint_result_snapshot.md
+  --markdown-out docs/background/neurips_sprint_result_snapshot_20260430.md
 ```
 
 只读状态板：

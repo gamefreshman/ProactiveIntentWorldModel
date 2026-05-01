@@ -310,7 +310,7 @@ splits = train/dev/test/ood_product/ood_persona 全覆盖
 forbidden_label_hits = 0
 ```
 
-历史注记：本节最初记录的是 Kling 调用前的 prompt 审阅状态。截至 2026-04-30 晚，`Archive_generated_pilot30/` 已生成 30 条视频并完成 manual QA；其中 24 条 parent 与 44 条 continuation 进入 `data/piwm_dataset_pilot30_with_continuations/`。当前新的未人工 visual QA 主体是 priority280 high-throughput synthetic split，见 [docs/94_current_sprint_status_and_reporting_policy.md](docs/94_current_sprint_status_and_reporting_policy.md)。
+历史注记：本节最初记录的是 Kling 调用前的 prompt 审阅状态。截至 2026-04-30 晚，`Archive_generated_pilot30/` 已生成 30 条视频并完成 manual QA；其中 24 条 parent 与 44 条 continuation 进入 `data/piwm_dataset_pilot30_with_continuations/`。当前新的未人工 visual QA 主体是 priority280 high-throughput synthetic split，见 [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md)。
 
 如果后续重新生成 prompt，仍应先做 prompt 人工审阅，确认：
 

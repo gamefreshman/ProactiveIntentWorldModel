@@ -22,7 +22,7 @@
 
 ## 2. 我理解的当前论文主线
 
-根据 [08_intro_related_work_v6.md](08_intro_related_work_v6.md)，当前论文不是单纯做一个销售视频数据集，而是在讲：
+根据 [intro_related_work_v6.md](intro_related_work_v6.md)，当前论文不是单纯做一个销售视频数据集，而是在讲：
 
 > PIWM 是一个面向店内主动销售辅助的 Proactive Intent World Model。它不只判断“现在要不要说话”，而是先理解顾客状态，再模拟不同干预动作会带来的后果，最后选择是否开口以及怎么开口。
 

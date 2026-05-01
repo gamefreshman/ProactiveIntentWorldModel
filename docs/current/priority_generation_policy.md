@@ -1,6 +1,6 @@
 # Priority Generation Policy
 
-更新时间：2026-04-30
+更新时间：2026-05-01
 
 ## 0. 2026-04-30 晚间状态修订
 
@@ -33,6 +33,41 @@ priority280 是 high-throughput generated training split：
 尚未完成人工 visual QA；
 因此可用于赶训练，不能写成 QA-pass / manually verified 数据。
 ```
+
+## 0.1 2026-05-01 训练规模扩展队列
+
+NeurIPS sprint 当前暂时放弃 DPO，把新增 Kling 额度优先用于扩大 **parent synthetic SFT**。扩展目标不是把未审阅数据写成 benchmark，而是提升 SFT 训练覆盖；可信评估仍然只使用 QA-reviewed subset。
+
+当前已生成的训练 split：
+
+| 资产 | 规模 | 用途口径 |
+|---|---:|---|
+| `data/piwm_dataset_priority280_unreviewed` | 260 parent / 927 transition rows | training-only synthetic |
+| `data/piwm_results/ms_swift_priority280_unreviewed/ms_swift_sft.jsonl` | 1187 SFT examples | perception + deliberation SFT |
+| `data/piwm_dataset_pilot30_with_continuations` | 24 QA-pass parent / 44 continuation / 84 future verification | World Model continuation / FV study |
+| `data/piwm_results/ms_swift_pilot30_future_verification_observed/ms_swift_sft.jsonl` | 218 SFT examples | continuation/FV auxiliary SFT |
+| `data/piwm_results/ms_swift_sprint_combined/summary.json` | 1321 combined SFT examples | sprint main SFT baseline |
+
+新增队列已经按当前 priority selector 生成，且排除了 `priority280_unreviewed` 中已入库的 260 个 parent：
+
+| 目标总规模 | Selected manifest | 新增 manifest | 新增 prompt index | 新增条数 | 视角分布 |
+|---:|---|---|---|---:|---|
+| 500 parent | `data/priority_generation_queue/scenario_manifest_priority500.jsonl` | `data/priority_generation_queue/scenario_manifest_priority500_new_after280.jsonl` | `data/priority_generation_queue/prompt_index_priority500_new_after280.jsonl` | 248 | sales 183 / surveillance 65 |
+| 1000 parent | `data/priority_generation_queue/scenario_manifest_priority1000.jsonl` | `data/priority_generation_queue/scenario_manifest_priority1000_new_after280.jsonl` | `data/priority_generation_queue/prompt_index_priority1000_new_after280.jsonl` | 748 | sales 558 / surveillance 190 |
+
+静态 QA：
+
+- prompt 文件存在：500/1000 两档均 100%；
+- forbidden label leakage：0 sessions；
+- `priority500` reward gap median = `1.1`，strict next-state contrast = `500/500`；
+- `priority1000` reward gap median = `1.1`，strict next-state contrast = `967/1000`。
+
+推荐执行顺序：
+
+1. 先跑 `priority500_new_after280` 的 248 条，合并已有 260 条后得到约 500 parent 级别训练集；
+2. 如果 Kling 额度和时间仍充足，再跑 `priority1000_new_after280` 中尚未生成的剩余部分；
+3. QA-reviewed eval 另行抽样，不把这批 high-throughput synthetic 自动标为 QA-pass；
+4. DPO 暂停，所有新增 parent 先只进入 SFT 数据构造。
 
 ## 1. 为什么需要这个策略
 

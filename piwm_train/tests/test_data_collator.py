@@ -32,15 +32,49 @@ def test_build_sft_examples_from_pilot30_without_continuation() -> None:
 
 def test_build_sft_examples_from_pilot30_with_continuations() -> None:
     examples = build_sft_examples(DATA_DIR_WITH_CONTINUATIONS, include_continuation=True)
-    task_counts = {task: sum(1 for example in examples if example.task == task) for task in ["perception", "deliberation", "continuation_caption"]}
+    task_counts = {
+        task: sum(1 for example in examples if example.task == task)
+        for task in ["perception", "deliberation", "continuation_caption", "future_verification"]
+    }
     assert task_counts == {
         "perception": 24,
         "deliberation": 66,
         "continuation_caption": 44,
+        "future_verification": 84,
     }
     first_continuation = next(example for example in examples if example.task == "continuation_caption")
     assert first_continuation.images
     assert first_continuation.meta["continuation_frames"]
+    first_verification = next(example for example in examples if example.task == "future_verification")
+    assert len(first_verification.images) == 6
+    assert first_verification.meta["is_positive_pair"] in {True, False}
+
+
+def test_build_sft_examples_can_include_action_selection() -> None:
+    examples = build_sft_examples(DATA_DIR, include_action=True)
+    task_counts = {
+        task: sum(1 for example in examples if example.task == task)
+        for task in ["perception", "deliberation", "action_selection"]
+    }
+    assert task_counts == {
+        "perception": 24,
+        "deliberation": 66,
+        "action_selection": 24,
+    }
+    action = next(example for example in examples if example.task == "action_selection")
+    assert config.TAG_CHOSEN_OPEN in action.target
+    assert config.TAG_RATIONALE_OPEN in action.target
+    assert action.images
+
+
+def test_build_sft_examples_can_disable_deliberation_for_ablation() -> None:
+    examples = build_sft_examples(
+        DATA_DIR,
+        include_deliberation=False,
+        include_continuation=False,
+        include_action=True,
+    )
+    assert {example.task for example in examples} == {"perception", "action_selection"}
 
 
 def test_perception_examples_include_recap_by_default() -> None:

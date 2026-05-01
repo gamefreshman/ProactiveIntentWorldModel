@@ -12,9 +12,9 @@
 
 详细设计拆到独立文档：
 
-- [00_claim_to_artifact_audit.md](00_claim_to_artifact_audit.md)：论文 claim 与代码/数据工件对齐审计；
-- [03_world_model_supervision_contract.md](03_world_model_supervision_contract.md)：什么训练才体现 World Model；
-- [04_visual_input_contract.md](04_visual_input_contract.md)：Kling 视频、抽帧、多图输入与 QA 契约。
+- [claim_to_artifact_audit.md](../contracts/claim_to_artifact_audit.md)：论文 claim 与代码/数据工件对齐审计；
+- [world_model_supervision_contract.md](../contracts/world_model_supervision_contract.md)：什么训练才体现 World Model；
+- [visual_input_contract.md](../contracts/visual_input_contract.md)：Kling 视频、抽帧、多图输入与 QA 契约。
 
 核心判断保持不变：
 

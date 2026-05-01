@@ -84,6 +84,37 @@ def build_continuation_caption_prompt(record: dict) -> str:
     )
 
 
+def build_future_verification_prompt(record: dict) -> str:
+    current_frames = record["input"].get("current_frames", [])
+    continuation_frames = record["input"].get("continuation_frames", [])
+    state = record["input"]["current_state_summary"]
+    bdi = state["bdi"]
+    action = record["input"]["candidate_action"]
+    return (
+        "You are verifying an action-conditioned future reaction in a retail store.\n\n"
+        f"First, observe {len(current_frames)} current-state frames in chronological order:\n"
+        f"{image_placeholders(len(current_frames))}\n\n"
+        f"Then observe {len(continuation_frames)} candidate future-reaction frames in chronological order:\n"
+        f"{image_placeholders(len(continuation_frames))}\n\n"
+        "The customer's current state is:\n"
+        f"- stage: {state['aida_stage']}\n"
+        f"- state_subtype: {state['state_subtype']}\n"
+        f"- belief: {bdi['belief']}\n"
+        f"- desire: {bdi['desire']}\n"
+        f"- intention: {bdi['intention']}\n\n"
+        f"Candidate intervention to verify: {action}\n\n"
+        "Decide whether the candidate future-reaction frames match the expert-rule expected visual consequence "
+        "of this intervention under the current customer state. Do not choose the best action here; only verify "
+        "whether this proposed future is consistent with the action-conditioned future.\n\n"
+        "Output the following fields, in this exact order, each on its own line:\n"
+        f"{config.tag_instruction_lines(config.FUTURE_VERIFICATION_TAGS)}\n\n"
+        "- match must be exactly yes or no.\n"
+        "- expected_state must be the expected next state subtype for the candidate intervention.\n"
+        "- body_change, gaze_change, hand_change, and movement_change must describe what is visible in the candidate future-reaction frames, not the expected reaction template.\n"
+        "- reason must be a single short sentence explaining the match decision."
+    )
+
+
 def format_candidate_block(per_candidate_outputs: dict[str, dict[str, Any]] | list[dict[str, Any]]) -> str:
     if isinstance(per_candidate_outputs, list):
         rows = per_candidate_outputs
@@ -121,4 +152,3 @@ def build_action_prompt(record: dict) -> str:
         "- chosen must be one of the candidate labels listed above, exact string match.\n"
         "- rationale should reference the predicted next states when justifying the choice."
     )
-

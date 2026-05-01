@@ -10,7 +10,7 @@
 专家规则 -> 场景采样 -> 多视角 Kling 当前状态视频 -> 抽帧与 QA -> 主 schema -> 三套训练数据 -> 训练/推理代码
 ```
 
-训练代码只有在数据格式稳定之后才有意义。当前 Claude 生成的 method-side implementation spec 已保存到 [archive/06_piwm_implementation_spec_method_side_blocked.md](archive/06_piwm_implementation_spec_method_side_blocked.md)。其中曾经阻塞训练代码的两个数据契约已经在 Phase 2 第一版补齐：
+训练代码只有在数据格式稳定之后才有意义。当前 Claude 生成的 method-side implementation spec 已保存到 [06_piwm_implementation_spec_method_side_blocked.md](../archive/06_piwm_implementation_spec_method_side_blocked.md)。其中曾经阻塞训练代码的两个数据契约已经在 Phase 2 第一版补齐：
 
 - `state_inference.jsonl` / `transition_modeling.jsonl` 已有显式 `bdi` / `next_bdi`；
 - `policy_preference.jsonl.meta` 已有 `state_summary` 与结构化 `candidate_block`。
@@ -55,7 +55,7 @@ flowchart LR
 
 产出：
 
-- [00_claim_to_artifact_audit.md](00_claim_to_artifact_audit.md)
+- [claim_to_artifact_audit.md](../contracts/claim_to_artifact_audit.md)
 
 进入下一阶段条件：
 

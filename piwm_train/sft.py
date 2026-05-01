@@ -23,17 +23,28 @@ SMOKE_JSONL = "sft_train_smoke.jsonl"
 SMOKE_SUMMARY = "sft_smoke_summary.json"
 TRAIN_SUMMARY = "sft_train_summary.json"
 
+# Stable keys for summaries / CI assertions (zeros omitted in raw counts).
+_SUMMARY_TASK_KEYS: tuple[str, ...] = (
+    "perception",
+    "deliberation",
+    "continuation_caption",
+    "future_verification",
+    "action_selection",
+)
+
+
+def _normalized_task_counts(raw: dict[str, int]) -> dict[str, int]:
+    return {k: raw.get(k, 0) for k in _SUMMARY_TASK_KEYS}
+
 
 def build_smoke_summary(data_dir: Path, output_dir: Path, examples: Sequence[SFTExample], mode: str = "dry-run") -> dict:
-    task_counts: dict[str, int] = {
-        "perception": 0,
-        "deliberation": 0,
-        "continuation_caption": 0,
-    }
+    task_counts: dict[str, int] = {}
     image_path_count = 0
     for example in examples:
         task_counts[example.task] = task_counts.get(example.task, 0) + 1
         image_path_count += len(example.images)
+
+    task_counts = _normalized_task_counts(task_counts)
 
     note = (
         "dry-run validates the dataset adapter only; it is not a training result."

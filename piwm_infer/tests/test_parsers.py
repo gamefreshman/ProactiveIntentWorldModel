@@ -7,6 +7,7 @@ from piwm_infer.parsers import (
     parse_action_output,
     parse_continuation_caption_output,
     parse_deliberation_output,
+    parse_future_verification_output,
     parse_perception_output,
 )
 from piwm_train import config
@@ -102,3 +103,36 @@ def test_parse_continuation_caption_output_success() -> None:
     raw = f"{config.TAG_REACTION_CAPTION_OPEN}the customer steps back{config.TAG_REACTION_CAPTION_CLOSE}"
     assert parse_continuation_caption_output(raw)["reaction_caption"] == "the customer steps back"
 
+
+def test_parse_future_verification_output_success() -> None:
+    raw = "\n".join(
+        [
+            f"{config.TAG_MATCH_OPEN}yes{config.TAG_MATCH_CLOSE}",
+            f"{config.TAG_EXPECTED_STATE_OPEN}defensive_withdrawal{config.TAG_EXPECTED_STATE_CLOSE}",
+            f"{config.TAG_BODY_CHANGE_OPEN}customer steps back{config.TAG_BODY_CHANGE_CLOSE}",
+            f"{config.TAG_GAZE_CHANGE_OPEN}gaze drops{config.TAG_GAZE_CHANGE_CLOSE}",
+            f"{config.TAG_HAND_CHANGE_OPEN}hands retract{config.TAG_HAND_CHANGE_CLOSE}",
+            f"{config.TAG_MOVEMENT_CHANGE_OPEN}body angles away{config.TAG_MOVEMENT_CHANGE_CLOSE}",
+            f"{config.TAG_REASON_OPEN}The future matches the expected withdrawal.{config.TAG_REASON_CLOSE}",
+        ]
+    )
+    parsed = parse_future_verification_output(raw)
+    assert parsed["match"] == "yes"
+    assert parsed["expected_next_state"] == "defensive_withdrawal"
+    assert parsed["visible_reaction"]["hand_change"] == "hands retract"
+
+
+def test_parse_future_verification_rejects_invalid_match() -> None:
+    raw = "\n".join(
+        [
+            f"{config.TAG_MATCH_OPEN}maybe{config.TAG_MATCH_CLOSE}",
+            f"{config.TAG_EXPECTED_STATE_OPEN}defensive_withdrawal{config.TAG_EXPECTED_STATE_CLOSE}",
+            f"{config.TAG_BODY_CHANGE_OPEN}customer steps back{config.TAG_BODY_CHANGE_CLOSE}",
+            f"{config.TAG_GAZE_CHANGE_OPEN}gaze drops{config.TAG_GAZE_CHANGE_CLOSE}",
+            f"{config.TAG_HAND_CHANGE_OPEN}hands retract{config.TAG_HAND_CHANGE_CLOSE}",
+            f"{config.TAG_MOVEMENT_CHANGE_OPEN}body angles away{config.TAG_MOVEMENT_CHANGE_CLOSE}",
+            f"{config.TAG_REASON_OPEN}reason{config.TAG_REASON_CLOSE}",
+        ]
+    )
+    with pytest.raises(MalformedOutputError):
+        parse_future_verification_output(raw)
