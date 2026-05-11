@@ -107,6 +107,9 @@ def test_state_inference_exports_one_row(tmp_path):
     assert rows[0]["output"]["current_state"] == "high_hesitation"
     assert rows[0]["output"]["aida_stage"] == "interest"
     assert rows[0]["output"]["bdi"]["belief"]
+    assert rows[0]["output"]["dialogue_act"] == "Inform"
+    assert rows[0]["output"]["act_params"]["content_type"] == "comparison"
+    assert rows[0]["output"]["terminal_realization"]["screen"]["action"] == "show_comparison_or_details"
     assert "observable_cues" not in rows[0]["input"]
     assert rows[0]["meta"]["observable_cues"] == ["long_dwell_with_price_check"]
     assert rows[0]["meta"]["product_category"] == "luxury_watch"
@@ -134,6 +137,8 @@ def test_transition_modeling_exports_one_row_per_candidate(tmp_path):
     assert rows[0]["state_id"].startswith("session_test_001#")
     assert "worth_doing" in rows[0]["output"]
     assert "bdi" in rows[0]["input"]["current_state_summary"]
+    assert rows[0]["input"]["candidate_dialogue_act"]["act"] in rules.DIALOGUE_ACTS
+    assert rows[0]["input"]["candidate_terminal_realization"]["legacy_action"] in record.candidate_actions
     assert "next_bdi" in rows[0]["output"]
     assert rows[0]["meta"]["viewpoint"] == "salesperson_observable"
     assert rows[0]["meta"]["product_category"] == "luxury_watch"
@@ -188,6 +193,8 @@ def test_policy_preference_uses_best_and_lowest_reward_rejected(tmp_path):
     assert rows[0]["rejected"] == "A1_silent_observe"
     assert rows[0]["reward_gap"] > 0
     assert rows[0]["chosen_json"]["action"] == "A2_offer_value_comparison"
+    assert rows[0]["chosen_json"]["dialogue_act"]["act"] == "Inform"
+    assert rows[0]["chosen_json"]["terminal_realization"]["dialogue_act"] == "Inform"
     assert rows[0]["chosen_json"]["rationale"]
     assert rows[0]["rejected_json"]["rationale"]
     assert rows[0]["meta"]["state_summary"]["bdi"]["intention"]
@@ -195,6 +202,8 @@ def test_policy_preference_uses_best_and_lowest_reward_rejected(tmp_path):
     assert rows[0]["meta"]["product_category"] == "luxury_watch"
     assert rows[0]["meta"]["viewpoint"] == "salesperson_observable"
     assert len(rows[0]["meta"]["candidate_block"]) == len(record.candidate_actions)
+    assert rows[0]["meta"]["candidate_block"][0]["dialogue_act"]["act"] in rules.DIALOGUE_ACTS
+    assert rows[0]["meta"]["candidate_block"][0]["terminal_realization"]["screen"]["action"]
 
 
 def test_build_policy_preference_row_returns_none_without_strictly_lower_reward():

@@ -10,6 +10,7 @@ from piwm_data.schemas import (
     Persona,
     Provenance,
     ReactionFrameRef,
+    ShootingClipRecord,
 )
 
 
@@ -158,6 +159,90 @@ def make_continuation(**overrides):
 def test_main_schema_default_continuations_is_empty():
     record = make_record()
     assert record.continuations == {}
+
+
+def test_main_schema_fills_v2_dialogue_act_and_terminal_realization():
+    record = make_record()
+    assert record.dialogue_act == "Inform"
+    assert record.act_params == {"content_type": "comparison", "depth": "brief"}
+    assert record.realization is not None
+    assert record.realization.dialogue_act == "Inform"
+    assert record.realization.screen["action"] == "show_comparison_or_details"
+
+
+def test_main_schema_rejects_invalid_dialogue_act_params():
+    with pytest.raises(ValidationError):
+        make_record(dialogue_act="Inform", act_params={"content_type": "not_valid", "depth": "brief"})
+
+
+def test_shooting_clip_record_fills_v2_action_contract_from_prior():
+    record = ShootingClipRecord(
+        clip_id="G001_S05_A",
+        group_id="G001",
+        shooting_state="S05_BROWSE_UNC",
+        version="A",
+        product_category="electronics_phone",
+        persona_type="price_sensitive_cautious",
+    )
+    assert record.state_name_zh == "犹豫比较"
+    assert record.response_type_zh == "提供信息-比较两件"
+    assert record.legacy_action == "A2_offer_value_comparison"
+    assert record.t_state == "T2_VALUE_COMPARE"
+    assert record.dialogue_act == "Inform"
+    assert record.act_params["content_type"] == "comparison"
+    assert record.terminal_realization is not None
+    assert record.terminal_realization.dialogue_act == "Inform"
+    assert record.terminal_realization.screen["action"] == "show_comparison_or_details"
+    assert record.expected_reaction == "进入澄清，犹豫缓解"
+    assert record.requires_hero_view is True
+
+
+def test_shooting_clip_record_supports_transaction_without_legacy_action():
+    record = ShootingClipRecord(
+        clip_id="G001_S12_A",
+        group_id="G001",
+        shooting_state="S12_EXIT_POST",
+        version="A",
+        product_category="luxury_watch",
+        persona_type="price_insensitive_decisive",
+    )
+    assert record.legacy_action is None
+    assert record.t_state == "T_TRANSACT"
+    assert record.dialogue_act == "Greet"
+    assert record.act_params == {"phase": "close"}
+    assert record.terminal_realization is not None
+    assert record.terminal_realization.legacy_action is None
+    assert record.terminal_realization.surface_text == "感谢惠顾，祝您使用愉快。"
+
+
+def test_shooting_clip_record_rejects_response_contract_mismatch():
+    with pytest.raises(ValidationError):
+        ShootingClipRecord(
+            clip_id="G001_S05_A",
+            group_id="G001",
+            shooting_state="S05_BROWSE_UNC",
+            version="A",
+            product_category="electronics_phone",
+            persona_type="price_sensitive_cautious",
+            response_type_zh="建议推荐-力度强势",
+        )
+
+
+def test_shooting_clip_record_rejects_response_param_mismatch():
+    with pytest.raises(ValidationError):
+        ShootingClipRecord(
+            clip_id="G001_S05_A",
+            group_id="G001",
+            shooting_state="S05_BROWSE_UNC",
+            version="A",
+            product_category="electronics_phone",
+            persona_type="price_sensitive_cautious",
+            response_type_zh="提供信息-演示一件",
+            legacy_action="A5_provide_demonstration",
+            t_state="T5_DEMO",
+            dialogue_act="Inform",
+            act_params={"content_type": "comparison", "depth": "brief"},
+        )
 
 
 def test_main_schema_accepts_valid_action_continuation():

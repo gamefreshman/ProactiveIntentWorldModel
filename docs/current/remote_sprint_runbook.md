@@ -1,6 +1,6 @@
 # Remote Sprint Runbook
 
-更新时间：2026-04-30
+更新时间：2026-05-11
 
 本 runbook 只记录远端执行入口和状态检查命令。不要在仓库、命令行历史或文档里写入真实 API key；Kling / 模型服务凭据只从远端 shell 环境或私有 secret 文件加载。
 
@@ -14,22 +14,25 @@
 
 当前已完成：
 
-- `Archive_generated_priority24/`：24 条 parent videos，未人工 visual QA。
-- `Archive_generated_priority256/`：236 条 parent videos，未人工 visual QA。
-- `data/piwm_dataset_priority280_unreviewed/`：260 parent 入库，927 transition rows，260 policy rows。
-- `data/piwm_results/ms_swift_sprint_combined/ms_swift_sft.jsonl`：1321 SFT examples。
-- `ms-swift` 4 x 4090 LoRA SFT 已完成：`checkpoint-660`。
+- `data/official/`：PIWM v1 official aliases 已固定。
+- `data/official/ms_swift/piwm_train_synth_v1.jsonl`：543 parent / 2554 SFT examples，synthetic train，未全量人工视觉 QA。
+- `data/official/ms_swift/piwm_train_full_v2.jsonl`：3339 SFT examples，包含 perception / deliberation / action-selection / continuation caption / Future Verification。
+- `data/official/ms_swift/piwm_eval_qa_all_v1.jsonl`：36 QA-pass parent / 162 eval rows。
+- `data/official/ms_swift/piwm_world_model_sft_v1.jsonl`：24 parent / 44 continuation / 84 Future Verification rows。
+- 最新有效训练 checkpoint：`data/piwm_results/ms_swift_sft_qwen25vl7b_full_v2_len8192_8gpu/v0-20260502-193050/checkpoint-834`。
 
 当前未完成：
 
-- priority280 的人工 visual QA。
-- checkpoint 的有效 inference metric；当前 24 条 balanced eval 因 CUDA OOM 没有有效模型输出。
+- Kling API 已耗尽，当前不会继续生成新视频。
+- synthetic train 不能写成 QA-pass；若需要更强评估可信度，只能补人工 QA 或引入真实拍摄数据。
+- 远端连接偶发不可用时，不要在本地系统盘重跑大任务；等待远端恢复或只做文档/小 JSON 更新。
 
 口径：
 
 ```text
-priority280 = high-throughput synthetic train split, file-level QA done, visual QA pending.
-pilot30 continuation = QA-reviewed pilot subset.
+PIWM-Train-Synth-v1 = high-throughput synthetic train split, visual QA pending.
+PIWM-Eval-QA-v1 = QA-reviewed eval subset.
+PIWM-WorldModel-v1 = QA-reviewed pilot continuation / Future Verification subset.
 ```
 
 ## 1. 路径约定
@@ -39,6 +42,12 @@ pilot30 continuation = QA-reviewed pilot subset.
 | 远端仓库与数据盘工作目录 | `/root/lanyun-fs/ProactiveIntentWorldModel` |
 | 远端数据管线虚拟环境 | `/root/lanyun-fs/venvs/piwm` |
 | 远端训练虚拟环境 | `/root/lanyun-fs/venvs/piwm-train-fast` |
+| official 数据入口 | `data/official/` |
+| full v2 SFT 输入 | `data/official/ms_swift/piwm_train_full_v2.jsonl` |
+| synth v1 SFT 输入 | `data/official/ms_swift/piwm_train_synth_v1.jsonl` |
+| QA eval 输入 | `data/official/ms_swift/piwm_eval_qa_all_v1.jsonl` |
+| World Model/FV 输入 | `data/official/ms_swift/piwm_world_model_sft_v1.jsonl` |
+| 最新 full v2 checkpoint | `data/piwm_results/ms_swift_sft_qwen25vl7b_full_v2_len8192_8gpu/v0-20260502-193050/checkpoint-834` |
 | priority24 prompt index | `data/priority_generation_queue/prompt_index_priority24.jsonl` |
 | priority24 prompt 目录 | `Archive_prompts_priority24/` |
 | priority24 Kling 输出目录 | `Archive_generated_priority24/` |
@@ -47,9 +56,54 @@ pilot30 continuation = QA-reviewed pilot subset.
 | sprint 结果目录 | `data/piwm_results/` |
 | priority280 unreviewed dataset | `data/piwm_dataset_priority280_unreviewed/` |
 | ms-swift combined SFT jsonl | `data/piwm_results/ms_swift_sprint_combined/ms_swift_sft.jsonl` |
-| latest SFT checkpoint | `data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu/v0-20260430-200052/checkpoint-660` |
+| legacy sprint checkpoint | `data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu/v0-20260430-200052/checkpoint-660` |
 
 本地和远端尽量保持同一相对路径。需要同步时，只同步代码、`data/priority_generation_queue/`、`Archive_prompts_priority24/`、必要的 QA 后产物和结果 JSON；不要把模型 cache、checkpoint 大目录或凭据文件混进 git。
+
+### 1.1 Action Space v2 同步包
+
+2026-05-11 本地已生成只包含动作空间 v2、数据格式 v2、S01-S12 拍摄脚本和对应测试的轻量同步包：
+
+```text
+local_artifacts/remote_sync/piwm_action_space_v2_20260511.tgz
+local_artifacts/remote_sync/piwm_action_space_v2_20260511.tgz.sha256
+local_artifacts/remote_sync/piwm_action_space_v2_filelist_20260511.txt
+```
+
+当前状态：
+
+- 已通过 `ssh -p 37150 root@qhdlink.lanyun.net` 连接远端。
+- 已上传并解包到 `/root/lanyun-fs/ProactiveIntentWorldModel`。
+- 远端 checksum 已通过；最新哈希以 `/root/lanyun-fs/piwm_action_space_v2_20260511.tgz.sha256` 为准。
+- 已清理第一次 macOS tar 产生的 `._*` AppleDouble 元数据文件。
+- 已删除远端旧分散脚本目录 `docs/current/shooting_scripts/`，现在只保留单文件脚本 `docs/current/piwm_real_shooting_scripts_S01_S12.md`。
+- 已同步 `PIWM-RealShoot-v1` manifest 样例：24 rows。
+- 已把远端 official symlink 目标目录同步到 v2：`data/official/piwm_train_synth_v1`、`data/official/piwm_eval_qa_v1`、`data/official/piwm_world_model_v1` 的 `main_schema.jsonl` 均含 `dialogue_act / act_params / co_acts / realization`。
+- 远端 v2 相关轻量测试通过：`57 passed`。
+
+复同步命令：
+
+```bash
+scp local_artifacts/remote_sync/piwm_action_space_v2_20260511.tgz \
+  local_artifacts/remote_sync/piwm_action_space_v2_20260511.tgz.sha256 \
+  root@qhdlink.lanyun.net:/root/lanyun-fs/
+
+ssh -p 37150 root@qhdlink.lanyun.net \
+  'cd /root/lanyun-fs && sha256sum -c piwm_action_space_v2_20260511.tgz.sha256'
+
+ssh -p 37150 root@qhdlink.lanyun.net \
+  'cd /root/lanyun-fs/ProactiveIntentWorldModel && rm -rf docs/current/shooting_scripts && tar -xzf ../piwm_action_space_v2_20260511.tgz'
+```
+
+解包后先跑远端轻量校验：
+
+```bash
+cd /root/lanyun-fs/ProactiveIntentWorldModel
+PATH=/root/lanyun-fs/venvs/piwm/bin:$PATH
+python3 -m pytest piwm_data/tests/test_rules.py piwm_data/tests/test_schemas.py piwm_data/tests/test_exporters.py
+```
+
+注意：远端 `/root/lanyun-fs/ProactiveIntentWorldModel` 当前不是完整 Git checkout，且缺少 `piwm_infer/` 和 `piwm_train/tests/`。因此远端全量 `piwm_data/tests piwm_train/tests piwm_infer/tests` 不能作为完整仓库校验；完整 170-test 校验目前以本地仓库为准。
 
 ## 2. 数据盘规则
 
@@ -129,16 +183,15 @@ data/piwm_dataset_pilot30_with_continuations/
 
 如果只是复查现有产物，不要重建覆盖该目录；先用 `scripts/print_sprint_status.py` 看状态。
 
-## 6. SFT / ms-swift 命令
+## 6. SFT / ms-swift 状态
 
-当前正式 sprint SFT 使用 `ms-swift`，不是 LLaMA-Factory。已完成 run：
+当前正式 SFT 使用 `ms-swift`，不是 LLaMA-Factory。最新有效 run：
 
 ```text
 model: Qwen2.5-VL-7B-Instruct + LoRA
-data: data/piwm_results/ms_swift_sprint_combined/ms_swift_sft.jsonl
-examples: 1321
-steps: 660 / 660
-checkpoint: data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu/v0-20260430-200052/checkpoint-660
+data: data/official/ms_swift/piwm_train_full_v2.jsonl
+examples: 3339
+checkpoint: data/piwm_results/ms_swift_sft_qwen25vl7b_full_v2_len8192_8gpu/v0-20260502-193050/checkpoint-834
 ```
 
 以下旧 `piwm_train.sft` 命令只保留为纯 Python adapter / dry-run 入口，不是当前正式 SFT 框架。

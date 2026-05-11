@@ -131,3 +131,57 @@ def test_pick_best_action_tie_breaks_by_global_action_order():
         rules.pick_best_action("early_browsing", ["A6_acknowledge_and_wait", "A1_silent_observe"])
         == "A1_silent_observe"
     )
+
+
+def test_dialogue_act_schema_contains_six_policy_acts():
+    assert rules.DIALOGUE_ACTS == ["Greet", "Elicit", "Inform", "Recommend", "Reassure", "Hold"]
+    assert rules.DIALOGUE_ACT_DIMENSION["Inform"] == "Task"
+    assert rules.DIALOGUE_ACT_DIMENSION["Hold"] == "Turn Management"
+
+
+def test_legacy_action_to_dialogue_act_mapping_is_compatible():
+    assert rules.legacy_action_to_act("A1_silent_observe")["act"] == "Hold"
+    assert rules.legacy_action_to_act("A2_offer_value_comparison")["params"]["content_type"] == "comparison"
+    assert rules.legacy_action_to_act("A3_strong_recommend")["params"]["pressure"] == "firm"
+    assert rules.legacy_action_to_act("A6_acknowledge_and_wait")["co_acts"][0]["act"] == "Hold"
+
+
+def test_dialogue_act_to_legacy_action_round_trip_defaults():
+    spec = rules.legacy_action_to_act("A5_provide_demonstration")
+    assert rules.act_to_legacy_action(spec["act"], spec["params"]) == "A5_provide_demonstration"
+    assert rules.act_to_legacy_action("Recommend", {"target": "item", "pressure": "firm"}) == "A3_strong_recommend"
+    assert rules.act_to_legacy_action("Hold", {"mode": "silent"}) == "A1_silent_observe"
+
+
+def test_t_state_and_s05_shooting_mapping_follow_new_contract():
+    assert rules.t_state_to_act("T2_VALUE_COMPARE")["act"] == "Inform"
+    assert rules.response_type_to_act("提供信息-比较两件")["params"]["content_type"] == "comparison"
+    assert rules.S05_AB_DIALOGUE_ACTS["G001_S05_A"]["legacy_action"] == "A2_offer_value_comparison"
+    assert rules.S05_AB_DIALOGUE_ACTS["G001_S05_B"]["params"]["pressure"] == "firm"
+
+
+def test_all_shooting_state_response_priors_resolve_to_dialogue_acts():
+    assert len(rules.SHOOTING_STATE_RESPONSE_PRIOR) == 24
+    for state in rules.SHOOTING_CUSTOMER_STATES:
+        for version in ("A", "B"):
+            prior = rules.shooting_state_response_prior(state, version)
+            assert prior["act"] in rules.DIALOGUE_ACTS
+            assert prior["response_type_zh"]
+            assert prior["expected_reaction"]
+    assert rules.shooting_state_response_prior("S03_HOVER", "A")["requires_hero_view"] is True
+    assert rules.shooting_state_response_prior("S01_PASSBY", "A")["requires_hero_view"] is False
+
+
+def test_terminal_realization_has_default_template_for_each_legacy_action():
+    for action in rules.ACTIONS:
+        realization = rules.derive_terminal_realization(
+            action,
+            "active_evaluation",
+            "price_sensitive_cautious",
+            "luxury_watch",
+            ["comparing_two_products"],
+        )
+        assert realization["dialogue_act"] in rules.DIALOGUE_ACTS
+        assert realization["screen"]["action"]
+        assert realization["voice_style"]
+        assert realization["duration_ms"] >= 0

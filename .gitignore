@@ -15,7 +15,7 @@ kling/.env
 kling/node_modules/
 
 # Generated video/session archives: keep on data disk, not in Git
-Archive/
+/Archive/
 Archive_generated/
 Archive_generated_*/
 Archive_prompts_*/
@@ -44,6 +44,12 @@ data/_scenario_stats*.json
 data/official/**
 !data/official/README.md
 !data/official/DATASET_MANIFEST.json
+!data/official/V2_REEXPORT_SUMMARY.json
+!data/official/piwm_realshoot_v1/
+!data/official/piwm_realshoot_v1/README.md
+!data/official/piwm_realshoot_v1/realshoot_manifest_summary.json
+!data/official/piwm_realshoot_v1/realshoot_manifest_template.json
+!data/official/piwm_realshoot_v1/realshoot_manifest_sample.jsonl
 
 # Large model/checkpoint artifacts if created locally
 checkpoints/
@@ -54,3 +60,4 @@ wandb/
 # Local ad-hoc scratch files
 *.tmp
 *.bak
+piwm_videos_review/

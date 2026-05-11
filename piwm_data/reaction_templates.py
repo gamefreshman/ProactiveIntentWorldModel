@@ -122,6 +122,20 @@ def template_for_next_state(next_state: str) -> tuple[str, ReactionTemplate]:
     return template_id, REACTION_TEMPLATES[template_id]
 
 
+def visible_reaction_axes(template: ReactionTemplate) -> dict[str, str]:
+    """Map a reaction template onto the shared three-axis visual schema.
+
+    The current-state side uses engagement, gaze/attention, and body/hands.
+    Future verification should describe the post-action change with the same
+    axes rather than a separate body/gaze/hand/movement taxonomy.
+    """
+    return {
+        "engagement_pattern_change": f"{template['movement']}; {template['physical_change']}",
+        "gaze_and_attention_change": template["head_gaze"],
+        "body_and_hands_change": f"{template['physical_change']}; {template['hands']}",
+    }
+
+
 def validate_registry_complete() -> None:
     missing = sorted(set(rules.LATENT_STATES) - set(NEXT_STATE_TO_TEMPLATE))
     if missing:

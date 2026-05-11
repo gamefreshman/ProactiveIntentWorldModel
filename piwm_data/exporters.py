@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from . import reaction_templates, rules
-from .schemas import MainSchemaRecord
+from .schemas import ActionRealization, MainSchemaRecord
 
 WORTH_DOING_THRESHOLD = 0.0
 
@@ -80,11 +80,17 @@ def build_policy_preference_row(record: MainSchemaRecord) -> dict[str, Any] | No
         "rejected": rejected,
         "chosen_json": {
             "action": best_action,
+            "dialogue_act": _act_spec(best_action),
             "rationale": _outcome_rationale(record, best_action),
+            "action_realization": _action_realization(record, best_action).model_dump(),
+            "terminal_realization": _terminal_realization(record, best_action),
         },
         "rejected_json": {
             "action": rejected,
+            "dialogue_act": _act_spec(rejected),
             "rationale": _outcome_rationale(record, rejected),
+            "action_realization": _action_realization(record, rejected).model_dump(),
+            "terminal_realization": _terminal_realization(record, rejected),
         },
         "reward_gap": best_reward - rejected_reward,
         "meta": {
@@ -116,6 +122,7 @@ def _state_inference_row(record: MainSchemaRecord, include_observable_cues: bool
         "state_id": record.state_id,
         "input": input_payload,
         "output": {
+            "visual_state": record.visual_state.model_dump(),
             "aida_stage": record.aida_stage,
             "state_subtype": record.latent_state,
             "current_state": record.latent_state,
@@ -124,6 +131,11 @@ def _state_inference_row(record: MainSchemaRecord, include_observable_cues: bool
             "proactive_score": record.proactive_score,
             "candidate_actions": record.candidate_actions,
             "best_action": record.best_action,
+            "dialogue_act": record.dialogue_act,
+            "act_params": record.act_params,
+            "co_acts": record.co_acts,
+            "best_action_realization": record.best_action_realization.model_dump(),
+            "terminal_realization": record.realization.model_dump() if record.realization else None,
             "rationale": record.rationale,
         },
         "meta": {
@@ -133,6 +145,7 @@ def _state_inference_row(record: MainSchemaRecord, include_observable_cues: bool
             "observable_cues": record.observable_cues,
             "visual_only_input": not include_observable_cues,
             "aida_stage": record.aida_stage,
+            "deprecated_calibration_fields": ["proactive_score"],
             "is_anchor": record.is_anchor,
             "rule_version": rules.RULE_VERSION,
         },
@@ -150,6 +163,9 @@ def _transition_rows(record: MainSchemaRecord) -> list[dict[str, Any]]:
                     "frames": _frame_paths(record),
                     "current_state_summary": _state_summary(record),
                     "candidate_action": action,
+                    "candidate_dialogue_act": _act_spec(action),
+                    "candidate_action_realization": _action_realization(record, action).model_dump(),
+                    "candidate_terminal_realization": _terminal_realization(record, action),
                 },
                 "output": {
                     "next_aida_stage": outcome.next_aida_stage,
@@ -200,6 +216,7 @@ def _world_model_continuation_rows(record: MainSchemaRecord) -> list[dict[str, A
                     "risk": outcome.risk,
                     "benefit": outcome.benefit,
                     "reaction_caption": template["reaction_caption"],
+                    "visible_reaction": reaction_templates.visible_reaction_axes(template),
                     "continuation_frames": [
                         frame.model_dump()
                         for frame in continuation.frames
@@ -224,6 +241,7 @@ def _policy_prompt(record: MainSchemaRecord) -> str:
     return (
         f"顾客状态：{record.latent_state}；"
         f"意图：{record.intent}；"
+        f"视觉观察：{record.visual_state.summary}；"
         f"persona：{record.persona.type}；"
         f"候选动作：[{candidates}]。请选择最合适的动作并给出理由。"
     )
@@ -235,11 +253,16 @@ def _state_summary(record: MainSchemaRecord) -> dict[str, Any]:
         "product_category": record.product_category,
         "state_subtype": record.latent_state,
         "state": record.latent_state,
+        "visual_state": record.visual_state.model_dump(),
         "intent": record.intent,
         "bdi": record.bdi.model_dump(),
         "proactive_score": record.proactive_score,
         "persona_type": record.persona.type,
         "observable_cues": record.observable_cues,
+        "dialogue_act": record.dialogue_act,
+        "act_params": record.act_params,
+        "co_acts": record.co_acts,
+        "terminal_realization": record.realization.model_dump() if record.realization else None,
     }
 
 
@@ -252,6 +275,9 @@ def _candidate_block(record: MainSchemaRecord) -> list[dict[str, Any]]:
             "next_aida_stage": record.next_state_by_action[action].next_aida_stage,
             "risk": record.next_state_by_action[action].risk,
             "benefit": record.next_state_by_action[action].benefit,
+            "dialogue_act": _act_spec(action),
+            "action_realization": _action_realization(record, action).model_dump(),
+            "terminal_realization": _terminal_realization(record, action),
         }
         for action in record.candidate_actions
     ]
@@ -266,6 +292,41 @@ def _persona_summary(record: MainSchemaRecord) -> str:
 def _outcome_rationale(record: MainSchemaRecord, action: str) -> str | None:
     outcome = record.next_state_by_action[action]
     return outcome.rationale or record.rationale
+
+
+def _action_realization(record: MainSchemaRecord, action: str) -> ActionRealization:
+    if action == record.best_action:
+        return record.best_action_realization
+    return ActionRealization(
+        **rules.derive_action_realization(
+            action,
+            record.latent_state,
+            record.persona.type,
+            record.product_category,
+            record.observable_cues,
+        )
+    )
+
+
+def _act_spec(action: str) -> dict[str, Any]:
+    spec = rules.legacy_action_to_act(action)
+    return {
+        "act": spec["act"],
+        "params": spec["params"],
+        "co_acts": spec.get("co_acts", []),
+    }
+
+
+def _terminal_realization(record: MainSchemaRecord, action: str) -> dict[str, Any]:
+    if action == record.best_action and record.realization is not None:
+        return record.realization.model_dump()
+    return rules.derive_terminal_realization(
+        action,
+        record.latent_state,
+        record.persona.type,
+        record.product_category,
+        record.observable_cues,
+    )
 
 
 def _frame_paths(record: MainSchemaRecord) -> list[str]:

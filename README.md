@@ -14,6 +14,10 @@ Deliberation →  对每个候选动作预测  next AIDA + next BDI + risk + ben
 Action       →  比较 rollouts，选最优动作（包括沉默）
 ```
 
+动作空间 v2 采用 `DialogueAct + params -> Realization -> Terminal capability` 三层结构：
+policy 层只看 6 个 Dialogue Acts，旧 `A1-A8` 和 T-state 标签仅作兼容 alias。
+详见 [`docs/contracts/action_space_realization_contract.md`](docs/contracts/action_space_realization_contract.md)。
+
 视觉输入是**多视角店内观察**（multi-view in-store visual observations）。
 主设置是导购可观察视角（`salesperson_observable`）；监控/第三方视角与第一
 人称视角保留作 view-shift 评估。详见 [`docs/contracts/visual_input_contract.md`](docs/contracts/visual_input_contract.md)。

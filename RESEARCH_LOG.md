@@ -14,19 +14,24 @@
 |---|---|
 | [docs/current/experiment_result_digest.md](docs/current/experiment_result_digest.md) | 当前已落盘实验结果速览：能写什么、还缺什么 |
 | [docs/current/experiment_status_main_table_v2.md](docs/current/experiment_status_main_table_v2.md) | 主表 v2、visual ablation、frame budget、Future Verification 结果 |
-| [docs/current/data_demo_effect_status.md](docs/current/data_demo_effect_status.md) | 数据、demo、效果提升原因的一页状态表 |
-| [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md) | 数据集总账：训练、评估、World Model、未审阅 synthetic、历史 smoke 的边界 |
+| [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md) | 数据集总账：official v2 数据、真实拍摄 manifest、训练/评估/World Model 边界 |
 | [docs/current/company_openrouter_funding_brief.md](docs/current/company_openrouter_funding_brief.md) | 给公司看的精简预算沟通版：实验进度与 OpenRouter 模型对比投入说明 |
 | [docs/current/company_data_status_for_openrouter.md](docs/current/company_data_status_for_openrouter.md) | 组内技术版：数据资产、当前结果与风险边界 |
 | [docs/current/current_sprint_status_and_reporting_policy.md](docs/current/current_sprint_status_and_reporting_policy.md) | 对外报告口径：QA-reviewed / synthetic train / diagnostic-only 边界 |
 | [docs/current/priority_generation_policy.md](docs/current/priority_generation_policy.md) | 新增 Kling 额度如何扩到 500/1000 parent synthetic |
+| [docs/current/piwm_real_shooting_scripts_S01_S12.md](docs/current/piwm_real_shooting_scripts_S01_S12.md) | S01-S12 真实拍摄 A/B 单文件脚本全集 |
+| [docs/current/piwm_real_shooting_data_annotation_appendix_v2.md](docs/current/piwm_real_shooting_data_annotation_appendix_v2.md) | 给数据负责人的真实数据标注附录：ShootingClipRecord、QA 字段、入库字段 |
+| [docs/current/paper_data_section_blueprint.md](docs/current/paper_data_section_blueprint.md) | 论文数据部分写作蓝图：数据层级、QA、拍摄、表格和维护机制 |
 | [docs/current/remote_sprint_runbook.md](docs/current/remote_sprint_runbook.md) | 远端数据盘、Kling、ms-swift 运行入口 |
+| [docs/current/project_directory_map.md](docs/current/project_directory_map.md) | 本地/远端目录职责地图：official 数据、视频、checkpoint、docs 和 local artifacts 放置规则 |
 
 ### Method Contracts
 
 | Reference Doc | Role |
 |---|---|
 | [docs/contracts/claim_to_artifact_audit.md](docs/contracts/claim_to_artifact_audit.md) | 论文 claim 与代码/数据工件对应关系 |
+| [docs/contracts/action_space_realization_contract.md](docs/contracts/action_space_realization_contract.md) | 6-act 动作空间、terminal realization、旧 A/T 标签兼容迁移 |
+| [docs/contracts/data_schema_v2_contract.md](docs/contracts/data_schema_v2_contract.md) | 成熟数据格式、真实拍摄 clip manifest、导出策略和版本维护 |
 | [docs/contracts/world_model_supervision_contract.md](docs/contracts/world_model_supervision_contract.md) | World Model 监督契约 |
 | [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md) | 多视角、抽帧、frame manifest、QA gate |
 | [docs/contracts/expert_provenance_upgrade_plan.md](docs/contracts/expert_provenance_upgrade_plan.md) | 专家规则 provenance 补强计划 |
@@ -37,6 +42,246 @@
 历史计划、早期状态和解释材料统一放在 `docs/background/`；它们保留参考价值，但不再作为当前 sprint 决策入口。具体定位见 [docs/README.md](docs/README.md)。
 
 ## High-Density Updates
+
+### [2026-05-11 21:00:00 CST] | Phase: Data Schema v2 / Real Shooting Script Package
+
+**Key Progress**
+- Added `docs/contracts/data_schema_v2_contract.md` as the active schema contract for `MainSchemaRecord`, `TerminalRealization`, `ShootingClipRecord`, export fields, and maintenance rules.
+- Added `ShootingClipRecord` to `piwm_data/schemas.py` and the S01-S12 shooting priors to `piwm_data/rules.py`, so real-shooting clips can auto-fill `dialogue_act`, `act_params`, `legacy_action`, `t_state`, expected reaction, and HERO-view requirements.
+- Completed the editable S01-S12 A/B shooting script as one self-contained file at `docs/current/piwm_real_shooting_scripts_S01_S12.md`, including the normalized S05 script derived from the provided source format.
+- Added `docs/current/paper_data_section_blueprint.md` to keep the paper data narrative, dataset tables, QA gates, action schema, and maintenance path aligned.
+
+**Data Loop Insight**
+- The project now has a single data spine: source attachments -> action/realization contract -> schema tests -> shooting scripts -> `ShootingClipRecord` -> official dataset inventory -> paper data section.
+- Real shooting is no longer just production guidance; it is an enforceable manifest format that can be validated before entering QA-reviewed data.
+
+**Pending Criticals**
+- DoD-Data-1：真实拍摄素材落地后，先生成 `ShootingClipRecord` manifest，再进入 QA-reviewed official split。
+- DoD-Data-2：任何新增状态、脚本或终端能力必须同步更新 contract、schema tests、script README 和 paper data blueprint。
+- DoD-Data-3：旧 A/T 标签只作为 alias 保留；论文正文优先写 `DialogueAct + params + TerminalRealization`。
+
+**Ref Reference**
+- [docs/contracts/data_schema_v2_contract.md](docs/contracts/data_schema_v2_contract.md)
+- [docs/current/piwm_real_shooting_scripts_S01_S12.md](docs/current/piwm_real_shooting_scripts_S01_S12.md)
+- [docs/current/paper_data_section_blueprint.md](docs/current/paper_data_section_blueprint.md)
+
+### [2026-05-11 20:00:00 CST] | Phase: Action Space v2 / Project System Integration
+
+**Key Progress**
+- Added `docs/contracts/action_space_realization_contract.md` as the active contract for the 6 Dialogue Acts, terminal realization output, and old `A1-A8` / `T-state` compatibility mapping.
+- Copied the May 2026 action-space and shooting attachments into `docs/source_materials/2026-05-action-space/` with a source digest and explicit source priority.
+- Added v2 action metadata to `piwm_data/rules.py`, `piwm_data/schemas.py`, `piwm_data/exporters.py`, and `piwm_train/prompts.py` while preserving old action labels for existing data.
+
+**Data Loop Insight**
+- The new project center is no longer a flat action label list. Policy uses `(DialogueAct, params)`, Realization translates it to terminal behavior, and old A/T labels remain only as compatibility aliases.
+
+**Pending Criticals**
+- DoD-Act-1：新增真实拍摄入库字段时必须同时记录旧 action alias 和新 `dialogue_act / act_params / realization`。
+- DoD-Act-2：S05 A/B 样例保持固定：A=`Inform(comparison)`，B=`Recommend(firm)`。
+- DoD-Act-3：后续新增终端能力优先增加 realization 模板，不扩展 policy act。
+
+**Ref Reference**
+- [docs/contracts/action_space_realization_contract.md](docs/contracts/action_space_realization_contract.md)
+- [docs/source_materials/2026-05-action-space/source_digest.md](docs/source_materials/2026-05-action-space/source_digest.md)
+
+### [2026-05-11 00:00:00 CST] | Phase: Repo Hygiene / Directory Map
+
+**Key Progress**
+- Added `docs/current/project_directory_map.md` as the canonical local/remote directory map for code, docs, official datasets, generated videos, checkpoints, and local artifacts.
+- Updated `docs/README.md`, `docs/current/dataset_inventory.md`, `docs/current/local_artifacts_layout.md`, and `docs/current/remote_sprint_runbook.md` to the May 11 official-data/checkpoint layout.
+- Archived duplicate docs copies from `docs/current/* (1).md` into `docs/archive/2026-05-11_directory_cleanup/`.
+- Moved the stale duplicate official manifest into `data/official/archive/DATASET_MANIFEST_20260501_old.json`.
+- Recorded latest effective checkpoint as `data/piwm_results/ms_swift_sft_qwen25vl7b_full_v2_len8192_8gpu/v0-20260502-193050/checkpoint-834`.
+
+**Data Loop Insight**
+- Directory responsibilities now separate four surfaces: local code/docs, remote data/video/checkpoints, official dataset aliases, and historical or diagnostic artifacts.
+- This prevents training-only synthetic data, QA-reviewed evaluation, World Model evidence, and smoke outputs from being mixed in paper or demo reporting.
+
+**Pending Criticals**
+- DoD-Dir-1：新增视频、checkpoint 或大中间文件必须落到远端 `/root/lanyun-fs/ProactiveIntentWorldModel`，不得写入本机 repo 根目录或远端系统盘。
+- DoD-Dir-2：新文档必须先查 `docs/README.md` 和 `docs/contracts/docs_maintenance_rules.md`，能更新旧文档就不新增。
+- DoD-Dir-3：如果远端恢复后发现新的 official symlink 或 checkpoint，先更新 `project_directory_map.md` 和 `dataset_inventory.md`。
+
+**Ref Reference**
+- [docs/current/project_directory_map.md](docs/current/project_directory_map.md)
+- [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md)
+- [docs/current/remote_sprint_runbook.md](docs/current/remote_sprint_runbook.md)
+
+### [2026-05-02 16:52:00 CST] | Phase: Real-Data Shooting Contract / Execution Detail
+
+**Key Progress**
+- Expanded the shooting-team execution checklist with a 10-second shot rhythm: current customer state, salesperson intervention, and visible reaction.
+- Added pre-shoot setup requirements for product placement, actor floor marks, A/B continuity, and performance intensity.
+- Rewrote the 12 customer states into detailed actor instructions covering body position, gaze, facial expression, hand motion, must-see evidence, and forbidden acting choices.
+- Added salesperson action performance standards: distance, stance, gesture, tone, must-see visual evidence, and failure modes.
+- Added A/B shooting order, post-action reaction vocabulary, viewpoint framing notes, and director read-aloud cue cards.
+
+**Data Loop Insight**
+- The shooting doc now specifies observable behavior rather than internal labels, improving the chance that real videos support downstream perception, action choice, and future-reaction supervision.
+- A/B pairs are now operationally protected by floor marks, immediate reshoots, and start-frame consistency checks.
+
+**Pending Criticals**
+- DoD-Real-1：G001 试拍时验证导演口令是否足够让演员稳定复现 12 个起始状态。
+- DoD-Real-2：每个 A/B pair 的前 3 秒用截图对照，至少 10/12 pair 起点一致。
+- DoD-Real-3：试拍后根据失败样本回写状态卡和导购动作卡。
+
+**Ref Reference**
+- [docs/current/piwm_real_shooting_execution_checklist_v2.md](docs/current/piwm_real_shooting_execution_checklist_v2.md)
+
+### [2026-05-02 16:32:00 CST] | Phase: Real-Data Shooting Contract / Audience Split
+
+**Key Progress**
+- 将真实数据拍摄主文档改为拍摄团队执行版：只保留拍什么、怎么演、怎么验收、怎么交付。
+- 从主文档剥离 `compact_v2`、`visual_state`、`reward`、QA 字段等内部数据规范，新增独立附录 `docs/current/piwm_real_shooting_data_annotation_appendix_v2.md`。
+- 重写现场 QA 为可执行检查表，替代 JSON 字段清单，降低公司拍摄人员理解成本。
+- 将 20 组排班表中的顾客人设和用途从内部枚举改为中文拍摄说明。
+
+**Data Loop Insight**
+- 拍摄团队现在只负责产出可见证据：起始状态、导购动作、顾客后续反应。
+- 数据负责人通过附录承接同一批素材到 PIWM schema，避免现场执行被技术字段干扰，同时保持入库可追溯。
+
+**Pending Criticals**
+- DoD-Real-1：G001 试拍前由拍摄负责人只阅读执行版，并确认每条 clip 卡能被现场使用。
+- DoD-Real-2：数据负责人单独审阅标注附录，确认拍摄素材能落到 compact_v2 和 Future Verification。
+- DoD-Real-3：试拍后按执行版 QA 表判定是否重拍，再由数据负责人补充技术标注。
+
+**Ref Reference**
+- [docs/current/piwm_real_shooting_execution_checklist_v2.md](docs/current/piwm_real_shooting_execution_checklist_v2.md)
+- [docs/current/piwm_real_shooting_data_annotation_appendix_v2.md](docs/current/piwm_real_shooting_data_annotation_appendix_v2.md)
+
+### [2026-05-02 16:08:00 CST] | Phase: Real-Data Shooting Contract
+
+**Key Progress**
+- 将微信新版 `PIWM-真实数据拍摄执行清单.md` 复制并补强为项目内正式文档：`docs/current/piwm_real_shooting_execution_checklist_v2.md`。
+- 新增机位定义与可见性要求，明确 `salesperson_observable` / `surveillance_oblique` / `third_party_side` 的画面边界。
+- 新增逐条 clip 拍摄卡模板，要求每条样本写清 0-3 秒起始状态、3-5 秒导购动作、5-10 秒顾客后续反应。
+- 将真实数据标注字段对齐 compact_v2：`visual_state` 三轴、`best_action_realization`、三轴 `visible_reaction`。
+- 新增 `risk / benefit / reward` 标注规则、文件目录结构、`clip_manifest.csv` 字段和 QA pass 表。
+
+**Data Loop Insight**
+- 真实拍摄文档现在能直接服务入库：视频、抽帧、label、QA 和 future verification 字段有统一出口。
+- 真实数据不再只是“拍行为素材”，而是从拍摄阶段就对齐 PIWM 的状态推理、动作选择和动作后果验证任务。
+
+**Pending Criticals**
+- DoD-Real-1：正式拍满 20 组前，先完成 G001 24 条试拍。
+- DoD-Real-2：试拍至少 20/24 条 QA pass，且至少 10/12 个 A/B pair 满足起始状态一致和 `reward(A) > reward(B)`。
+- DoD-Real-3：试拍后再决定是否把真实数据纳入 train，当前优先作为 QA-reviewed real eval/test。
+
+**Ref Reference**
+- [docs/current/piwm_real_shooting_execution_checklist_v2.md](docs/current/piwm_real_shooting_execution_checklist_v2.md)
+- [docs/README.md](docs/README.md)
+
+### [2026-05-02 11:12:00 CST] | Phase: Training / Fresh 8-GPU Enriched Official Run
+
+**Key Progress**
+- 放弃旧 `priority1000_current_len8192_8gpu` checkpoint 作为当前主结果，重新从 Qwen2.5-VL-7B-Instruct base 启动 8 卡 LoRA SFT。
+- 新训练数据入口：`data/official/ms_swift/piwm_train_synth_v1.jsonl`，2554 SFT examples，schema 为 enriched compact official v1。
+- 新 checkpoint：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_sft_qwen25vl7b_enriched_official_v1_len8192_8gpu/v0-20260502-090632/checkpoint-638`。
+- 发现原评估 `max_new_tokens=256` 会截断 perception 输出，导致 parse 被系统性低估；已重跑 long-token eval。
+- Long-token 主表结果：162/162 parse 成功；stage 80.56%，proactive score 77.78%，candidate actions 75.00%，transition next-stage/risk/benefit/reward 均 100%。
+- Long-token 端到端结果：36/36 perception parse 成功，36/36 action parse 成功，fallback 0%；chosen in gold candidates 86.11%，strategy vs best_action 38.89%。
+
+**Data Loop Insight**
+- 新训练已经学到 enriched compact schema 的长输出格式；之前 perception 0 parse 是评估 token 截断，不是模型没有学会。
+- 当前主要短板从“格式/字段不稳定”转移到“端到端策略选择”：模型能产生候选和 transition，但最后选 best_action 的能力仍需单独优化。
+- Transition 相关 100% 仍应解释为 rule-conditioned deterministic supervision，不应夸大为真实随机未来预测能力。
+
+**Pending Criticals**
+- DoD-Train-Fresh-1：后续报告默认引用 `*_enriched_official_v1_len8192_*_longtok.json`，不要再引用短 token 评估结果。
+- DoD-Train-Fresh-2：下一步优先做 action-selection repair / decision-loop calibration，而不是继续重训 perception。
+- DoD-Train-Fresh-3：如需要论文主表，必须同时报告 parse rate 和端到端 strategy accuracy，避免只展示 transition 100%。
+
+**Ref Reference**
+- [data/piwm_results/main_table_piwm_sft_enriched_official_v1_len8192_priority40_all_longtok.json](data/piwm_results/main_table_piwm_sft_enriched_official_v1_len8192_priority40_all_longtok.json)
+- [data/piwm_results/e2e_piwm_sft_enriched_official_v1_len8192_priority40_decision_loop_longtok.json](data/piwm_results/e2e_piwm_sft_enriched_official_v1_len8192_priority40_decision_loop_longtok.json)
+- [logs/run_enriched_official_v1_len8192_8gpu.sh](logs/run_enriched_official_v1_len8192_8gpu.sh)
+- [logs/run_eval_enriched_official_v1_len8192_longtok.sh](logs/run_eval_enriched_official_v1_len8192_longtok.sh)
+
+### [2026-05-02 08:50:00 CST] | Phase: Data Contract / Field Semantics Polish
+
+**Key Progress**
+- 优化 compact schema 的字段内容，不改字段结构：`visual_state` 现在加入 product-specific scene/focus，`bdi.belief` 改为 cue-aware 文本，`best_action_realization` 改为产品类别相关的话术和动作。
+- 重导 remote official 数据：`PIWM-Train-Synth-v1` 保持 543 parent / 2554 SFT examples，`PIWM-Eval-QA-v1` 保持 36 parent / 162 eval rows，`PIWM-WorldModel-v1` 保持 24 parent / 44 continuation / 84 future verification。
+- 官方数据旧字段/泄露扫描通过：未发现 `best_intervention`、`intervention_readiness`、旧 four-field `visible_reaction`、`Persona:` belief 尾巴。
+- 本地回归测试通过：`158 passed`。
+
+**Data Loop Insight**
+- 这一步不增加视频数量，而是提高每条样本的监督密度：模型不只学习 `high_hesitation` / `A2_offer_value_comparison`，还学习“画面怎么看出来”和“具体怎么介入”。
+- 字段语义更接近可展示 demo：同一条样本可以从视觉证据、顾客建模、策略选择和导购话术四层解释。
+
+**Pending Criticals**
+- DoD-Field-1：后续重新训练才会让模型真正学到这版更细字段；旧 checkpoint 仍是旧 wording 训练结果。
+- DoD-Field-2：对外展示时可以使用 enriched official data，但必须区分 raw model output 与 human-facing rendering。
+- DoD-Field-3：如继续优化，优先补 `visual_state` 的人工审阅质量，而不是新增粗标签。
+
+**Ref Reference**
+- [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md)
+- [data/official/DATASET_MANIFEST.json](data/official/DATASET_MANIFEST.json)
+
+### [2026-05-02 03:38:00 CST] | Phase: Data Contract / Formal Train Re-Export
+
+**Key Progress**
+- 在远端数据盘创建轻量数据处理环境 `/root/lanyun-fs/venvs/piwm-data`，使用阿里云源安装 `pydantic 2.12.5`。
+- 重导正式主训练数据：`data/piwm_dataset_priority1000_unreviewed_compact_v2`，543 parent / 2011 transition / 543 policy，未人工全量视觉审阅。
+- 重导 ms-swift 输入：`data/piwm_results/ms_swift_priority1000_compact_v2/ms_swift_sft.jsonl`，2554 SFT examples，task_counts = perception 543 / deliberation 2011。
+- 更新 official alias：`data/official/piwm_train_synth_v1 -> ../piwm_dataset_priority1000_unreviewed_compact_v2`，`data/official/ms_swift/piwm_train_synth_v1.jsonl -> ../../piwm_results/ms_swift_priority1000_compact_v2/ms_swift_sft.jsonl`。
+- 字段泄露检查通过：official train JSONL 中未出现旧字段 `intervention_readiness` / `best_intervention` / `intervention_plan_by_action` / `*_zh` / 旧 visual axes。
+
+**Data Loop Insight**
+- 正式训练入口现在使用 compact visual-state/action-realization schema，模型训练目标从“粗标签”推进到“画面三轴解释 + 具体导购动作/话术”。
+- 数据规模不变，语义密度提升；旧 `priority1000_unreviewed` 保留为回滚，不再作为默认 official training entry。
+
+**Pending Criticals**
+- DoD-Train-v2：若继续训练，默认使用 `data/official/ms_swift/piwm_train_synth_v1.jsonl`，不要回退旧字段版。
+- DoD-Eval-v2：新 checkpoint 评估时必须记录 schema source = `compact_v2`，避免与旧 checkpoint 指标混淆。
+- DoD-Docs-v2：对外口径仍是 synthetic train pending visual QA，不能写成 QA-pass。
+
+**Ref Reference**
+- [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md)
+- `/root/lanyun-fs/ProactiveIntentWorldModel/data/official/DATASET_MANIFEST.json`
+
+### [2026-05-02 00:45:00 CST] | Phase: Reporting / Data Case Study Polish
+
+**Key Progress**
+- 新增 `docs/current/data_case_study_handbook.md`，用 `piwm_287c764c9f` 作为主案例，从当前画面、机器标签、候选动作、后续反应视频、Future Verification 四层解释一条数据。
+- 将 raw labels 与 human-facing rendering 明确拆开：训练输出可以是结构化标签，但对外 demo 必须经过可审计解释层。
+- 固化可展示的动作对照：`A2_offer_value_comparison` 导向 `engaged_dialogue`，`A3_strong_recommend` 导向 `defensive_withdrawal`，并配套三张 contact sheet。
+- 在 `docs/README.md` 与 `docs/current/data_demo_effect_status.md` 中加入样本手册入口。
+
+**Data Loop Insight**
+- 当前问题不是“没有例子”，而是例子如果只贴 JSON 会显得粗糙；必须把视觉证据、规则标签、训练题和展示解释绑定起来。
+- `FutureVerification` 的展示重点应从抽象分数转向“当前画面 + 动作 + 后续反应画面 -> match/mismatch”，这能更直接支撑 action-conditioned future verification。
+
+**Pending Criticals**
+- DoD-Demo-3：对外展示必须同时保留 raw output 和解释渲染，不把人工/模板渲染冒充模型原始自然语言。
+- DoD-Demo-4：后续 demo 优先使用 `piwm_287c764c9f`，因为它同时具备当前状态、正向 continuation、负向 continuation 和 Future Verification 负例。
+- DoD-Demo-5：下一轮训练/数据设计应降低 BDI 模板感，加入 fine-grained visual state 字段。
+
+**Ref Reference**
+- [docs/current/data_case_study_handbook.md](docs/current/data_case_study_handbook.md)
+- [docs/current/data_demo_effect_status.md](docs/current/data_demo_effect_status.md)
+- [docs/current/before_after_demo_examples.md](docs/current/before_after_demo_examples.md)
+
+### [2026-05-02 02:35:00 CST] | Phase: Data Contract / Fine-Grained Intervention Supervision
+
+**Key Progress**
+- 将 `visual_state` 精简为 summary / engagement_pattern / gaze_and_attention / body_and_hands 四字段，去掉重复的旧视觉子字段。
+- 将 `best_intervention` / `intervention_plan_by_action` 迁移为 `best_action_realization` / `action_realization`，训练样本直接输出“怎么站、怎么做、什么时候说、说什么”。
+- `state_inference`、`transition_modeling`、`policy_preference`、training targets 和 parsers 已接入精简字段；`proactive_score` 保留为 deprecated internal calibration，不再作为对外核心语义。
+- 生成 `data/piwm_dataset_pilot30_compact_preview/` 作为精简字段预览，`piwm_287c764c9f` 已能输出三轴 visual_state 和中文 action realization。
+
+**Data Loop Insight**
+- 这一步把 PIWM 从“标签监督”推进到“可审计状态推理监督”：模型必须先描述画面事实，再给状态和干预方案。
+- 具体话术进入训练目标后，demo 可以展示真实导购行为建议，而不是只展示 `A2_offer_value_comparison` 这种内部标签。
+
+**Pending Criticals**
+- DoD-Detail-1：下一轮主训练集重导出时使用 `best_action_realization` / `action_realization`，并确认 ms-swift 输入包含 `intervention_action` / `intervention_utterance`。
+- DoD-Detail-2：后续评估应新增 visual_state 三轴字段级指标，定位错误发生在看图、状态映射还是策略话术。
+- DoD-Detail-3：BDI 文本仍需进一步从规则模板迁移到 visual_state-conditioned 摘要。
+
+**Ref Reference**
+- [docs/current/data_case_study_handbook.md](docs/current/data_case_study_handbook.md)
+- [data/piwm_dataset_pilot30_compact_preview/](data/piwm_dataset_pilot30_compact_preview/)
 
 ### [2026-05-02 00:20:00 CST] | Phase: Repo Hygiene / GitHub Management
 
@@ -854,3 +1099,73 @@
 - [docs/background/intro_related_work_v6.md](docs/background/intro_related_work_v6.md)
 - [docs/background/readable_data_plan_background.md](docs/background/readable_data_plan_background.md)
 - [docs/archive/06_piwm_implementation_spec_method_side_blocked.md](docs/archive/06_piwm_implementation_spec_method_side_blocked.md)
+
+### [2026-05-02 08:22:00 CST] | Phase: Dataset Schema Unification / QA Eval + World Model
+
+**Key Progress**
+- Re-exported `PIWM-Eval-QA-v1` from the exact previous 36 QA-pass parent IDs into `data/piwm_dataset_priority40_qareviewed_sample_compact_v2_exact`.
+- Re-exported `PIWM-WorldModel-v1` into `data/piwm_dataset_pilot30_with_continuations_compact_v2` with compact `visual_state` and `best_action_realization` fields.
+- Migrated Future Verification `visible_reaction` from four fields (`body/gaze/hand/movement`) to the shared three-axis schema: `engagement_pattern_change`, `gaze_and_attention_change`, `body_and_hands_change`.
+- Regenerated ms-swift JSONL entrypoints for QA eval and World Model/Future Verification, then updated `data/official/` aliases.
+
+**Data Loop Insight**
+- Training, QA evaluation, and World Model evidence now speak the same schema: current-state perception uses `visual_state` axes, and future verification describes post-action change with aligned axes.
+- This makes qualitative demos and error analysis traceable from visible customer evidence -> state label -> concrete action realization -> visible future reaction.
+
+**Pending Criticals**
+- Re-run the main eval table against `data/official/ms_swift/piwm_eval_qa_all_v1.jsonl` after the compact eval migration.
+- Re-run Future Verification eval against `data/official/ms_swift/piwm_future_verification_eval_all_v1.jsonl` because parser/metric fields changed.
+- Add end-to-end reporting metrics for `visual_state` axis match and action-realization quality if time permits.
+
+**Ref Reference**
+- [data/official/DATASET_MANIFEST.json](data/official/DATASET_MANIFEST.json)
+- [docs/current/dataset_inventory.md](docs/current/dataset_inventory.md)
+- [data/official/README.md](data/official/README.md)
+
+### [2026-05-02 18:55:00 CST] | Phase: Fresh Training Prep / Full-v2 Eight-GPU Run
+
+**Key Progress**
+- Created `data/official/ms_swift/piwm_train_full_v2.jsonl` as the next fresh-from-base training entrypoint.
+- Full-v2 scale: 3339 SFT examples = 567 perception + 2077 deliberation + 567 action-selection + 44 continuation-caption + 84 future-verification.
+- Regenerated component exports with remote data-disk image paths under `/root/lanyun-fs/ProactiveIntentWorldModel`.
+- Updated future-verification and continuation prompts to include the compact current `visual_state` axes, so transition/future tasks receive the fine-grained visual state rather than only coarse labels.
+- Added `logs/run_full_v2_len8192_8gpu.sh`, which trains from Qwen2.5-VL base on 8 GPUs and then runs main QA eval, e2e eval, and Future Verification eval.
+
+**Data Loop Insight**
+- The next run no longer trains only state/per-action transition; it also supervises final action selection and concrete intervention realization.
+- Future verification now uses a symmetric current/future visual schema: current `engagement/gaze/body-hands` axes and future `engagement/gaze/body-hands` changes.
+
+**Pending Criticals**
+- Restore remote SSH access or run the prepared script directly on the remote data disk.
+- Start the full-v2 8-GPU job with `nohup bash logs/run_full_v2_len8192_8gpu.sh > logs/run_full_v2_len8192_8gpu.out 2>&1 &`.
+- After completion, compare full-v2 against enriched official v1 on QA eval, e2e strategy accuracy, and Future Verification.
+
+**Ref Reference**
+- [data/official/ms_swift/piwm_train_full_v2_summary.json](data/official/ms_swift/piwm_train_full_v2_summary.json)
+- [logs/run_full_v2_len8192_8gpu.sh](logs/run_full_v2_len8192_8gpu.sh)
+- [data/official/DATASET_MANIFEST.json](data/official/DATASET_MANIFEST.json)
+
+### [2026-05-02 21:28:07 CST] | Phase: Full-v2 Training + Evaluation Completion
+
+**Key Progress**
+- Completed fresh-from-base Qwen2.5-VL-7B full-v2 SFT on 8 x RTX 4090: 3339 SFT examples, 2 epochs, 834 / 834 steps.
+- Final checkpoint: `data/piwm_results/ms_swift_sft_qwen25vl7b_full_v2_len8192_8gpu/v0-20260502-193050/checkpoint-834`.
+- Final training log: `train_loss=0.04035239`, `token_acc=0.99888617`.
+- Completed official long-token QA eval: parse 1.000; stage / score / candidates all 0.861; transition risk / benefit / reward all 1.000.
+- Completed official end-to-end decision-loop eval: strategy accuracy vs best action 0.833, candidate exact 0.861, action parse 0.972.
+- Completed Future Verification full-84 eval: parse 1.000, expected state 0.988, match 0.512, visible-reaction three-axis exact 0.595.
+
+**Data Loop Insight**
+- Full-v2 is the first run where compact visual-state, concrete action realization, action-selection supervision, continuation captioning, and Future Verification are trained in one unified ms-swift entrypoint.
+- The largest gain is at the loop level: end-to-end strategy accuracy increased from enriched official v1's 0.389 to full-v2's 0.833 on the same 36 QA-reviewed states.
+
+**Pending Criticals**
+- Use `full-v2` as the current main table anchor; demote enriched official v1 to previous-run comparison.
+- Do not use the parallel e2e merge artifact for formal reporting; the merge script produced invalid zero metrics due field-name mismatch.
+- Inspect Future Verification failures because `match_exact=0.512` remains weaker than expected-state and visible-reaction fields.
+
+**Ref Reference**
+- [docs/current/experiment_result_digest.md](docs/current/experiment_result_digest.md)
+- [data/piwm_results/remote_full_v2/main_table_piwm_sft_full_v2_len8192_priority40_all_longtok.json](data/piwm_results/remote_full_v2/main_table_piwm_sft_full_v2_len8192_priority40_all_longtok.json)
+- [data/piwm_results/remote_full_v2/e2e_piwm_sft_full_v2_len8192_priority40_decision_loop_longtok.json](data/piwm_results/remote_full_v2/e2e_piwm_sft_full_v2_len8192_priority40_decision_loop_longtok.json)
+- [data/piwm_results/remote_full_v2/future_verification_piwm_sft_full_v2_len8192_all84_longtok.json](data/piwm_results/remote_full_v2/future_verification_piwm_sft_full_v2_len8192_all84_longtok.json)

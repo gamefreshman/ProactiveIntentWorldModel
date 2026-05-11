@@ -1,6 +1,6 @@
 # PIWM World Model Supervision Contract
 
-更新时间：2026-04-30（Phase 7 Action-Continuation Layer 骨架后）
+更新时间：2026-05-11（Action Space v2 / Data Schema v2 兼容迁移后）
 
 ## 1. 核心判据
 
@@ -51,7 +51,7 @@ N 条 transition_modeling 样本
 
 ```text
 for action in candidate_actions:
-    input  = sampled_frames + current_state + bdi + action
+    input  = sampled_frames + current_state + bdi + action + dialogue_act + terminal_realization
     target = next_aida_stage + next_bdi + next_state_subtype + risk + benefit + reward
 ```
 
@@ -88,6 +88,9 @@ input.current_state_summary.aida_stage
 input.current_state_summary.bdi
 input.current_state_summary.state_subtype
 input.candidate_action
+input.candidate_dialogue_act
+input.candidate_act_params
+input.candidate_terminal_realization
 output.next_aida_stage
 output.next_bdi
 output.next_state_subtype
@@ -151,6 +154,7 @@ no_new_subjects
 - 不同 action 的 next state 全部相同；
 - reward 没有来源，只是 magic number；
 - candidate action 没有进入输入，只在输出里出现。
+- 只写旧 `A1-A8` 而不导出 `candidate_dialogue_act / candidate_terminal_realization`，导致新终端动作空间无法复现。
 
 ## 8. Definition of Done
 
@@ -159,6 +163,7 @@ no_new_subjects
 | WM-1 | 每个有效 parent state 至少 2 条 action-conditioned transition rows |
 | WM-2 | `n_states_with_action_contrast` 被统计并进入 `_stats.json` |
 | WM-3 | transition 输入显式包含 `candidate_action` |
+| WM-3b | transition 输入显式包含 `candidate_dialogue_act`、`candidate_act_params` 和 `candidate_terminal_realization` |
 | WM-4 | transition 输出包含 next AIDA / next BDI / risk / benefit / reward |
 | WM-5 | policy preference pair 来自 highest-reward vs lowest-reward 候选动作 |
 | WM-6 | `world_model_continuation.jsonl` 可输出 action-conditioned continuation caption rows |
@@ -167,6 +172,7 @@ no_new_subjects
 当前实现状态：
 
 - `transition_modeling.jsonl` 已输出 `next_aida_stage`、`next_bdi`、`next_state_subtype`、`reward_components`；
+- Action Space v2 后，transition / policy preference exporter 已同时输出旧 `candidate_action` 和新 `candidate_dialogue_act / candidate_terminal_realization`，旧 checkpoint 可继续跑，新论文口径可使用 `DialogueAct + TerminalRealization`；
 - `_stats.json` 已输出 `n_transition_parent_states`、`avg_actions_per_state`、`n_states_with_action_contrast`、`n_states_without_action_contrast`；
 - Path A 已把 `A3_strong_recommend` / `A1_silent_observe` 等负干预纳入候选集，pilot30 重建后出现 13 条 negative reward transition；
 - Phase 7.1/7.2 已完成 `ActionContinuation` schema、`reaction_templates.py`、`continuation_prompt_builder.py`、continuation QA gate 与 `world_model_continuation.jsonl` exporter；

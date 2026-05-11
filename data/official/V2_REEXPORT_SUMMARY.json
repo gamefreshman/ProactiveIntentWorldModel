@@ -1,0 +1,35 @@
+{
+  "artifact": "piwm_official_v2_reexport_summary",
+  "datasets": [
+    {
+      "dataset_path": "data/official/piwm_train_synth_v1",
+      "n_policy_preference_rows": 543,
+      "n_records": 543,
+      "n_state_inference_rows": 543,
+      "n_transition_modeling_rows": 2011,
+      "n_world_model_continuation_rows": 0,
+      "resolved_path": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/data/piwm_dataset_priority1000_unreviewed_compact_v2"
+    },
+    {
+      "dataset_path": "data/official/piwm_eval_qa_v1",
+      "n_policy_preference_rows": 36,
+      "n_records": 36,
+      "n_state_inference_rows": 36,
+      "n_transition_modeling_rows": 126,
+      "n_world_model_continuation_rows": 0,
+      "resolved_path": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/data/piwm_dataset_priority40_qareviewed_sample_compact_v2_exact"
+    },
+    {
+      "dataset_path": "data/official/piwm_world_model_v1",
+      "n_policy_preference_rows": 24,
+      "n_records": 24,
+      "n_state_inference_rows": 24,
+      "n_transition_modeling_rows": 66,
+      "n_world_model_continuation_rows": 44,
+      "resolved_path": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/data/piwm_dataset_pilot30_with_continuations_compact_v2"
+    }
+  ],
+  "rule_version": "v1.0",
+  "schema_version": "v2",
+  "timestamp_utc": "2026-05-11T13:20:29Z"
+}
