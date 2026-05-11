@@ -60,6 +60,8 @@ def test_decision_loop_action_parse_failure_fallback_to_highest_reward() -> None
         [
             f"{config.TAG_RATIONALE_OPEN}bad choice{config.TAG_RATIONALE_CLOSE}",
             f"{config.TAG_CHOSEN_OPEN}A3_strong_recommend{config.TAG_CHOSEN_CLOSE}",
+            f"{config.TAG_INTERVENTION_ACTION_OPEN}point to one product{config.TAG_INTERVENTION_ACTION_CLOSE}",
+            f"{config.TAG_INTERVENTION_UTTERANCE_OPEN}I recommend this one.{config.TAG_INTERVENTION_UTTERANCE_CLOSE}",
         ]
     )
     decision = PIWMDecisionLoop(MockVLM(outputs)).decide(_state_row())
@@ -87,4 +89,3 @@ def test_decision_loop_raises_no_exceptions_on_fixture_batch() -> None:
             rows.append(json.loads(line))
     loop = PIWMDecisionLoop(MockVLM())
     assert [loop.decide(row).chosen_action for row in rows] == ["A2_offer_value_comparison"] * 3
-

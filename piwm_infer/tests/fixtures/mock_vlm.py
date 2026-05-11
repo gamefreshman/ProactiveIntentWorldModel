@@ -31,11 +31,17 @@ def default_outputs() -> dict[str, str]:
         "perception": "\n".join(
             [
                 f"{config.TAG_STAGE_OPEN}interest{config.TAG_STAGE_CLOSE}",
+                f"{config.TAG_VISUAL_SUMMARY_OPEN}customer keeps comparing products near the display{config.TAG_VISUAL_SUMMARY_CLOSE}",
+                f"{config.TAG_ENGAGEMENT_PATTERN_OPEN}customer stays near the display and keeps comparing{config.TAG_ENGAGEMENT_PATTERN_CLOSE}",
+                f"{config.TAG_GAZE_AND_ATTENTION_OPEN}gaze stays on the display{config.TAG_GAZE_AND_ATTENTION_CLOSE}",
+                f"{config.TAG_BODY_AND_HANDS_OPEN}body faces the product area and hands remain near the product{config.TAG_BODY_AND_HANDS_CLOSE}",
                 f"{config.TAG_BELIEF_OPEN}the customer is comparing options{config.TAG_BELIEF_CLOSE}",
                 f"{config.TAG_DESIRE_OPEN}reduce uncertainty{config.TAG_DESIRE_CLOSE}",
                 f"{config.TAG_INTENTION_OPEN}continue evaluating{config.TAG_INTENTION_CLOSE}",
                 f"{config.TAG_SCORE_OPEN}3{config.TAG_SCORE_CLOSE}",
                 f"{config.TAG_CANDS_OPEN}A1_silent_observe, A2_offer_value_comparison{config.TAG_CANDS_CLOSE}",
+                f"{config.TAG_INTERVENTION_ACTION_OPEN}stand to the side and compare two options{config.TAG_INTERVENTION_ACTION_CLOSE}",
+                f"{config.TAG_INTERVENTION_UTTERANCE_OPEN}I can compare these options if helpful.{config.TAG_INTERVENTION_UTTERANCE_CLOSE}",
             ]
         ),
         "deliberation:A1_silent_observe": "\n".join(
@@ -72,7 +78,8 @@ def default_outputs() -> dict[str, str]:
             [
                 f"{config.TAG_RATIONALE_OPEN}value comparison gives high benefit with low risk{config.TAG_RATIONALE_CLOSE}",
                 f"{config.TAG_CHOSEN_OPEN}A2_offer_value_comparison{config.TAG_CHOSEN_CLOSE}",
+                f"{config.TAG_INTERVENTION_ACTION_OPEN}stand to the side and compare two options{config.TAG_INTERVENTION_ACTION_CLOSE}",
+                f"{config.TAG_INTERVENTION_UTTERANCE_OPEN}I can compare these options if helpful.{config.TAG_INTERVENTION_UTTERANCE_CLOSE}",
             ]
         ),
     }
-
