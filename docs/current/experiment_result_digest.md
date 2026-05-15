@@ -1,18 +1,100 @@
 # PIWM NeurIPS Sprint 实验结果速览
 
-更新时间：2026-05-01 CST
+更新时间：2026-05-02 CST
 
 本文只整理当前已经落盘的 sprint 实验事实，方便快速判断“已经能写什么、还缺什么”。核心来源包括 `docs/current/experiment_status_main_table_v2.md`、`RESEARCH_LOG.md`、`data/piwm_results/*.md`、`data/piwm_results/*.json` 以及 ms-swift summary JSON。
 
 ## 1. 当前一句话结论
 
-主链路已经跑通：Qwen2.5-VL-7B-Instruct 经 ms-swift LoRA SFT 后，结构化输出、action-conditioned transition/reward 和 continuation caption 明显站住；真正限制端到端决策的是 current-state perception，尤其是 AIDA stage 与 candidate action set。
+主链路已经跑通，并已完成一次从 Qwen2.5-VL-7B-Instruct base 重新开始的 8 卡 full-v2 训练。新 checkpoint 在 compact visual-state + action-realization schema 下保持结构化输出稳定，perception、候选动作和端到端策略选择均较上一版明显提升。
 
-当前论文口径应保持为 **pilot-scale method evidence**，不能写成 full-scale benchmark。
+当前论文口径仍应保持为 **pilot-scale method evidence**，不能写成 full-scale benchmark。
+
+## 1.0 Full-v2 8-GPU Run（当前正式主锚点）
+
+这是 2026-05-02 晚间完成的当前最新结果。它替代 enriched official v1 成为主实验锚点。
+
+- Base model：`/root/lanyun-pub/Qwen/Qwen2.5-VL-7B-Instruct`
+- Training data：`data/official/ms_swift/piwm_train_full_v2.jsonl`
+- Training scale：3339 SFT examples
+  - perception：567
+  - deliberation：2077
+  - action-selection：567
+  - continuation-caption：44
+  - future-verification：84
+- Checkpoint：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_sft_qwen25vl7b_full_v2_len8192_8gpu/v0-20260502-193050/checkpoint-834`
+- Training：8 x RTX 4090，2 epochs，834 / 834 steps
+- Final training log：`train_loss=0.04035239`，`token_acc=0.99888617`
+- Local synced results：`data/piwm_results/remote_full_v2/`
+
+主表 long-token 结果：
+
+| Eval set | Rows | Parse | Stage | Score | Candidates | Next Stage | Risk | Benefit | Reward |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| priority40_qareviewed_all | 162 | 1.000 | 0.861 | 0.861 | 0.861 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+端到端 decision-loop long-token 结果：
+
+| Eval set | Rows | Perception Parse | Action Parse | Fallback | Stage | Score | Candidates | Chosen in Gold Candidates | Strategy vs Best |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| priority40_qareviewed_state | 36 | 1.000 | 0.972 | 0.028 | 0.861 | 0.861 | 0.861 | 0.861 | 0.833 |
+
+Future Verification full-84 结果：
+
+| Rows | Parse | Match | Expected State | Engagement Change | Gaze Change | Body/Hands Change |
+|---:|---:|---:|---:|---:|---:|---:|
+| 84 | 1.000 | 0.512 | 0.988 | 0.595 | 0.595 | 0.595 |
+
+相对上一版 enriched official v1 的关键变化：
+
+| Metric | enriched official v1 | full-v2 | Delta |
+|---|---:|---:|---:|
+| Main stage | 0.806 | 0.861 | +0.056 |
+| Main score | 0.778 | 0.861 | +0.083 |
+| Main candidates | 0.750 | 0.861 | +0.111 |
+| E2E strategy vs best | 0.389 | 0.833 | +0.444 |
+| E2E action parse | 1.000 | 0.972 | -0.028 |
+
+解释：
+
+- Full-v2 的最大收益来自把训练目标从“只给动作标签”升级为“可读 visual-state + concrete action realization + action-selection supervision”。
+- 主表 perception 三项都达到 `0.861`，说明 compact visual-state schema 没有降低结构化输出稳定性，反而提升了状态与候选动作识别。
+- E2E strategy accuracy 从 `0.389` 到 `0.833` 是目前最强的可写结果：模型不仅会按格式回答，也更会把候选动作、动作后果和最终干预策略接起来。
+- Future Verification 的 `expected_state=0.988` 仍主要反映 rule-conditioned 后果标签；`match=0.512` 和三轴 visible-reaction `0.595` 说明未来视觉验证头仍是短板，但已可作为方法证据而不是主效果表核心指标。
+- 2026-05-02 20:12 生成的 `e2e_piwm_sft_full_v2_len8192_priority40_decision_loop_parallel8.json` 因并行 merge 脚本字段名不匹配导致指标为 0，**不进入正式口径**；正式 e2e 采用 21:09 落盘的串行完整结果。
+
+## 1.1 Fresh 8-GPU Run（当前主锚点）
+
+这是 2026-05-02 重新从 base model 启动的 enriched official v1 历史结果；full-v2 完成后，本节降级为上一版对照。
+
+- Base model：`/root/lanyun-pub/Qwen/Qwen2.5-VL-7B-Instruct`
+- Training data：`data/official/ms_swift/piwm_train_synth_v1.jsonl`
+- Training scale：2554 SFT examples
+- Checkpoint：`/root/lanyun-fs/ProactiveIntentWorldModel/data/piwm_results/ms_swift_sft_qwen25vl7b_enriched_official_v1_len8192_8gpu/v0-20260502-090632/checkpoint-638`
+- 关键评估修正：perception 输出较长，必须使用 `max_new_tokens=1024`；旧 `256` 会截断输出并低估 parse。
+
+主表 long-token 结果：
+
+| Eval set | Rows | Parse | Stage | Score | Candidates | Next Stage | Risk | Benefit | Reward |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| priority40_qareviewed_all | 162 | 1.000 | 0.806 | 0.778 | 0.750 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+端到端 decision-loop long-token 结果：
+
+| Eval set | Rows | Perception Parse | Action Parse | Fallback | Stage | Score | Candidates | Chosen in Gold Candidates | Strategy vs Best |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| priority40_qareviewed_state | 36 | 1.000 | 1.000 | 0.000 | 0.806 | 0.778 | 0.750 | 0.861 | 0.389 |
+
+解释：
+
+- 结构化输出已经稳定：main-table 与 e2e 均为 100% parse。
+- Perception 不再是“无法解析”的问题，而是 0.75-0.81 区间的识别精度问题。
+- Transition 相关 100% 是 rule-conditioned deterministic supervision 的结果，应谨慎解释。
+- 当前最弱点是端到端最终动作选择：模型常能提出候选动作，但不总能选中专家规则定义的 `best_action`。
 
 ## 2. Main Table v2 已完成什么
 
-主表 v2 是当前最重要的冻结结果：
+主表 v2 是 2026-05-01 的历史冻结结果；当前主锚点见 §1.1。
 
 - 结果文件：`data/piwm_results/main_table_v2_full_midpix_results.md`
 - JSON：`data/piwm_results/main_table_v2_full_midpix_results.json`

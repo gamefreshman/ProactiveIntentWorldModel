@@ -45,6 +45,7 @@ data/official/**
 !data/official/README.md
 !data/official/DATASET_MANIFEST.json
 !data/official/V2_REEXPORT_SUMMARY.json
+!data/official/V2_2_EXPORT_SUMMARY.json
 !data/official/piwm_realshoot_v1/
 !data/official/piwm_realshoot_v1/README.md
 !data/official/piwm_realshoot_v1/realshoot_manifest_summary.json

@@ -1,0 +1,51 @@
+{
+  "artifact": "piwm_action_generation_review_v2_1",
+  "updated_at_cst": "2026-05-13",
+  "scope": "Action, scene, label, and expert-rule maintenance plan after DialogueAct v2 integration.",
+  "current_dataset_boundary": {
+    "PIWM-Train-Synth-v1": "human_salesperson_logic",
+    "target_terminal_dataset": "future_separate_dataset"
+  },
+  "canonical_action_space": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Reassure",
+    "Hold"
+  ],
+  "field_policy": {
+    "canonical_auxiliary_action_field": "act_params.supporting_acts",
+    "deprecated_alias": "co_acts",
+    "legacy_action_fields": [
+      "best_action",
+      "candidate_actions",
+      "best_action_realization"
+    ]
+  },
+  "known_distribution_issue": {
+    "dataset": "PIWM-Train-Synth-v1",
+    "best_dialogue_act_counts": {
+      "Inform": 407,
+      "Elicit": 69,
+      "Hold": 59,
+      "Reassure": 8,
+      "Recommend": 0,
+      "Greet": 0
+    },
+    "interpretation": "Current synthetic train split is not a balanced six-act policy benchmark. Inform dominates because active-evaluation scenes and reward rules favor demonstration/comparison. Recommend is mostly a pressure-risk contrast, and Greet belongs mainly to transaction/realshoot/terminal data."
+  },
+  "required_expert_review_items": [
+    "Separate Recommend(pressure=soft) from strong recommendation as a positive close-support action.",
+    "Revise state_aida_to_candidates rules so recommendation can be valid only under explicit advice/decision-close conditions.",
+    "Revise transition rewards for soft vs firm recommendation instead of mapping all recommendation pressure to the old A3 contrast.",
+    "Expand Reassure-positive scenarios for hesitation, walkaway, and post-decision reassurance.",
+    "Keep Greet mostly in realshoot/target terminal opening and closing clips.",
+    "Move all auxiliary acts from top-level co_acts into act_params.supporting_acts on re-export."
+  ],
+  "must_not_claim": [
+    "Do not claim PIWM-Train-Synth-v1 is target terminal data.",
+    "Do not claim the current 543 rows are balanced across six DialogueActs.",
+    "Do not claim expert rules are fully expert-reviewed; coverage currently has zero expert_reviewed rules."
+  ]
+}

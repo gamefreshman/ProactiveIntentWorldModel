@@ -28,7 +28,17 @@ def test_build_ms_swift_record_uses_sft_example_target() -> None:
 def test_ms_swift_export_cli_respects_max_examples(tmp_path: Path) -> None:
     output_jsonl = tmp_path / "ms_swift_sft.jsonl"
 
-    exit_code = main(["--data-dir", str(DATA_DIR), "--output-jsonl", str(output_jsonl), "--max-examples", "2"])
+    exit_code = main(
+        [
+            "--data-dir",
+            str(DATA_DIR),
+            "--output-jsonl",
+            str(output_jsonl),
+            "--max-examples",
+            "2",
+            "--allow-missing-images",
+        ]
+    )
 
     assert exit_code == 0
     rows = [json.loads(line) for line in output_jsonl.read_text(encoding="utf-8").splitlines()]
@@ -48,11 +58,34 @@ def test_ms_swift_export_cli_can_build_no_deliberation_profile(tmp_path: Path) -
             "--output-jsonl",
             str(output_jsonl),
             "--no-deliberation",
-            "--no-continuation",
-            "--include-action",
-        ]
-    )
+                "--no-continuation",
+                "--include-action",
+                "--allow-missing-images",
+            ]
+        )
 
     assert exit_code == 0
     rows = [json.loads(line) for line in output_jsonl.read_text(encoding="utf-8").splitlines()]
     assert {row["task"] for row in rows} == {"perception", "action_selection"}
+
+
+def test_ms_swift_export_writes_summary_next_to_named_output(tmp_path: Path) -> None:
+    output_jsonl = tmp_path / "piwm_train_synth_v1.jsonl"
+
+    exit_code = main(
+        [
+            "--data-dir",
+            str(DATA_DIR),
+            "--output-jsonl",
+            str(output_jsonl),
+            "--max-examples",
+            "1",
+            "--allow-missing-images",
+        ]
+    )
+
+    assert exit_code == 0
+    summary_path = tmp_path / "piwm_train_synth_v1_summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    assert summary["output_jsonl"] == str(output_jsonl)
+    assert summary["n_examples"] == 1

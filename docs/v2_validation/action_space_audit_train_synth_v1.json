@@ -1,0 +1,43 @@
+{
+  "artifact": "piwm_action_space_audit",
+  "best_action_counts": {
+    "A1_silent_observe": 59,
+    "A2_offer_value_comparison": 93,
+    "A4_open_with_question": 69,
+    "A5_provide_demonstration": 314,
+    "A6_acknowledge_and_wait": 8
+  },
+  "candidate_action_counts": {
+    "A1_silent_observe": 422,
+    "A2_offer_value_comparison": 167,
+    "A3_strong_recommend": 518,
+    "A4_open_with_question": 476,
+    "A5_provide_demonstration": 314,
+    "A6_acknowledge_and_wait": 114
+  },
+  "candidate_dialogue_act_counts": {
+    "Elicit": 476,
+    "Hold": 422,
+    "Inform": 481,
+    "Reassure": 114,
+    "Recommend": 518
+  },
+  "diagnostics": [
+    "No Recommend best-actions; keep Recommend as candidate/negative unless building a balanced policy dataset.",
+    "No Greet best-actions; expected for PIWM-Train-Synth-v1 because it is not a transaction/closing dataset.",
+    "Inform dominates best-actions; future generation should balance scenes or reward priors if training a balanced policy head."
+  ],
+  "dialogue_act_counts": {
+    "Elicit": 69,
+    "Hold": 59,
+    "Inform": 407,
+    "Reassure": 8
+  },
+  "main_schema": "data/official/piwm_train_synth_v1/main_schema.jsonl",
+  "missing_v2_fields": {},
+  "n_records": 543,
+  "schema_policy": "dialogue_act_human_salesperson_v2.2",
+  "supporting_act_counts": {
+    "Hold": 8
+  }
+}

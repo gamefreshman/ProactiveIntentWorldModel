@@ -49,6 +49,8 @@
 
 Before / After 的具体示例见：[before_after_demo_examples.md](before_after_demo_examples.md)。
 
+如果需要更细的“这条数据到底长什么样、画面如何支持标签、World Model 的后续反应怎么变成训练题”，看：[data_case_study_handbook.md](data_case_study_handbook.md)。这份样本手册专门避免只贴粗略 JSON，而是按画面证据、机器标签、动作后果、Future Verification 和展示解释逐层拆开。
+
 ## 4. 当前效果表
 
 这一版不直接展示硬 exact 的 0% / 100%。我们把每道题拆成更细的小字段，再做轻微平滑，得到更适合对外沟通的“字段级分数”。这样既保留训练前后的差距，也避免小样本极值误导读者。

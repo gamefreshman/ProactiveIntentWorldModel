@@ -37,6 +37,7 @@ def test_load_tiny_session_fills_rule_fields(tmp_path, monkeypatch):
     assert record.split is None
     assert record.latent_state == "high_hesitation"
     assert record.viewpoint == "salesperson_observable"
+    assert record.persona.intent_tier == "exploring"
     assert record.intent == "compare_value_for_money"
     assert record.bdi.belief
     assert "long_dwell_with_price_check" not in record.bdi.belief
@@ -50,6 +51,11 @@ def test_load_tiny_session_fills_rule_fields(tmp_path, monkeypatch):
         "A3_strong_recommend",
     ]
     assert record.best_action == "A2_offer_value_comparison"
+    assert record.candidate_action_specs[1].act == "Inform"
+    assert record.best_action_spec is not None
+    assert record.best_action_spec.params["content_type"] == "comparison"
+    assert record.compatibility_tier == "green"
+    assert record.legacy_mismatch_flags == []
     assert record.next_state_by_action["A2_offer_value_comparison"].next_bdi.intention
     assert record.next_state_by_action["A2_offer_value_comparison"].next_aida_stage == "desire"
     assert (
@@ -58,6 +64,25 @@ def test_load_tiny_session_fills_rule_fields(tmp_path, monkeypatch):
     )
     assert len(record.images) == 3
     assert record.images[0].relative_path == "tiny_session/session_test_001/frames/000.jpg"
+
+
+def test_load_session_applies_intent_tier_candidate_filter(tmp_path, monkeypatch):
+    session_dir = copy_fixture(tmp_path, monkeypatch)
+    prompt = read_prompt(session_dir)
+    prompt["persona"] = {
+        "type": "browser_low_intent",
+        "description": "A shopper casually browsing without a clear purchase mission.",
+    }
+    prompt["target_cue"] = "brief_glance_walking_past"
+    prompt["aida_stage"] = "attention"
+    write_prompt(session_dir, prompt)
+
+    record = load_session(session_dir)
+
+    assert record.latent_state == "early_browsing"
+    assert record.candidate_actions == ["A1_silent_observe", "A6_acknowledge_and_wait"]
+    assert [item.act for item in record.candidate_action_specs] == ["Hold", "Reassure"]
+    assert "A3_strong_recommend" not in record.next_state_by_action
 
 
 def test_invalid_split_raises_invalid_enum(tmp_path, monkeypatch):

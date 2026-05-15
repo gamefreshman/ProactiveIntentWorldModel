@@ -12,6 +12,9 @@ from . import rules
 AIDAStage = Literal["attention", "interest", "desire", "action"]
 Viewpoint = Literal["salesperson_observable", "surveillance_oblique", "third_party_side", "first_person_pov"]
 ProactiveScore = Literal[1, 2, 3, 4, 5]
+IntentTier = Literal["low_intent_browsing", "exploring", "ready_to_buy"]
+OutcomeType = Literal["success", "failure"]
+CompatibilityTier = Literal["green", "yellow", "red"]
 ShootingClipVersion = Literal["A", "B"]
 ShootingCustomerState = Literal[
     "S01_PASSBY",
@@ -32,6 +35,7 @@ ShootingCustomerState = Literal[
 class Persona(BaseModel):
     type: str
     description: Optional[str] = None
+    intent_tier: Optional[IntentTier] = None
 
     @field_validator("type")
     @classmethod
@@ -39,6 +43,12 @@ class Persona(BaseModel):
         if value not in rules.PERSONA_TYPES:
             raise ValueError(f"invalid persona type: {value}")
         return value
+
+    @model_validator(mode="after")
+    def fill_intent_tier(self) -> "Persona":
+        if self.intent_tier is None:
+            self.intent_tier = rules.derive_intent_tier(self.type)
+        return self
 
 
 class FrameRef(BaseModel):
@@ -140,6 +150,18 @@ class TerminalRealization(BaseModel):
     co_acts: list[dict[str, Any]] = Field(default_factory=list)
     legacy_action: Optional[str] = None
 
+    @model_validator(mode="before")
+    @classmethod
+    def migrate_supporting_acts(cls, data):
+        if not isinstance(data, dict):
+            return data
+        params = rules.merge_supporting_acts(data.get("act_params", {}), data.get("co_acts", []))
+        data["act_params"] = params
+        data.setdefault("co_acts", rules.legacy_co_acts_from_params(params))
+        if not data["co_acts"]:
+            data["co_acts"] = rules.legacy_co_acts_from_params(params)
+        return data
+
     @field_validator("dialogue_act")
     @classmethod
     def validate_dialogue_act_name(cls, value: str) -> str:
@@ -224,7 +246,9 @@ class ShootingClipRecord(BaseModel):
             data.setdefault("t_state", prior.get("t_state"))
             data.setdefault("dialogue_act", prior["act"])
             data.setdefault("act_params", prior["params"])
-            data.setdefault("co_acts", prior.get("co_acts", []))
+            data["act_params"] = rules.merge_supporting_acts(data.get("act_params", {}), data.get("co_acts", prior.get("co_acts", [])))
+            if not data.get("co_acts"):
+                data["co_acts"] = rules.legacy_co_acts_from_params(data["act_params"])
             data.setdefault("expected_reaction", prior["expected_reaction"])
             data.setdefault("requires_hero_view", prior["requires_hero_view"])
             if "terminal_realization" not in data:
@@ -260,13 +284,13 @@ class ShootingClipRecord(BaseModel):
             response_spec = rules.response_type_to_act(self.response_type_zh)
             if response_spec["act"] != self.dialogue_act:
                 raise ValueError("response_type_zh does not match dialogue_act")
-            if response_spec.get("params", {}) != self.act_params:
+            if response_spec.get("params", {}) != rules.merge_supporting_acts(self.act_params, self.co_acts):
                 raise ValueError("response_type_zh does not match act_params")
         if self.t_state:
             t_spec = rules.t_state_to_act(self.t_state)
             if t_spec["act"] != self.dialogue_act:
                 raise ValueError("t_state does not match dialogue_act")
-            if t_spec.get("params", {}) != self.act_params:
+            if t_spec.get("params", {}) != rules.merge_supporting_acts(self.act_params, self.co_acts):
                 raise ValueError("t_state does not match act_params")
         if self.terminal_realization and self.terminal_realization.dialogue_act != self.dialogue_act:
             raise ValueError("terminal_realization.dialogue_act must match dialogue_act")
@@ -290,6 +314,44 @@ class RewardComponents(BaseModel):
         return self
 
 
+class CandidateAction(BaseModel):
+    """Canonical v2 action object.
+
+    Old A-labels are allowed only as migration input and are normalized here to
+    the canonical ``act`` / ``params`` shape.
+    """
+
+    act: str
+    params: dict[str, Any] = Field(default_factory=dict)
+
+    @model_validator(mode="before")
+    @classmethod
+    def migrate_legacy_input(cls, data):
+        if isinstance(data, str):
+            return _candidate_action_payload_from_legacy(data)
+        if not isinstance(data, dict):
+            return data
+        item = dict(data)
+        if "act" not in item and "dialogue_act" in item:
+            item["act"] = item["dialogue_act"]
+        if "params" not in item and "act_params" in item:
+            item["params"] = item["act_params"]
+        item["params"] = rules.merge_supporting_acts(item.get("params", {}), item.get("co_acts", []))
+        return item
+
+    @field_validator("act")
+    @classmethod
+    def validate_act(cls, value: str) -> str:
+        if value not in rules.DIALOGUE_ACTS:
+            raise ValueError(f"invalid dialogue act: {value}")
+        return value
+
+    @model_validator(mode="after")
+    def validate_params(self) -> "CandidateAction":
+        rules.validate_dialogue_act(self.act, self.params)
+        return self
+
+
 class ActionOutcome(BaseModel):
     next_state: str
     next_aida_stage: AIDAStage
@@ -299,6 +361,12 @@ class ActionOutcome(BaseModel):
     risk: Literal["low", "medium", "high"]
     benefit: Literal["low", "medium", "high"]
     rationale: Optional[str] = None
+    dialogue_act: Optional[str] = None
+    act_params: dict[str, Any] = Field(default_factory=dict)
+    intent_tier: Optional[IntentTier] = None
+    risk_tags: list[str] = Field(default_factory=list)
+    failure_mode: Optional[str] = None
+    outcome_type: OutcomeType = "success"
 
     @field_validator("next_state")
     @classmethod
@@ -311,6 +379,10 @@ class ActionOutcome(BaseModel):
     def validate_reward_consistency(self) -> "ActionOutcome":
         if abs(self.reward_components.final_reward - self.reward) > 1e-6:
             raise ValueError("reward_components.final_reward must equal reward")
+        if self.dialogue_act is not None:
+            rules.validate_dialogue_act(self.dialogue_act, self.act_params)
+        if self.outcome_type == "failure" and not self.failure_mode:
+            raise ValueError("failure outcomes require failure_mode")
         return self
 
 
@@ -371,15 +443,20 @@ class MainSchemaRecord(BaseModel):
     proactive_score: ProactiveScore
     candidate_actions: list[str] = Field(min_length=2)
     best_action: str
+    candidate_action_specs: list[CandidateAction] = Field(default_factory=list)
+    best_action_spec: Optional[CandidateAction] = None
     best_action_realization: ActionRealization
     dialogue_act: Optional[str] = None
     act_params: dict[str, Any] = Field(default_factory=dict)
     co_acts: list[dict[str, Any]] = Field(default_factory=list)
     realization: Optional[TerminalRealization] = None
     next_state_by_action: dict[str, ActionOutcome]
+    next_state_by_action_v2: dict[str, ActionOutcome] = Field(default_factory=dict)
     reward_by_action: dict[str, float]
     continuations: dict[str, ActionContinuation] = Field(default_factory=dict)
     rationale: Optional[str] = None
+    compatibility_tier: CompatibilityTier = "green"
+    legacy_mismatch_flags: list[str] = Field(default_factory=list)
     provenance: list[Provenance]
     is_anchor: bool = False
 
@@ -396,10 +473,37 @@ class MainSchemaRecord(BaseModel):
         persona_type = persona.get("type") if isinstance(persona, dict) else getattr(persona, "type", None)
         candidate_actions = list(data.get("candidate_actions") or [])
         best_action = data.get("best_action")
+        legacy_mismatch_flags = list(data.get("legacy_mismatch_flags") or [])
 
         if "visual_state" not in data and cues:
             data["visual_state"] = rules.derive_visual_state(cues, product_category, viewpoint)
         valid_candidate_actions = [action for action in candidate_actions if action in rules.ACTIONS]
+        if valid_candidate_actions and not data.get("candidate_action_specs"):
+            data["candidate_action_specs"] = [
+                _candidate_action_payload_from_legacy(action)
+                for action in valid_candidate_actions
+            ]
+        if best_action in rules.ACTIONS and not data.get("best_action_spec"):
+            data["best_action_spec"] = _candidate_action_payload_from_legacy(best_action)
+        if not data.get("next_state_by_action_v2") and data.get("next_state_by_action"):
+            data["next_state_by_action_v2"] = _next_state_by_action_v2_payload(
+                candidate_actions=candidate_actions,
+                candidate_action_specs=data.get("candidate_action_specs") or [],
+                next_state_by_action=data.get("next_state_by_action") or {},
+            )
+        legacy_mismatch_flags.extend(
+            _action_spec_mismatch_flags(
+                candidate_actions=candidate_actions,
+                candidate_action_specs=data.get("candidate_action_specs") or [],
+                best_action=best_action,
+                best_action_spec=data.get("best_action_spec"),
+            )
+        )
+        if _intent_tier_visual_mismatch(persona_type, cues):
+            legacy_mismatch_flags.append("intent_tier_visual_mismatch")
+        if legacy_mismatch_flags:
+            data["legacy_mismatch_flags"] = sorted(set(legacy_mismatch_flags))
+            data.setdefault("compatibility_tier", _compatibility_tier_from_flags(legacy_mismatch_flags))
         if "best_action_realization" not in data and "best_intervention" in data:
             data["best_action_realization"] = data["best_intervention"]
         if "best_action_realization" not in data and best_action:
@@ -415,7 +519,9 @@ class MainSchemaRecord(BaseModel):
             act_spec = rules.legacy_action_to_act(best_action)
             data.setdefault("dialogue_act", act_spec["act"])
             data.setdefault("act_params", act_spec["params"])
-            data.setdefault("co_acts", act_spec.get("co_acts", []))
+            data["act_params"] = rules.merge_supporting_acts(data.get("act_params", {}), data.get("co_acts", act_spec.get("co_acts", [])))
+            if not data.get("co_acts"):
+                data["co_acts"] = rules.legacy_co_acts_from_params(data["act_params"])
             if "realization" not in data and state in rules.LATENT_STATES and persona_type:
                 data["realization"] = rules.derive_terminal_realization(
                     best_action,
@@ -491,6 +597,8 @@ class MainSchemaRecord(BaseModel):
         reward_keys = set(self.reward_by_action)
         if self.best_action not in candidate_set:
             raise ValueError("best_action must be in candidate_actions")
+        if self.candidate_action_specs and len(self.candidate_action_specs) != len(self.candidate_actions):
+            raise ValueError("candidate_action_specs must align with candidate_actions")
         if not next_state_keys.issuperset(candidate_set):
             raise ValueError("next_state_by_action keys must include all candidate_actions")
         if reward_keys != next_state_keys:
@@ -498,6 +606,18 @@ class MainSchemaRecord(BaseModel):
         for action, outcome in self.next_state_by_action.items():
             if self.reward_by_action[action] != outcome.reward:
                 raise ValueError(f"reward_by_action[{action}] must equal next_state_by_action[{action}].reward")
+        if self.next_state_by_action_v2 and self.candidate_action_specs:
+            expected_v2_keys = {
+                rules.action_spec_key(spec.act, spec.params)
+                for spec in self.candidate_action_specs
+            }
+            if not set(self.next_state_by_action_v2).issuperset(expected_v2_keys):
+                raise ValueError("next_state_by_action_v2 keys must include all candidate_action_specs")
+            for action, spec in zip(self.candidate_actions, self.candidate_action_specs):
+                key = rules.action_spec_key(spec.act, spec.params)
+                if action in self.next_state_by_action and key in self.next_state_by_action_v2:
+                    if self.next_state_by_action[action].reward != self.next_state_by_action_v2[key].reward:
+                        raise ValueError(f"next_state_by_action_v2[{key}] must match legacy outcome reward for {action}")
         for action, continuation in self.continuations.items():
             if action not in candidate_set:
                 raise ValueError(f"continuation action {action} not in candidate_actions")
@@ -512,3 +632,97 @@ class MainSchemaRecord(BaseModel):
         for co_act in self.co_acts:
             rules.validate_dialogue_act(co_act["act"], co_act.get("params"))
         return self
+
+
+def _candidate_action_payload_from_legacy(action: str) -> dict[str, Any]:
+    spec = rules.legacy_action_to_act(action)
+    return {"act": spec["act"], "params": spec["params"]}
+
+
+def _normalize_candidate_action_payload(value: Any) -> dict[str, Any] | None:
+    if value is None:
+        return None
+    if isinstance(value, CandidateAction):
+        return value.model_dump()
+    if isinstance(value, str):
+        return _candidate_action_payload_from_legacy(value)
+    if not isinstance(value, dict):
+        return None
+    act = value.get("act") or value.get("dialogue_act")
+    params = value.get("params") if "params" in value else value.get("act_params", {})
+    if not act:
+        return None
+    return {"act": act, "params": rules.merge_supporting_acts(params or {}, value.get("co_acts", []))}
+
+
+def _next_state_by_action_v2_payload(
+    candidate_actions: list[str],
+    candidate_action_specs: list[Any],
+    next_state_by_action: dict[str, Any],
+) -> dict[str, Any]:
+    payload: dict[str, Any] = {}
+    for action, spec in zip(candidate_actions, candidate_action_specs):
+        normalized = _normalize_candidate_action_payload(spec)
+        if action not in next_state_by_action or normalized is None:
+            continue
+        key = rules.action_spec_key(normalized["act"], normalized["params"])
+        payload[key] = next_state_by_action[action]
+    return payload
+
+
+def _action_spec_equal(left: dict[str, Any] | None, right: dict[str, Any] | None) -> bool:
+    if left is None or right is None:
+        return left is right
+    return left.get("act") == right.get("act") and rules.merge_supporting_acts(left.get("params", {})) == rules.merge_supporting_acts(right.get("params", {}))
+
+
+def _action_spec_mismatch_flags(
+    candidate_actions: list[str],
+    candidate_action_specs: list[Any],
+    best_action: str | None,
+    best_action_spec: Any,
+) -> list[str]:
+    flags: list[str] = []
+    if candidate_actions and candidate_action_specs:
+        if len(candidate_actions) != len(candidate_action_specs):
+            flags.append("candidate_action_specs_count_mismatch")
+        else:
+            for action, spec in zip(candidate_actions, candidate_action_specs):
+                if action not in rules.ACTIONS:
+                    continue
+                if not _action_spec_equal(_candidate_action_payload_from_legacy(action), _normalize_candidate_action_payload(spec)):
+                    flags.append("candidate_action_specs_mismatch")
+                    break
+    if best_action in rules.ACTIONS and best_action_spec is not None:
+        if not _action_spec_equal(_candidate_action_payload_from_legacy(best_action), _normalize_candidate_action_payload(best_action_spec)):
+            flags.append("best_action_spec_mismatch")
+    return flags
+
+
+_HIGH_ENGAGEMENT_CUES = {
+    "long_dwell_with_price_check",
+    "repeated_product_handling",
+    "comparing_two_products",
+    "looking_around_for_help",
+    "checking_phone_likely_research",
+    "trying_on_or_testing",
+    "asking_companion_opinion",
+    "approaching_counter",
+}
+
+
+def _intent_tier_visual_mismatch(persona_type: str | None, cues: list[str]) -> bool:
+    if not persona_type:
+        return False
+    if rules.derive_intent_tier(persona_type) != "low_intent_browsing":
+        return False
+    return any(cue in _HIGH_ENGAGEMENT_CUES for cue in cues)
+
+
+def _compatibility_tier_from_flags(flags: list[str]) -> CompatibilityTier:
+    severe = {"intent_tier_visual_mismatch", "latent_state_mismatch"}
+    if any(flag in severe for flag in flags):
+        return "red"
+    if flags:
+        return "yellow"
+    return "green"

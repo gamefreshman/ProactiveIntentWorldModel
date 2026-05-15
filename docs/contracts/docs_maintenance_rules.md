@@ -1,6 +1,6 @@
 # PIWM Docs Maintenance Rules
 
-更新时间：2026-05-01
+更新时间：2026-05-11
 
 ## 1. 核心原则
 
@@ -18,7 +18,7 @@
 
 ## 2. 编号规则
 
-活跃文档使用两位数字前缀：
+历史规则曾要求活跃文档使用两位数字前缀：
 
 ```text
 00_*.md
@@ -39,7 +39,7 @@
 | `10-19` | 背景说明、维护规则、辅助决策 |
 | `90-99` | 临时草稿，仅短期存在 |
 
-当前活跃顺序以 `docs/README.md` 为第一入口，`RESEARCH_LOG.md` 的 Active Document Index 只保留当前 sprint 入口与方法契约，不再索引所有背景文档。
+当前实际执行采用目录分组而不是强制重命名：`docs/current/` 放当前入口，`docs/contracts/` 放方法契约，`docs/background/` 放历史背景，`docs/archive/` 放过期或重复文件。活跃阅读顺序以 `docs/README.md` 为准；不要为了编号而重命名大量文件。
 
 ## 3. 新增文档规则
 

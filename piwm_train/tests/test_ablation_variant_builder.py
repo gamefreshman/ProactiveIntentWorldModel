@@ -16,6 +16,7 @@ def test_build_ablation_variants_writes_expected_task_profiles(tmp_path: Path) -
         tmp_path,
         root=ROOT,
         variants=["full_piwm_v2", "b1_perception_only", "b3_no_deliberation", "b4_no_continuation"],
+        validate_images=False,
     )
 
     assert set(index["variants"]) == {

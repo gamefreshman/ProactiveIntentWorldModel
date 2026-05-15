@@ -9,6 +9,7 @@ from piwm_data.exporters import (
     export_state_inference_with_cue,
     export_transition_modeling,
     export_world_model_continuation,
+    main_schema_record_payload,
 )
 from piwm_data.schemas import ActionContinuation, ActionOutcome, FrameRef, MainSchemaRecord, Persona, Provenance, ReactionFrameRef
 
@@ -109,14 +110,27 @@ def test_state_inference_exports_one_row(tmp_path):
     assert rows[0]["output"]["bdi"]["belief"]
     assert rows[0]["output"]["dialogue_act"] == "Inform"
     assert rows[0]["output"]["act_params"]["content_type"] == "comparison"
+    assert rows[0]["output"]["candidate_action_specs"][1]["act"] == "Inform"
+    assert rows[0]["output"]["best_action_spec"]["params"]["content_type"] == "comparison"
+    assert rows[0]["output"]["intent_tier"] == "exploring"
     assert rows[0]["output"]["terminal_realization"]["screen"]["action"] == "show_comparison_or_details"
     assert "observable_cues" not in rows[0]["input"]
     assert rows[0]["meta"]["observable_cues"] == ["long_dwell_with_price_check"]
     assert rows[0]["meta"]["product_category"] == "luxury_watch"
     assert rows[0]["meta"]["split"] == "train"
     assert rows[0]["meta"]["viewpoint"] == "salesperson_observable"
+    assert rows[0]["meta"]["compatibility_tier"] == "green"
     assert rows[0]["meta"]["visual_only_input"] is True
     assert rows[0]["input"]["history_summary"] is None
+
+
+def test_main_schema_record_payload_serializes_next_state_by_action_v2():
+    record = make_record()
+    payload = main_schema_record_payload(record)
+    best_key = rules.action_spec_key("Inform", {"content_type": "comparison", "depth": "brief"})
+
+    assert best_key in payload["next_state_by_action_v2"]
+    assert payload["next_state_by_action_v2"][best_key]["reward"] == payload["next_state_by_action"]["A2_offer_value_comparison"]["reward"]
 
 
 def test_state_inference_with_cue_exports_oracle_debug_input(tmp_path):
@@ -138,8 +152,15 @@ def test_transition_modeling_exports_one_row_per_candidate(tmp_path):
     assert "worth_doing" in rows[0]["output"]
     assert "bdi" in rows[0]["input"]["current_state_summary"]
     assert rows[0]["input"]["candidate_dialogue_act"]["act"] in rules.DIALOGUE_ACTS
+    assert rows[0]["input"]["candidate_action_spec"]["act"] in rules.DIALOGUE_ACTS
+    assert rows[0]["input"]["candidate_action_key"] == rules.action_spec_key(
+        rows[0]["input"]["candidate_action_spec"]["act"],
+        rows[0]["input"]["candidate_action_spec"]["params"],
+    )
     assert rows[0]["input"]["candidate_terminal_realization"]["legacy_action"] in record.candidate_actions
     assert "next_bdi" in rows[0]["output"]
+    assert rows[0]["output"]["outcome_type"] in {"success", "failure"}
+    assert "risk_tags" in rows[0]["output"]
     assert rows[0]["meta"]["viewpoint"] == "salesperson_observable"
     assert rows[0]["meta"]["product_category"] == "luxury_watch"
     assert rows[0]["output"]["reward_components"]["final_reward"] == rows[0]["output"]["reward"]
@@ -193,6 +214,7 @@ def test_policy_preference_uses_best_and_lowest_reward_rejected(tmp_path):
     assert rows[0]["rejected"] == "A1_silent_observe"
     assert rows[0]["reward_gap"] > 0
     assert rows[0]["chosen_json"]["action"] == "A2_offer_value_comparison"
+    assert rows[0]["chosen_json"]["action_spec"]["act"] == "Inform"
     assert rows[0]["chosen_json"]["dialogue_act"]["act"] == "Inform"
     assert rows[0]["chosen_json"]["terminal_realization"]["dialogue_act"] == "Inform"
     assert rows[0]["chosen_json"]["rationale"]
@@ -203,6 +225,7 @@ def test_policy_preference_uses_best_and_lowest_reward_rejected(tmp_path):
     assert rows[0]["meta"]["viewpoint"] == "salesperson_observable"
     assert len(rows[0]["meta"]["candidate_block"]) == len(record.candidate_actions)
     assert rows[0]["meta"]["candidate_block"][0]["dialogue_act"]["act"] in rules.DIALOGUE_ACTS
+    assert rows[0]["meta"]["candidate_block"][0]["action_spec"]["act"] in rules.DIALOGUE_ACTS
     assert rows[0]["meta"]["candidate_block"][0]["terminal_realization"]["screen"]["action"]
 
 
@@ -229,7 +252,9 @@ def test_world_model_continuation_exports_passed_continuation(tmp_path):
     assert count == 1
     assert rows[0]["state_id"] == "session_test_001#best_A2_offer_value_comparison"
     assert rows[0]["input"]["candidate_action"] == "A2_offer_value_comparison"
+    assert rows[0]["input"]["candidate_action_spec"]["act"] == "Inform"
     assert rows[0]["output"]["next_state"] == "engaged_dialogue"
+    assert rows[0]["output"]["outcome_type"] in {"success", "failure"}
     assert rows[0]["output"]["reaction_caption"]
     assert rows[0]["output"]["continuation_frames"][0]["role"] == "reaction_onset"
     assert rows[0]["meta"]["continuation_role"] == "best"

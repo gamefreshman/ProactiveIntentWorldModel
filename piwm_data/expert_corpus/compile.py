@@ -39,6 +39,7 @@ class CompiledCorpus:
     """
 
     cue_to_state_prior: dict[str, str] = field(default_factory=dict)
+    persona_to_intent_tier: dict[str, str] = field(default_factory=dict)
     persona_state_to_intent: dict[tuple[str, str], str] = field(default_factory=dict)
     state_fallback_intent: dict[str, str] = field(default_factory=dict)
     state_to_proactive_score: dict[str, int] = field(default_factory=dict)
@@ -51,6 +52,7 @@ class CompiledCorpus:
     def counts(self) -> dict[str, int]:
         return {
             "cue_to_state_prior": len(self.cue_to_state_prior),
+            "persona_to_intent_tier": len(self.persona_to_intent_tier),
             "persona_state_to_intent": len(self.persona_state_to_intent),
             "state_fallback_intent": len(self.state_fallback_intent),
             "state_to_proactive_score": len(self.state_to_proactive_score),
@@ -127,6 +129,8 @@ def compile_corpus(
 
         if entry.rule_type == "cue_to_state_prior":
             out.cue_to_state_prior[entry.key.cue] = entry.value.state
+        elif entry.rule_type == "persona_to_intent_tier":
+            out.persona_to_intent_tier[entry.key.persona] = entry.value.intent_tier
         elif entry.rule_type == "persona_state_to_intent":
             out.persona_state_to_intent[(entry.key.persona, entry.key.state)] = entry.value.intent
         elif entry.rule_type == "state_fallback_intent":
@@ -143,6 +147,12 @@ def compile_corpus(
                 "reward": entry.value.reward,
                 "risk": entry.value.risk,
                 "benefit": entry.value.benefit,
+                "failure_mode": (
+                    deepcopy(entry.value.failure_mode.model_dump())
+                    if entry.value.failure_mode is not None
+                    else None
+                ),
+                "failure_mode_rationale": entry.value.failure_mode_rationale,
             }
 
     if write_conflict_log:

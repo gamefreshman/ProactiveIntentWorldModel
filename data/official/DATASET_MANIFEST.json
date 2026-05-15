@@ -1,10 +1,10 @@
 {
   "artifact": "piwm_official_dataset_manifest",
-  "version": "v2",
-  "updated_at_cst": "2026-05-11 21:30:00",
+  "version": "v2.2",
+  "updated_at_cst": "2026-05-15 16:30:12",
   "canonical_root": "data/official",
   "remote_root": "/root/lanyun-fs/ProactiveIntentWorldModel/data/official",
-  "note": "Official PIWM datasets have been re-exported with DialogueAct v2 and TerminalRealization fields while preserving legacy A/T aliases. Real-shooting PIWM-RealShoot-v1 currently contains a manifest template/sample, not QA-reviewed real videos.",
+  "note": "Official PIWM datasets now include v1 frozen aliases plus independent v2.2 exports. PIWM-Train-Synth-v1 remains the frozen human-salesperson synthetic train alias. PIWM-Train-Synth-v2 is the independent schema v2.2 export with candidate_action_specs, best_action_spec, next_state_by_action_v2, compatibility tiers, and legacy aliases preserved. PIWM-PolicySlice-v2 is the explicit candidate-rule policy manifest; target terminal data will be built separately. Real-shooting PIWM-RealShoot-v1 currently contains a manifest template/sample, not QA-reviewed real videos.",
   "datasets": [
     {
       "canonical_name": "PIWM-Train-Synth-v1",
@@ -20,7 +20,7 @@
       "ms_swift_jsonl": "data/official/ms_swift/piwm_train_synth_v1.jsonl",
       "ms_swift_rows": 2554,
       "paper_usage": "Can be described as high-throughput synthetic training data with compact visual-state/action-realization supervision, not QA-pass.",
-      "schema_version": "dialogue_act_terminal_realization_v2_compatible",
+      "schema_version": "dialogue_act_human_salesperson_v2.1",
       "task_counts": {
         "perception": 543,
         "deliberation": 2011
@@ -28,9 +28,66 @@
       "v2_fields": [
         "dialogue_act",
         "act_params",
-        "co_acts",
-        "realization"
+        "act_params.supporting_acts",
+        "legacy_co_acts",
+        "realization",
+        "actor_profile"
       ]
+    },
+    {
+      "canonical_name": "PIWM-Train-Synth-v2",
+      "canonical_path": "data/official/piwm_train_synth_v2",
+      "source_path": "data/official/piwm_train_synth_v1",
+      "role": "main_sft_training_schema_v2_2",
+      "qa_status": "synthetic_train_pending_visual_qa",
+      "loaded_parent": 543,
+      "state_rows": 543,
+      "transition_rows": 2011,
+      "policy_rows": 543,
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
+      "ms_swift_rows": 2554,
+      "paper_usage": "Independent schema v2.2 export of PIWM-Train-Synth-v1. Use for v2.2 data-format experiments; still synthetic train pending visual QA and still human-salesperson logic.",
+      "schema_version": "dialogue_act_human_salesperson_v2.2",
+      "task_counts": {
+        "perception": 543,
+        "deliberation": 2011
+      },
+      "compatibility_extended_audit": {
+        "green": 109,
+        "yellow": 353,
+        "red": 81
+      },
+      "v2_2_fields": [
+        "dialogue_act",
+        "act_params.supporting_acts",
+        "candidate_action_specs",
+        "best_action_spec",
+        "next_state_by_action_v2",
+        "compatibility_tier",
+        "legacy_mismatch_flags",
+        "legacy_co_acts",
+        "realization",
+        "actor_profile"
+      ]
+    },
+    {
+      "canonical_name": "PIWM-PolicySlice-v2",
+      "canonical_path": "data/official/piwm_policy_slice_v2",
+      "source_path": "scripts.scenario_sampler --candidate-rule-only",
+      "role": "explicit_candidate_rule_policy_manifest",
+      "qa_status": "rule_space_manifest_not_video_dataset",
+      "scenarios": 864,
+      "policy_manifest_jsonl": "data/official/piwm_policy_slice_v2/policy_manifest.jsonl",
+      "stats_json": "data/official/piwm_policy_slice_v2/_stats.json",
+      "paper_usage": "Use as a rule-supported policy distribution and generation manifest, not as a filmed or QA-reviewed video dataset.",
+      "schema_version": "policy_manifest_v2.2",
+      "policy_best_dialogue_act_counts": {
+        "Elicit": 272,
+        "Hold": 56,
+        "Inform": 136,
+        "Reassure": 40,
+        "Recommend": 360
+      }
     },
     {
       "canonical_name": "PIWM-Eval-QA-v1",
@@ -47,12 +104,14 @@
       "ms_swift_eval_jsonl": "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl",
       "ms_swift_eval_rows": 162,
       "paper_usage": "Main QA-reviewed evaluation subset with compact visual-state/action-realization supervision.",
-      "schema_version": "dialogue_act_terminal_realization_v2_compatible",
+      "schema_version": "dialogue_act_human_salesperson_v2.1",
       "v2_fields": [
         "dialogue_act",
         "act_params",
-        "co_acts",
-        "realization"
+        "act_params.supporting_acts",
+        "legacy_co_acts",
+        "realization",
+        "actor_profile"
       ]
     },
     {
@@ -71,12 +130,14 @@
       "ms_swift_jsonl": "data/official/ms_swift/piwm_world_model_sft_v1.jsonl",
       "ms_swift_rows": 218,
       "paper_usage": "World Model / Future Verification pilot evidence with shared three-axis current/future visual schema.",
-      "schema_version": "dialogue_act_terminal_realization_v2_compatible",
+      "schema_version": "dialogue_act_human_salesperson_v2.1",
       "v2_fields": [
         "dialogue_act",
         "act_params",
-        "co_acts",
-        "realization"
+        "act_params.supporting_acts",
+        "legacy_co_acts",
+        "realization",
+        "actor_profile"
       ]
     },
     {
@@ -117,11 +178,13 @@
   ],
   "hard_red_lines": [
     "Do not call PIWM-Train-Synth-v1 QA-pass.",
+    "Do not call PIWM-Train-Synth-v1 target terminal data; it keeps human-salesperson logic.",
     "Do not claim 1000 completed videos; current formal train set has 543 loaded parent records.",
     "Do not use smoke or DPO adapter directories as official dataset names.",
     "Do not call PIWM-RealShoot-v1 a collected real dataset until video assets and QA pass are filled."
   ],
   "recommended_next_training_entrypoint": "data/official/ms_swift/piwm_train_full_v2.jsonl",
+  "current_schema_v2_2_training_entrypoint": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
   "full_v2_training_entrypoint": {
     "name": "PIWM-Train-Full-v2",
     "ms_swift_jsonl": "data/official/ms_swift/piwm_train_full_v2.jsonl",
@@ -147,5 +210,6 @@
     "training_entrypoint": "data/official/ms_swift/piwm_train_full_v2.jsonl",
     "artifact_type": "lora_adapter"
   },
-  "v2_reexport_summary": "data/official/V2_REEXPORT_SUMMARY.json"
+  "v2_reexport_summary": "data/official/V2_REEXPORT_SUMMARY.json",
+  "v2_2_export_summary": "data/official/V2_2_EXPORT_SUMMARY.json"
 }

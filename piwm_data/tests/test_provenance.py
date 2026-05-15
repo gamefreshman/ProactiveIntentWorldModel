@@ -80,19 +80,21 @@ def test_candidate_and_transition_rules_are_theory_anchored() -> None:
     assert transition["total"] == 21
     assert transition["linked"] == 21
     assert transition["theory_anchored_or_better"] == 21
-    assert coverage["n_existing_rules_total"] == 72
-    assert coverage["n_existing_rules_linked"] == 72
+    assert coverage["n_existing_rules_total"] == 78
+    assert coverage["n_existing_rules_linked"] == 78
     assert coverage["n_existing_rules_unlinked"] == 0
 
 
-def test_rule_source_links_do_not_require_all_72_seed_rules() -> None:
+def test_rule_source_links_cover_seed_and_v2_2_rules() -> None:
     links = load_rule_source_links(DEFAULT_RULE_SOURCE_LINKS)
     linked_ids = {link.rule_id for link in links}
 
     assert "CAND_001" in linked_ids
     assert "TRANS_001" in linked_ids
     assert "CUE2STATE_001" in linked_ids
-    assert len(linked_ids) == 72
+    assert "PIT_001" in linked_ids
+    assert "PIT_006" in linked_ids
+    assert len(linked_ids) == 78
 
 
 def test_modeling_source_cannot_be_used_for_sales_rule() -> None:
@@ -119,6 +121,7 @@ def test_write_provenance_coverage(tmp_path: Path) -> None:
     report = write_provenance_coverage(out=out)
 
     assert out.exists()
-    assert report["n_existing_rules_total"] == 72
+    assert report["n_existing_rules_total"] == 78
+    assert report["coverage_by_rule_type"]["persona_to_intent_tier"]["linked"] == 6
     assert report["coverage_by_rule_type"]["transition"]["linked"] == 21
     assert report["n_existing_rules_unlinked"] == 0

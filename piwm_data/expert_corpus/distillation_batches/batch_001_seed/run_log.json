@@ -1,0 +1,5 @@
+{
+  "batch_id": "batch_001_seed",
+  "status": "not_run",
+  "reason": "Seed batch documents existing runtime rules and has no extraction run."
+}

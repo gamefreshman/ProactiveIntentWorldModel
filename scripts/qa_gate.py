@@ -82,7 +82,8 @@ def run_qa_for_session(session_dir: Path, overwrite: bool = True) -> dict[str, A
     frame_entries = manifest.get("sampled_frames", [])
     frame_paths = [session_dir / entry.get("path", "") for entry in frame_entries]
     prompt_text = prompt.get("kling_prompt", "") or prompt.get("behavior_description", "")
-    leakage_hits = forbidden_label_hits(prompt_text) if prompt_text else []
+    leakage = check_label_leakage(prompt)
+    leakage_hits = leakage["label_leakage_hits"]
 
     file_checks = {
         "prompt_json_exists": prompt_path.exists(),
@@ -118,7 +119,7 @@ def run_qa_for_session(session_dir: Path, overwrite: bool = True) -> dict[str, A
         and file_checks["sampled_frame_count"] >= 3
         and file_checks["sampled_frames_exist"]
     )
-    label_leakage = bool(leakage_hits)
+    label_leakage = leakage["label_leakage"]
     cue_visible_in_video = review_fields["cue_visible_in_video"]
     cue_visible_in_sampled_frames = review_fields["cue_visible_in_sampled_frames"]
     extra_subjects = review_fields["extra_subjects"]
@@ -199,6 +200,17 @@ def run_qa_for_archive(archive_root: Path, overwrite: bool = True) -> list[dict[
     for session_dir in _session_dirs(archive_root):
         reports.append(run_qa_for_session(session_dir, overwrite=overwrite))
     return reports
+
+
+def check_label_leakage(prompt_json: dict[str, Any]) -> dict[str, Any]:
+    """Check whether a prompt leaks internal PIWM labels into video generation."""
+
+    prompt_text = prompt_json.get("kling_prompt", "") or prompt_json.get("behavior_description", "")
+    hits = forbidden_label_hits(prompt_text) if prompt_text else []
+    return {
+        "label_leakage": bool(hits),
+        "label_leakage_hits": hits,
+    }
 
 
 def run_qa_for_continuation(continuation_dir: Path, overwrite: bool = True) -> dict[str, Any]:

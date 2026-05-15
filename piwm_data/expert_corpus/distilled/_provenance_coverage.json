@@ -1,13 +1,14 @@
 {
-  "n_existing_rules_total": 72,
-  "n_rule_source_links_total": 72,
-  "n_existing_rules_linked": 72,
+  "n_existing_rules_total": 78,
+  "n_rule_source_links_total": 78,
+  "n_existing_rules_linked": 78,
   "n_existing_rules_unlinked": 0,
   "support_status_counts": {
-    "manual_supported": 32,
+    "manual_supported": 38,
     "theory_anchored": 40
   },
   "lifecycle_counts": {
+    "new_source_backed": 6,
     "retained_seed": 72
   },
   "coverage_by_rule_type": {
@@ -25,6 +26,15 @@
       "linked": 14,
       "unlinked": 0,
       "theory_anchored_or_better": 14,
+      "manual_supported_or_better": 6,
+      "expert_reviewed": 0,
+      "candidate_for_removal": 0
+    },
+    "persona_to_intent_tier": {
+      "total": 6,
+      "linked": 6,
+      "unlinked": 0,
+      "theory_anchored_or_better": 6,
       "manual_supported_or_better": 6,
       "expert_reviewed": 0,
       "candidate_for_removal": 0

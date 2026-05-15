@@ -13,7 +13,7 @@ def _write_json(path: Path, payload: dict) -> None:
 
 def test_sprint_summary_marks_mock_and_missing_results(tmp_path: Path) -> None:
     _write_json(
-        tmp_path / "data/piwm_dataset_pilot30_with_continuations/_stats.json",
+        tmp_path / "data/official/piwm_world_model_v1/_stats.json",
         {
             "n_sessions_loaded": 24,
             "n_sessions_skipped": 6,

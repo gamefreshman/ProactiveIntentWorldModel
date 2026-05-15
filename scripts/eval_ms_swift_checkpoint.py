@@ -123,10 +123,12 @@ def _score(parsed: dict[str, Any], gold: dict[str, Any], task: str) -> dict[str,
         return {
             "match_exact": parsed.get("match") == gold.get("match"),
             "expected_state_exact": parsed.get("expected_next_state") == gold.get("expected_next_state"),
-            "body_change_exact": parsed_reaction.get("body_change") == gold_reaction.get("body_change"),
-            "gaze_change_exact": parsed_reaction.get("gaze_change") == gold_reaction.get("gaze_change"),
-            "hand_change_exact": parsed_reaction.get("hand_change") == gold_reaction.get("hand_change"),
-            "movement_change_exact": parsed_reaction.get("movement_change") == gold_reaction.get("movement_change"),
+            "engagement_pattern_change_exact": parsed_reaction.get("engagement_pattern_change")
+            == gold_reaction.get("engagement_pattern_change"),
+            "gaze_and_attention_change_exact": parsed_reaction.get("gaze_and_attention_change")
+            == gold_reaction.get("gaze_and_attention_change"),
+            "body_and_hands_change_exact": parsed_reaction.get("body_and_hands_change")
+            == gold_reaction.get("body_and_hands_change"),
         }
     if task == "action_selection":
         return {"chosen_exact": parsed.get("chosen") == gold.get("chosen")}

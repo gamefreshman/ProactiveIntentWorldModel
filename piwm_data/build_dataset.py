@@ -17,6 +17,7 @@ from .exporters import (
     export_state_inference_with_cue,
     export_transition_modeling,
     export_world_model_continuation,
+    main_schema_record_payload,
 )
 from .schemas import MainSchemaRecord
 from .validate import validate_image_paths, validate_main_schema
@@ -161,7 +162,7 @@ def _count_sessions(archive_root: Path, limit: int | None) -> int:
 def _write_main_schema(records: list[MainSchemaRecord], out: Path) -> int:
     with out.open("w", encoding="utf-8") as handle:
         for record in records:
-            handle.write(record.model_dump_json() + "\n")
+            handle.write(json.dumps(main_schema_record_payload(record), ensure_ascii=False) + "\n")
     return len(records)
 
 
@@ -173,12 +174,17 @@ def _world_model_stats(records: list[MainSchemaRecord]) -> dict[str, int | float
     product_counts: dict[str, int] = {}
     split_counts: dict[str, int] = {}
     continuation_role_counts: dict[str, int] = {}
+    compatibility_counts: dict[str, int] = {}
+    intent_tier_counts: dict[str, int] = {}
     negative_reward_continuations = 0
     qa_pass_continuations = 0
     reward_gaps: list[float] = []
     for record in records:
         viewpoint = record.viewpoint
         viewpoint_counts[viewpoint] = viewpoint_counts.get(viewpoint, 0) + 1
+        compatibility_counts[record.compatibility_tier] = compatibility_counts.get(record.compatibility_tier, 0) + 1
+        if record.persona.intent_tier:
+            intent_tier_counts[record.persona.intent_tier] = intent_tier_counts.get(record.persona.intent_tier, 0) + 1
         product_counts[record.product_category] = product_counts.get(record.product_category, 0) + 1
         if record.split is not None:
             split_counts[record.split] = split_counts.get(record.split, 0) + 1
@@ -200,6 +206,8 @@ def _world_model_stats(records: list[MainSchemaRecord]) -> dict[str, int | float
         "n_states_with_action_contrast": n_with_contrast,
         "n_states_without_action_contrast": len(records) - n_with_contrast,
         "n_sessions_by_viewpoint": dict(sorted(viewpoint_counts.items())),
+        "n_sessions_by_compatibility_tier": dict(sorted(compatibility_counts.items())),
+        "n_sessions_by_intent_tier": dict(sorted(intent_tier_counts.items())),
         "n_sessions_by_product_category": dict(sorted(product_counts.items())),
         "n_sessions_by_split": dict(sorted(split_counts.items())),
         "n_states_with_action_contrast_by_viewpoint": dict(sorted(contrast_by_viewpoint.items())),

@@ -4,7 +4,7 @@ The contract:
 
 1. ``conditional_rules.jsonl`` parses without error.
 2. The compiled tables exactly match the literal tables in :mod:`piwm_data.rules`.
-3. Counts match the documented baseline (10/14/9/9/9/21 = 72 entries total).
+3. Counts match the documented baseline plus v2.2 intent-tier rules.
 4. Every rule entry carries an explicit, non-empty rationale.
 5. The first batch is honestly tagged ``seed_rule``, never as pedagogy text.
 6. No conflicts: each (rule_type, key) maps to exactly one value.
@@ -30,12 +30,12 @@ from piwm_data.expert_corpus.schemas import CorpusValidationError
 # 1. JSONL is well-formed and complete
 
 
-def test_jsonl_exists_and_has_72_entries() -> None:
+def test_jsonl_exists_and_has_78_entries() -> None:
     assert DEFAULT_JSONL.exists(), f"{DEFAULT_JSONL} missing"
     lines = [
         line for line in DEFAULT_JSONL.read_text(encoding="utf-8").splitlines() if line.strip()
     ]
-    assert len(lines) == 72
+    assert len(lines) == 78
 
 
 def test_jsonl_compiles_without_error() -> None:
@@ -43,6 +43,7 @@ def test_jsonl_compiles_without_error() -> None:
     assert out.conflicts == []
     assert out.counts() == {
         "cue_to_state_prior": 10,
+        "persona_to_intent_tier": 6,
         "persona_state_to_intent": 14,
         "state_fallback_intent": 9,
         "state_to_proactive_score": 9,
@@ -63,6 +64,18 @@ def test_cue_to_state_matches_literal() -> None:
 def test_persona_state_to_intent_matches_literal() -> None:
     out = compile_corpus()
     assert out.persona_state_to_intent == runtime_rules.PERSONA_STATE_TO_INTENT
+
+
+def test_persona_to_intent_tier_matches_v2_2_contract() -> None:
+    out = compile_corpus()
+    assert out.persona_to_intent_tier == {
+        "price_sensitive_cautious": "exploring",
+        "first_time_high_consideration": "exploring",
+        "experienced_brand_loyal": "ready_to_buy",
+        "browser_low_intent": "low_intent_browsing",
+        "gift_buyer_uncertain": "exploring",
+        "price_insensitive_decisive": "ready_to_buy",
+    }
 
 
 def test_state_fallback_intent_matches_literal() -> None:
@@ -92,13 +105,35 @@ def test_transition_table_matches_literal() -> None:
             )
 
 
+def test_transition_failure_modes_compile() -> None:
+    out = compile_corpus()
+    failure_modes = [
+        value["failure_mode"]
+        for value in out.transition_table.values()
+        if value.get("failure_mode") is not None
+    ]
+    null_failure_modes = [
+        value for value in out.transition_table.values() if value.get("failure_mode") is None
+    ]
+
+    assert len(out.transition_table) == 21
+    assert len(failure_modes) == 17
+    assert len(null_failure_modes) == 4
+    assert all(value.get("failure_mode_rationale") for value in null_failure_modes)
+    assert any(
+        any("pressure" in condition for condition in fm["trigger_conditions"])
+        for fm in failure_modes
+    )
+    assert all(fm["principle_refs"] for fm in failure_modes)
+
+
 # ---------------------------------------------------------------------------
 # 3. Provenance is honest and complete
 
 
 def test_every_rule_has_provenance() -> None:
     out = compile_corpus()
-    assert len(out.rule_provenance) == 72
+    assert len(out.rule_provenance) == 78
     for rule_id, info in out.rule_provenance.items():
         prov = info["provenance"]
         assert prov["rationale"], f"{rule_id}: empty rationale"
@@ -120,9 +155,12 @@ def test_first_batch_is_honestly_seed() -> None:
     out = compile_corpus()
     for rule_id, info in out.rule_provenance.items():
         kind = info["provenance"]["source_kind"]
-        assert kind == "seed_rule", (
-            f"{rule_id}: first-batch rule must be tagged seed_rule, got {kind}"
-        )
+        if rule_id.startswith("PIT_"):
+            assert kind == "manual_distillation", f"{rule_id}: expected v2.2 distillation"
+        else:
+            assert kind == "seed_rule", (
+                f"{rule_id}: first-batch rule must be tagged seed_rule, got {kind}"
+            )
 
 
 # ---------------------------------------------------------------------------

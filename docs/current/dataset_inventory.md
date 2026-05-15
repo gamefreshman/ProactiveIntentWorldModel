@@ -1,6 +1,6 @@
 # PIWM Dataset Inventory
 
-更新时间：2026-05-11 CST
+更新时间：2026-05-13 CST
 
 本文是当前数据集总账。Kling API 已耗尽，本轮不会再新增视频，因此当前已落盘数据固定为 PIWM v1 正式数据集。它的目标不是记录所有历史文件，而是回答三个问题：
 
@@ -21,7 +21,9 @@
 | 用途 | 使用对象 | 口径 |
 |---|---|---|
 | 正式数据集入口 | `data/official/` | PIWM v2-compatible canonical aliases |
-| 主 SFT 训练（轻量） | `data/official/ms_swift/piwm_train_synth_v1.jsonl` | `PIWM-Train-Synth-v1`，high-throughput synthetic train split，未人工视觉审阅；已迁移到 compact visual-state/action-realization schema |
+| frozen 主 SFT 训练（轻量） | `data/official/ms_swift/piwm_train_synth_v1.jsonl` | `PIWM-Train-Synth-v1`，high-throughput synthetic train split，未人工视觉审阅；保留真人导购逻辑，动作语义约束为 6-act |
+| schema v2.2 主 SFT 训练 | `data/official/ms_swift/piwm_train_synth_v2.jsonl` | `PIWM-Train-Synth-v2`，2554 examples；独立 v2.2 导出，不覆盖 v1 |
+| v2 policy 生成入口 | `data/official/piwm_policy_slice_v2/policy_manifest.jsonl` | `PIWM-PolicySlice-v2`，864 条 explicit candidate-rule scenarios；不是视频数据 |
 | 下一次从 base 重训 | `data/official/ms_swift/piwm_train_full_v2.jsonl` | `PIWM-Train-Full-v2`，3339 examples；在主训练基础上加入 action-selection、continuation caption、Future Verification |
 | 当前最新 checkpoint | `data/piwm_results/ms_swift_sft_qwen25vl7b_full_v2_len8192_8gpu/v0-20260502-193050/checkpoint-834` | ms-swift LoRA SFT，8 GPU，`PIWM-Train-Full-v2` |
 | 主表 QA eval | `data/official/ms_swift/piwm_eval_qa_all_v1.jsonl` | `PIWM-Eval-QA-v1`，QA-reviewed priority sample |
@@ -32,21 +34,25 @@
 
 禁止混用：
 
-- `PIWM-Train-Synth-v1` 可以训练，但不能写成 QA-pass。旧名为 `priority1000_unreviewed`，当前 source 已重导为 `priority1000_unreviewed_compact_v2`。
+- `PIWM-Train-Synth-v1` 可以训练，但不能写成 QA-pass。`priority1000_unreviewed*` 只能作为 backing/source path 或历史复现实验路径出现，不能当公开数据名。
+- `PIWM-Train-Synth-v2` 是同一批 543 parent 的 schema v2.2 独立导出，不代表新增视频。
+- `PIWM-PolicySlice-v2` 只能写成规则支撑的 policy manifest / 生成入口，不能写成 filmed dataset 或 QA-reviewed dataset。
 - `PIWM-Eval-QA-v1` 可以评估，但规模是 36 loaded parent，不是 full benchmark。旧名为 `priority40_qareviewed_sample`。
 - `PIWM-WorldModel-v1` 是 World Model 视觉证据，不是主 SFT 规模来源。旧名为 `pilot30_with_continuations`。
 - Kling API 已耗尽，所有 missing-video 队列只保留为待补，不自动生成。
 
 ## 1.1 Formal Dataset Names
 
-| 正式名 | Canonical path | Source path | 角色 |
+| 正式名 | Canonical path | Backing/source path（维护用） | 角色 |
 |---|---|---|---|
-| `PIWM-Train-Synth-v1` | `data/official/piwm_train_synth_v1` | `data/piwm_dataset_priority1000_unreviewed_compact_v2` | 主 SFT 训练，compact visual-state/action-realization schema；字段文本已加入产品类别、视觉线索和具体导购动作细化 |
+| `PIWM-Train-Synth-v1` | `data/official/piwm_train_synth_v1` | `data/piwm_dataset_priority1000_unreviewed_compact_v2` | frozen 主 SFT 训练，compact visual-state/action-realization schema；字段文本已加入产品类别、视觉线索和具体导购动作细化 |
+| `PIWM-Train-Synth-v2` | `data/official/piwm_train_synth_v2` | `data/official/piwm_train_synth_v1` | schema v2.2 独立导出：`candidate_action_specs / best_action_spec / next_state_by_action_v2 / compatibility_tier` |
+| `PIWM-PolicySlice-v2` | `data/official/piwm_policy_slice_v2` | `scripts.scenario_sampler --candidate-rule-only` | 864 条 explicit candidate-rule policy manifest；用于后续生成/均衡动作分析，不作为 filmed data |
 | `PIWM-Eval-QA-v1` | `data/official/piwm_eval_qa_v1` | `data/piwm_dataset_priority40_qareviewed_sample_compact_v2_exact` | 主表 / e2e QA 评估，compact visual-state/action-realization schema；与主训练字段语义对齐 |
 | `PIWM-WorldModel-v1` | `data/official/piwm_world_model_v1` | `data/piwm_dataset_pilot30_with_continuations_compact_v2` | continuation / World Model 视觉证据，共享三轴 current/future visual schema |
 | `PIWM-FutureVerification-v1` | `data/official/piwm_world_model_v1/future_verification.jsonl` | `data/piwm_dataset_pilot30_with_continuations_compact_v2/future_verification.jsonl` | action-conditioned future verification |
 
-正式名用于论文、汇报和新脚本；旧名仅作为 source path 或复现实验路径保留。
+正式名用于论文、汇报、新脚本和示例数据展示；旧名仅作为 source path、manifest lineage 或复现实验路径保留。
 
 ## 1.2 Schema Version Policy
 
@@ -54,18 +60,18 @@
 
 | 层级 | 当前字段 | 兼容字段 | 维护入口 |
 |---|---|---|---|
-| Policy label | `dialogue_act`, `act_params`, `co_acts` | `best_action`, `candidate_actions` | `docs/contracts/action_space_realization_contract.md` |
-| Terminal behavior | `realization` / `terminal_realization` | `best_action_realization` | `docs/contracts/data_schema_v2_contract.md` |
+| Policy label | `candidate_action_specs`, `best_action_spec`, `dialogue_act`, `act_params.supporting_acts` | `best_action`, `candidate_actions`, `co_acts` | `docs/contracts/action_space_realization_contract.md` |
+| Human salesperson behavior | `best_action_realization` | `realization` terminal draft | `docs/contracts/data_schema_v2_contract.md` |
 | Real shooting clip | `ShootingClipRecord` | S05 PDF / 旧 A/T 标签 | `docs/current/piwm_real_shooting_scripts_S01_S12.md` |
 | Paper data story | 5 层数据脊柱 | 历史 dataset nickname | `docs/current/paper_data_section_blueprint.md` |
 
-`PIWM-Train-Synth-v1`、`PIWM-Eval-QA-v1`、`PIWM-WorldModel-v1` 仍可按旧 action 字段运行；后续重导出必须同时带新 act 字段和旧兼容字段。
+`PIWM-Train-Synth-v1`、`PIWM-Eval-QA-v1`、`PIWM-WorldModel-v1` 仍可按旧 action 字段运行。2026-05-13 v2.1 重导后，official 主表输出 `schema_version=dialogue_act_human_salesperson_v2.1` 和 `actor_profile=human_salesperson_logic`；顶层 `co_acts` 只作 legacy input alias，不再作为 official 输出主字段。2026-05-15 runtime/schema 已进入 v2.2，并已写出独立 `PIWM-Train-Synth-v2`：新导出包含 `candidate_action_specs`、`best_action_spec`、`next_state_by_action_v2`、`compatibility_tier`、`legacy_mismatch_flags`。v1 仍保持冻结兼容入口。
 
 `PIWM-RealShoot-v1` 已有 `ShootingClipRecord` manifest 模板与 24 行 S01-S12 A/B 样例。在素材通过 QA 并补齐 assets 前，论文只能写成 planned real-shooting validation protocol，不能写成已完成数据规模。
 
-## 1.3 V2 Re-export Status
+## 1.3 V2.1 Re-export Status and V2.2 Independent Export
 
-2026-05-11 已运行官方数据重导：
+2026-05-13 已运行官方数据重导：
 
 ```bash
 python3 -m scripts.refresh_official_v2_exports --summary-out data/official/V2_REEXPORT_SUMMARY.json
@@ -76,10 +82,31 @@ python3 -m scripts.build_realshoot_manifest --output-dir data/official/piwm_real
 
 | Dataset | Parent / manifest rows | Transition | Policy | Continuation | V2 状态 |
 |---|---:|---:|---:|---:|---|
-| `PIWM-Train-Synth-v1` | 543 | 2011 | 543 | 0 | `dialogue_act / act_params / realization` 已写入 |
-| `PIWM-Eval-QA-v1` | 36 | 126 | 36 | 0 | `dialogue_act / act_params / realization` 已写入 |
+| `PIWM-Train-Synth-v1` | 543 | 2011 | 543 | 0 | `schema_version / actor_profile / dialogue_act / act_params.supporting_acts / best_action_realization` 已写入；`realization` 是终端草案 |
+| `PIWM-Eval-QA-v1` | 36 | 126 | 36 | 0 | `schema_version / actor_profile / dialogue_act / act_params.supporting_acts / realization` 已写入 |
 | `PIWM-WorldModel-v1` | 24 | 66 | 24 | 44 | transition 已含 `candidate_dialogue_act / candidate_terminal_realization` |
 | `PIWM-RealShoot-v1` | 24 manifest rows | - | - | - | `ShootingClipRecord + terminal_realization` 样例已生成 |
+
+v2.2 已完成 schema/runtime 增量和独立导出。当前已生成：
+
+- `docs/v2_validation/compatibility_report.md`
+- basic schema compatibility：`green=462`、`yellow=0`、`red=81`。这里的 `yellow=0` 只表示基础检查没有非阻断 schema mismatch，不表示 policy 没有漂移。
+- extended v2 re-derivation audit：`green=109`、`yellow=353`、`red=81`。
+- official 543 在 v2.2 规则下重新推导的 best action 分布：`Elicit=252`、`Recommend=119`、`Inform=105`、`Reassure=42`、`Hold=25`。
+- `red` 全部来自 `intent_tier_visual_mismatch`，且集中在 `browser_low_intent`：81 / 94 条。
+- `docs/v2_validation/v2_2_reexport_diff_preview.md` 已预演写回 diff；未修改 official JSONL。
+- `next_state_by_action` 当前仍保留 legacy A-label key；`next_state_by_action_v2` 已新增为 v2 action-keyed alias。
+- `data/official/piwm_train_synth_v2/` 已写出：543 main records、543 state rows、2011 transition rows、543 policy rows。
+- `data/official/ms_swift/piwm_train_synth_v2.jsonl` 已写出：2554 examples，perception=543，deliberation=2011。
+- `data/official/piwm_policy_slice_v2/policy_manifest.jsonl` 已写出：864 explicit policy scenarios，policy best 为 `Recommend=360 / Elicit=272 / Inform=136 / Hold=56 / Reassure=40`。
+
+如果要重新生成或覆盖 v2.2 独立目录，必须先运行：
+
+```bash
+python3 scripts/refresh_official_v2_exports.py --dry-run --output-diff docs/v2_validation/v2_2_reexport_diff_preview.md
+```
+
+人工确认 dry-run 摘要和 diff preview 后，才能重写独立 v2 目录。不要覆盖 `PIWM-Train-Synth-v1`。
 
 ## 2. QA-Reviewed Evaluation / Evidence Sets
 
@@ -146,14 +173,23 @@ data/piwm_dataset_pilot30_with_continuations_compact_v2/
 | `data/piwm_dataset_priority500_partial_unreviewed` | 376 | 8 | 376 | 1391 | 376 | `ms_swift_priority500_partial_unreviewed` 1767 examples | warmup 训练 |
 | `data/piwm_dataset_priority500_unreviewed` | 427 | 81 | 427 | 1547 | 427 | `ms_swift_priority500_unreviewed` 1974 examples | priority500 v2 训练 |
 | `data/piwm_dataset_priority1000_unreviewed` | 543 | 465 | 543 | 2011 | 543 | `ms_swift_priority1000_unreviewed` 2554 examples | 旧字段版主训练 split，保留回滚 |
-| `data/piwm_dataset_priority1000_unreviewed_compact_v2` | 543 | 465 | 543 | 2011 | 543 | `ms_swift_priority1000_compact_v2` 2554 examples | 当前正式主训练 split |
+| `data/piwm_dataset_priority1000_unreviewed_compact_v2` | 543 | 465 | 543 | 2011 | 543 | `ms_swift_priority1000_compact_v2` 2554 examples | `PIWM-Train-Synth-v1` backing source；不要作为公开数据名 |
+| `data/official/piwm_train_synth_v2` | 543 | 465 | 543 | 2011 | 543 | `data/official/ms_swift/piwm_train_synth_v2.jsonl` 2554 examples | `PIWM-Train-Synth-v2`；schema v2.2 独立导出，不新增视频 |
+| `data/official/piwm_policy_slice_v2` | 864 scenarios | - | - | - | - | `policy_manifest.jsonl` | explicit candidate-rule policy manifest；用于动作均衡和生成，不是视频数据 |
 
-### 3.1 Current Main Train Split
+### 3.1 Current Official Train Entrypoint
 
 当前最有价值的训练输入：
 
 ```text
-data/official/ms_swift/piwm_train_synth_v1.jsonl
+data/official/ms_swift/piwm_train_synth_v2.jsonl
+```
+
+当前主表样本入口：
+
+```text
+data/official/piwm_train_synth_v1/main_schema.jsonl
+data/official/piwm_train_synth_v2/main_schema.jsonl
 ```
 
 规模：
@@ -163,8 +199,33 @@ data/official/ms_swift/piwm_train_synth_v1.jsonl
 - 2011 transition rows
 - 543 policy rows retained in dataset; current ms-swift SFT export uses perception + deliberation rows
 - 543 state rows
-- schema：`visual_state.summary / engagement_pattern / gaze_and_attention / body_and_hands` + `best_action_realization`
+- schema：`visual_state.summary / engagement_pattern / gaze_and_attention / body_and_hands` + `dialogue_act / act_params.supporting_acts / candidate_action_specs / best_action_spec / next_state_by_action_v2`，并保留 `best_action / candidate_actions / next_state_by_action / best_action_realization` 兼容字段
 - 字段语义：`visual_state` 使用 product-specific scene/focus，`bdi.belief` 使用 cue-aware belief，`best_action_realization` 使用 product-specific utterance / physical action / timing / rationale
+- 主体口径：该数据集保留真人导购逻辑；target terminal 数据集后续单独建设。
+
+当前 best DialogueAct 分布偏斜，作为训练口径必须说明：
+
+| DialogueAct | Count |
+|---|---:|
+| `Inform` | 407 |
+| `Elicit` | 69 |
+| `Hold` | 59 |
+| `Reassure` | 8 |
+| `Recommend` | 0 |
+| `Greet` | 0 |
+
+因此，`PIWM-Train-Synth-v1` 适合训练当前 synthetic 行为策略，不适合作为“六动作均衡 policy benchmark”。后续需要 balanced policy slice 或 target terminal dataset 来补 `Recommend(pressure=soft)`、`Greet`、更多 `Reassure` 正样本。
+
+v2.2 re-derived policy best 分布另算，不覆盖 legacy `best_action`：
+
+| DialogueAct | Count |
+|---|---:|
+| `Elicit` | 252 |
+| `Recommend` | 119 |
+| `Inform` | 105 |
+| `Reassure` | 42 |
+| `Hold` | 25 |
+| `Greet` | 0 |
 
 来源：
 

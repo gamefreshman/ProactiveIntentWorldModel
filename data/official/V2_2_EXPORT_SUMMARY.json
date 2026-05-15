@@ -1,0 +1,45 @@
+{
+  "artifact": "piwm_official_v2_2_reexport_summary",
+  "datasets": [
+    {
+      "artifact_role": "main_schema_and_task_slices",
+      "dataset_path": "data/official/piwm_train_synth_v1",
+      "dry_run": false,
+      "n_policy_preference_rows": 543,
+      "n_records": 543,
+      "n_state_inference_rows": 543,
+      "n_transition_modeling_rows": 2011,
+      "n_world_model_continuation_rows": 0,
+      "output_path": "data/official/piwm_train_synth_v2",
+      "resolved_path": "data/piwm_dataset_priority1000_unreviewed_compact_v2"
+    },
+    {
+      "artifact_role": "ms_swift_training_entrypoint",
+      "format": "ms-swift messages + images",
+      "n_examples": 2554,
+      "output_jsonl": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
+      "summary_path": "data/official/ms_swift/piwm_train_synth_v2_summary.json",
+      "task_counts": {
+        "deliberation": 2011,
+        "perception": 543
+      }
+    },
+    {
+      "artifact_role": "v2_policy_space_slice",
+      "n_explicit_candidate_rule_scenarios": 864,
+      "n_scenarios": 864,
+      "output_path": "data/official/piwm_policy_slice_v2",
+      "policy_best_dialogue_act_counts": {
+        "Elicit": 272,
+        "Hold": 56,
+        "Inform": 136,
+        "Reassure": 40,
+        "Recommend": 360
+      }
+    }
+  ],
+  "dry_run": false,
+  "rule_version": "v1.0",
+  "schema_version": "v2.2",
+  "timestamp_utc": "2026-05-15T08:35:44Z"
+}

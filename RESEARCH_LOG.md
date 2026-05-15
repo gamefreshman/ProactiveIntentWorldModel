@@ -30,7 +30,8 @@
 | Reference Doc | Role |
 |---|---|
 | [docs/contracts/claim_to_artifact_audit.md](docs/contracts/claim_to_artifact_audit.md) | 论文 claim 与代码/数据工件对应关系 |
-| [docs/contracts/action_space_realization_contract.md](docs/contracts/action_space_realization_contract.md) | 6-act 动作空间、terminal realization、旧 A/T 标签兼容迁移 |
+| [docs/contracts/action_space_realization_contract.md](docs/contracts/action_space_realization_contract.md) | 6-act 动作空间、真人导购逻辑 / target terminal 数据边界、旧 A/T 标签兼容迁移 |
+| [docs/contracts/data_generation_chain_v2_1_contract.md](docs/contracts/data_generation_chain_v2_1_contract.md) | 动作、场景、label、专家知识库、official 重导的唯一维护链路 |
 | [docs/contracts/data_schema_v2_contract.md](docs/contracts/data_schema_v2_contract.md) | 成熟数据格式、真实拍摄 clip manifest、导出策略和版本维护 |
 | [docs/contracts/world_model_supervision_contract.md](docs/contracts/world_model_supervision_contract.md) | World Model 监督契约 |
 | [docs/contracts/visual_input_contract.md](docs/contracts/visual_input_contract.md) | 多视角、抽帧、frame manifest、QA gate |
@@ -42,6 +43,281 @@
 历史计划、早期状态和解释材料统一放在 `docs/background/`；它们保留参考价值，但不再作为当前 sprint 决策入口。具体定位见 [docs/README.md](docs/README.md)。
 
 ## High-Density Updates
+
+### [2026-05-15 18:05:00 CST] | Phase: Schema v2.2 / Independent Official Export Completion
+
+**Key Progress**
+- Added stable v2 action keys through `rules.action_spec_key(act, params)`.
+- Added `MainSchemaRecord.next_state_by_action_v2`, while retaining legacy `next_state_by_action` A-label keys for continuation and old loader compatibility.
+- Updated transition and continuation exports to include `candidate_action_key`.
+- Added `scripts/refresh_official_v2_exports.py --output-dir`, allowing independent v2 dataset export without rewriting source official aliases.
+- Wrote `PIWM-Train-Synth-v2` to `data/official/piwm_train_synth_v2/`: 543 main records, 543 state rows, 2011 transition rows, 543 policy rows.
+- Wrote `data/official/ms_swift/piwm_train_synth_v2.jsonl`: 2554 ms-swift examples, with `perception=543` and `deliberation=2011`.
+- Wrote `PIWM-PolicySlice-v2` to `data/official/piwm_policy_slice_v2/policy_manifest.jsonl`: 864 explicit candidate-rule policy scenarios.
+- Updated `data/official/DATASET_MANIFEST.json`, `data/official/README.md`, `data/README.md`, `docs/current/dataset_inventory.md`, and v2 validation docs with the new canonical paths.
+
+**Data Loop Insight**
+- v2.2 is now an actual independent dataset surface, not just a dry-run report.
+- `PIWM-Train-Synth-v1` remains the frozen compatibility alias. v2.2 training/data-format experiments should explicitly use `PIWM-Train-Synth-v2`.
+- `PIWM-PolicySlice-v2` is the correct entry for action-space balance and future generation planning, but it is a rule-space manifest rather than a filmed or QA-reviewed dataset.
+
+**Pending Criticals**
+- v2.3 cleanup should remove migration-only A-key dependencies only after downstream loaders switch to `next_state_by_action_v2`.
+- The v2-native policy helper should still be promoted back into expert-corpus rules, rather than living permanently only in `rules.py`.
+- `PIWM-Train-Synth-v2` is still synthetic train pending visual QA; do not report it as QA-pass.
+
+**Ref Reference**
+- [data/official/DATASET_MANIFEST.json](data/official/DATASET_MANIFEST.json)
+- [data/official/piwm_train_synth_v2/main_schema.jsonl](data/official/piwm_train_synth_v2/main_schema.jsonl)
+- [data/official/piwm_policy_slice_v2/policy_manifest.jsonl](data/official/piwm_policy_slice_v2/policy_manifest.jsonl)
+- [docs/v2_validation/v2_2_reexport_dry_run.md](docs/v2_validation/v2_2_reexport_dry_run.md)
+
+### [2026-05-15 17:35:00 CST] | Phase: Schema v2.2 / Review Response + Official Re-derivation Audit
+
+**Key Progress**
+- Re-ran the compatibility analysis with two separate scopes: basic schema compatibility and extended v2 policy re-derivation.
+- Confirmed the earlier `yellow=0` result was a detector-scope artifact: the basic tier check only marked hard schema/visual conflicts, while the extended audit detects policy drift.
+- Extended official 543 audit result: `green=109`, `yellow=353`, `red=81`.
+- Official 543 re-derived v2 policy best distribution: `Elicit=252`, `Recommend=119`, `Inform=105`, `Reassure=42`, `Hold=25`, `Greet=0`.
+- Red samples are concentrated in `browser_low_intent`: 81 red out of 94 `browser_low_intent` records. This reflects legacy Kling prompts not separating low-intent browsing from high-engagement visual performance.
+- Added `scripts/refresh_official_v2_exports.py --dry-run --output-diff <path>` and generated `docs/v2_validation/v2_2_reexport_diff_preview.md` without modifying official JSONL.
+- Added `docs/v2_validation/v2_2_test_coverage.md` to list the v2.2-specific tests and the remaining uncovered items.
+
+**Data Loop Insight**
+- The true v2.2 outcome for current official data is not “462 clean / 81 bad”; it is “109 no-drift green, 353 policy-drift yellow, 81 red visual-intent conflicts.”
+- `Recommend=360` belongs to the 864 explicit candidate-rule policy slice, not to the original official 543. The official 543 under v2 re-derivation yields `Recommend=119`.
+- The 864 policy slice is a rule-supported simulation subset: it filters the 1920 full grid down to cases whose `(latent_state, aida_stage)` has explicit expert candidate support.
+
+**Pending Criticals**
+- Later completed: v2.2 was exported to independent paths `data/official/piwm_train_synth_v2/` and `data/official/piwm_policy_slice_v2/` without overwriting `PIWM-Train-Synth-v1`.
+- Later completed: `next_state_by_action_v2` was added as a v2 action-keyed alias; v2.3 still needs migration-only A-key cleanup after downstream readers switch.
+- Add unit tests for `compatibility_report.py` extended audit and `refresh_official_v2_exports.py --output-diff`; they are currently command-verified rather than isolated test-covered.
+
+**Ref Reference**
+- [docs/v2_validation/compatibility_report.md](docs/v2_validation/compatibility_report.md)
+- [docs/v2_validation/action_distribution.md](docs/v2_validation/action_distribution.md)
+- [docs/v2_validation/v2_2_reexport_diff_preview.md](docs/v2_validation/v2_2_reexport_diff_preview.md)
+- [docs/v2_validation/v2_2_test_coverage.md](docs/v2_validation/v2_2_test_coverage.md)
+
+### [2026-05-15 14:45:00 CST] | Phase: Schema v2.2 / Phase 2 Runtime Integration
+
+**Key Progress**
+- Added `piwm_data/migration/legacy_action_mapping.py` as the migration-only explicit A1-A8 to `(act, params)` adapter.
+- Added `derive_intent_tier()` and intent-tier candidate filtering in `piwm_data/rules.py`.
+- Added v2 candidate specs, failure-mode DSL matching, risk tags, and `outcome_type` support in `derive_action_outcome()`.
+- Connected `archive_loader.load_session()` to the migration adapter and v2 outcome context while preserving old `candidate_actions` / `best_action` string fields for current schema compatibility.
+- Added `docs/v2_validation/phase2_runtime_integration_report.md`.
+- Added `docs/v2_validation/action_distribution.md`; confirmed `Recommend=0` remains unresolved after intent-tier filtering and must be fixed by candidate/outcome reward calibration.
+
+**Data Loop Insight**
+- Phase 2 now has an executable v2 path without making `legacy_action` part of the future schema.
+- Low-intent browsing sessions can now filter firm recommendations before record construction.
+- Failure modes can now trigger from runtime context, but formal schema promotion and official dataset re-export remain later phases.
+
+**Pending Criticals**
+- Split transition tables by `(act, params)` instead of mapping v2 actions onto old transition families.
+- Promote `risk_tags`, `failure_mode`, `outcome_type`, and `intent_tier` into formal schemas in Phase 5.
+- Run the action-distribution simulator before any official v2 export.
+
+**Ref Reference**
+- [docs/v2_validation/phase2_runtime_integration_report.md](docs/v2_validation/phase2_runtime_integration_report.md)
+- [piwm_data/migration/legacy_action_mapping.py](piwm_data/migration/legacy_action_mapping.py)
+- [piwm_data/rules.py](piwm_data/rules.py)
+
+### [2026-05-15 15:05:00 CST] | Phase: Schema v2.2 / Phase 4 Label Leakage Gate
+
+**Key Progress**
+- Extended `scripts.prompt_builder.forbidden_label_hits()` to include v2.2 labels: `intent_tier`, `failure_mode`, `risk_tags`, `outcome_type`, DialogueAct names, legacy A-labels, and intent labels.
+- Added `scripts.qa_gate.check_label_leakage(prompt_json)` as an explicit QA entrypoint.
+- Added tests proving internal labels are rejected while plain visible behavior descriptions pass.
+- Added `docs/v2_validation/label_leakage_policy.md`.
+
+**Data Loop Insight**
+- Kling/video prompts can carry natural visible behavior descriptions, but must not contain gold policy/state labels.
+- This protects the synthetic visual data loop from leaking the answer into generated pixels or prompt metadata visible to generation.
+
+**Pending Criticals**
+- Keep `scenario_metadata.derived` available for prompt JSON traceability, but never include those labels in `kling_prompt`.
+- Any new internal label field must update the blacklist, tests, and label leakage policy doc.
+
+**Ref Reference**
+- [docs/v2_validation/label_leakage_policy.md](docs/v2_validation/label_leakage_policy.md)
+- [scripts/qa_gate.py](scripts/qa_gate.py)
+- [scripts/prompt_builder.py](scripts/prompt_builder.py)
+
+### [2026-05-15 15:20:00 CST] | Phase: Schema v2.2 / Phase 5 Schema Increment
+
+**Key Progress**
+- Added `Persona.intent_tier` with automatic fill from `rules.derive_intent_tier()`.
+- Added `ActionOutcome` v2 fields: `dialogue_act`, `act_params`, `intent_tier`, `risk_tags`, `failure_mode`, and `outcome_type`.
+- Added schema validation that failure outcomes must carry `failure_mode`.
+- Added `CandidateAction` as the canonical v2 `(act, params)` object without a `legacy_action` field.
+- Added `MainSchemaRecord.candidate_action_specs`, `best_action_spec`, `compatibility_tier`, and `legacy_mismatch_flags` as compatibility-preserving v2 mirror fields.
+- Added `scripts/compatibility_report.py` and generated `docs/v2_validation/compatibility_report.md` from official v1 `main_schema.jsonl`.
+- Bumped runtime export schema constant to `dialogue_act_human_salesperson_v2.2`.
+- Added `--dry-run` to `scripts/refresh_official_v2_exports.py` and verified official v1/eval/world-model datasets can be read without writing files.
+- Added `docs/v2_validation/phase5_schema_increment_report.md`.
+
+**Data Loop Insight**
+- Runtime v2 outcome fields are now preserved by schema instead of being silently dropped by Pydantic.
+- Old `candidate_actions` / `best_action` string fields remain in place as migration keys, while `candidate_action_specs` / `best_action_spec` are now the schema-level canonical v2 mirror.
+- Basic official v1 compatibility tiering was `green=462`, `yellow=0`, `red=81`; this was later clarified as schema-level only, not a full policy-drift audit.
+- Official re-export dry-run counts are stable: train `543/2011/543/0`, eval `36/126/36/0`, world-model `24/66/24/44` for state/transition/policy/continuation.
+- Recommend-zero diagnosis: current legacy candidate space only exposes `Recommend(pressure=firm)` through `A3_strong_recommend`; it appears in candidates but never wins under old reward selection. Raising A3 directly would promote strong recommendation, so the correct next step is v2-native candidate specs with soft/firm Recommend split.
+- Added v2-native policy helpers `derive_policy_candidate_specs()` and `pick_best_action_spec()`; later review clarified that `Recommend=360` belongs to the 864 explicit candidate-rule slice, not the 1920 full grid.
+- Added `scripts.scenario_sampler --candidate-rule-only`; explicit candidate-rule slice has 864 scenarios and avoids the 1056 default-fallback state/AIDA combinations that inflate low-intervention actions.
+
+**Pending Criticals**
+- `next_state_by_action` still uses legacy A-label keys; v2 action-key migration remains pending.
+- Reward calibration has not yet fixed official legacy `best_action`; v2 policy path fixes Recommend/Elicit entry, but `Hold/Reassure` remain high in full rule-space because many unlikely state/aida combinations still fall through to low-intervention defaults.
+- New v2 policy data generation should use the explicit candidate-rule slice before official dataset rewrite.
+- No official dataset files have been rewritten by this step.
+
+**Ref Reference**
+- [docs/v2_validation/phase5_schema_increment_report.md](docs/v2_validation/phase5_schema_increment_report.md)
+- [docs/v2_validation/compatibility_report.md](docs/v2_validation/compatibility_report.md)
+- [docs/v2_validation/v2_2_reexport_dry_run.md](docs/v2_validation/v2_2_reexport_dry_run.md)
+- [piwm_data/schemas.py](piwm_data/schemas.py)
+
+### [2026-05-15 14:05:00 CST] | Phase: Schema v2.2 / Phase 2 Preflight Source Hardening
+
+**Key Progress**
+- Added `batch_005_source_hardening` to the expert-corpus distillation batches.
+- Promoted `SRC_SALES_BABIN_GIFT_SHOPPING_VALUE_2007` and `P_GIFT_SHOPPING_001` to support `gift_buyer_uncertain -> exploring`.
+- Promoted `SRC_SALES_ARNOLD_REYNOLDS_HEDONIC_MOTIVATIONS_2003` and `P_HEDONIC_MOTIVATION_001` to support hedonic browsing behavior.
+- Removed Bellenger 1980 from the current executable rule chain; it remains only as a historical candidate source/principle until a direct source is available.
+- Added `failure_mode_rationale` for the 4 null Hold transitions and schema/test coverage requiring rationale when `failure_mode=null`.
+- Confirmed the live `gift_buyer_uncertain` persona definition is "A shopper buying for someone else and unsure which option fits best.", so the `uncertain` boundary supports `PIT_005 -> exploring`.
+- Added `docs/v2_validation/failure_mode_coverage.md` to document that v2.2 covers active-intervention failures, while passive failures such as under-engagement and premature withdrawal require a future service-failure source batch.
+- Documented trigger-condition DSL v0.1 and Phase 2 legacy-adapter requirements in `docs/v2_validation/phase2_preflight_review.md`.
+
+**Data Loop Insight**
+- `gift_buyer_uncertain` is no longer only supported by generic social-factor rules; it now has gift-shopping-specific provenance.
+- `browser_low_intent` no longer depends on a secondary Bellenger citation in the runtime rule chain.
+- Phase 2 should implement legacy compatibility as an archive-loader adapter only: no `legacy_action` field in v2 schema.
+
+**Pending Criticals**
+- Phase 2 must implement `piwm_data/migration/legacy_action_mapping.py` as an explicit A1-A8 dict, with full unit-test coverage.
+- Phase 2 must implement trigger-condition matching without `eval`, with unknown lhs/op treated as an error or QA failure.
+- Phase 7 TODO remains: official v2 上线后，必须更新 `docs/current/dataset_inventory.md`、`data/official/DATASET_MANIFEST.json` 和 `data/official/README.md`，并标注 v1 进入 `_legacy`。
+
+**Ref Reference**
+- [docs/v2_validation/phase2_preflight_review.md](docs/v2_validation/phase2_preflight_review.md)
+- [piwm_data/expert_corpus/distillation_batches/batch_005_source_hardening/README.md](piwm_data/expert_corpus/distillation_batches/batch_005_source_hardening/README.md)
+- [piwm_data/expert_corpus/distilled/conditional_rules.jsonl](piwm_data/expert_corpus/distilled/conditional_rules.jsonl)
+
+### [2026-05-15 01:30:00 CST] | Phase: Schema v2.2 / Expert Corpus Phase 1B
+
+**Key Progress**
+- Extended `TransitionValue` with optional `failure_mode`.
+- Added `failure_mode` fields to all 21 transition rules: 17 explicit failure modes and 4 explicit `null` values.
+- Extended transition rule source links with failure-mode source references where relevant.
+- Added a compiler test that verifies failure modes compile and retain principle refs.
+
+**Data Loop Insight**
+- Failure modes are now auditable expert-corpus metadata but are not yet used by `piwm_data/rules.py` outcome calculation.
+- This keeps the migration safe: the old transition rewards still match runtime literals, while v2.2 has enough structured knowledge for the next rule-layer refactor.
+
+**Pending Criticals**
+- DoD-v2.2-3：split `Recommend(pressure=soft)` and `Recommend(pressure=firm)` in candidate/outcome rules.
+- DoD-v2.2-4：wire `derive_failure_mode` into runtime outcome calculation after candidate/reward updates.
+- DoD-v2.2-5：rerun action-distribution diagnostics before official export changes.
+- Phase 7 TODO：official v2 上线后，必须更新 `docs/current/dataset_inventory.md`、`data/official/DATASET_MANIFEST.json` 和 `data/official/README.md`，并标注 v1 进入 `_legacy`。
+
+**Ref Reference**
+- [piwm_data/expert_corpus/distilled/conditional_rules.jsonl](piwm_data/expert_corpus/distilled/conditional_rules.jsonl)
+- [piwm_data/tests/test_expert_corpus.py](piwm_data/tests/test_expert_corpus.py)
+
+### [2026-05-15 01:00:00 CST] | Phase: Schema v2.2 / Expert Corpus Phase 1A
+
+**Key Progress**
+- Added `persona_to_intent_tier` to the expert-corpus schema and compiler.
+- Added six v2.2 `PIT_*` rules covering all current persona types.
+- Added source links for all six `PIT_*` rules with `lifecycle=new_source_backed` and `review_status=approved`.
+
+**Data Loop Insight**
+- `conditional_rules.jsonl` now has 78 entries: 72 existing seed/runtime rules plus 6 v2.2 intent-tier rules.
+- The old runtime literal tables in `piwm_data/rules.py` are still unchanged; Phase 1A only makes intent tier auditable and compilable.
+- Coverage is now 78/78 linked, with `manual_supported=38` and `theory_anchored=40`.
+
+**Pending Criticals**
+- DoD-v2.2-2：extend transition rules with machine-readable `failure_mode`. Done in Phase 1B.
+- DoD-v2.2-3：split `Recommend(pressure=soft)` and `Recommend(pressure=firm)` in candidate/outcome rules.
+- DoD-v2.2-4：only after rule changes, rerun action-distribution diagnostics and official export dry-run.
+
+**Ref Reference**
+- [piwm_data/expert_corpus/README.md](piwm_data/expert_corpus/README.md)
+- [docs/v2_validation/distillation_summary.md](docs/v2_validation/distillation_summary.md)
+
+### [2026-05-15 00:30:00 CST] | Phase: Schema v2.2 / Distillation Review Phase 0B
+
+**Key Progress**
+- Reviewed 11 v2.2 draft principles and converted them from `DRAFT_*` to stable ids:
+  `P_INTENT_TIER_001`-`004`, `P_FAILURE_MODE_001`-`004`, and `P_RECOMMEND_PRESSURE_001`-`003`.
+- Promoted 3 source additions into `sales_source_registry.jsonl`: Babin (1994), Bellenger and Korgaonkar (1980), and Brehm (1966).
+- Promoted 11 finalized compact principles into `distilled/extracted_principles.jsonl`.
+- Updated `docs/v2_validation/distillation_summary.md` and `piwm_data/expert_corpus/README.md` to reflect Phase 0B status.
+
+**Data Loop Insight**
+- The expert corpus now has source-backed inputs for intent tier, failure-mode logic, and `Recommend(pressure=soft/firm)`.
+- Runtime policy remains unchanged after Phase 0B: the old `piwm_data/rules.py` tables still map to the 72 seed rules.
+- A dry-run for `batch_004_recommend_pressure` correctly failed before `batch_003_failure_mode` was promoted because it referenced `SRC_SALES_REACTANCE_BREHM_1966`; after promoting batch 003, batch 004 passed and was committed.
+
+**Pending Criticals**
+- DoD-v2.2-1：add `persona_to_intent_tier` rule type and compile support. Done in Phase 1A.
+- DoD-v2.2-2：extend transition rules with machine-readable `failure_mode`. Done in Phase 1B.
+- DoD-v2.2-3：split `Recommend(pressure=soft)` and `Recommend(pressure=firm)` in candidate/outcome rules, then rerun action-distribution diagnostics.
+
+**Ref Reference**
+- [docs/v2_validation/distillation_summary.md](docs/v2_validation/distillation_summary.md)
+- [piwm_data/expert_corpus/distillation_batches/README.md](piwm_data/expert_corpus/distillation_batches/README.md)
+
+### [2026-05-14 23:00:00 CST] | Phase: Schema v2.2 / Distillation Infrastructure Phase 0A
+
+**Key Progress**
+- Added `piwm_data/expert_corpus/distillation_batches/` as the required staging area for v2.2 expert knowledge before promotion into `distilled/`.
+- Added `batch_001_seed`, `batch_002_intent_tier`, `batch_003_failure_mode`, and `batch_004_recommend_pressure`.
+- Added dry-run maintenance tools: `run_distillation.py`, `review_helper.py`, and `promote_to_corpus.py`.
+- Generated pending review logs for 11 draft principles: 4 intent-tier, 4 failure-mode, and 3 recommendation-pressure drafts.
+- Added `docs/v2_validation/distillation_summary.md` as the current review and validation entry for v2.2 distillation.
+
+**Data Loop Insight**
+- Phase 0A intentionally does not update `distilled/extracted_principles.jsonl`, `conditional_rules.jsonl`, `rule_source_links.jsonl`, `rules.py`, or official data.
+- Babin (1994), Bellenger (1980), and Brehm (1966) are currently candidate source additions only; they are not promoted until review.
+- Copyright mode for those sources is `citation_only`, so batches store compact paraphrases and source locators rather than source text.
+
+**Pending Criticals**
+- DoD-v2.2-0A-1：人工审阅三个 review logs，把 `pending` 改为 `approved / revise / reject`。
+- DoD-v2.2-0A-2：dry-run promote 无 duplicate id 后，才能 `--commit` source/principle additions。
+- DoD-v2.2-1：只有 principle 入库后，才能新增 `persona_to_intent_tier`、`failure_mode` 和 `Recommend(pressure=soft/firm)` reward 规则。
+
+**Ref Reference**
+- [docs/v2_validation/distillation_summary.md](docs/v2_validation/distillation_summary.md)
+- [piwm_data/expert_corpus/README.md](piwm_data/expert_corpus/README.md)
+
+### [2026-05-13 00:00:00 CST] | Phase: Action Schema v2.1 / Human-Salesperson Boundary
+
+**Key Progress**
+- 明确 `PIWM-Train-Synth-v1` 保留真人导购逻辑：主监督是 `best_action_realization.utterance / physical_action / timing / rationale`，不是 target terminal 硬件采集数据。
+- 保留 6 个 `DialogueAct` 作为统一 policy space：`Greet / Elicit / Inform / Recommend / Reassure / Hold`。
+- 将顶层 `co_acts` 降级为 legacy alias；2026-05-13 official v2.1 重导后，主表使用 `act_params.supporting_acts` 表示辅助动作，例如 `Reassure(focus=time, supporting_acts=[Hold(ambient)])`，旧回溯字段写为 `legacy_co_acts`。
+- 新增 `scripts/audit_action_space.py`，用于审计 best action、candidate action、DialogueAct 和 supporting-act 分布。
+- 新增 `docs/contracts/data_generation_chain_v2_1_contract.md` 和 `piwm_data/expert_corpus/README.md`，把动作、场景、label、专家知识库和 official 重导链路收敛为一个维护路径。
+
+**Data Loop Insight**
+- 当前 543 条 synthetic train 的 best DialogueAct 分布不是均衡六动作分布：`Inform=407`、`Elicit=69`、`Hold=59`、`Reassure=8`、`Recommend=0`、`Greet=0`。
+- `Recommend=0` 不是动作空间缺失，而是现有 reward/candidate 规则把推荐主要作为强推负样本。后续需要单独构造 balanced policy slice，尤其拆出 `Recommend(pressure=soft)` 正样本。
+- `Greet` 应主要由 realshoot / target terminal 开闭场数据补，不应强行塞进当前 synthetic browsing train。
+
+**Pending Criticals**
+- DoD-Act-v2.1-1：official v2.1 重导完成后，主表已输出 `schema_version=dialogue_act_human_salesperson_v2.1` 和 `actor_profile=human_salesperson_logic`。
+- DoD-Act-v2.1-2：专家库需要审阅 `state_aida_to_candidates` 和 `transition`，解决 `Inform` 过高、`Recommend(soft)` 缺正样本的问题。
+- DoD-Act-v2.1-3：target terminal dataset 单独建设，不能把 `PIWM-Train-Synth-v1` 的真人动作写成终端硬件行为。
+
+**Ref Reference**
+- [docs/contracts/action_space_realization_contract.md](docs/contracts/action_space_realization_contract.md)
+- [docs/contracts/data_generation_chain_v2_1_contract.md](docs/contracts/data_generation_chain_v2_1_contract.md)
+- [piwm_data/expert_corpus/README.md](piwm_data/expert_corpus/README.md)
 
 ### [2026-05-11 21:00:00 CST] | Phase: Data Schema v2 / Real Shooting Script Package
 

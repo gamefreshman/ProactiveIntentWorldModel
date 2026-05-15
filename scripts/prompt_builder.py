@@ -343,7 +343,28 @@ def _write_jsonl(rows: Iterable[dict[str, Any]], out: Path) -> int:
 
 def forbidden_label_hits(prompt: str) -> list[str]:
     labels = set(rules.LATENT_STATES) | set(rules.ACTIONS) | set(rules.INTENTS)
-    labels.update({"BDI", "belief", "desire", "intention", "reward", "state_subtype"})
+    labels.update(rules.DIALOGUE_ACTS)
+    labels.update(
+        {
+            "BDI",
+            "belief",
+            "desire",
+            "intention",
+            "reward",
+            "state_subtype",
+            "intent_tier",
+            "low_intent_browsing",
+            "ready_to_buy",
+            "failure_mode",
+            "risk_tags",
+            "risk_level",
+            "latent_state",
+            "best_action",
+            "outcome_type",
+            "success",
+            "failure",
+        }
+    )
     return sorted(label for label in labels if label in prompt)
 
 

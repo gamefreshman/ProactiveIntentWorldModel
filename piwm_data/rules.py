@@ -6,10 +6,20 @@ data_pipeline_spec.md v1. Do not change them without changing the spec.
 
 from __future__ import annotations
 
+import json
+import hashlib
 from copy import deepcopy
+from pathlib import Path
 from typing import Any
 
+from .migration.legacy_action_mapping import (
+    LEGACY_ACTION_TO_ACT_PARAMS,
+    act_params_to_legacy_for_comparison,
+    legacy_to_v2,
+)
+
 RULE_VERSION = "v1.0"
+ACTION_SCHEMA_VERSION = "dialogue_act_human_salesperson_v2.2"
 
 PRODUCT_CATEGORIES = [
     "luxury_watch",
@@ -30,6 +40,22 @@ PERSONA_TYPES = [
     "gift_buyer_uncertain",
     "price_insensitive_decisive",
 ]
+
+PERSONA_TO_INTENT_TIER: dict[str, str] = {
+    "price_sensitive_cautious": "exploring",
+    "first_time_high_consideration": "exploring",
+    "experienced_brand_loyal": "ready_to_buy",
+    "browser_low_intent": "low_intent_browsing",
+    "gift_buyer_uncertain": "exploring",
+    "price_insensitive_decisive": "ready_to_buy",
+}
+
+HIGH_PUSH_SENSITIVITY_PERSONAS = {
+    "price_sensitive_cautious",
+    "first_time_high_consideration",
+    "gift_buyer_uncertain",
+    "browser_low_intent",
+}
 
 CUES = [
     "long_dwell_with_price_check",
@@ -105,53 +131,14 @@ DIALOGUE_ACT_PARAM_VALUES: dict[str, dict[str, list[str]]] = {
     "Hold": {"mode": ["silent", "ambient"]},
 }
 
+SUPPORTING_ACTS_PARAM = "supporting_acts"
+
 TASK_DIALOGUE_ACTS = {"Elicit", "Inform", "Recommend"}
 
 # Compatibility map from the pre-v2 salesperson/action labels to the v2
 # dialogue-act layer.  Existing datasets keep their A* labels; new code can
 # read the v2 act/params without re-labeling old records.
-LEGACY_ACTION_TO_DIALOGUE_ACT: dict[str, dict[str, Any]] = {
-    "A1_silent_observe": {
-        "act": "Hold",
-        "params": {"mode": "silent"},
-        "co_acts": [],
-    },
-    "A2_offer_value_comparison": {
-        "act": "Inform",
-        "params": {"content_type": "comparison", "depth": "brief"},
-        "co_acts": [],
-    },
-    "A3_strong_recommend": {
-        "act": "Recommend",
-        "params": {"target": "item", "pressure": "firm"},
-        "co_acts": [],
-    },
-    "A4_open_with_question": {
-        "act": "Elicit",
-        "params": {"openness": "open", "slot": "need_focus"},
-        "co_acts": [],
-    },
-    "A5_provide_demonstration": {
-        "act": "Inform",
-        "params": {"content_type": "demo", "depth": "brief"},
-        "co_acts": [],
-    },
-    "A6_acknowledge_and_wait": {
-        "act": "Reassure",
-        "params": {"focus": "time"},
-        "co_acts": [{"act": "Hold", "params": {"mode": "ambient"}}],
-    },
-    "A7_disengage": {
-        "act": "Hold",
-        "params": {"mode": "ambient"},
-        "co_acts": [],
-    },
-    "A8_offer_companion_invite": {
-        "act": "Elicit",
-        "params": {"openness": "open", "slot": "companion_opinion"},
-        "co_acts": [],
-    },
-}
+LEGACY_ACTION_TO_DIALOGUE_ACT: dict[str, dict[str, Any]] = deepcopy(LEGACY_ACTION_TO_ACT_PARAMS)
 
 T_STATE_TO_DIALOGUE_ACT: dict[str, dict[str, Any]] = {
     "T1_SILENT_OBSERVE": LEGACY_ACTION_TO_DIALOGUE_ACT["A1_silent_observe"],
@@ -895,6 +882,40 @@ DEFAULT_TRANSITION = {
     "benefit": "low",
 }
 
+_EXPERT_CONDITIONAL_RULES_JSONL = Path(__file__).parent / "expert_corpus" / "distilled" / "conditional_rules.jsonl"
+
+
+def _load_transition_failure_meta() -> dict[tuple[str, str], dict[str, Any]]:
+    """Load v2.2 failure-mode metadata without importing the compiler.
+
+    The compiler imports this module for enum checks, so importing compiler
+    objects here would create a cycle. A narrow JSONL read keeps runtime access
+    to reviewed failure metadata while preserving the existing literal tables.
+    """
+
+    if not _EXPERT_CONDITIONAL_RULES_JSONL.exists():
+        return {}
+    meta: dict[tuple[str, str], dict[str, Any]] = {}
+    for line in _EXPERT_CONDITIONAL_RULES_JSONL.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if row.get("rule_type") != "transition":
+            continue
+        key = row["key"]
+        value = row["value"]
+        item: dict[str, Any] = {}
+        if "failure_mode" in value:
+            item["failure_mode"] = deepcopy(value["failure_mode"])
+        if "failure_mode_rationale" in value:
+            item["failure_mode_rationale"] = value["failure_mode_rationale"]
+        if item:
+            meta[(key["state"], key["action"])] = item
+    return meta
+
+
+_TRANSITION_FAILURE_META = _load_transition_failure_meta()
+
 _ACTIVE_EVALUATION_CUES = {
     cue for cue, state in CUE_TO_STATE_PRIOR.items() if state == "active_evaluation"
 }
@@ -920,6 +941,12 @@ def derive_intent(persona_type: str, state: str) -> str:
         (persona_type, state),
         STATE_FALLBACK_INTENT.get(state, "no_clear_intent"),
     )
+
+
+def derive_intent_tier(persona_type: str) -> str:
+    """Return the v2.2 persona-level intent tier prior."""
+
+    return PERSONA_TO_INTENT_TIER.get(persona_type, "exploring")
 
 
 def derive_proactive_score(state: str) -> int:
@@ -1061,8 +1088,135 @@ def derive_visual_state(
     }
 
 
-def derive_candidate_actions(state: str, aida: str) -> list[str]:
-    return list(STATE_AIDA_TO_CANDIDATES.get((state, aida), DEFAULT_CANDIDATES))
+def _is_aggressive_close_action(action: str) -> bool:
+    spec = legacy_action_to_act(action)
+    return spec["act"] == "Recommend" and spec["params"].get("pressure") == "firm"
+
+
+def derive_candidate_actions(
+    state: str,
+    aida: str,
+    intent_tier: str | None = None,
+) -> list[str]:
+    candidates = list(STATE_AIDA_TO_CANDIDATES.get((state, aida), DEFAULT_CANDIDATES))
+    if intent_tier == "low_intent_browsing":
+        return [action for action in candidates if not _is_aggressive_close_action(action)]
+    return candidates
+
+
+def derive_candidate_action_specs(
+    state: str,
+    aida: str,
+    intent_tier: str | None = None,
+) -> list[dict[str, Any]]:
+    """Return candidate actions as canonical v2 ``act`` / ``params`` objects."""
+
+    specs: list[dict[str, Any]] = []
+    for action in derive_candidate_actions(state, aida, intent_tier):
+        spec = legacy_action_to_act(action)
+        specs.append({"act": spec["act"], "params": spec["params"]})
+    return specs
+
+
+def derive_policy_candidate_specs(
+    state: str,
+    aida: str,
+    intent_tier: str | None = None,
+) -> list[dict[str, Any]]:
+    """Return v2-native policy candidates, including soft/firm Recommend split.
+
+    This is the canonical candidate path for v2.2 policy experiments. The legacy
+    ``derive_candidate_actions`` path remains unchanged for old A-label exports.
+    """
+
+    specs = derive_candidate_action_specs(state, aida, intent_tier)
+    if not any(spec["act"] == "Recommend" for spec in specs):
+        return specs
+    enriched: list[dict[str, Any]] = []
+    for spec in specs:
+        if spec["act"] == "Recommend":
+            soft = {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}}
+            firm = {"act": "Recommend", "params": {"target": "item", "pressure": "firm"}}
+            if state == "ready_to_decide" or (state == "active_evaluation" and aida == "desire"):
+                _append_unique_action_spec(enriched, soft)
+            _append_unique_action_spec(enriched, firm)
+            continue
+        _append_unique_action_spec(enriched, spec)
+    return enriched
+
+
+def _append_unique_action_spec(items: list[dict[str, Any]], spec: dict[str, Any]) -> None:
+    key = _action_spec_key(spec["act"], spec.get("params", {}))
+    if key not in {_action_spec_key(item["act"], item.get("params", {})) for item in items}:
+        items.append({"act": spec["act"], "params": merge_supporting_acts(spec.get("params", {}))})
+
+
+def _action_spec_key(act: str, params: dict[str, Any] | None = None) -> tuple[str, str]:
+    return act, json.dumps(merge_supporting_acts(params or {}), ensure_ascii=False, sort_keys=True)
+
+
+def action_spec_key(act: str, params: dict[str, Any] | None = None) -> str:
+    """Return a stable JSON-safe key for a canonical v2 action spec."""
+
+    normalized = merge_supporting_acts(params or {})
+    params_json = json.dumps(normalized, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    digest = hashlib.sha1(params_json.encode("utf-8")).hexdigest()[:12]
+    return f"{act}_{digest}"
+
+
+def _normalize_supporting_act(supporting_act: dict[str, Any]) -> dict[str, Any]:
+    """Return the v2.1 supporting-act shape.
+
+    v2 used top-level ``co_acts`` entries shaped as ``{"act": ..., "params": ...}``.
+    v2.1 keeps the same information under ``act_params.supporting_acts`` and uses
+    ``type`` to avoid colliding with the parent ``dialogue_act`` field.
+    """
+
+    act = supporting_act.get("type") or supporting_act.get("act")
+    if not act:
+        raise ValueError("supporting act requires type or act")
+    params = deepcopy(supporting_act.get("params") or {})
+    return {"type": act, "params": params}
+
+
+def normalize_supporting_acts(supporting_acts: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+    normalized: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+    for supporting_act in supporting_acts or []:
+        item = _normalize_supporting_act(supporting_act)
+        key = (item["type"], repr(sorted(item["params"].items())))
+        if key not in seen:
+            normalized.append(item)
+            seen.add(key)
+    return normalized
+
+
+def supporting_acts_from_params(params: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+    if not params:
+        return []
+    return normalize_supporting_acts(params.get(SUPPORTING_ACTS_PARAM) or [])
+
+
+def legacy_co_acts_from_params(params: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+    return [
+        {"act": supporting_act["type"], "params": deepcopy(supporting_act.get("params") or {})}
+        for supporting_act in supporting_acts_from_params(params)
+    ]
+
+
+def merge_supporting_acts(
+    params: dict[str, Any] | None = None,
+    co_acts: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    merged = deepcopy(params or {})
+    supporting_acts = supporting_acts_from_params(merged)
+    supporting_acts.extend(normalize_supporting_acts(co_acts))
+    supporting_acts = normalize_supporting_acts(supporting_acts)
+    if supporting_acts:
+        merged[SUPPORTING_ACTS_PARAM] = supporting_acts
+    else:
+        merged.pop(SUPPORTING_ACTS_PARAM, None)
+    return merged
 
 
 def validate_dialogue_act(act: str, params: dict[str, Any] | None = None) -> None:
@@ -1071,6 +1225,10 @@ def validate_dialogue_act(act: str, params: dict[str, Any] | None = None) -> Non
     params = params or {}
     allowed = DIALOGUE_ACT_PARAM_VALUES.get(act, {})
     for key, value in params.items():
+        if key == SUPPORTING_ACTS_PARAM:
+            for supporting_act in normalize_supporting_acts(value):
+                validate_dialogue_act(supporting_act["type"], supporting_act.get("params"))
+            continue
         if key not in allowed:
             raise ValueError(f"invalid param for {act}: {key}")
         if str(value) not in allowed[key]:
@@ -1078,13 +1236,11 @@ def validate_dialogue_act(act: str, params: dict[str, Any] | None = None) -> Non
 
 
 def legacy_action_to_act(action: str) -> dict[str, Any]:
-    if action not in LEGACY_ACTION_TO_DIALOGUE_ACT:
-        raise ValueError(f"invalid legacy action: {action}")
-    result = deepcopy(LEGACY_ACTION_TO_DIALOGUE_ACT[action])
+    result = legacy_to_v2(action)
+    result["params"] = merge_supporting_acts(result.get("params"), result.get("co_acts"))
+    result["co_acts"] = legacy_co_acts_from_params(result["params"])
     result["legacy_action"] = action
     validate_dialogue_act(result["act"], result["params"])
-    for co_act in result.get("co_acts", []):
-        validate_dialogue_act(co_act["act"], co_act.get("params"))
     return result
 
 
@@ -1092,10 +1248,10 @@ def t_state_to_act(t_state: str) -> dict[str, Any]:
     if t_state not in T_STATE_TO_DIALOGUE_ACT:
         raise ValueError(f"invalid T-state: {t_state}")
     result = deepcopy(T_STATE_TO_DIALOGUE_ACT[t_state])
+    result["params"] = merge_supporting_acts(result.get("params"), result.get("co_acts"))
+    result["co_acts"] = legacy_co_acts_from_params(result["params"])
     result["t_state"] = t_state
     validate_dialogue_act(result["act"], result["params"])
-    for co_act in result.get("co_acts", []):
-        validate_dialogue_act(co_act["act"], co_act.get("params"))
     return result
 
 
@@ -1103,10 +1259,10 @@ def response_type_to_act(response_type_zh: str) -> dict[str, Any]:
     if response_type_zh not in SHOOTING_RESPONSE_TO_DIALOGUE_ACT:
         raise ValueError(f"invalid shooting response type: {response_type_zh}")
     result = deepcopy(SHOOTING_RESPONSE_TO_DIALOGUE_ACT[response_type_zh])
+    result["params"] = merge_supporting_acts(result.get("params"), result.get("co_acts"))
+    result["co_acts"] = legacy_co_acts_from_params(result["params"])
     result["response_type_zh"] = response_type_zh
     validate_dialogue_act(result["act"], result["params"])
-    for co_act in result.get("co_acts", []):
-        validate_dialogue_act(co_act["act"], co_act.get("params"))
     return result
 
 
@@ -1125,13 +1281,16 @@ def shooting_state_response_prior(state: str, version: str) -> dict[str, Any]:
         act_spec = response_type_to_act(prior["response_type_zh"])
     prior["act"] = act_spec["act"]
     prior["params"] = act_spec["params"]
-    prior["co_acts"] = act_spec.get("co_acts", [])
+    prior["co_acts"] = legacy_co_acts_from_params(act_spec["params"])
     return prior
 
 
 def act_to_legacy_action(act: str, params: dict[str, Any] | None = None) -> str:
     params = params or {}
     validate_dialogue_act(act, params)
+    exact = act_params_to_legacy_for_comparison(act, params)
+    if exact is not None:
+        return exact
     if act == "Hold":
         return "A1_silent_observe" if params.get("mode") == "silent" else "A7_disengage"
     if act == "Elicit":
@@ -1236,7 +1395,7 @@ def derive_terminal_realization(
         "duration_ms": 0 if voice_style == "silent" else 4000,
         "dialogue_act": act,
         "act_params": deepcopy(params),
-        "co_acts": deepcopy(act_spec.get("co_acts", [])),
+        "co_acts": legacy_co_acts_from_params(params),
         "legacy_action": action,
         "legacy_realization": legacy_plan,
     }
@@ -1250,11 +1409,9 @@ def derive_terminal_realization_from_act(
 ) -> dict[str, Any]:
     """Build a terminal realization directly from the v2 action schema."""
 
-    params = deepcopy(act_params or {})
-    co_acts = deepcopy(co_acts or [])
+    params = merge_supporting_acts(act_params, co_acts)
+    co_acts = legacy_co_acts_from_params(params)
     validate_dialogue_act(dialogue_act, params)
-    for co_act in co_acts:
-        validate_dialogue_act(co_act["act"], co_act.get("params"))
 
     if dialogue_act == "Hold" and params.get("mode") == "silent":
         surface_text = ""
@@ -1308,7 +1465,9 @@ def derive_terminal_realization_from_act(
 
 
 def derive_transition(state: str, action: str) -> dict[str, Any]:
-    return deepcopy(TRANSITION_TABLE.get((state, action), DEFAULT_TRANSITION))
+    transition = deepcopy(TRANSITION_TABLE.get((state, action), DEFAULT_TRANSITION))
+    transition.update(deepcopy(_TRANSITION_FAILURE_META.get((state, action), {})))
+    return transition
 
 
 def derive_bdi(
@@ -1416,17 +1575,178 @@ def derive_reward_components(
     }
 
 
+_FAILURE_CONDITION_LHS = {
+    "intent_tier",
+    "pressure",
+    "visible_cue",
+    "state",
+    "push_sensitivity",
+    "explicit_purchase_question",
+    "private_comparison",
+    "interaction_signal",
+}
+
+
+def _bool_token(value: bool) -> str:
+    return "true" if value else "false"
+
+
+def _failure_context(
+    state: str,
+    params: dict[str, Any],
+    persona_type: str,
+    intent_tier: str,
+    visible_cues: list[str],
+) -> dict[str, Any]:
+    cues = set(visible_cues)
+    explicit_purchase_question = bool(cues & {"approaching_counter", "looking_around_for_help"})
+    private_comparison = "asking_companion_opinion" in cues
+    interaction_signal_absent = bool(cues & {"brief_glance_walking_past", "no_eye_contact_avoidant"})
+    push_sensitivity = "high" if persona_type in HIGH_PUSH_SENSITIVITY_PERSONAS else "normal"
+    return {
+        "intent_tier": intent_tier,
+        "pressure": str(params.get("pressure", "")),
+        "visible_cue": cues,
+        "state": state,
+        "push_sensitivity": push_sensitivity,
+        "explicit_purchase_question": _bool_token(explicit_purchase_question),
+        "private_comparison": _bool_token(private_comparison),
+        "interaction_signal": "absent" if interaction_signal_absent else "present",
+    }
+
+
+def _condition_matches(condition: str, context: dict[str, Any]) -> bool:
+    if "!=" in condition:
+        lhs, rhs = condition.split("!=", 1)
+        op = "!="
+    elif "=" in condition:
+        lhs, rhs = condition.split("=", 1)
+        op = "="
+    else:
+        raise ValueError(f"invalid failure condition: {condition}")
+    lhs = lhs.strip()
+    rhs = rhs.strip()
+    if lhs not in _FAILURE_CONDITION_LHS:
+        raise ValueError(f"unknown failure condition lhs: {lhs}")
+    value = context.get(lhs)
+    if lhs == "visible_cue":
+        matched = rhs in (value or set())
+    else:
+        matched = str(value) == rhs
+    return matched if op == "=" else not matched
+
+
+def infer_risk_tags_from_failure(failure_mode: dict[str, Any] | None) -> list[str]:
+    if not failure_mode:
+        return []
+    text = " ".join(
+        [failure_mode.get("template", "")]
+        + list(failure_mode.get("trigger_conditions", []))
+        + list(failure_mode.get("principle_refs", []))
+    )
+    tags: list[str] = []
+    if "pressure" in text or "强推荐" in text or "压迫" in text:
+        tags.append("pressure_reactance")
+    if "closing" in text or "过早" in text:
+        tags.append("premature_closing")
+    if "信息" in text or "feature" in text:
+        tags.append("information_overload")
+    if "visible_cue" in text or "打扰" in text or "回避" in text:
+        tags.append("timing_intrusion")
+    return tags or ["failure_mode_triggered"]
+
+
+def _transition_action_for_act(act: str, params: dict[str, Any]) -> str:
+    """Map a v2 act to the closest legacy transition row.
+
+    This is transitional until Phase 3/4 split the transition table by
+    ``(act, params)`` directly. A soft recommendation should still use the
+    recommendation transition family, not value-comparison.
+    """
+
+    if act == "Recommend":
+        return "A3_strong_recommend"
+    return act_to_legacy_action(act, params)
+
+
+def derive_failure_mode(
+    state: str,
+    aida_stage: str,
+    act: str,
+    params: dict[str, Any],
+    persona_type: str,
+    intent_tier: str,
+    visible_cues: list[str] | None = None,
+) -> dict[str, Any] | None:
+    """Return the triggered v2.2 failure branch, if any."""
+
+    del aida_stage
+    action = _transition_action_for_act(act, params)
+    failure_mode = derive_transition(state, action).get("failure_mode")
+    if not failure_mode:
+        return None
+    cues = list(visible_cues or [])
+    context = _failure_context(state, params, persona_type, intent_tier, cues)
+    if all(_condition_matches(condition, context) for condition in failure_mode["trigger_conditions"]):
+        return {
+            "description": failure_mode["template"],
+            "triggered_by": list(failure_mode["trigger_conditions"]),
+            "next_state_override": failure_mode.get("next_state_override"),
+            "next_aida_override": failure_mode.get("next_aida_override"),
+            "reward_override": failure_mode.get("reward_override"),
+            "risk_tags": infer_risk_tags_from_failure(failure_mode),
+        }
+    return None
+
+
 def derive_action_outcome(
     state: str,
     aida_stage: str,
     persona_type: str,
-    action: str,
+    action: str | None = None,
+    *,
+    act: str | None = None,
+    params: dict[str, Any] | None = None,
+    intent_tier: str | None = None,
+    visible_cues: list[str] | None = None,
 ) -> dict[str, Any]:
+    if action is None:
+        if act is None:
+            raise ValueError("derive_action_outcome requires action or act")
+        action = _transition_action_for_act(act, params or {})
+    act_spec = legacy_action_to_act(action)
+    if act is None:
+        act = act_spec["act"]
+    if params is None:
+        params = act_spec["params"]
+    validate_dialogue_act(act, params)
+    intent_tier = intent_tier or derive_intent_tier(persona_type)
+    visible_cues = list(visible_cues or [])
     transition = derive_transition(state, action)
+    failure = derive_failure_mode(state, aida_stage, act, params, persona_type, intent_tier, visible_cues)
+    if failure:
+        transition["outcome_type"] = "failure"
+        transition["failure_mode"] = failure["description"]
+        transition["risk_tags"] = failure["risk_tags"]
+        if failure.get("next_state_override"):
+            transition["next_state"] = failure["next_state_override"]
+        if failure.get("reward_override") is not None:
+            transition["reward"] = round(float(failure["reward_override"]), 3)
+        if failure.get("next_aida_override"):
+            transition["next_aida_stage"] = failure["next_aida_override"]
+    else:
+        raw_failure_mode = transition.get("failure_mode")
+        transition["outcome_type"] = "success"
+        transition["failure_mode"] = raw_failure_mode.get("template") if isinstance(raw_failure_mode, dict) else None
+        transition["risk_tags"] = []
+        _apply_v2_reward_calibration(transition, state, aida_stage, act, params, intent_tier)
     next_state = transition["next_state"]
     reward = float(transition["reward"])
-    next_aida_stage = derive_next_aida_stage(aida_stage, next_state, reward)
+    next_aida_stage = transition.get("next_aida_stage") or derive_next_aida_stage(aida_stage, next_state, reward)
     next_intent = derive_intent(persona_type, next_state)
+    transition["dialogue_act"] = act
+    transition["act_params"] = deepcopy(params)
+    transition["intent_tier"] = intent_tier
     transition["next_aida_stage"] = next_aida_stage
     transition["next_bdi"] = derive_bdi(persona_type, next_state, next_intent)
     transition["reward_components"] = derive_reward_components(aida_stage, next_aida_stage, action, reward)
@@ -1442,6 +1762,37 @@ def derive_action_outcome(
         ),
     )
     return transition
+
+
+def _apply_v2_reward_calibration(
+    transition: dict[str, Any],
+    state: str,
+    aida_stage: str,
+    act: str,
+    params: dict[str, Any],
+    intent_tier: str,
+) -> None:
+    if act == "Elicit" and params.get("openness") == "open":
+        if state == "active_evaluation" and aida_stage == "interest":
+            transition["reward"] = 0.83
+            transition["risk"] = "low"
+            transition["benefit"] = "high"
+        return
+    if act == "Recommend" and params.get("pressure") == "soft":
+        if intent_tier == "low_intent_browsing":
+            transition["reward"] = min(float(transition["reward"]), -0.2)
+            transition["risk"] = "medium"
+            transition["benefit"] = "low"
+            return
+        if state == "ready_to_decide" and aida_stage in {"desire", "action"}:
+            transition["reward"] = 0.85
+            transition["risk"] = "low"
+            transition["benefit"] = "high"
+        elif state == "active_evaluation" and aida_stage == "desire":
+            transition["reward"] = 0.82
+            transition["risk"] = "low"
+            transition["benefit"] = "high"
+        return
 
 
 def _comparison_focus(profile: dict[str, str], persona_type: str, cue: str | None) -> str:
@@ -1651,6 +2002,43 @@ def pick_best_action(state: str, candidates: list[str]) -> str:
         )
 
     return min(candidates, key=key)
+
+
+def pick_best_action_spec(
+    state: str,
+    aida_stage: str,
+    persona_type: str,
+    candidates: list[dict[str, Any]] | None = None,
+    intent_tier: str | None = None,
+    visible_cues: list[str] | None = None,
+) -> dict[str, Any]:
+    """Pick the best v2-native policy action spec by calibrated outcome reward."""
+
+    intent_tier = intent_tier or derive_intent_tier(persona_type)
+    visible_cues = list(visible_cues or [])
+    candidates = candidates or derive_policy_candidate_specs(state, aida_stage, intent_tier)
+    if not candidates:
+        raise ValueError("pick_best_action_spec requires at least one candidate")
+
+    def key(spec: dict[str, Any]) -> tuple[float, int, str, str]:
+        outcome = derive_action_outcome(
+            state,
+            aida_stage,
+            persona_type,
+            act=spec["act"],
+            params=spec.get("params", {}),
+            intent_tier=intent_tier,
+            visible_cues=visible_cues,
+        )
+        return (
+            float(outcome["reward"]),
+            -_RISK_RANK[outcome["risk"]],
+            spec["act"],
+            json.dumps(spec.get("params", {}), ensure_ascii=False, sort_keys=True),
+        )
+
+    best = max(candidates, key=key)
+    return {"act": best["act"], "params": merge_supporting_acts(best.get("params", {}))}
 
 
 def _aida_index(stage: str) -> int:

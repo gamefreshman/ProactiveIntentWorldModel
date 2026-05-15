@@ -142,11 +142,22 @@ def write_jsonl(rows: Iterable[dict[str, Any]], out: Path) -> int:
 
 
 def scenario_stats(scenarios: list[dict[str, Any]]) -> dict[str, Any]:
+    explicit = [
+        item
+        for item in scenarios
+        if item["derived"].get("candidate_rule_coverage") == "explicit"
+    ]
     return {
         "n_scenarios": len(scenarios),
+        "n_explicit_candidate_rule_scenarios": len(explicit),
         "split_counts": dict(sorted(Counter(item["split"] for item in scenarios).items())),
         "product_counts": dict(sorted(Counter(item["product_category"] for item in scenarios).items())),
         "persona_counts": dict(sorted(Counter(item["persona_type"] for item in scenarios).items())),
+        "intent_tier_counts": dict(sorted(Counter(item["derived"]["intent_tier"] for item in scenarios).items())),
+        "candidate_rule_coverage_counts": dict(sorted(Counter(item["derived"]["candidate_rule_coverage"] for item in scenarios).items())),
+        "best_dialogue_act_counts": dict(sorted(Counter(item["derived"]["best_action_spec"]["act"] for item in scenarios).items())),
+        "policy_best_dialogue_act_counts": dict(sorted(Counter(item["derived"]["policy_best_action_spec"]["act"] for item in scenarios).items())),
+        "explicit_policy_best_dialogue_act_counts": dict(sorted(Counter(item["derived"]["policy_best_action_spec"]["act"] for item in explicit).items())),
         "viewpoint_counts": dict(sorted(Counter(item["viewpoint"] for item in scenarios).items())),
         "cue_counts": dict(sorted(Counter(item["target_cue"] for item in scenarios).items())),
         "aida_counts": dict(sorted(Counter(item["aida_stage"] for item in scenarios).items())),
@@ -163,6 +174,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--holdout-persona", action="append", default=None)
     parser.add_argument("--viewpoints", nargs="+", default=DEFAULT_VIEWPOINTS)
     parser.add_argument("--viewpoint-ratio", nargs="+", type=float, default=DEFAULT_VIEWPOINT_RATIO)
+    parser.add_argument("--candidate-rule-only", action="store_true", help="Keep only state/AIDA pairs with explicit candidate rules.")
     parser.add_argument("--stats-out", type=Path, default=None)
     args = parser.parse_args(argv)
 
@@ -173,6 +185,12 @@ def main(argv: list[str] | None = None) -> int:
         viewpoints=args.viewpoints,
         viewpoint_ratio=args.viewpoint_ratio,
     )
+    if args.candidate_rule_only:
+        scenarios = [
+            scenario
+            for scenario in scenarios
+            if scenario["derived"]["candidate_rule_coverage"] == "explicit"
+        ]
     selected = select_scenarios(
         scenarios,
         args.limit,
@@ -205,9 +223,24 @@ def _build_scenario(
 ) -> dict[str, Any]:
     state = rules.derive_latent_state([cue])
     intent = rules.derive_intent(persona_type, state)
+    intent_tier = rules.derive_intent_tier(persona_type)
     proactive_score = rules.derive_proactive_score(state)
-    candidate_actions = rules.derive_candidate_actions(state, aida_stage)
+    unfiltered_candidate_actions = rules.derive_candidate_actions(state, aida_stage)
+    candidate_actions = rules.derive_candidate_actions(state, aida_stage, intent_tier=intent_tier)
+    filtered_actions = sorted(set(unfiltered_candidate_actions) - set(candidate_actions))
+    candidate_rule_coverage = "explicit" if (state, aida_stage) in rules.STATE_AIDA_TO_CANDIDATES else "default_fallback"
+    candidate_action_specs = rules.derive_candidate_action_specs(state, aida_stage, intent_tier=intent_tier)
+    policy_candidate_specs = rules.derive_policy_candidate_specs(state, aida_stage, intent_tier=intent_tier)
     best_action = rules.pick_best_action(state, candidate_actions)
+    best_action_spec = _action_spec(best_action)
+    policy_best_action_spec = rules.pick_best_action_spec(
+        state,
+        aida_stage,
+        persona_type,
+        candidates=policy_candidate_specs,
+        intent_tier=intent_tier,
+        visible_cues=[cue],
+    )
     key = {
         "product_category": product,
         "persona_type": persona_type,
@@ -220,8 +253,10 @@ def _build_scenario(
         cue=cue,
         persona_type=persona_type,
         state=state,
+        intent_tier=intent_tier,
         aida_stage=aida_stage,
         candidate_actions=candidate_actions,
+        filtered_actions=filtered_actions,
     )
     return {
         "session_id": session_id,
@@ -241,9 +276,15 @@ def _build_scenario(
         "derived": {
             "state_subtype": state,
             "intent": intent,
+            "intent_tier": intent_tier,
             "proactive_score": proactive_score,
+            "candidate_rule_coverage": candidate_rule_coverage,
             "candidate_actions": candidate_actions,
+            "candidate_action_specs": candidate_action_specs,
+            "policy_candidate_specs": policy_candidate_specs,
             "best_action": best_action,
+            "best_action_spec": best_action_spec,
+            "policy_best_action_spec": policy_best_action_spec,
         },
         "source_rule_ids": source_rule_ids,
         "runtime_fallbacks": runtime_fallbacks,
@@ -370,13 +411,21 @@ def _source_trace(
     cue: str,
     persona_type: str,
     state: str,
+    intent_tier: str,
     aida_stage: str,
     candidate_actions: list[str],
+    filtered_actions: list[str],
 ) -> tuple[list[str], list[str]]:
     source_rule_ids: list[str] = []
     runtime_fallbacks: list[str] = []
 
     source_rule_ids.append(_cue_rule_id(cue))
+    if persona_type in rules.PERSONA_TO_INTENT_TIER:
+        source_rule_ids.append(_rule_id_from_key("PIT", rules.PERSONA_TO_INTENT_TIER, persona_type))
+    if intent_tier == "low_intent_browsing" and filtered_actions:
+        runtime_fallbacks.append(
+            "state_aida_to_candidates->intent_tier_filter_removed:" + ",".join(filtered_actions)
+        )
     if (persona_type, state) in rules.PERSONA_STATE_TO_INTENT:
         source_rule_ids.append(_rule_id_from_tuple("PSI", rules.PERSONA_STATE_TO_INTENT, (persona_type, state)))
     else:
@@ -396,6 +445,11 @@ def _source_trace(
             runtime_fallbacks.append(f"transition:{state}:{action}->DEFAULT_TRANSITION")
 
     return sorted(dict.fromkeys(source_rule_ids)), sorted(dict.fromkeys(runtime_fallbacks))
+
+
+def _action_spec(action: str) -> dict[str, Any]:
+    spec = rules.legacy_action_to_act(action)
+    return {"act": spec["act"], "params": spec["params"]}
 
 
 def _cue_rule_id(cue: str) -> str:

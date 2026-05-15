@@ -134,12 +134,7 @@ def _base_row(
         "output": {
             "match": match,
             "expected_next_state": expected_state,
-            "visible_reaction": {
-                "body_change": observed_template["physical_change"],
-                "gaze_change": observed_template["head_gaze"],
-                "hand_change": observed_template["hands"],
-                "movement_change": observed_template["movement"],
-            },
+            "visible_reaction": reaction_templates.visible_reaction_axes(observed_template),
             "reason": reason,
         },
         "meta": {

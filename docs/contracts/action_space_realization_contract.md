@@ -1,19 +1,27 @@
 # PIWM Action Space and Realization Contract
 
-更新时间：2026-05-11 CST
+更新时间：2026-05-13 CST
 
-本文是 PIWM v2 动作空间的当前契约。它替代旧文档中把 policy 动作、T-state、屏幕 UI、真人导购动作混在一起的写法。旧 `A1-A8` 和 `T1-T7/T_TRANSACT` 仍作为兼容标签保留，但不再是新体系的语义中心。
+本文是 PIWM v2.1 动作空间的当前契约。它替代旧文档中把 policy 动作、T-state、屏幕 UI、真人导购动作混在一起的写法。旧 `A1-A8` 和 `T1-T7/T_TRANSACT` 仍作为兼容标签保留，但不再是新体系的语义中心。
+
+当前明确分成两条数据线：
+
+- `PIWM-Train-Synth-v1` 保留真人导购逻辑，训练模型理解顾客状态、真人导购介入策略、话术和动作。这里的执行主体是 human salesperson logic。
+- 后续单独建设 target terminal dataset，执行主体才是智能导购终端 / 数字人售货柜，使用 `screen / voice / light / cabinet_motion` 作为主监督。
+
+两条线共享同一个 6-act policy space，不能再扩散出并行动作表。
 
 ## 1. Three Layers
 
 ```text
 Policy layer:      DialogueAct + params
-Realization layer: deterministic template/rule translation
-Terminal layer:    screen / voice / light / cabinet motion
+Human realization: salesperson utterance / physical_action / timing
+Terminal target:   screen / voice / light / cabinet motion
 ```
 
 - Policy layer 只决定“做什么”，例如 `Inform(content_type=comparison)`。
-- Realization layer 决定“怎么演”，输出终端响应包。
+- `PIWM-Train-Synth-v1` 的 realization 仍以真人导购的 `best_action_realization` 为主。
+- target terminal dataset 另行用 deterministic template/rule layer 输出终端响应包。
 - Terminal layer 只执行响应包，不理解 AIDA/BDI/reward。
 
 ## 2. Dialogue Acts
@@ -32,10 +40,39 @@ Terminal layer:    screen / voice / light / cabinet motion
 - `Elicit / Inform / Recommend` 每轮最多一个。
 - `Greet / Reassure / Hold` 可与 Task act 共现。
 - 新增终端能力优先挂到已有 act 的 params 或 realization 模板，不直接新增 policy act。
+- v2.1 不再把共现动作作为顶层 `co_acts`；辅助动作写入 `act_params.supporting_acts`。旧 `co_acts` 只作为 legacy alias 读入和回写。
 
-## 3. Terminal Realization Output
+示例：
 
-Realization layer 输出以下结构：
+```json
+{
+  "dialogue_act": "Reassure",
+  "act_params": {
+    "focus": "time",
+    "supporting_acts": [
+      {"type": "Hold", "params": {"mode": "ambient"}}
+    ]
+  },
+  "legacy_action": "A6_acknowledge_and_wait"
+}
+```
+
+## 3. Human and Terminal Realization
+
+`PIWM-Train-Synth-v1` 的主监督是真人导购执行：
+
+```json
+{
+  "best_action_realization": {
+    "utterance": "您可以慢慢看，我就在旁边...",
+    "physical_action": "轻微点头或短句确认后后退半步，身体侧开。",
+    "timing": "顾客需要空间但不应完全消失时使用。",
+    "rationale": "降低打扰感，适合犹豫但未准备交流的顾客。"
+  }
+}
+```
+
+target terminal dataset 的 realization 输出以下结构：
 
 ```json
 {
@@ -47,12 +84,12 @@ Realization layer 输出以下结构：
   "duration_ms": 4000,
   "dialogue_act": "Inform",
   "act_params": {"content_type": "comparison", "depth": "brief"},
-  "co_acts": [],
+  "legacy_co_acts": [],
   "legacy_action": "A2_offer_value_comparison"
 }
 ```
 
-旧 `best_action_realization.utterance / physical_action / timing / rationale` 继续保留，服务已有训练和评估；新终端演出以 `realization` 为准。
+旧 `best_action_realization.utterance / physical_action / timing / rationale` 在 `PIWM-Train-Synth-v1` 中不是废字段，而是该数据集的主体监督。`realization` 只作为从同一 policy act 派生出的终端 target 草案，后续需要在独立 target terminal dataset 中重新采集/校准。
 
 ## 4. Legacy Mapping
 
@@ -63,7 +100,7 @@ Realization layer 输出以下结构：
 | `A3_strong_recommend` | `Recommend(target=item, pressure=firm)` |
 | `A4_open_with_question` | `Elicit(openness=open, slot=need_focus)` |
 | `A5_provide_demonstration` | `Inform(content_type=demo, depth=brief)` |
-| `A6_acknowledge_and_wait` | `Reassure(focus=time)` + `Hold(mode=ambient)` |
+| `A6_acknowledge_and_wait` | `Reassure(focus=time, supporting_acts=[Hold(mode=ambient)])` |
 | `A7_disengage` | `Hold(mode=ambient)` |
 | `A8_offer_companion_invite` | `Elicit(openness=open, slot=companion_opinion)` |
 
@@ -74,7 +111,7 @@ Realization layer 输出以下结构：
 | `T3_STRONG_RECOMMEND` | `Recommend(target=item, pressure=firm)` |
 | `T4_OPEN_QUESTION` | `Elicit(openness=open, slot=need_focus)` |
 | `T5_DEMO` | `Inform(content_type=demo, depth=brief)` |
-| `T6_ACK_WAIT` | `Reassure(focus=time)` + `Hold(mode=ambient)` |
+| `T6_ACK_WAIT` | `Reassure(focus=time, supporting_acts=[Hold(mode=ambient)])` |
 | `T7_DISENGAGE` | `Hold(mode=ambient)` |
 | `T_TRANSACT` | `Greet(phase=close)` |
 
@@ -89,7 +126,7 @@ Realization layer 输出以下结构：
 | 提供信息 - 罗列参数 / 价格 | `Inform(content_type=attributes, depth=brief)` |
 | 建议推荐 - 力度温和 | `Recommend(target=item, pressure=soft)` |
 | 建议推荐 - 力度强势 | `Recommend(target=item, pressure=firm)` |
-| 安抚降压 | `Reassure(focus=time)` + `Hold(mode=ambient)` |
+| 安抚降压 | `Reassure(focus=time, supporting_acts=[Hold(mode=ambient)])` |
 | 暂不打扰 - 完全静默 | `Hold(mode=silent)` |
 | 暂不打扰 - 背景退出 | `Hold(mode=ambient)` |
 
@@ -100,7 +137,7 @@ S05 验收样例：
 
 ## 6. Code Anchors
 
-- `piwm_data/rules.py`: act enum、参数 schema、legacy/T-state/shooting response mapping、terminal realization 默认模板。
-- `piwm_data/schemas.py`: `MainSchemaRecord.dialogue_act / act_params / co_acts / realization`。
+- `piwm_data/rules.py`: act enum、参数 schema、legacy/T-state/shooting response mapping、supporting_acts 兼容层、terminal realization 默认模板。
+- `piwm_data/schemas.py`: `MainSchemaRecord.dialogue_act / act_params / realization`，旧 `co_acts` 只作 legacy alias。
 - `piwm_data/exporters.py`: 导出时同时保留旧 action 和新 dialogue-act/terminal-realization 字段。
 - `docs/source_materials/2026-05-action-space/`: 本契约的来源材料副本。

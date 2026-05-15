@@ -5,6 +5,7 @@ from piwm_data import rules
 from piwm_data.schemas import (
     ActionContinuation,
     ActionOutcome,
+    CandidateAction,
     FrameRef,
     MainSchemaRecord,
     Persona,
@@ -83,6 +84,20 @@ def test_persona_rejects_invalid_type():
         Persona(type="not_a_persona")
 
 
+def test_persona_fills_intent_tier():
+    assert Persona(type="gift_buyer_uncertain").intent_tier == "exploring"
+    assert Persona(type="browser_low_intent").intent_tier == "low_intent_browsing"
+
+
+def test_candidate_action_normalizes_legacy_label_without_legacy_field():
+    action = CandidateAction.model_validate("A6_acknowledge_and_wait")
+
+    assert action.act == "Reassure"
+    assert action.params["focus"] == "time"
+    assert action.params["supporting_acts"][0]["type"] == "Hold"
+    assert "legacy_action" not in action.model_dump()
+
+
 def test_action_outcome_rejects_invalid_next_state():
     data = rules.derive_action_outcome("high_hesitation", "interest", "price_sensitive_cautious", "A1_silent_observe")
     data["next_state"] = "not_a_state"
@@ -106,6 +121,34 @@ def test_action_outcome_rejects_inconsistent_reward_components():
         "A1_silent_observe",
         0.9,
     )
+    with pytest.raises(ValidationError):
+        ActionOutcome(**data)
+
+
+def test_action_outcome_keeps_v2_policy_fields():
+    data = rules.derive_action_outcome(
+        "early_browsing",
+        "attention",
+        "browser_low_intent",
+        act="Recommend",
+        params={"target": "item", "pressure": "firm"},
+        intent_tier="low_intent_browsing",
+        visible_cues=["brief_glance_walking_past"],
+    )
+    outcome = ActionOutcome(**data)
+
+    assert outcome.dialogue_act == "Recommend"
+    assert outcome.act_params == {"target": "item", "pressure": "firm"}
+    assert outcome.intent_tier == "low_intent_browsing"
+    assert outcome.outcome_type == "failure"
+    assert outcome.failure_mode
+    assert "pressure_reactance" in outcome.risk_tags
+
+
+def test_action_outcome_rejects_failure_without_failure_mode():
+    data = rules.derive_action_outcome("high_hesitation", "interest", "price_sensitive_cautious", "A2_offer_value_comparison")
+    data["outcome_type"] = "failure"
+    data["failure_mode"] = None
     with pytest.raises(ValidationError):
         ActionOutcome(**data)
 
@@ -163,11 +206,67 @@ def test_main_schema_default_continuations_is_empty():
 
 def test_main_schema_fills_v2_dialogue_act_and_terminal_realization():
     record = make_record()
+    assert record.persona.intent_tier == "exploring"
     assert record.dialogue_act == "Inform"
     assert record.act_params == {"content_type": "comparison", "depth": "brief"}
+    assert record.candidate_action_specs[1].act == "Inform"
+    assert record.best_action_spec is not None
+    assert record.best_action_spec.params == {"content_type": "comparison", "depth": "brief"}
+    assert record.compatibility_tier == "green"
+    assert record.legacy_mismatch_flags == []
     assert record.realization is not None
     assert record.realization.dialogue_act == "Inform"
     assert record.realization.screen["action"] == "show_comparison_or_details"
+
+
+def test_main_schema_fills_next_state_by_action_v2_with_stable_action_keys():
+    record = make_record()
+
+    best_key = rules.action_spec_key("Inform", {"content_type": "comparison", "depth": "brief"})
+
+    assert set(record.next_state_by_action_v2) == {
+        rules.action_spec_key(spec.act, spec.params)
+        for spec in record.candidate_action_specs
+    }
+    assert record.next_state_by_action_v2[best_key] == record.next_state_by_action["A2_offer_value_comparison"]
+
+
+def test_main_schema_flags_v2_action_spec_mismatch_without_rejecting():
+    record = make_record(best_action_spec={"act": "Hold", "params": {"mode": "silent"}})
+
+    assert record.compatibility_tier == "yellow"
+    assert "best_action_spec_mismatch" in record.legacy_mismatch_flags
+
+
+def test_main_schema_marks_low_intent_high_engagement_as_red():
+    record = make_record(
+        persona=Persona(type="browser_low_intent", description="low intent browser"),
+        observable_cues=["trying_on_or_testing"],
+    )
+
+    assert record.persona.intent_tier == "low_intent_browsing"
+    assert record.compatibility_tier == "red"
+    assert "intent_tier_visual_mismatch" in record.legacy_mismatch_flags
+
+
+def test_main_schema_migrates_co_acts_to_supporting_acts():
+    record = make_record(
+        best_action="A6_acknowledge_and_wait",
+        candidate_actions=["A1_silent_observe", "A6_acknowledge_and_wait"],
+        next_state_by_action={
+            "A1_silent_observe": make_outcome("A1_silent_observe"),
+            "A6_acknowledge_and_wait": make_outcome("A6_acknowledge_and_wait"),
+        },
+        reward_by_action={
+            "A1_silent_observe": 0.3,
+            "A6_acknowledge_and_wait": 0.4,
+        },
+    )
+    assert record.dialogue_act == "Reassure"
+    assert record.act_params["supporting_acts"][0]["type"] == "Hold"
+    assert record.co_acts[0]["act"] == "Hold"
+    assert record.realization is not None
+    assert record.realization.act_params["supporting_acts"][0]["type"] == "Hold"
 
 
 def test_main_schema_rejects_invalid_dialogue_act_params():

@@ -19,16 +19,16 @@ from typing import Any
 DEFAULT_JSONL_FILES = (
     "data/priority_generation_queue/scenario_manifest_priority24.jsonl",
     "data/priority_generation_queue/prompt_index_priority24.jsonl",
-    "data/piwm_dataset_pilot30_with_continuations/main_schema.jsonl",
-    "data/piwm_dataset_pilot30_with_continuations/state_inference.jsonl",
-    "data/piwm_dataset_pilot30_with_continuations/transition_modeling.jsonl",
-    "data/piwm_dataset_pilot30_with_continuations/policy_preference.jsonl",
-    "data/piwm_dataset_pilot30_with_continuations/world_model_continuation.jsonl",
+    "data/official/piwm_world_model_v1/main_schema.jsonl",
+    "data/official/piwm_world_model_v1/state_inference.jsonl",
+    "data/official/piwm_world_model_v1/transition_modeling.jsonl",
+    "data/official/piwm_world_model_v1/policy_preference.jsonl",
+    "data/official/piwm_world_model_v1/world_model_continuation.jsonl",
 )
 
 DEFAULT_RESULT_JSONS = (
     "data/priority_generation_queue/kling_batch_priority24_summary.json",
-    "data/piwm_dataset_pilot30_with_continuations/_stats.json",
+    "data/official/piwm_world_model_v1/_stats.json",
     "data/piwm_results/sft_train_summary.json",
     "data/piwm_results/sprint_summary.json",
     "data/piwm_results/pilot24_zero_shot_baselines.json",

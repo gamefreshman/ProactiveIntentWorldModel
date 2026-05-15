@@ -91,7 +91,7 @@ def export_ms_swift_jsonl(
         },
         "format": "ms-swift messages + images",
     }
-    summary_path = output_jsonl.with_name(SWIFT_SUMMARY)
+    summary_path = output_jsonl.with_name(f"{output_jsonl.stem}_summary.json")
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return summary
 

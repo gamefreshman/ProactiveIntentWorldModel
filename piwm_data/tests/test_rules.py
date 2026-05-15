@@ -31,6 +31,12 @@ def test_derive_intent_uses_state_fallback():
     assert rules.derive_intent("browser_low_intent", "active_evaluation") == "explore_options"
 
 
+def test_derive_intent_tier_uses_v2_persona_prior():
+    assert rules.derive_intent_tier("browser_low_intent") == "low_intent_browsing"
+    assert rules.derive_intent_tier("gift_buyer_uncertain") == "exploring"
+    assert rules.derive_intent_tier("unknown_persona") == "exploring"
+
+
 def test_derive_bdi_returns_explicit_three_part_summary():
     bdi = rules.derive_bdi(
         "price_sensitive_cautious",
@@ -85,6 +91,54 @@ def test_candidate_sets_include_negative_intervention_contrast():
     assert "A1_silent_observe" in rules.derive_candidate_actions("ready_to_decide", "action")
 
 
+def test_low_intent_candidate_filter_removes_firm_recommendation():
+    candidates = rules.derive_candidate_actions(
+        "early_browsing",
+        "attention",
+        intent_tier="low_intent_browsing",
+    )
+    assert candidates == ["A1_silent_observe", "A6_acknowledge_and_wait"]
+    specs = rules.derive_candidate_action_specs(
+        "early_browsing",
+        "attention",
+        intent_tier="low_intent_browsing",
+    )
+    assert specs == [
+        {"act": "Hold", "params": {"mode": "silent"}},
+        {
+            "act": "Reassure",
+            "params": {
+                "focus": "time",
+                "supporting_acts": [{"type": "Hold", "params": {"mode": "ambient"}}],
+            },
+        },
+    ]
+
+
+def test_policy_candidate_specs_split_soft_and_firm_recommendation():
+    specs = rules.derive_policy_candidate_specs(
+        "ready_to_decide",
+        "action",
+        intent_tier="ready_to_buy",
+    )
+
+    recommend_specs = [spec for spec in specs if spec["act"] == "Recommend"]
+    assert recommend_specs == [
+        {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}},
+        {"act": "Recommend", "params": {"target": "item", "pressure": "firm"}},
+    ]
+
+
+def test_policy_candidate_specs_keep_low_intent_filter():
+    specs = rules.derive_policy_candidate_specs(
+        "early_browsing",
+        "attention",
+        intent_tier="low_intent_browsing",
+    )
+
+    assert all(spec["act"] != "Recommend" for spec in specs)
+
+
 def test_negative_intervention_transitions_cross_zero():
     assert rules.derive_transition("high_hesitation", "A3_strong_recommend")["reward"] < 0
     assert rules.derive_transition("active_evaluation", "A3_strong_recommend")["reward"] < 0
@@ -133,6 +187,88 @@ def test_pick_best_action_tie_breaks_by_global_action_order():
     )
 
 
+def test_failure_mode_triggers_from_v2_context():
+    failure = rules.derive_failure_mode(
+        "early_browsing",
+        "attention",
+        "Recommend",
+        {"target": "item", "pressure": "firm"},
+        "browser_low_intent",
+        "low_intent_browsing",
+        ["brief_glance_walking_past"],
+    )
+    assert failure is not None
+    assert failure["reward_override"] == -0.7
+    outcome = rules.derive_action_outcome(
+        "early_browsing",
+        "attention",
+        "browser_low_intent",
+        act="Recommend",
+        params={"target": "item", "pressure": "firm"},
+        intent_tier="low_intent_browsing",
+        visible_cues=["brief_glance_walking_past"],
+    )
+    assert outcome["outcome_type"] == "failure"
+    assert outcome["reward"] == -0.7
+    assert outcome["failure_mode"]
+    assert "pressure_reactance" in outcome["risk_tags"]
+
+
+def test_failure_mode_does_not_trigger_when_context_is_not_matched():
+    assert rules.derive_failure_mode(
+        "early_browsing",
+        "attention",
+        "Recommend",
+        {"target": "item", "pressure": "firm"},
+        "price_insensitive_decisive",
+        "ready_to_buy",
+        ["approaching_counter"],
+    ) is None
+
+
+def test_soft_recommend_uses_recommend_transition_family_without_pressure_failure():
+    outcome = rules.derive_action_outcome(
+        "ready_to_decide",
+        "action",
+        "price_insensitive_decisive",
+        act="Recommend",
+        params={"target": "item", "pressure": "soft"},
+        intent_tier="ready_to_buy",
+        visible_cues=["approaching_counter"],
+    )
+    assert outcome["dialogue_act"] == "Recommend"
+    assert outcome["act_params"]["pressure"] == "soft"
+    assert outcome["reward"] == 0.85
+    assert outcome["outcome_type"] == "success"
+
+
+def test_pick_best_action_spec_prefers_soft_recommend_at_decision_time():
+    best = rules.pick_best_action_spec(
+        "ready_to_decide",
+        "action",
+        "price_insensitive_decisive",
+        intent_tier="ready_to_buy",
+        visible_cues=["approaching_counter"],
+    )
+
+    assert best == {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}}
+
+
+def test_v2_reward_calibration_boosts_open_elicitation_during_active_interest():
+    outcome = rules.derive_action_outcome(
+        "active_evaluation",
+        "interest",
+        "gift_buyer_uncertain",
+        act="Elicit",
+        params={"openness": "open", "slot": "need_focus"},
+        intent_tier="exploring",
+        visible_cues=["comparing_two_products"],
+    )
+
+    assert outcome["reward"] == 0.83
+    assert outcome["risk"] == "low"
+
+
 def test_dialogue_act_schema_contains_six_policy_acts():
     assert rules.DIALOGUE_ACTS == ["Greet", "Elicit", "Inform", "Recommend", "Reassure", "Hold"]
     assert rules.DIALOGUE_ACT_DIMENSION["Inform"] == "Task"
@@ -143,7 +279,18 @@ def test_legacy_action_to_dialogue_act_mapping_is_compatible():
     assert rules.legacy_action_to_act("A1_silent_observe")["act"] == "Hold"
     assert rules.legacy_action_to_act("A2_offer_value_comparison")["params"]["content_type"] == "comparison"
     assert rules.legacy_action_to_act("A3_strong_recommend")["params"]["pressure"] == "firm"
-    assert rules.legacy_action_to_act("A6_acknowledge_and_wait")["co_acts"][0]["act"] == "Hold"
+    a6 = rules.legacy_action_to_act("A6_acknowledge_and_wait")
+    assert a6["params"]["supporting_acts"][0]["type"] == "Hold"
+    assert a6["co_acts"][0]["act"] == "Hold"
+
+
+def test_supporting_acts_are_validated_as_act_params():
+    params = {
+        "focus": "time",
+        "supporting_acts": [{"type": "Hold", "params": {"mode": "ambient"}}],
+    }
+    rules.validate_dialogue_act("Reassure", params)
+    assert rules.legacy_co_acts_from_params(params) == [{"act": "Hold", "params": {"mode": "ambient"}}]
 
 
 def test_dialogue_act_to_legacy_action_round_trip_defaults():

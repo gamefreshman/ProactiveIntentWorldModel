@@ -16,6 +16,58 @@ def test_scenario_sampler_builds_full_rule_space_counts():
     }
     assert all(item["source_rule_ids"] for item in scenarios)
     assert all(item["viewpoint"] in scenario_sampler.rules.VIEWPOINTS for item in scenarios)
+    assert stats["intent_tier_counts"] == {
+        "exploring": 960,
+        "low_intent_browsing": 320,
+        "ready_to_buy": 640,
+    }
+    assert stats["candidate_rule_coverage_counts"] == {
+        "default_fallback": 1056,
+        "explicit": 864,
+    }
+    assert stats["n_explicit_candidate_rule_scenarios"] == 864
+    assert set(stats["best_dialogue_act_counts"]).issubset(set(scenario_sampler.rules.DIALOGUE_ACTS))
+    assert stats["policy_best_dialogue_act_counts"]["Recommend"] > 0
+    assert stats["explicit_policy_best_dialogue_act_counts"] == {
+        "Elicit": 272,
+        "Hold": 56,
+        "Inform": 136,
+        "Reassure": 40,
+        "Recommend": 360,
+    }
+
+
+def test_scenario_sampler_writes_v2_action_specs_and_intent_tier_filter():
+    scenario = next(
+        item
+        for item in scenario_sampler.build_all_scenarios(seed=42)
+        if item["persona_type"] == "browser_low_intent"
+        and item["target_cue"] == "brief_glance_walking_past"
+        and item["aida_stage"] == "attention"
+    )
+
+    assert scenario["derived"]["intent_tier"] == "low_intent_browsing"
+    assert scenario["derived"]["candidate_rule_coverage"] == "explicit"
+    assert scenario["derived"]["candidate_actions"] == ["A1_silent_observe", "A6_acknowledge_and_wait"]
+    assert scenario["derived"]["candidate_action_specs"][0] == {"act": "Hold", "params": {"mode": "silent"}}
+    assert all(spec["act"] != "Recommend" for spec in scenario["derived"]["policy_candidate_specs"])
+    assert scenario["derived"]["best_action_spec"]["act"] in scenario_sampler.rules.DIALOGUE_ACTS
+    assert scenario["derived"]["policy_best_action_spec"]["act"] in scenario_sampler.rules.DIALOGUE_ACTS
+    assert any(item.startswith("PIT_") for item in scenario["source_rule_ids"])
+    assert any("intent_tier_filter_removed:A3_strong_recommend" in item for item in scenario["runtime_fallbacks"])
+
+
+def test_scenario_sampler_policy_path_can_select_soft_recommend():
+    scenario = next(
+        item
+        for item in scenario_sampler.build_all_scenarios(seed=42)
+        if item["persona_type"] == "price_insensitive_decisive"
+        and item["target_cue"] == "approaching_counter"
+        and item["aida_stage"] == "action"
+    )
+
+    assert {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}} in scenario["derived"]["policy_candidate_specs"]
+    assert scenario["derived"]["policy_best_action_spec"] == {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}}
 
 
 def test_scenario_sampler_balanced_limit_covers_all_cues():
@@ -37,6 +89,17 @@ def test_scenario_sampler_cli_writes_manifest_and_stats(tmp_path):
     assert (tmp_path / "_scenario_stats.json").exists()
     assert rows[0]["session_id"].startswith("piwm_")
     assert "viewpoint" in rows[0]
+
+
+def test_scenario_sampler_candidate_rule_only_filters_default_fallbacks(tmp_path):
+    out = tmp_path / "scenario_manifest.jsonl"
+    exit_code = scenario_sampler.main(["--out", str(out), "--candidate-rule-only"])
+    assert exit_code == 0
+    rows = [json.loads(line) for line in out.read_text(encoding="utf-8").splitlines()]
+    stats = json.loads((tmp_path / "_scenario_stats.json").read_text(encoding="utf-8"))
+    assert len(rows) == 864
+    assert stats["candidate_rule_coverage_counts"] == {"explicit": 864}
+    assert {row["derived"]["candidate_rule_coverage"] for row in rows} == {"explicit"}
 
 
 def test_prompt_builder_outputs_four_layer_prompt_without_internal_labels():

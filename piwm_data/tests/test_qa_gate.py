@@ -46,6 +46,35 @@ def test_qa_gate_requires_manual_visual_review(tmp_path):
     assert "viewpoint visibility" in report["rejection_reason"]
 
 
+def test_check_label_leakage_flags_internal_v2_labels():
+    report = qa_gate.check_label_leakage(
+        {
+            "kling_prompt": (
+                "Customer shows latent_state active_evaluation and the agent should choose "
+                "Recommend with failure_mode pressure_reactance."
+            )
+        }
+    )
+
+    assert report["label_leakage"] is True
+    assert "latent_state" in report["label_leakage_hits"]
+    assert "Recommend" in report["label_leakage_hits"]
+    assert "failure_mode" in report["label_leakage_hits"]
+
+
+def test_check_label_leakage_allows_plain_behavior_description():
+    report = qa_gate.check_label_leakage(
+        {
+            "kling_prompt": (
+                "The shopper walks past the display, briefly turns their head toward the product, "
+                "and keeps moving without stopping."
+            )
+        }
+    )
+
+    assert report == {"label_leakage": False, "label_leakage_hits": []}
+
+
 def test_qa_gate_passes_with_manual_review(tmp_path):
     session_dir = copy_fixture(tmp_path)
     add_video_and_manifest(session_dir)

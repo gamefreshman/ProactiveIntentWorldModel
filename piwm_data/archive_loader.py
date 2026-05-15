@@ -9,6 +9,7 @@ from typing import Any, Iterator, Optional
 from pydantic import ValidationError
 
 from . import rules
+from .migration.legacy_action_mapping import legacy_to_v2
 from .schemas import ActionContinuation, ActionOutcome, FrameRef, MainSchemaRecord, Persona, Provenance, ReactionFrameRef
 
 
@@ -47,10 +48,26 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
     intent = rules.derive_intent(persona.type, latent_state)
     bdi = rules.derive_bdi(persona.type, latent_state, intent, [target_cue])
     proactive_score = rules.derive_proactive_score(latent_state)
-    candidate_actions = rules.derive_candidate_actions(latent_state, aida_stage)
-    next_state_by_action = {
-        action: ActionOutcome(**rules.derive_action_outcome(latent_state, aida_stage, persona.type, action))
+    intent_tier = rules.derive_intent_tier(persona.type)
+    candidate_actions = rules.derive_candidate_actions(latent_state, aida_stage, intent_tier=intent_tier)
+    candidate_action_specs_by_legacy = {
+        action: legacy_to_v2(action)
         for action in candidate_actions
+    }
+    next_state_by_action = {
+        action: ActionOutcome(
+            **rules.derive_action_outcome(
+                latent_state,
+                aida_stage,
+                persona.type,
+                action,
+                act=spec["act"],
+                params=rules.merge_supporting_acts(spec.get("params"), spec.get("co_acts")),
+                intent_tier=intent_tier,
+                visible_cues=[target_cue],
+            )
+        )
+        for action, spec in candidate_action_specs_by_legacy.items()
     }
     reward_by_action = {
         action: outcome.reward for action, outcome in next_state_by_action.items()
@@ -62,6 +79,7 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
         images=frames,
         product_category=prompt["product_category"],
         split=prompt.get("split"),
+        visual_state=rules.derive_visual_state([target_cue], prompt["product_category"], viewpoint),
         observable_cues=[target_cue],
         viewpoint=viewpoint,
         persona=persona,
@@ -72,6 +90,24 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
         proactive_score=proactive_score,
         candidate_actions=candidate_actions,
         best_action=best_action,
+        candidate_action_specs=[
+            {"act": spec["act"], "params": rules.merge_supporting_acts(spec.get("params"), spec.get("co_acts"))}
+            for spec in candidate_action_specs_by_legacy.values()
+        ],
+        best_action_spec={
+            "act": candidate_action_specs_by_legacy[best_action]["act"],
+            "params": rules.merge_supporting_acts(
+                candidate_action_specs_by_legacy[best_action].get("params"),
+                candidate_action_specs_by_legacy[best_action].get("co_acts"),
+            ),
+        },
+        best_action_realization=rules.derive_action_realization(
+            best_action,
+            latent_state,
+            persona.type,
+            prompt["product_category"],
+            [target_cue],
+        ),
         next_state_by_action=next_state_by_action,
         reward_by_action=reward_by_action,
         continuations=_load_continuations(session_dir, prompt["session_id"], viewpoint, next_state_by_action),
@@ -84,13 +120,19 @@ def load_session(session_dir: Path) -> MainSchemaRecord:
         + _rule_provenance(
             [
                 "latent_state",
+                "visual_state",
                 "intent",
                 "bdi",
                 "proactive_score",
                 "candidate_actions",
+                "candidate_action_specs",
                 "next_state_by_action",
                 "reward_by_action",
                 "best_action",
+                "best_action_spec",
+                "best_action_realization",
+                "compatibility_tier",
+                "legacy_mismatch_flags",
             ]
         ),
         is_anchor=False,
@@ -242,7 +284,20 @@ def _apply_annotation(
     data = record.model_dump()
     changed_fields: list[str] = []
 
-    for field in ("intent", "bdi", "proactive_score", "best_action", "rationale", "candidate_actions"):
+    for field in (
+        "visual_state",
+        "intent",
+        "bdi",
+        "proactive_score",
+        "best_action",
+        "candidate_action_specs",
+        "best_action_spec",
+        "best_action_realization",
+        "rationale",
+        "candidate_actions",
+        "compatibility_tier",
+        "legacy_mismatch_flags",
+    ):
         if field in annotation:
             data[field] = annotation[field]
             changed_fields.append(field)
@@ -274,6 +329,16 @@ def _apply_annotation(
             for action, outcome in existing.items()
         }
         changed_fields.extend(["next_state_by_action", "reward_by_action"])
+
+    if "best_action" in changed_fields and "best_action_realization" not in changed_fields:
+        data["best_action_realization"] = rules.derive_action_realization(
+            data["best_action"],
+            data["latent_state"],
+            data["persona"]["type"],
+            data["product_category"],
+            data["observable_cues"],
+        )
+        changed_fields.append("best_action_realization")
 
     data["provenance"] = list(data.get("provenance", [])) + [
         Provenance(field_name=field, source=source, rule_version=rules.RULE_VERSION).model_dump()

@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import Annotated, Literal, Optional, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from .. import rules as runtime_rules
 
@@ -96,6 +96,7 @@ SupportStrength = Literal["none", "low", "medium", "high"]
 ReviewStatus = Literal["pending", "approved", "revise", "reject"]
 RuleTypeName = Literal[
     "cue_to_state_prior",
+    "persona_to_intent_tier",
     "persona_state_to_intent",
     "state_fallback_intent",
     "state_to_proactive_score",
@@ -152,6 +153,13 @@ class StateValue(BaseModel):
     state: str
 
 
+class PersonaKey(BaseModel):
+    persona: str
+
+    def normalize(self) -> tuple[str, ...]:
+        return (self.persona,)
+
+
 class PersonaStateKey(BaseModel):
     persona: str
     state: str
@@ -162,6 +170,10 @@ class PersonaStateKey(BaseModel):
 
 class IntentValue(BaseModel):
     intent: str
+
+
+class IntentTierValue(BaseModel):
+    intent_tier: Literal["low_intent_browsing", "exploring", "ready_to_buy"]
 
 
 class StateKey(BaseModel):
@@ -195,11 +207,28 @@ class StateActionKey(BaseModel):
         return (self.state, self.action)
 
 
+class FailureMode(BaseModel):
+    template: str = Field(min_length=1)
+    trigger_conditions: list[str] = Field(min_length=1)
+    reward_override: Optional[float] = Field(default=None, ge=-1.0, le=1.0)
+    next_state_override: Optional[str] = None
+    next_aida_override: Optional[Literal["attention", "interest", "desire", "action"]] = None
+    principle_refs: list[str] = Field(default_factory=list)
+
+
 class TransitionValue(BaseModel):
     next_state: str
     reward: float = Field(ge=-1.0, le=1.0)
     risk: Literal["low", "medium", "high"]
     benefit: Literal["low", "medium", "high"]
+    failure_mode: Optional[FailureMode] = None
+    failure_mode_rationale: Optional[str] = None
+
+    @model_validator(mode="after")
+    def failure_nulls_must_be_documented(self) -> "TransitionValue":
+        if self.failure_mode is None and not self.failure_mode_rationale:
+            raise ValueError("failure_mode_rationale is required when failure_mode is null")
+        return self
 
 
 # --- Discriminated rule entries ---------------------------------------------
@@ -221,6 +250,12 @@ class PersonaStateToIntentRule(_BaseRule):
     rule_type: Literal["persona_state_to_intent"]
     key: PersonaStateKey
     value: IntentValue
+
+
+class PersonaToIntentTierRule(_BaseRule):
+    rule_type: Literal["persona_to_intent_tier"]
+    key: PersonaKey
+    value: IntentTierValue
 
 
 class StateFallbackIntentRule(_BaseRule):
@@ -250,6 +285,7 @@ class TransitionRule(_BaseRule):
 RuleEntry = Annotated[
     Union[
         CueToStateRule,
+        PersonaToIntentTierRule,
         PersonaStateToIntentRule,
         StateFallbackIntentRule,
         StateProactiveScoreRule,
@@ -289,6 +325,9 @@ def cross_check_enums(rule: RuleEntry) -> Optional[str]:
             return f"unknown state: {rule.key.state}"
         if rule.value.intent not in _VALID_INTENTS:
             return f"unknown intent: {rule.value.intent}"
+    elif rt == "persona_to_intent_tier":
+        if rule.key.persona not in _VALID_PERSONAS:
+            return f"unknown persona: {rule.key.persona}"
     elif rt == "state_fallback_intent":
         if rule.key.state not in _VALID_STATES:
             return f"unknown state: {rule.key.state}"
@@ -310,4 +349,7 @@ def cross_check_enums(rule: RuleEntry) -> Optional[str]:
             return f"unknown action: {rule.key.action}"
         if rule.value.next_state not in _VALID_STATES:
             return f"unknown next_state: {rule.value.next_state}"
+        failure_mode = rule.value.failure_mode
+        if failure_mode and failure_mode.next_state_override not in (None, *_VALID_STATES):
+            return f"unknown failure next_state_override: {failure_mode.next_state_override}"
     return None

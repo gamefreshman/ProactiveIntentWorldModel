@@ -1,0 +1,15 @@
+{
+  "batch_id": "batch_002_intent_tier",
+  "created_at": "2026-05-14T14:59:12.577260+00:00",
+  "tool": "piwm_data.expert_corpus.tools.run_distillation",
+  "mode": "local_paraphrase_note_to_draft",
+  "model": "manual-local",
+  "temperature": 0.0,
+  "extraction_method": "human_paraphrase",
+  "prompt_sha256": "39f39895d708527ac8375ea6a6402a85b095715c77d1d4813d81f03bd7da096e",
+  "source_excerpts": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/piwm_data/expert_corpus/distillation_batches/batch_002_intent_tier/source_excerpts.jsonl",
+  "draft_output": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/piwm_data/expert_corpus/distillation_batches/batch_002_intent_tier/extracted_draft.jsonl",
+  "n_source_notes": 4,
+  "n_drafts": 4,
+  "copyright_policy": "compact paraphrases and source locators only"
+}

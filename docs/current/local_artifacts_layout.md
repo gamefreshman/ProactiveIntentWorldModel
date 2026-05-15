@@ -1,8 +1,10 @@
 # Local Artifacts Layout
 
-更新时间：2026-05-02
+更新时间：2026-05-11
 
 本文记录本机根目录生成产物的整理结果。目标是让 repo 根目录只保留代码、文档和配置；视频、prompt、审阅图和缓存集中放在 `local_artifacts/`，并保持不进入 Git。
+
+本地/远端完整目录职责见 [project_directory_map.md](project_directory_map.md)。本文只记录本机生成产物的局部布局。
 
 ## 当前布局
 
@@ -20,6 +22,7 @@
 - 本次整理只移动目录，不删除视频、帧、prompt 或 QA 文件。
 - 当前正式数据集口径仍以 `docs/current/dataset_inventory.md` 为准。
 - 服务器上大数据仍放在 `/root/lanyun-fs/ProactiveIntentWorldModel`；干净 Git checkout 是 `/root/lanyun-fs/ProactiveIntentWorldModel_git`。
+- 本地 `data/official/` 仅保留 official alias / 小型 JSONL 镜像；远端数据盘仍是权威副本。
 
 ## 常用定位
 

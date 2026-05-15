@@ -1,6 +1,6 @@
 # PIWM Docs Entry Point
 
-更新时间：2026-05-11
+更新时间：2026-05-15
 
 本文是 `docs/` 的唯一阅读入口。当前阶段的原则是：
 
@@ -30,9 +30,18 @@
 | 14 | [current/project_directory_map.md](current/project_directory_map.md) | 本地/远端目录职责地图：official 数据、视频、checkpoint、docs 和 local artifacts 放置规则 |
 | 15 | [current/repo_cleanup_github_plan.md](current/repo_cleanup_github_plan.md) | 本地/服务器目录清理与 GitHub 管理计划 |
 | 16 | [current/local_artifacts_layout.md](current/local_artifacts_layout.md) | 本机根目录生成产物整理后的存放位置 |
-| 17 | [contracts/action_space_realization_contract.md](contracts/action_space_realization_contract.md) | 新 6-act 动作空间、terminal realization、旧 A/T 标签兼容映射 |
-| 18 | [contracts/data_schema_v2_contract.md](contracts/data_schema_v2_contract.md) | 当前成熟数据格式：MainSchemaRecord、ShootingClipRecord、导出字段和维护规则 |
-| 19 | [data/official/README.md](../data/official/README.md) | official 数据入口、v2 重导状态和 red lines |
+| 17 | [contracts/action_space_realization_contract.md](contracts/action_space_realization_contract.md) | 6-act 动作空间、真人导购逻辑 / target terminal 数据边界、旧 A/T 标签兼容映射 |
+| 18 | [contracts/data_generation_chain_v2_1_contract.md](contracts/data_generation_chain_v2_1_contract.md) | v2.2 动作、场景、label、专家知识库、policy slice 和 official 重导的唯一维护链路 |
+| 19 | [contracts/data_schema_v2_contract.md](contracts/data_schema_v2_contract.md) | 当前成熟数据格式：MainSchemaRecord、ShootingClipRecord、导出字段和维护规则 |
+| 20 | [v2_validation/distillation_summary.md](v2_validation/distillation_summary.md) | v2.2 专家蒸馏基础设施、batch 状态、审阅入口 |
+| 21 | [v2_validation/compatibility_report.md](v2_validation/compatibility_report.md) | official 543 在 v2.2 下的基础兼容分级 + 扩展重推导审计 |
+| 22 | [v2_validation/action_distribution.md](v2_validation/action_distribution.md) | official v1 best 分布、official 543 v2 重推导分布、864 explicit policy slice 分布 |
+| 23 | [v2_validation/v2_2_reexport_dry_run.md](v2_validation/v2_2_reexport_dry_run.md) | official v2.2 dry-run、diff 预演与独立 v2 导出记录 |
+| 24 | [v2_validation/v2_2_reexport_diff_preview.md](v2_validation/v2_2_reexport_diff_preview.md) | `--output-diff` 写回预演：如果 commit 会改哪些 official 文件 |
+| 25 | [v2_validation/v2_2_test_coverage.md](v2_validation/v2_2_test_coverage.md) | v2.2 新增测试清单、覆盖面和当前缺口 |
+| 26 | [v2_validation/v2_2_release_notes.md](v2_validation/v2_2_release_notes.md) | v2.2 上线说明：产物、字段、计数、验证和边界 |
+| 27 | [v2_validation/action_space_audit_train_synth_v1.json](v2_validation/action_space_audit_train_synth_v1.json) | official train action-space 机器审计输出 |
+| 28 | [data/official/README.md](../data/official/README.md) | official 数据入口、v2 重导状态和 red lines |
 
 ## 2. 当前执行线
 
@@ -54,7 +63,9 @@
 | 本机产物整理 | [current/local_artifacts_layout.md](current/local_artifacts_layout.md) | 根目录下的 `Archive*` / prompt / review sheet 已集中到 `local_artifacts/` |
 | 文档维护 | [contracts/docs_maintenance_rules.md](contracts/docs_maintenance_rules.md) | 新增或归档文档前先看 |
 | 动作空间更新 | [contracts/action_space_realization_contract.md](contracts/action_space_realization_contract.md) | 以 2026-05 附件为准；旧 A1-A8/T-state 只作兼容 alias |
+| 数据生成链路更新 | [contracts/data_generation_chain_v2_1_contract.md](contracts/data_generation_chain_v2_1_contract.md) | 改动作、场景、label、专家规则、policy slice 或 official 重导前先看 |
 | 数据格式维护 | [contracts/data_schema_v2_contract.md](contracts/data_schema_v2_contract.md) | 修改 schema、真实拍摄入库字段、official JSONL 前先看 |
+| 专家规则 v2.2 蒸馏 | [v2_validation/distillation_summary.md](v2_validation/distillation_summary.md) | 改 intent tier、failure mode、Recommend pressure 前先审阅 batch |
 | 真实拍摄脚本 | [current/piwm_real_shooting_scripts_S01_S12.md](current/piwm_real_shooting_scripts_S01_S12.md) | S01-S12 A/B 单文件脚本；现场拍摄只打开这一份 |
 | 论文数据部分 | [current/paper_data_section_blueprint.md](current/paper_data_section_blueprint.md) | 写 dataset section、数据表、QA 口径和 real-shooting plan 时先看 |
 
@@ -65,7 +76,8 @@
 | 文档 | 用途 |
 |---|---|
 | [contracts/claim_to_artifact_audit.md](contracts/claim_to_artifact_audit.md) | 论文 claim 与代码/数据工件对应关系 |
-| [contracts/action_space_realization_contract.md](contracts/action_space_realization_contract.md) | 6 个 Dialogue Acts、终端 realization 输出、旧动作标签迁移规则 |
+| [contracts/action_space_realization_contract.md](contracts/action_space_realization_contract.md) | 6 个 Dialogue Acts、真人导购逻辑 / target terminal 数据边界、旧动作标签迁移规则 |
+| [contracts/data_generation_chain_v2_1_contract.md](contracts/data_generation_chain_v2_1_contract.md) | 动作、场景、label、专家知识库、official 重导的唯一维护链路 |
 | [contracts/data_schema_v2_contract.md](contracts/data_schema_v2_contract.md) | 成熟数据格式、真实拍摄 clip manifest、导出策略和版本维护 |
 | [contracts/world_model_supervision_contract.md](contracts/world_model_supervision_contract.md) | World Model 监督契约，含 continuation / Future Verification 逻辑 |
 | [contracts/visual_input_contract.md](contracts/visual_input_contract.md) | 多视角、K=3 抽帧、QA gate、frame manifest |
@@ -99,11 +111,14 @@
 
 | 概念 | 正确用法 |
 |---|---|
-| `PIWM-Train-Synth-v1` | 正式主训练集，旧名 `priority1000_unreviewed`；training-only synthetic，不写成 QA-pass |
+| `PIWM-Train-Synth-v1` | 正式主训练集；`priority1000_unreviewed*` 只作 backing/source path，不作为公开数据名；training-only synthetic，不写成 QA-pass |
+| `PIWM-Train-Synth-v2` | v2.2 schema 独立导出；同一批 543 parent，不代表新增视频；训练入口为 `data/official/ms_swift/piwm_train_synth_v2.jsonl` |
+| `PIWM-PolicySlice-v2` | 864 条 explicit candidate-rule policy manifest；不是视频数据，不是 QA-reviewed dataset |
 | `PIWM-Eval-QA-v1` | 正式主评估集，旧名 `priority40_qareviewed_sample`；当前最干净的 QA-reviewed parent eval subset |
 | `PIWM-WorldModel-v1` | 正式 World Model 数据，旧名 `pilot30_with_continuations`；Future Verification 小规模视觉监督，不是主训练规模来源 |
 | `PIWM-RealShoot-v1` | 真实拍摄 manifest 模板与 S01-S12 A/B 协议；视频和 QA 未完成前不能写成已采集真实数据 |
-| `A1-A8 / T-state` | 只作为 legacy alias 和兼容字段；正文、数据契约和新 manifest 使用 `DialogueAct + params + TerminalRealization` |
+| `A1-A8 / T-state` | 只作为 legacy alias 和迁移键；`PIWM-Train-Synth-v1` 保留真人导购逻辑，新动作语义使用 `candidate_action_specs / best_action_spec / DialogueAct + params` |
+| v2.2 official 重导 | 不覆盖 v1；重导前先跑 `python3 scripts/refresh_official_v2_exports.py --dry-run --output-diff docs/v2_validation/v2_2_reexport_diff_preview.md`，然后写入独立 v2 路径 |
 | `Future Verification full84` | action-conditioned future verification 证据，不是完整 benchmark |
 | DPO | 当前 sprint 暂停，不作为主实验阻塞项 |
 

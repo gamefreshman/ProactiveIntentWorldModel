@@ -1,0 +1,13 @@
+{
+  "batch_id": "batch_005_source_hardening",
+  "timestamp": "2026-05-15T13:53:03+0800",
+  "model": null,
+  "temperature": null,
+  "extraction_method": "human_paraphrase_after_source_locator_review",
+  "prompt_file": "extraction_prompt.md",
+  "source_locator_urls": [
+    "https://aquila.usm.edu/fac_pubs/1909/",
+    "https://doi.org/10.1016/S0022-4359(03)00007-1"
+  ],
+  "notes": "No article body is stored. This batch hardens two Phase 2 preflight source gaps."
+}

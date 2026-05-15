@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_DATASET_STATS = Path("data/piwm_dataset_pilot30_with_continuations/_stats.json")
+DEFAULT_DATASET_STATS = Path("data/official/piwm_world_model_v1/_stats.json")
 DEFAULT_MOCK_EVAL = Path("data/piwm_results/pilot24_mock_pipeline_eval.json")
 DEFAULT_SFT_SUMMARY = Path("data/piwm_results/sft_train_summary.json")
 DEFAULT_ZERO_SHOT = Path("data/piwm_results/pilot24_zero_shot_baselines.json")
