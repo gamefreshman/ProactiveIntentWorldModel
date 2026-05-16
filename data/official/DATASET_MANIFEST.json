@@ -93,14 +93,14 @@
       "canonical_name": "PIWM-Target-Frontcam-v1",
       "canonical_path": "data/official/piwm_target_v1",
       "source_path": "/Users/mutsumi/Desktop/WorkSpace/piwm",
-      "role": "target_domain_frontcam_specialization",
-      "viewpoint": "target_frontcam",
-      "actor_profile": "target_terminal_logic",
-      "qa_status": "synthetic_unreviewed",
-      "records": 118,
-      "sampled_frames": 354,
-      "state_rows": 118,
-      "transition_rows": 472,
+            "role": "target_domain_frontcam_specialization",
+            "viewpoint": "target_frontcam",
+            "actor_profile": "target_terminal_logic",
+            "qa_status": "mixed_synthetic_train_with_codex_visual_qa_test_pass",
+            "records": 118,
+            "sampled_frames": 354,
+            "state_rows": 118,
+            "transition_rows": 472,
       "policy_rows": 118,
       "ms_swift_jsonl": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
       "ms_swift_rows": 708,
@@ -125,7 +125,13 @@
                     "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_01.jpg",
                     "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_02.jpg"
                 ],
-                "qa_review_status": "templates_generated_pending_manual_review"
+                "qa_review_status": "codex_visual_qa_completed",
+                "qa_review_results": "data/official/piwm_target_v1/qa_review_target30/qa_review_results.md",
+                "qa_reviewed_pass_records": 30,
+                "qa_reviewed_fail_records": 0,
+                "warning_records": 2,
+                "reviewed_eval_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
+                "reviewed_eval_rows": 180
             },
             "best_dialogue_act_counts": {
                 "Elicit": 20,
@@ -135,8 +141,8 @@
         "Reassure": 17,
         "Recommend": 11
       },
-      "paper_usage": "Initial target-domain front-camera smart vending corpus for domain-specialization pilot. The final 30 test rows are unreviewed eval candidates and must not be called QA-reviewed until manual QA is complete.",
-      "schema_version": "dialogue_act_human_salesperson_v2.2",
+            "paper_usage": "Initial target-domain front-camera smart vending corpus for domain-specialization pilot. The 30 test records have Codex visual QA pass status with warning flags retained; the full 118-record corpus is not a full human QA-reviewed benchmark.",
+            "schema_version": "dialogue_act_human_salesperson_v2.2",
       "v2_2_fields": [
         "target_frontcam",
         "target_terminal_logic",
@@ -145,9 +151,48 @@
         "next_state_by_action_v2",
         "view_class",
         "qa_status",
-        "source_session_id"
-      ]
-    },
+                "source_session_id"
+            ]
+        },
+        {
+            "canonical_name": "PIWM-Target-PromptReady-v1",
+            "canonical_path": "data/official/piwm_target_promptready_v1",
+            "source_path": "/Users/mutsumi/Desktop/WorkSpace/piwm/data/{seed,manifest,labeled,prompts}",
+            "role": "target_domain_prompt_ready_generation_index",
+            "viewpoint": "target_frontcam",
+            "actor_profile": "target_terminal_logic",
+            "qa_status": "upstream_generation_index_not_video_dataset",
+            "records": 318,
+            "video_backed_records": 118,
+            "video_pending_records": 200,
+            "seed_records": 318,
+            "manifest_records": 318,
+            "labeled_records": 318,
+            "prompt_records": 318,
+            "video_records": 118,
+            "promptready_index_jsonl": "data/official/piwm_target_promptready_v1/promptready_index.jsonl",
+            "stats_json": "data/official/piwm_target_promptready_v1/_stats.json",
+            "best_dialogue_act_counts": {
+                "Elicit": 53,
+                "Greet": 53,
+                "Hold": 53,
+                "Inform": 53,
+                "Reassure": 53,
+                "Recommend": 53
+            },
+            "aida_stage_counts": {
+                "attention": 50,
+                "interest": 91,
+                "desire": 144,
+                "action": 33
+            },
+            "generation_status_counts": {
+                "video_backed_existing": 118,
+                "prompt_ready_video_pending": 200
+            },
+            "paper_usage": "Use as an upstream target-domain generation queue showing 300+ prompt-ready state/action records. Do not report the 200 video-pending rows as filmed multimodal training data until Kling videos and sampled frames exist.",
+            "schema_version": "target_prompt_ready_index_v1"
+        },
         {
             "canonical_name": "PIWM-Eval-QA-v1",
             "canonical_path": "data/official/piwm_eval_qa_v1",
@@ -181,8 +226,10 @@
                 "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl"
             ],
             "role": "domain_specialization_eval_entrypoints",
-            "qa_status": "mixed_general_qa_reviewed_and_target_pending_manual_qa",
+            "qa_status": "mixed_general_qa_reviewed_and_target_codex_visual_qa",
             "target_frontcam_test_rows": 180,
+            "target_frontcam_test_qa_reviewed_rows": 180,
+            "target_frontcam_test_qa_reviewed_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
             "target_frontcam_test_task_counts": {
                 "perception": 30,
                 "deliberation": 120,
@@ -195,7 +242,7 @@
             },
             "eval_sets_summary": "data/official/domain_specialization_eval_v1/eval_sets_summary.md",
             "result_summary_entrypoint": "scripts.summarize_domain_specialization_results",
-            "paper_usage": "Fixed evaluation entrypoints for general-to-target domain specialization. Target split remains pending manual QA; use only as review-candidate evaluation until promoted.",
+            "paper_usage": "Fixed evaluation entrypoints for general-to-target domain specialization. Target split has Codex visual QA pass status; if a human benchmark is required, run an additional project-member review.",
             "schema_version": "ms_swift_eval_entrypoints_v1"
         },
         {

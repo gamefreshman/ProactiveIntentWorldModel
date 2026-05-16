@@ -16,7 +16,17 @@
       "ms_swift_jsonl": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
       "rows": 708,
       "corpus_role": "target_frontcam_smart_vending",
-      "qa_status": "synthetic_unreviewed"
+      "qa_status": "mixed_synthetic_train_with_codex_visual_qa_test_pass",
+      "qa_reviewed_test_records": 30,
+      "qa_reviewed_eval_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl"
+    },
+    "target_promptready": {
+      "name": "PIWM-Target-PromptReady-v1",
+      "index_jsonl": "data/official/piwm_target_promptready_v1/promptready_index.jsonl",
+      "records": 318,
+      "video_backed_records": 118,
+      "video_pending_records": 200,
+      "corpus_role": "target_frontcam_generation_queue"
     },
     "joint_baseline": {
       "name": "PIWM-GeneralPlusTarget-v1",
@@ -65,13 +75,13 @@
     },
     {
       "checkpoint": "checkpoint_general",
-      "eval_set": "data/official/piwm_target_v1",
-      "purpose": "zero-shot target transfer; target test split requires QA before paper claim"
+      "eval_set": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
+      "purpose": "zero-shot target transfer on Codex visual QA reviewed target test split"
     },
     {
       "checkpoint": "checkpoint_target",
-      "eval_set": "data/official/piwm_target_v1",
-      "purpose": "target specialization"
+      "eval_set": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
+      "purpose": "target specialization on Codex visual QA reviewed target test split"
     },
     {
       "checkpoint": "checkpoint_target",
@@ -80,7 +90,8 @@
     }
   ],
   "red_lines": [
-    "Do not call PIWM-Target-Frontcam-v1 QA-reviewed until manual target QA is complete.",
+    "Do not call the full 118-record PIWM-Target-Frontcam-v1 corpus human-QA-reviewed; only the 30-record target test split has Codex visual QA pass status.",
+    "Do not use the 200 PIWM-Target-PromptReady-v1 video-pending rows as multimodal SFT data until Kling videos and sampled frames exist.",
     "Do not report checkpoint_target results as final EMNLP evidence without running the evaluation matrix.",
     "Use joint_baseline only as an ablation; the main story is two-stage specialization."
   ]

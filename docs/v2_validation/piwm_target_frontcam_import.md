@@ -66,7 +66,7 @@ Dataset split:
 | train | 88 |
 | test | 30 |
 
-The 30 test rows are only unreviewed in-domain eval candidates. They must pass manual QA before paper claims can call them QA-reviewed.
+The 30 test rows have now been reviewed by Codex visual QA. All 30 pass, with 2 warning flags retained for auditability.
 
 ## Target QA Review Artifacts
 
@@ -89,7 +89,29 @@ Generation command:
 python3 -m scripts.build_target_frontcam_qa_review
 ```
 
-The contact sheets are only review aids. A later audited promotion step should write `qa_reviewed` only for rows that pass visual, state, action, and target-domain consistency checks.
+QA promotion command:
+
+```bash
+python3 -m scripts.apply_target_frontcam_qa_review
+```
+
+QA result:
+
+| Item | Count |
+|---|---:|
+| reviewed test records | 30 |
+| QA-reviewed pass records | 30 |
+| QA fail records | 0 |
+| warning records | 2 |
+| reviewed ms-swift eval rows | 180 |
+
+Reviewed eval entrypoint:
+
+```text
+data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl
+```
+
+The contact sheets are only review aids. The audited promotion step writes reviewed rows to separate QA artifacts, leaving the raw imported `main_schema.jsonl` intact.
 
 ## Best Act Distribution
 
@@ -139,6 +161,25 @@ This creates:
 | `data/official/domain_specialization_eval_v1/target_frontcam_test_deliberation.jsonl` | 120 |
 | `data/official/domain_specialization_eval_v1/target_frontcam_test_action_selection.jsonl` | 30 |
 | `data/official/domain_specialization_eval_v1/general_qa_all.jsonl` | 162 |
+
+Prompt-ready target expansion:
+
+```bash
+python3 -m scripts.generate_piwm_target_promptready_expansion
+python3 -m scripts.build_piwm_target_promptready_index
+```
+
+Current prompt-ready status:
+
+| Layer | Count |
+|---|---:|
+| seed | 318 |
+| manifest | 318 |
+| labeled | 318 |
+| prompts | 318 |
+| video | 118 |
+
+The 200 new records are `video_pending`; they should not enter multimodal SFT until Kling videos and sampled frames are available.
 
 The importer extracts three frames per source video with OpenCV and writes them under:
 
