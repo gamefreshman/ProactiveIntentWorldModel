@@ -99,6 +99,30 @@ def test_parse_action_output_success() -> None:
     assert parsed["intervention_utterance"] == "I will give you space."
 
 
+def test_parse_action_output_accepts_v2_action_key_without_explicit_valid_set() -> None:
+    raw = "\n".join(
+        [
+            f"{config.TAG_RATIONALE_OPEN}open elicitation fits the target state{config.TAG_RATIONALE_CLOSE}",
+            f"{config.TAG_CHOSEN_OPEN}Elicit_b1166d372e5e{config.TAG_CHOSEN_CLOSE}",
+            f"{config.TAG_INTERVENTION_ACTION_OPEN}show choice bubbles on the terminal{config.TAG_INTERVENTION_ACTION_CLOSE}",
+            f"{config.TAG_INTERVENTION_UTTERANCE_OPEN}What would you like to compare first?{config.TAG_INTERVENTION_UTTERANCE_CLOSE}",
+        ]
+    )
+
+    assert parse_action_output(raw)["chosen"] == "Elicit_b1166d372e5e"
+
+
+def test_parse_perception_output_accepts_v2_action_keys() -> None:
+    raw = VALID_PERCEPTION.replace(
+        "A1_silent_observe, A4_open_with_question",
+        "Hold_eda24b4bb712, Elicit_b1166d372e5e",
+    )
+
+    parsed = parse_perception_output(raw)
+
+    assert parsed["candidate_actions"] == ["Hold_eda24b4bb712", "Elicit_b1166d372e5e"]
+
+
 def test_parse_action_output_invalid_choice_raises() -> None:
     raw = "\n".join(
         [

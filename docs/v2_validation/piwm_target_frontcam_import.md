@@ -68,6 +68,29 @@ Dataset split:
 
 The 30 test rows are only unreviewed in-domain eval candidates. They must pass manual QA before paper claims can call them QA-reviewed.
 
+## Target QA Review Artifacts
+
+The current manual-review queue has been generated from the 30 test rows:
+
+| Artifact | Value |
+|---|---|
+| Review index | `data/official/piwm_target_v1/qa_review_target30/qa_review_index.md` |
+| Machine-readable index | `data/official/piwm_target_v1/qa_review_target30/qa_review_index.json` |
+| Review rows JSONL | `data/official/piwm_target_v1/qa_review_target30/qa_review_rows.jsonl` |
+| Contact sheets | `target_frontcam_qa_sheet_00.jpg` to `target_frontcam_qa_sheet_02.jpg` |
+| Rows staged | 30 |
+| Rows with all sampled frames | 30 |
+| Missing frames | 0 |
+| Status | `templates_generated_pending_manual_review` |
+
+Generation command:
+
+```bash
+python3 -m scripts.build_target_frontcam_qa_review
+```
+
+The contact sheets are only review aids. A later audited promotion step should write `qa_reviewed` only for rows that pass visual, state, action, and target-domain consistency checks.
+
 ## Best Act Distribution
 
 | Act | Count |
@@ -94,6 +117,28 @@ Mixed-view joint SFT baseline:
 ```bash
 python3 -m scripts.build_domain_specialization_dataset
 ```
+
+Target test review queue:
+
+```bash
+python3 -m scripts.build_target_frontcam_qa_review
+```
+
+Domain-specialization eval entrypoints:
+
+```bash
+python3 -m scripts.build_domain_specialization_eval_sets
+```
+
+This creates:
+
+| Eval file | Rows |
+|---|---:|
+| `data/official/domain_specialization_eval_v1/target_frontcam_test_all.jsonl` | 180 |
+| `data/official/domain_specialization_eval_v1/target_frontcam_test_perception.jsonl` | 30 |
+| `data/official/domain_specialization_eval_v1/target_frontcam_test_deliberation.jsonl` | 120 |
+| `data/official/domain_specialization_eval_v1/target_frontcam_test_action_selection.jsonl` | 30 |
+| `data/official/domain_specialization_eval_v1/general_qa_all.jsonl` | 162 |
 
 The importer extracts three frames per source video with OpenCV and writes them under:
 

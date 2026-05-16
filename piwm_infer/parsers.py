@@ -100,8 +100,12 @@ def parse_future_verification_output(raw: str) -> dict:
 def parse_action_output(raw: str, valid_actions: Iterable[str] | None = None) -> dict:
     values = _extract_tags(raw, config.ACTION_TAGS)
     chosen = values["chosen"]
-    valid = set(valid_actions or rules.ACTIONS)
-    if chosen not in valid:
+    if valid_actions is not None:
+        valid = set(valid_actions)
+        is_valid = chosen in valid
+    else:
+        is_valid = _is_valid_action_label(chosen)
+    if not is_valid:
         raise MalformedOutputError(f"chosen action is not valid: {chosen}")
     return {
         "rationale": values["rationale"],
@@ -144,9 +148,15 @@ def _parse_candidates(value: str) -> list[str]:
     candidates = [item.strip() for item in value.split(",") if item.strip()]
     if not candidates:
         raise MalformedOutputError("candidate list is empty")
-    invalid = [action for action in candidates if action not in rules.ACTIONS]
+    invalid = [action for action in candidates if not _is_valid_action_label(action)]
     if invalid:
         raise MalformedOutputError(f"invalid candidate action(s): {invalid}")
     if len(candidates) != len(set(candidates)):
         raise MalformedOutputError("candidate list contains duplicates")
     return candidates
+
+
+def _is_valid_action_label(action: str) -> bool:
+    if action in rules.ACTIONS:
+        return True
+    return re.fullmatch(r"(Greet|Elicit|Inform|Recommend|Reassure|Hold)_[0-9a-f]{12}", action) is not None

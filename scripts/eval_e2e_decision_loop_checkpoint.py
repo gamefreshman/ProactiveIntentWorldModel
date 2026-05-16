@@ -167,7 +167,16 @@ def _safe_action_fallback(candidates: list[str]) -> str:
 def _highest_reward_action(rows: list[dict[str, Any]]) -> str | None:
     if not rows:
         return None
-    return min(rows, key=lambda row: (-float(row["reward"]), rules.ACTIONS.index(row["action"])))["action"]
+    return min(rows, key=lambda row: (-float(row["reward"]), _action_order(row["action"], rows)))["action"]
+
+
+def _action_order(action: str, rows: list[dict[str, Any]]) -> int:
+    if action in rules.ACTIONS:
+        return rules.ACTIONS.index(action)
+    for index, row in enumerate(rows):
+        if row["action"] == action:
+            return len(rules.ACTIONS) + index
+    return len(rules.ACTIONS) + len(rows)
 
 
 def evaluate(args: argparse.Namespace) -> dict[str, Any]:
