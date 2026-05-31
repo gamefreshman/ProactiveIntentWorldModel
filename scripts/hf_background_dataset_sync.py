@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+import signal
 import sys
 import time
 from pathlib import Path
@@ -15,6 +16,15 @@ REPO_ID = "GameFreshMan/PIWM"
 REPO_TYPE = "dataset"
 STAGE = Path("local_artifacts/hf_upload_stage_20260531")
 LOG_PREFIX = "[hf-sync]"
+UPLOAD_TIMEOUT_SECONDS = 900
+
+
+class UploadTimeout(TimeoutError):
+    pass
+
+
+def _timeout_handler(signum: int, frame: object) -> None:
+    raise UploadTimeout(f"upload timed out after {UPLOAD_TIMEOUT_SECONDS}s")
 
 
 def iter_stage_files() -> list[tuple[str, Path, int]]:
@@ -43,6 +53,7 @@ def main() -> int:
         return 2
 
     api = HfApi(token=token)
+    signal.signal(signal.SIGALRM, _timeout_handler)
     all_files = iter_stage_files()
     print(f"{LOG_PREFIX} stage_files={len(all_files)}", flush=True)
 
@@ -71,6 +82,7 @@ def main() -> int:
         rel, path, size = missing[0]
         print(f"{LOG_PREFIX} upload size={size} path={rel}", flush=True)
         try:
+            signal.alarm(UPLOAD_TIMEOUT_SECONDS)
             api.upload_file(
                 path_or_fileobj=str(path),
                 path_in_repo=rel,
@@ -78,10 +90,12 @@ def main() -> int:
                 repo_type=REPO_TYPE,
                 commit_message=f"Upload PIWM dataset artifact: {rel}",
             )
+            signal.alarm(0)
             uploaded += 1
             failed_rounds = 0
             print(f"{LOG_PREFIX} uploaded path={rel}", flush=True)
         except Exception as exc:
+            signal.alarm(0)
             failed_rounds += 1
             print(f"{LOG_PREFIX} upload failed path={rel}: {type(exc).__name__}: {exc}", flush=True)
             time.sleep(min(300, 20 * failed_rounds))
