@@ -1,0 +1,4 @@
+<rationale>顾客已进入操作阶段，基本选定饮品但仍在确认，短暂停顿说明存在轻微犹豫；此时结束问候不合适，完全静默也可能错过确认需求。轻量高亮一个稳妥选项能帮助他快速核对选择，同时不施加强压力。</rationale>
+<chosen>Recommend_action_stage_conditioned_target_piwm_720_3f432a62c5f6</chosen>
+<intervention_action>终端轻量高亮一个推荐选项，屏幕保持可自由选择状态，并用平静语音提示。</intervention_action>
+<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>

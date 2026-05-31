@@ -9,6 +9,7 @@ from piwm_infer.parsers import (
     parse_deliberation_output,
     parse_future_verification_output,
     parse_perception_output,
+    parse_user_intent_output,
 )
 from piwm_train import config
 
@@ -38,6 +39,25 @@ def test_parse_perception_output_success() -> None:
     assert parsed["proactive_score"] == 3
     assert parsed["candidate_actions"] == ["A1_silent_observe", "A4_open_with_question"]
     assert parsed["best_action_realization"]["utterance"] == "What are you mainly comparing today?"
+
+
+def test_parse_user_intent_output_success() -> None:
+    raw = "\n".join(
+        [
+            f"{config.TAG_STAGE_OPEN}interest{config.TAG_STAGE_CLOSE}",
+            f"{config.TAG_INTENT_LABEL_OPEN}explore_options{config.TAG_INTENT_LABEL_CLOSE}",
+            f"{config.TAG_VISUAL_SUMMARY_OPEN}customer compares two items{config.TAG_VISUAL_SUMMARY_CLOSE}",
+            f"{config.TAG_ENGAGEMENT_PATTERN_OPEN}steady browsing{config.TAG_ENGAGEMENT_PATTERN_CLOSE}",
+            f"{config.TAG_GAZE_AND_ATTENTION_OPEN}looks between products{config.TAG_GAZE_AND_ATTENTION_CLOSE}",
+            f"{config.TAG_BODY_AND_HANDS_OPEN}hands remain near display{config.TAG_BODY_AND_HANDS_CLOSE}",
+            f"{config.TAG_BELIEF_OPEN}two options may fit{config.TAG_BELIEF_CLOSE}",
+            f"{config.TAG_DESIRE_OPEN}compare calmly{config.TAG_DESIRE_CLOSE}",
+            f"{config.TAG_INTENTION_OPEN}continue browsing{config.TAG_INTENTION_CLOSE}",
+        ]
+    )
+    parsed = parse_user_intent_output(raw)
+    assert parsed["aida_stage"] == "interest"
+    assert parsed["intent_label"] == "explore_options"
 
 
 def test_parse_perception_missing_tag_raises() -> None:
@@ -110,6 +130,29 @@ def test_parse_action_output_accepts_v2_action_key_without_explicit_valid_set() 
     )
 
     assert parse_action_output(raw)["chosen"] == "Elicit_b1166d372e5e"
+
+
+def test_parse_action_output_allows_greet_and_rejects_reassure_in_five_act_mode() -> None:
+    greet_raw = "\n".join(
+        [
+            f"{config.TAG_RATIONALE_OPEN}greeting is inside the main five-act path{config.TAG_RATIONALE_CLOSE}",
+            f"{config.TAG_CHOSEN_OPEN}Greet_4f8123f9f15e{config.TAG_CHOSEN_CLOSE}",
+            f"{config.TAG_INTERVENTION_ACTION_OPEN}show greeting{config.TAG_INTERVENTION_ACTION_CLOSE}",
+            f"{config.TAG_INTERVENTION_UTTERANCE_OPEN}Hello.{config.TAG_INTERVENTION_UTTERANCE_CLOSE}",
+        ]
+    )
+    reassure_raw = "\n".join(
+        [
+            f"{config.TAG_RATIONALE_OPEN}reassurance is outside the main five-act path{config.TAG_RATIONALE_CLOSE}",
+            f"{config.TAG_CHOSEN_OPEN}Reassure_dbe6016c33c1{config.TAG_CHOSEN_CLOSE}",
+            f"{config.TAG_INTERVENTION_ACTION_OPEN}offer reassurance{config.TAG_INTERVENTION_ACTION_CLOSE}",
+            f"{config.TAG_INTERVENTION_UTTERANCE_OPEN}No rush.{config.TAG_INTERVENTION_UTTERANCE_CLOSE}",
+        ]
+    )
+
+    assert parse_action_output(greet_raw, five_act_only=True)["chosen"] == "Greet_4f8123f9f15e"
+    with pytest.raises(MalformedOutputError):
+        parse_action_output(reassure_raw, five_act_only=True)
 
 
 def test_parse_perception_output_accepts_v2_action_keys() -> None:

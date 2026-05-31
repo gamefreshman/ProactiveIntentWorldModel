@@ -1,0 +1,20 @@
+LOCAL_FILES
+reports/4dim_eval_raw_20260524/base_qwen25vl7b_all_tasks.json 241940 bytes
+reports/4dim_eval_raw_20260524/base_qwen25vl7b_all_tasks.json.partial 239912 bytes
+reports/4dim_eval_raw_20260524/customer_state_effect_only_all_tasks.json 271802 bytes
+reports/4dim_eval_raw_20260524/customer_state_effect_only_all_tasks.json.partial 269728 bytes
+reports/4dim_eval_raw_20260524/manifest.json 1212 bytes
+reports/4dim_eval_raw_20260524/next_state_covered80.jsonl 248180 bytes
+reports/4dim_eval_raw_20260524/next_state_covered80.server.jsonl 244100 bytes
+reports/4dim_eval_raw_20260524/next_state_unscored27.jsonl 6457 bytes
+reports/4dim_eval_raw_20260524/piwm_main_action_selection.json 42222 bytes
+reports/4dim_eval_raw_20260524/piwm_main_user_next.json 217359 bytes
+reports/4dim_eval_raw_20260524/piwm_main_user_next.json.partial 215637 bytes
+reports/4dim_eval_raw_20260524/target_action_selection.jsonl 160631 bytes
+reports/4dim_eval_raw_20260524/target_action_selection.server.jsonl 159101 bytes
+reports/4dim_eval_raw_20260524/target_all_4dim_scored.jsonl 512435 bytes
+reports/4dim_eval_raw_20260524/target_all_4dim_scored.server.jsonl 505295 bytes
+reports/4dim_eval_raw_20260524/target_user_intent.jsonl 103624 bytes
+reports/4dim_eval_raw_20260524/target_user_intent.server.jsonl 102094 bytes
+reports/4dim_eval_raw_20260524/target_user_next_scored.jsonl 351804 bytes
+reports/4dim_eval_raw_20260524/target_user_next_scored.server.jsonl 346194 bytes

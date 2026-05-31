@@ -1,0 +1,67 @@
+{
+  "artifact": "piwm_real_eval_summary",
+  "is_training_result": false,
+  "n_results": 3,
+  "results": [
+    {
+      "path": "reports/real_eval_20260525/model_runs_gpu1/base_qwen25vl7b_real_all_scored.json",
+      "eval_label": "base_qwen25vl7b_real_all_scored",
+      "n_records": 60,
+      "parse_rate": 0.6,
+      "task_counts": {
+        "user_intent": 30,
+        "action_selection_5act": 30
+      },
+      "stage_accuracy": 0.12,
+      "stage_macro_f1": 0.055555555555555546,
+      "intent_accuracy": 0.0,
+      "action_accuracy": 0.36363636363636365,
+      "action_macro_f1": 0.33333333333333337,
+      "chosen_exact": 0.36363636363636365,
+      "go_precision": 1.0,
+      "go_recall": 0.36363636363636365,
+      "no_go_precision": 0.0,
+      "no_go_recall": null
+    },
+    {
+      "path": "reports/real_eval_20260525/model_runs_gpu1/customer_state_effect_only_real_all_scored.json",
+      "eval_label": "customer_state_effect_only_real_all_scored",
+      "n_records": 60,
+      "parse_rate": 0.9333333333333333,
+      "task_counts": {
+        "user_intent": 30,
+        "action_selection_5act": 30
+      },
+      "stage_accuracy": 0.16666666666666666,
+      "stage_macro_f1": 0.175,
+      "intent_accuracy": 0.3333333333333333,
+      "action_accuracy": 0.34615384615384615,
+      "action_macro_f1": 0.2916666666666667,
+      "chosen_exact": 0.34615384615384615,
+      "go_precision": 1.0,
+      "go_recall": 0.34615384615384615,
+      "no_go_precision": 0.0,
+      "no_go_recall": null
+    },
+    {
+      "path": "reports/real_eval_20260525/model_runs_gpu1/piwm_main_real_all_scored.json",
+      "eval_label": "piwm_main_real_all_scored",
+      "n_records": 60,
+      "parse_rate": 0.9333333333333333,
+      "task_counts": {
+        "user_intent": 30,
+        "action_selection_5act": 30
+      },
+      "stage_accuracy": 0.21428571428571427,
+      "stage_macro_f1": 0.24107142857142855,
+      "intent_accuracy": 0.2857142857142857,
+      "action_accuracy": 0.6785714285714286,
+      "action_macro_f1": 0.5202020202020201,
+      "chosen_exact": 0.6785714285714286,
+      "go_precision": 1.0,
+      "go_recall": 0.9642857142857143,
+      "no_go_precision": 0.0,
+      "no_go_recall": null
+    }
+  ]
+}

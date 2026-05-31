@@ -26,7 +26,6 @@ def main():
     ax.set_yticks(y, labels)
     ax.set_xlim(0, 32)
     ax.set_xlabel("Samples")
-    ax.set_title("End-to-End Error Propagation on Target-Test (n=30)")
     ax.grid(axis="x", alpha=0.22)
 
     total = values[0]

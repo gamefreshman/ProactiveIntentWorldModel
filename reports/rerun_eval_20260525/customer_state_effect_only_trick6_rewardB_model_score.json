@@ -1,0 +1,2475 @@
+{
+  "artifact": "piwm_trick6_counterfactual_planning",
+  "five_act": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Hold"
+  ],
+  "reward_mode": "model_score",
+  "checkpoint": "/root/lanyun-fs/ProactiveIntentWorldModel/checkpoints/stage1_qwen25vl_7b_a100_2gpu_pathC_symmetry_v1/pathC-20260521-185907-px1003520/v0-20260521-190055/checkpoint-432",
+  "action_jsonl": "reports/4dim_eval_raw_20260524/target_action_selection.server.jsonl",
+  "n_scenes": 30,
+  "candidate_total": 107,
+  "candidate_parse_success": 105,
+  "candidate_parse_rate": 0.9813084112149533,
+  "metrics": {
+    "macro_f1": 0.41841269841269835,
+    "accuracy": 0.43333333333333335,
+    "per_act": {
+      "Greet": {
+        "precision": 0.625,
+        "recall": 0.8333333333333334,
+        "f1": 0.7142857142857143,
+        "support": 6,
+        "pred_count": 8
+      },
+      "Elicit": {
+        "precision": 0.6666666666666666,
+        "recall": 0.3333333333333333,
+        "f1": 0.4444444444444444,
+        "support": 6,
+        "pred_count": 3
+      },
+      "Inform": {
+        "precision": 0.3333333333333333,
+        "recall": 0.5,
+        "f1": 0.4,
+        "support": 6,
+        "pred_count": 9
+      },
+      "Recommend": {
+        "precision": 0.25,
+        "recall": 0.16666666666666666,
+        "f1": 0.2,
+        "support": 6,
+        "pred_count": 4
+      },
+      "Hold": {
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333,
+        "f1": 0.3333333333333333,
+        "support": 6,
+        "pred_count": 6
+      }
+    },
+    "pred_count": {
+      "Elicit": 3,
+      "Greet": 8,
+      "Hold": 6,
+      "Inform": 9,
+      "Recommend": 4
+    },
+    "support": {
+      "Elicit": 6,
+      "Greet": 6,
+      "Hold": 6,
+      "Inform": 6,
+      "Recommend": 6
+    }
+  },
+  "outputs": [
+    {
+      "scene_id": "target_piwm_700",
+      "current_stage": "interest",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_24926eed1e21",
+        "Recommend_interest_stage_conditioned_target_piwm_700_605fd47cf01e",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Inform_24926eed1e21": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_700_605fd47cf01e": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after recommendation.</next_belief>\n<next_desire>see how the salesperson can help resolve the choice</next_desire>\n<next_intention>move toward getting resolution before deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after recommendation.",
+              "desire": "see how the salesperson can help resolve the choice",
+              "intention": "move toward getting resolution before deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after the last observation.",
+              "desire": "explore available options before deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_701",
+      "current_stage": "interest",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_053014d173cc",
+        "Recommend_interest_stage_conditioned_target_piwm_701_72bc6d16c156",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains somewhat uncertain after the last observation.</next_belief>\n<next_desire>see how the product works or feel more comfortable trying it</next_desire>\n<next_intention>look for a demonstrable advantage before deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains somewhat uncertain after the last observation.",
+              "desire": "see how the product works or feel more comfortable trying it",
+              "intention": "look for a demonstrable advantage before deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_701_72bc6d16c156": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one risk tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains somewhat uncertain after a simple comparison.</next_belief>\n<next_desire>see how the option fits before deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains somewhat uncertain after a simple comparison.",
+              "desire": "see how the option fits before deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_702",
+      "current_stage": "interest",
+      "gold_candidate": "Inform_5ac252a82695",
+      "gold_act": "Inform",
+      "chosen_candidate": "Inform_5ac252a82695",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_5ac252a82695",
+        "Recommend_interest_stage_conditioned_target_piwm_702_7b41761a1f49",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.70</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.7
+          },
+          "planning_reward": 0.7,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_702_7b41761a1f49": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains somewhat uncertain after the recommendation.</next_belief>\n<next_desire>continue browsing and comparing</next_desire>\n<next_intention>look for a clearer reason to buy</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains somewhat uncertain after the recommendation.",
+              "desire": "continue browsing and comparing",
+              "intention": "look for a clearer reason to buy"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after initial comparison.</next_belief>\n<next_desire>see how the product works or get a better price</next_desire>\n<next_intention>compare the option with a test or lower price</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after initial comparison.",
+              "desire": "see how the product works or get a better price",
+              "intention": "compare the option with a test or lower price"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_703",
+      "current_stage": "attention",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Greet_attention_stage_conditioned_target_piwm_703_b337b63da88c",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_attention_stage_conditioned_target_piwm_703_b337b63da88c",
+        "Elicit_b1166d372e5e",
+        "Inform_5ff00ba15ca5",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_attention_stage_conditioned_target_piwm_703_b337b63da88c": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>see how the product fits before deciding</next_desire>\n<next_intention>look for fitting options or staff help</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after the last observation.",
+              "desire": "see how the product fits before deciding",
+              "intention": "look for fitting options or staff help"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Inform_5ff00ba15ca5": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after a quick look.</next_belief>\n<next_desire>confirm the current choice before deciding</next_desire>\n<next_intention>look for confirmation or clarification</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after a quick look.",
+              "desire": "confirm the current choice before deciding",
+              "intention": "look for confirmation or clarification"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_704",
+      "current_stage": "attention",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Greet_attention_stage_conditioned_target_piwm_704_51a30acf5b8b",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_attention_stage_conditioned_target_piwm_704_51a30acf5b8b",
+        "Elicit_b1166d372e5e",
+        "Inform_5ff00ba15ca5",
+        "Hold_eda24b4bb712",
+        "Hold_e2721a9457de"
+      ],
+      "per_candidate": {
+        "Greet_attention_stage_conditioned_target_piwm_704_51a30acf5b8b": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after seeking clarification.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after seeking clarification.",
+              "desire": "explore available options before deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Inform_5ff00ba15ca5": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after seeing how it works.</next_belief>\n<next_desire>see how the product works before deciding</next_desire>\n<next_intention>move toward trying or buying if reassured</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after seeing how it works.",
+              "desire": "see how the product works before deciding",
+              "intention": "move toward trying or buying if reassured"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after a brief pause.</next_belief>\n<next_desire>see how the situation develops without committing</next_desire>\n<next_intention>continue browsing or comparing before deciding</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after a brief pause.",
+              "desire": "see how the situation develops without committing",
+              "intention": "continue browsing or comparing before deciding"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        },
+        "Hold_e2721a9457de": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>see how the situation develops before deciding</next_desire>\n<next_intention>continue browsing or comparing without committing</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after the last observation.",
+              "desire": "see how the situation develops before deciding",
+              "intention": "continue browsing or comparing without committing"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_705",
+      "current_stage": "attention",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Greet_attention_stage_conditioned_target_piwm_705_9bb7c9fa3e60",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_attention_stage_conditioned_target_piwm_705_9bb7c9fa3e60",
+        "Elicit_b1166d372e5e",
+        "Inform_5ff00ba15ca5",
+        "Hold_eda24b4bb712",
+        "Hold_e2721a9457de"
+      ],
+      "per_candidate": {
+        "Greet_attention_stage_conditioned_target_piwm_705_9bb7c9fa3e60": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after brief engagement.</next_belief>\n<next_desire>see how the option fits before deciding</next_desire>\n<next_intention>move toward choosing if available options are sufficiently interesting</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after brief engagement.",
+              "desire": "see how the option fits before deciding",
+              "intention": "move toward choosing if available options are sufficiently interesting"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Inform_5ff00ba15ca5": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after light intervention.</next_belief>\n<next_desire>see how the product works before deciding</next_desire>\n<next_intention>move toward trying or buying if available</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after light intervention.",
+              "desire": "see how the product works before deciding",
+              "intention": "move toward trying or buying if available"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after a quick scan.</next_belief>\n<next_desire>avoid committing without more information</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after a quick scan.",
+              "desire": "avoid committing without more information",
+              "intention": "leave without buying"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        },
+        "Hold_e2721a9457de": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after a brief stop.</next_belief>\n<next_desire>see how the situation develops without committing</next_desire>\n<next_intention>continue browsing or leaving, depending on how needs are met</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after a brief stop.",
+              "desire": "see how the situation develops without committing",
+              "intention": "continue browsing or leaving, depending on how needs are met"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_706",
+      "current_stage": "interest",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Inform_24926eed1e21",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_24926eed1e21",
+        "Recommend_interest_stage_conditioned_target_piwm_706_673bc7e63644",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options and compare them</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options and compare them",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Inform_24926eed1e21": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_706_673bc7e63644": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options before deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after a silent response.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after a silent response.",
+              "desire": "explore available options before deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_707",
+      "current_stage": "interest",
+      "gold_candidate": "Inform_5ac252a82695",
+      "gold_act": "Inform",
+      "chosen_candidate": "Recommend_interest_stage_conditioned_target_piwm_707_712e294bf9ef",
+      "chosen_act": "Recommend",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_interest_stage_conditioned_target_piwm_707_985225dc31a3",
+        "Inform_5ac252a82695",
+        "Recommend_interest_stage_conditioned_target_piwm_707_712e294bf9ef",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_interest_stage_conditioned_target_piwm_707_985225dc31a3": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.70</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.7
+          },
+          "planning_reward": 0.7,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_707_712e294bf9ef": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice soon.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice soon.",
+              "desire": "explore available options before deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains somewhat uncertain after a silent observation.</next_belief>\n<next_desire>see how the option works or get a sample</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains somewhat uncertain after a silent observation.",
+              "desire": "see how the option works or get a sample",
+              "intention": "leave without buying"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_708",
+      "current_stage": "interest",
+      "gold_candidate": "Inform_5ac252a82695",
+      "gold_act": "Inform",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_5ac252a82695",
+        "Recommend_interest_stage_conditioned_target_piwm_708_abc684e81696",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after seeing the differences.</next_belief>\n<next_desire>see how the options fit the need</next_desire>\n<next_intention>compare before deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after seeing the differences.",
+              "desire": "see how the options fit the need",
+              "intention": "compare before deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_708_abc684e81696": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the choice soon.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice soon.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after brief consideration.</next_belief>\n<next_desire>see how the choice works without committing</next_desire>\n<next_intention>compare available options</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after brief consideration.",
+              "desire": "see how the choice works without committing",
+              "intention": "compare available options"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_712",
+      "current_stage": "desire",
+      "gold_candidate": "Inform_053014d173cc",
+      "gold_act": "Inform",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_desire_stage_conditioned_target_piwm_712_7772394da4d5",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>look for a salesperson or self-resolution</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options before deciding",
+              "intention": "look for a salesperson or self-resolution"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Recommend_desire_stage_conditioned_target_piwm_712_7772394da4d5": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>continue browsing and comparing</next_desire>\n<next_intention>see available options before deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "continue browsing and comparing",
+              "intention": "see available options before deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains close, and alternative options are still worth comparing.</next_belief>\n<next_desire>confirm the preferred choice before deciding</next_desire>\n<next_intention>look for confirmation or clarification</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains close, and alternative options are still worth comparing.",
+              "desire": "confirm the preferred choice before deciding",
+              "intention": "look for confirmation or clarification"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_713",
+      "current_stage": "desire",
+      "gold_candidate": "Inform_053014d173cc",
+      "gold_act": "Inform",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_desire_stage_conditioned_target_piwm_713_542ba586daa0",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>The product should resolve the remaining concerns before buying.</next_desire>\n<next_intention>continue comparing and looking for a reason to buy</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "The product should resolve the remaining concerns before buying.",
+              "intention": "continue comparing and looking for a reason to buy"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Recommend_desire_stage_conditioned_target_piwm_713_542ba586daa0": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>continue browsing and comparing</next_desire>\n<next_intention>look for salespeople for confirmation</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "continue browsing and comparing",
+              "intention": "look for salespeople for confirmation"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_714",
+      "current_stage": "desire",
+      "gold_candidate": "Inform_5ac252a82695",
+      "gold_act": "Inform",
+      "chosen_candidate": "Recommend_desire_stage_conditioned_target_piwm_714_0624a17ced7a",
+      "chosen_act": "Recommend",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_desire_stage_conditioned_target_piwm_714_0624a17ced7a",
+        "Hold_eda24b4bb712",
+        "Inform_5ac252a82695"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Recommend_desire_stage_conditioned_target_piwm_714_0624a17ced7a": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>continue browsing and comparing</next_desire>\n<next_intention>see available options before deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "continue browsing and comparing",
+              "intention": "see available options before deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>continue comparing and choosing</next_desire>\n<next_intention>look at available options and move toward deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "continue comparing and choosing",
+              "intention": "look at available options and move toward deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_718",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_718_db61c6f3be0c",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision process is complete, and leaving feels natural.</next_belief>\n<next_desire>be efficiently helped to conclude the interaction</next_desire>\n<next_intention>look for a quick resolution or assistance</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision process is complete, and leaving feels natural.",
+              "desire": "be efficiently helped to conclude the interaction",
+              "intention": "look for a quick resolution or assistance"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_718_db61c6f3be0c": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The decision remains clear, and no further help is needed.</next_belief>\n<next_desire>complete the purchase quickly</next_desire>\n<next_intention>confirm and complete the purchase</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The decision remains clear, and no further help is needed.",
+              "desire": "complete the purchase quickly",
+              "intention": "confirm and complete the purchase"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_719",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_719_91a96e16617b",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision process may be complete, and the outcome is clear.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.82</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision process may be complete, and the outcome is clear.",
+              "desire": "avoid further engagement",
+              "intention": "leave without buying"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.82
+          },
+          "planning_reward": 0.82,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_719_91a96e16617b": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The decision process is complete, and the next step should be quick.</next_belief>\n<next_desire>avoid further engagement and leave quickly</next_desire>\n<next_intention>leave without confirming the choice</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.82</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The decision process is complete, and the next step should be quick.",
+              "desire": "avoid further engagement and leave quickly",
+              "intention": "leave without confirming the choice"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.82
+          },
+          "planning_reward": 0.82,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_720",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_720_3f432a62c5f6",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The interaction may be resolved without further engagement.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.82</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The interaction may be resolved without further engagement.",
+              "desire": "avoid further engagement",
+              "intention": "leave without buying"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.82
+          },
+          "planning_reward": 0.82,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_720_3f432a62c5f6": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The decision remains close, and confirmation is needed before continuing.</next_belief>\n<next_desire>confirm the preferred choice</next_desire>\n<next_intention>find confirmation before deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The decision remains close, and confirmation is needed before continuing.",
+              "desire": "confirm the preferred choice",
+              "intention": "find confirmation before deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_721",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_721_38623010cdef",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision process is complete, and the outcome is certain.</next_belief>\n<next_desire>confirm the choice and leave</next_desire>\n<next_intention>move toward confirming the choice</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision process is complete, and the outcome is certain.",
+              "desire": "confirm the choice and leave",
+              "intention": "move toward confirming the choice"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_721_38623010cdef": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain despite some progress.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>look for alternative choices or help</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain despite some progress.",
+              "desire": "explore available options",
+              "intention": "look for alternative choices or help"
+            },
+            "risk": "medium",
+            "benefit": "low",
+            "reward": -0.2
+          },
+          "planning_reward": -0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_760",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_8d7f8993e333",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_desire_stage_conditioned_target_piwm_760_e7247f5d4264",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_desire_stage_conditioned_target_piwm_760_e7247f5d4264": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>continue browsing and comparing</next_desire>\n<next_intention>explore available options</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "continue browsing and comparing",
+              "intention": "explore available options"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>continue browsing and comparing</next_desire>\n<next_intention>explore available options</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "continue browsing and comparing",
+              "intention": "explore available options"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>continue browsing and comparing</next_desire>\n<next_intention>explore available options</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "continue browsing and comparing",
+              "intention": "explore available options"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_762",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_8d7f8993e333",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the choice between options.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice between options.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains close, and new information could tip it.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains close, and new information could tip it.",
+              "desire": "explore available options before deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_763",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_9ff23b139b07",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Inform_desire_stage_conditioned_target_piwm_763_98475049c32b",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_desire_stage_conditioned_target_piwm_763_98475049c32b",
+        "Recommend_9ff23b139b07",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_desire_stage_conditioned_target_piwm_763_98475049c32b": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the choice.</next_belief>\n<next_desire>gain confidence before deciding</next_desire>\n<next_intention>look for a resolution that reduces risk</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice.",
+              "desire": "gain confidence before deciding",
+              "intention": "look for a resolution that reduces risk"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Recommend_9ff23b139b07": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>gain confidence before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "gain confidence before deciding",
+              "intention": "look for reassurance or clarification"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>gain confidence before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "gain confidence before deciding",
+              "intention": "look for reassurance or clarification"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_764",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_9ff23b139b07",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_9ff23b139b07",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Recommend_9ff23b139b07": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>compare before deciding</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "compare before deciding"
+            },
+            "risk": "medium",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>look for product information or staff assistance</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "look for product information or staff assistance"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_765",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_9ff23b139b07",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Recommend_9ff23b139b07",
+      "chosen_act": "Recommend",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_9ff23b139b07",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the remaining concern.</next_belief>\n<next_desire>continue browsing and comparing</next_desire>\n<next_intention>see how the salesperson can help</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the remaining concern.",
+              "desire": "continue browsing and comparing",
+              "intention": "see how the salesperson can help"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Recommend_9ff23b139b07": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>获得快速确认并推进购买</next_desire>\n<next_intention>look for confirmatory assistance or clarification</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "获得快速确认并推进购买",
+              "intention": "look for confirmatory assistance or clarification"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>look for available options and prices</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options before deciding",
+              "intention": "look for available options and prices"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_766",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_8d7f8993e333",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains close, and additional reassurance is needed.</next_belief>\n<next_desire>look for a confirming recommendation</next_desire>\n<next_intention>move toward confirming the choice</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains close, and additional reassurance is needed.",
+              "desire": "look for a confirming recommendation",
+              "intention": "move toward confirming the choice"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains close, and additional reassurance is needed.</next_belief>\n<next_desire>look for a confirming recommendation before deciding</next_desire>\n<next_intention>compare options and look for a clear recommendation</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.65</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains close, and additional reassurance is needed.",
+              "desire": "look for a confirming recommendation before deciding",
+              "intention": "compare options and look for a clear recommendation"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.65
+          },
+          "planning_reward": 0.65,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_789",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_789_3b3823bf8ff3",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The interaction may not be fully resolved yet.</next_belief>\n<next_desire>see the current option through to completion</next_desire>\n<next_intention>move toward resolving the remaining steps</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The interaction may not be fully resolved yet.",
+              "desire": "see the current option through to completion",
+              "intention": "move toward resolving the remaining steps"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_789_3b3823bf8ff3": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the choice soon.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the choice soon.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The decision remains uncertain after paying.</next_belief>\n<next_desire>find confirmation before leaving</next_desire>\n<next_intention>look for confirming feedback or staff assistance</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after paying.",
+              "desire": "find confirmation before leaving",
+              "intention": "look for confirming feedback or staff assistance"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_790",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_790_172d0e052b42",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>The interaction may be resolved without further engagement.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without completing the interaction</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.82</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "The interaction may be resolved without further engagement.",
+              "desire": "avoid further engagement",
+              "intention": "leave without completing the interaction"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.82
+          },
+          "planning_reward": 0.82,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_790_172d0e052b42": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one risk tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>The decision process is complete, and expectations are managed.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without interacting</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "The decision process is complete, and expectations are managed.",
+              "desire": "avoid further engagement",
+              "intention": "leave without interacting"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_810",
+      "current_stage": "interest",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Inform_5ff00ba15ca5",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_5ff00ba15ca5",
+        "Recommend_interest_stage_conditioned_target_piwm_810_5d8cdcc48ed2",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after a general query.</next_belief>\n<next_desire>explore available options before deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after a general query.",
+              "desire": "explore available options before deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Inform_5ff00ba15ca5": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_810_5d8cdcc48ed2": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after a quiet observation.</next_belief>\n<next_desire>see how the product works or test before deciding</next_desire>\n<next_intention>look for staff assistance or functional demonstrations</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after a quiet observation.",
+              "desire": "see how the product works or test before deciding",
+              "intention": "look for staff assistance or functional demonstrations"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_811",
+      "current_stage": "interest",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Inform_5ac252a82695",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_5ac252a82695",
+        "Recommend_interest_stage_conditioned_target_piwm_811_695c53fa4916",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains somewhat open, and external help may influence it.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains somewhat open, and external help may influence it.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains somewhat open, and external comparisons may help narrow it.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains somewhat open, and external comparisons may help narrow it.",
+              "desire": "gain reassurance before deciding",
+              "intention": "look for reassurance or clarification"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_811_695c53fa4916": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains open, and external advice may influence judgment.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains open, and external advice may influence judgment.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains open to external confirmation.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains open to external confirmation.",
+              "desire": "gain reassurance before deciding",
+              "intention": "look for reassurance or clarification"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_812",
+      "current_stage": "desire",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Inform_desire_stage_conditioned_target_piwm_812_24f402b2bf2e",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_desire_stage_conditioned_target_piwm_812_24f402b2bf2e",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_desire_stage_conditioned_target_piwm_812_24f402b2bf2e": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains somewhat uncertain after brief comparison.</next_belief>\n<next_desire>continue browsing and comparing without urgency</next_desire>\n<next_intention>see more options before deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains somewhat uncertain after brief comparison.",
+              "desire": "continue browsing and comparing without urgency",
+              "intention": "see more options before deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains mostly unchanged; additional information is needed.</next_belief>\n<next_desire>continue browsing and comparing without feeling rushed</next_desire>\n<next_intention>see the available options before deciding</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains mostly unchanged; additional information is needed.",
+              "desire": "continue browsing and comparing without feeling rushed",
+              "intention": "see the available options before deciding"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains balanced, and alternative options are still viable.</next_belief>\n<next_desire>continue browsing and comparing without urgency</next_desire>\n<next_intention>see more products or get closer before deciding</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains balanced, and alternative options are still viable.",
+              "desire": "continue browsing and comparing without urgency",
+              "intention": "see more products or get closer before deciding"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_813",
+      "current_stage": "interest",
+      "gold_candidate": "Hold_e2721a9457de",
+      "gold_act": "Hold",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_24926eed1e21",
+        "Recommend_interest_stage_conditioned_target_piwm_813_95885d8f66ad",
+        "Hold_eda24b4bb712",
+        "Hold_e2721a9457de"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains open, and help is useful for deciding.</next_belief>\n<next_desire>explore available options or alternatives</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains open, and help is useful for deciding.",
+              "desire": "explore available options or alternatives",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Inform_24926eed1e21": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains open, and waiting may pay off.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>look for a resolution without deciding</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains open, and waiting may pay off.",
+              "desire": "explore available options",
+              "intention": "look for a resolution without deciding"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_813_95885d8f66ad": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains open, and waiting may pay off.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains open, and waiting may pay off.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains open, and silence is helping resolve it.</next_belief>\n<next_desire>explore available options without deciding</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains open, and silence is helping resolve it.",
+              "desire": "explore available options without deciding",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.85
+          },
+          "planning_reward": 0.85,
+          "has_transition_gold": true
+        },
+        "Hold_e2721a9457de": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains open, and less help is needed.</next_belief>\n<next_desire>continue browsing without deciding</next_desire>\n<next_intention>look for opportunities to browse rather than buy</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains open, and less help is needed.",
+              "desire": "continue browsing without deciding",
+              "intention": "look for opportunities to browse rather than buy"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_816",
+      "current_stage": "interest",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_24926eed1e21",
+        "Recommend_interest_stage_conditioned_target_piwm_816_5f0058b8809c",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains somewhat open after the last observation.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>look for a resolution</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains somewhat open after the last observation.",
+              "desire": "explore available options",
+              "intention": "look for a resolution"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Inform_24926eed1e21": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after self-judgment.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>look for price or rating</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after self-judgment.",
+              "desire": "explore available options",
+              "intention": "look for price or rating"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_816_5f0058b8809c": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain, and options are still comparable.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain, and options are still comparable.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after a quiet observation.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "The decision remains uncertain after a quiet observation.",
+              "desire": "explore available options",
+              "intention": "continue browsing and comparing"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_817",
+      "current_stage": "desire",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Recommend_8d7f8993e333",
+      "chosen_act": "Recommend",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_desire_stage_conditioned_target_piwm_817_28eeaae97e81",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_desire_stage_conditioned_target_piwm_817_28eeaae97e81": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains somewhat uncertain after brief comparison.</next_belief>\n<next_desire>continue browsing and compare</next_desire>\n<next_intention>look for a quick resolution</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains somewhat uncertain after brief comparison.",
+              "desire": "continue browsing and compare",
+              "intention": "look for a quick resolution"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": false
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>continue browsing and compare</next_desire>\n<next_intention>see how the salesperson can help</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The salesperson may help resolve the decision.",
+              "desire": "continue browsing and compare",
+              "intention": "see how the salesperson can help"
+            },
+            "risk": "low",
+            "benefit": "high",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>The decision remains manageable, and external confirmation is helpful.</next_belief>\n<next_desire>confirm the preferred choice</next_desire>\n<next_intention>look for confirmatory information</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "The decision remains manageable, and external confirmation is helpful.",
+              "desire": "confirm the preferred choice",
+              "intention": "look for confirmatory information"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    }
+  ]
+}

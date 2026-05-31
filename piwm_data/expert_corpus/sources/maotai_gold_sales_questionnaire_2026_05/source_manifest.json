@@ -1,0 +1,74 @@
+{
+  "source_package_id": "maotai_gold_sales_questionnaire_2026_05",
+  "registry_source_id": "SRC_SALES_MAOTAI_GOLD_QUESTIONNAIRE_2026_05",
+  "source_type": "internal_expert_questionnaire",
+  "created_at": "2026-05-19",
+  "raw_intake_path": "data/expert_corpus/raw_intake/maotai_gold_sales_questionnaires_structured_v0.json",
+  "structured_records_path": "piwm_data/expert_corpus/sources/maotai_gold_sales_questionnaire_2026_05/structured_records.json",
+  "sha256_structured_records": "5e2030b9ffa507b53b9f2d667fede6dac9e87f6a49422f80239137a8491f824f",
+  "annotators": [
+    {
+      "annotator_id": "salesperson_A",
+      "source_file": "茅台金牌导购深度知识-01.pdf",
+      "experience_band": "3-5年（独当一面）"
+    },
+    {
+      "annotator_id": "salesperson_B",
+      "source_file": "茅台金牌导购深度知识-02.docx",
+      "experience_band": "1年以下（新手上路）"
+    },
+    {
+      "annotator_id": "salesperson_C",
+      "source_file": "茅台金牌导购深度知识-03.docx",
+      "experience_band": "1年以下（新手上路）"
+    }
+  ],
+  "summary": {
+    "annotator_count": 3,
+    "field_value_count": 3088,
+    "null_value_count": 1323,
+    "unreadable_marker_count": 5,
+    "difficult_sections": [
+      {
+        "annotator_id": "salesperson_A",
+        "sections": [
+          "section_8_upsell_art",
+          "section_9_objection_library",
+          "section_10_emergency_cases",
+          "section_13_utterance_arsenal",
+          "section_18_role_play"
+        ],
+        "reason": "手写扫描件局部字迹较淡或连笔，需要人工二次复核。"
+      },
+      {
+        "annotator_id": "salesperson_C",
+        "sections": [
+          "section_7_high_frequency_cases",
+          "section_8_upsell_art",
+          "section_10_emergency_cases",
+          "section_11_failure_cases",
+          "section_13_utterance_arsenal",
+          "section_18_role_play",
+          "section_20_evolution_stages",
+          "section_21_godlike_moment"
+        ],
+        "reason": "原文大量空白。"
+      }
+    ]
+  },
+  "use_policy": {
+    "can_use_for": [
+      "field_sales_practice_paraphrase",
+      "behavior_signal_taxonomy",
+      "objection_handling_taxonomy",
+      "hardware_interaction_notes",
+      "utterance_template_candidates"
+    ],
+    "do_not_use_for": [
+      "direct_training_text_without_review",
+      "public_release_without_anonymization",
+      "automatic_rule_promotion_without_project_review"
+    ],
+    "review_gate": "Draft principles from this package must be manually reviewed before promotion into distilled rules."
+  }
+}

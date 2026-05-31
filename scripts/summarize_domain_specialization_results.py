@@ -15,16 +15,21 @@ DEFAULT_OUT_MD = DEFAULT_RESULTS_DIR / "summary.md"
 
 def summarize_domain_specialization_results(results_dir: Path) -> dict[str, Any]:
     rows = []
+    baselines = []
     for path in sorted(results_dir.glob("*.json")):
         if path.name in {"summary.json"}:
             continue
         payload = json.loads(path.read_text(encoding="utf-8"))
-        rows.append(_result_row(path, payload))
+        if payload.get("artifact") == "piwm_5act_action_selection_baselines":
+            baselines.append({"path": path.as_posix(), **payload})
+        else:
+            rows.append(_result_row(path, payload))
     return {
         "artifact": "piwm_domain_specialization_eval_summary",
         "results_dir": results_dir.as_posix(),
         "n_results": len(rows),
         "results": rows,
+        "baselines": baselines,
     }
 
 
@@ -64,24 +69,40 @@ def _markdown(summary: dict[str, Any]) -> str:
             "Expected inputs are outputs from `scripts.eval_ms_swift_checkpoint` or compatible evaluation scripts.",
             "",
         ])
-        return "\n".join(lines)
+        if not summary.get("baselines"):
+            return "\n".join(lines)
 
     metric_names = sorted({name for row in summary["results"] for name in row.get("metrics", {})})
-    lines.extend([
-        "| Label | Records | Parse rate | Input | Checkpoint |",
-        "|---|---:|---:|---|---|",
-    ])
-    for row in summary["results"]:
-        parse_rate = _fmt(row.get("parse_rate"))
-        lines.append(
-            f"| `{row.get('eval_label')}` | {row.get('n_records')} | {parse_rate} | "
-            f"`{row.get('input_jsonl')}` | `{row.get('checkpoint')}` |"
-        )
-    if metric_names:
-        lines.extend(["", "## Metrics", "", "| Label | " + " | ".join(metric_names) + " |", "|---" + "|---:" * len(metric_names) + "|"])
+    if summary["results"]:
+        lines.extend([
+            "| Label | Records | Parse rate | Input | Checkpoint |",
+            "|---|---:|---:|---|---|",
+        ])
         for row in summary["results"]:
-            values = " | ".join(_fmt(row.get("metrics", {}).get(name)) for name in metric_names)
-            lines.append(f"| `{row.get('eval_label')}` | {values} |")
+            parse_rate = _fmt(row.get("parse_rate"))
+            lines.append(
+                f"| `{row.get('eval_label')}` | {row.get('n_records')} | {parse_rate} | "
+                f"`{row.get('input_jsonl')}` | `{row.get('checkpoint')}` |"
+            )
+        if metric_names:
+            lines.extend(["", "## Metrics", "", "| Label | " + " | ".join(metric_names) + " |", "|---" + "|---:" * len(metric_names) + "|"])
+            for row in summary["results"]:
+                values = " | ".join(_fmt(row.get("metrics", {}).get(name)) for name in metric_names)
+                lines.append(f"| `{row.get('eval_label')}` | {values} |")
+    if summary.get("baselines"):
+        lines.extend([
+            "",
+            "## Baselines",
+            "",
+            "| File | Baseline | Action macro F1 | Go precision | Go recall |",
+            "|---|---|---:|---:|---:|",
+        ])
+        for item in summary["baselines"]:
+            for name, metrics in item.get("baselines", {}).items():
+                lines.append(
+                    f"| `{item['path']}` | `{name}` | {_fmt(metrics.get('action_macro_f1'))} | "
+                    f"{_fmt(metrics.get('go_precision'))} | {_fmt(metrics.get('go_recall'))} |"
+                )
     lines.append("")
     return "\n".join(lines)
 

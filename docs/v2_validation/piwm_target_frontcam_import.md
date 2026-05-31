@@ -1,6 +1,6 @@
 # PIWM Target Frontcam Import Report
 
-更新时间：2026-05-17 CST
+更新时间：2026-05-19 CST
 
 本文记录轻量仓库 `guochenmeinian/piwm` 导入主项目 v2.2 的结果。该数据在论文口径中作为 target 域智能导购语料，区别于主项目 `PIWM-Train-Synth-v2` 的 general retail guidance 语料。
 
@@ -66,22 +66,22 @@ Dataset split:
 | train | 88 |
 | test | 30 |
 
-The 30 test rows have now passed project-lead human QA after Codex visual QA. All 30 pass, with 2 warning flags retained for auditability. The reviewed rows have been merged back into the target main schema and target ms-swift export.
+The target-frontcam main experiment now uses a derived clean 5-act split. From 118 video-backed records, 17 best=`Reassure` rows are excluded and `Reassure` is filtered from candidate lists; no row degenerates to an empty candidate set, leaving 101 clean 5-act records: 71 train rows and a balanced 30-record test set. The new test set is pending project-lead QA review. The previous last-30 reviewed files remain archived as historical split artifacts.
 
 ## Target QA Review Artifacts
 
-The current manual-review queue has been generated from the 30 test rows:
+The current manual-review queue has been generated from the balanced 30-row 5-act test split:
 
 | Artifact | Value |
 |---|---|
-| Review index | `data/official/piwm_target_v1/qa_review_target30/qa_review_index.md` |
-| Machine-readable index | `data/official/piwm_target_v1/qa_review_target30/qa_review_index.json` |
-| Review rows JSONL | `data/official/piwm_target_v1/qa_review_target30/qa_review_rows.jsonl` |
+| Review index | `data/official/piwm_target_v1/qa_review_target30_5act/qa_review_index.md` |
+| Machine-readable index | `data/official/piwm_target_v1/qa_review_target30_5act/qa_review_index.json` |
+| Review rows JSONL | `data/official/piwm_target_v1/qa_review_target30_5act/qa_review_rows.jsonl` |
 | Contact sheets | `target_frontcam_qa_sheet_00.jpg` to `target_frontcam_qa_sheet_02.jpg` |
 | Rows staged | 30 |
 | Rows with all sampled frames | 30 |
 | Missing frames | 0 |
-| Status | `project_lead_human_qa_completed_and_merged` |
+| Status | `pending_project_lead_review_after_5act_rebalance` |
 
 Generation command:
 
@@ -95,27 +95,27 @@ QA promotion and merge command:
 python3 scripts/apply_target_frontcam_qa_review.py \
   --merge-target-data \
   --reviewer "Project lead human QA" \
-  --reviewed-at 2026-05-17 \
-  --review-type project_lead_human_review_after_codex_visual_qa
+  --reviewed-at YYYY-MM-DD \
+  --review-type project_lead_human_review_after_5act_split_rebalance
 ```
 
-QA result:
+Current QA boundary:
 
 | Item | Count |
 |---|---:|
-| reviewed test records | 30 |
-| QA-reviewed pass records | 30 |
+| staged test records | 30 |
+| QA-reviewed pass records | 0 |
 | QA fail records | 0 |
-| warning records | 2 |
-| reviewed ms-swift eval rows | 180 |
+| warning records | 0 |
+| pending ms-swift eval rows | 180 |
 
-Reviewed eval entrypoint:
+Current eval entrypoint:
 
 ```text
-data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl
+data/official/domain_specialization_eval_v1/target_frontcam_test_all.jsonl
 ```
 
-The contact sheets are only review aids. The audited promotion step writes reviewed rows to QA artifacts and now also merges the 30 reviewed test records into `data/official/piwm_target_v1/main_schema.jsonl` and the target ms-swift export. The 88 train records remain `synthetic_unreviewed`.
+The contact sheets are only review aids. After manual templates are completed, the audited promotion step will write reviewed rows to QA artifacts and merge the 30 reviewed test records into `data/official/piwm_target_v1/main_schema.jsonl` and the target ms-swift export. The 88 train records remain `synthetic_unreviewed`. The previous last-30 reviewed eval files are archived under `data/official/domain_specialization_eval_v1/_legacy_last30_qa_reviewed/`.
 
 ## Best Act Distribution
 
@@ -128,7 +128,14 @@ The contact sheets are only review aids. The audited promotion step writes revie
 | Recommend | 11 |
 | Hold | 6 |
 
-This target set complements the general synthetic corpus, where `Greet` and `Recommend` are absent from legacy best-action labels. Because the target set has only 118 records, it improves action coverage but does not by itself balance the full merged corpus.
+This target set complements the general synthetic corpus by adding target-frontcam examples for `Recommend`, `Greet`, and low-intervention behavior. Its 17 `Reassure` records are retained only for compatibility/error analysis and are excluded from current 5-act training/eval. Because the target set has only 118 records, it improves target-domain coverage but does not by itself balance the full merged corpus.
+
+## Current 5-Act Split Distribution
+
+| Split | Elicit | Inform | Recommend | Reassure | Hold | Greet |
+|---|---:|---:|---:|---:|---:|---:|
+| train | 14 | 33 | 8 | 12 | 4 | 17 |
+| test | 6 | 14 | 3 | 5 | 2 | 0 |
 
 ## Command
 
@@ -148,6 +155,12 @@ Target test review queue:
 
 ```bash
 python3 -m scripts.build_target_frontcam_qa_review
+```
+
+Current balanced 5-act split validation:
+
+```bash
+python3 -m scripts.check_target_frontcam_split
 ```
 
 Domain-specialization eval entrypoints:
@@ -193,7 +206,8 @@ data/official/piwm_target_v1/frames/<session_id>/
 
 ## Current Red Lines
 
-- Do not call all of `PIWM-Target-Frontcam-v1` full-corpus QA-reviewed; only the 30-record test split is project-lead QA-reviewed.
+- Do not call all of `PIWM-Target-Frontcam-v1` full-corpus QA-reviewed; the current 30-record balanced 5-act test split is pending project-lead QA.
+- Do not call the current 5-act test split QA-reviewed until `qa_review_target30_5act` templates are completed and applied.
 - Do not merge it silently into `PIWM-Train-Synth-v2`; keep it as a named target-domain corpus.
-- Do use the 30 test rows as the current QA-reviewed in-domain eval split; keep the warning flags visible and do not claim the 88 train records are QA-reviewed.
+- Do use the 30 test rows as the current pending-review in-domain eval split; do not claim the 88 train records are QA-reviewed.
 - Do not describe this as real-shooting data; it is imported synthetic target-frontcam data from the lightweight repo.

@@ -1,0 +1,556 @@
+{
+  "preflight": {
+    "models": {
+      "count": 725,
+      "selected": {
+        "gemini_2.5_flash": "gemini-2.5-flash",
+        "gpt_4o": "gpt-4o",
+        "claude_sonnet_4.6": "claude-sonnet-4-6"
+      },
+      "missing": {}
+    },
+    "balance": {
+      "ok": false,
+      "status": 403,
+      "body": "{\"error\":{\"err_code\":403,\"message\":\"\",\"message_cn\":\"\",\"message_jp\":\"\",\"type\":\"api_error\"}}"
+    }
+  },
+  "models": {
+    "gemini_2.5_flash": {
+      "model_key": "gemini_2.5_flash",
+      "requested_model_id": "gemini-2.5-flash",
+      "api_provider": "302ai",
+      "started_at_utc": "2026-05-26T07:12:31.878245+00:00",
+      "scenarios": {
+        "target_test_30_oracle": {
+          "n": 30,
+          "parse_rate": 0.9666666666666667,
+          "macro_f1_strict": 0.6593006993006993,
+          "macro_f1_parsed": 0.6683916083916083,
+          "prediction_counts": {
+            "Elicit": 2,
+            "Inform": 5,
+            "Greet": 6,
+            "Recommend": 7,
+            "Hold": 9,
+            "PARSE_FAIL": 1
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 0.5,
+              "recall": 0.5,
+              "f1": 0.5,
+              "support": 6
+            },
+            "Elicit": {
+              "precision": 1.0,
+              "recall": 0.3333333333333333,
+              "f1": 0.5,
+              "support": 6
+            },
+            "Inform": {
+              "precision": 0.8,
+              "recall": 0.6666666666666666,
+              "f1": 0.7272727272727272,
+              "support": 6
+            },
+            "Recommend": {
+              "precision": 0.7142857142857143,
+              "recall": 0.8333333333333334,
+              "f1": 0.7692307692307692,
+              "support": 6
+            },
+            "Hold": {
+              "precision": 0.6666666666666666,
+              "recall": 1.0,
+              "f1": 0.8,
+              "support": 6
+            }
+          },
+          "derived_from": "cross_domain_60 target subset"
+        },
+        "cross_domain_60_oracle": {
+          "n": 60,
+          "parse_rate": 0.9333333333333333,
+          "macro_f1_strict": 0.6384615384615385,
+          "macro_f1_parsed": 0.6622863113897596,
+          "prediction_counts": {
+            "Elicit": 11,
+            "Inform": 14,
+            "Greet": 6,
+            "Recommend": 8,
+            "Hold": 17,
+            "PARSE_FAIL": 4
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 0.5,
+              "recall": 0.5,
+              "f1": 0.5,
+              "support": 6
+            },
+            "Elicit": {
+              "precision": 0.7272727272727273,
+              "recall": 0.42105263157894735,
+              "f1": 0.5333333333333333,
+              "support": 19
+            },
+            "Inform": {
+              "precision": 0.6428571428571429,
+              "recall": 0.75,
+              "f1": 0.6923076923076924,
+              "support": 12
+            },
+            "Recommend": {
+              "precision": 0.75,
+              "recall": 0.6,
+              "f1": 0.6666666666666665,
+              "support": 10
+            },
+            "Hold": {
+              "precision": 0.7058823529411765,
+              "recall": 0.9230769230769231,
+              "f1": 0.8000000000000002,
+              "support": 13
+            }
+          },
+          "usage": {
+            "prompt_tokens": 94602,
+            "completion_tokens": 69453,
+            "total_tokens": 164055,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "claude_cache_creation_5_m_tokens": 0,
+            "claude_cache_creation_1_h_tokens": 0
+          }
+        },
+        "target_test_e2e_30": {
+          "n": 30,
+          "step1_parse_rate": 0.9,
+          "step2_parse_rate": 0.8333333333333334,
+          "macro_f1_strict": 0.21636363636363637,
+          "macro_f1_parsed": 0.2511111111111111,
+          "prediction_counts": {
+            "Elicit": 4,
+            "PARSE_FAIL": 5,
+            "Greet": 1,
+            "Hold": 10,
+            "Recommend": 5,
+            "Inform": 5
+          },
+          "usage": {
+            "prompt_tokens": 73591,
+            "completion_tokens": 62644,
+            "total_tokens": 136235,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "claude_cache_creation_5_m_tokens": 0,
+            "claude_cache_creation_1_h_tokens": 0
+          }
+        },
+        "real_store_20": {
+          "n": 20,
+          "parse_rate": 0.8,
+          "macro_f1_strict": 0.6553571428571429,
+          "macro_f1_parsed": 0.7615079365079365,
+          "prediction_counts": {
+            "Greet": 3,
+            "PARSE_FAIL": 4,
+            "Inform": 5,
+            "Elicit": 2,
+            "Recommend": 3,
+            "Hold": 3
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 1.0,
+              "recall": 0.6,
+              "f1": 0.7499999999999999,
+              "support": 5
+            },
+            "Elicit": {
+              "precision": 1.0,
+              "recall": 0.4,
+              "f1": 0.5714285714285715,
+              "support": 5
+            },
+            "Inform": {
+              "precision": 0.8,
+              "recall": 0.8,
+              "f1": 0.8000000000000002,
+              "support": 5
+            },
+            "Recommend": {
+              "precision": 0.6666666666666666,
+              "recall": 0.4,
+              "f1": 0.5,
+              "support": 5
+            }
+          },
+          "usage": {
+            "prompt_tokens": 27151,
+            "completion_tokens": 24047,
+            "total_tokens": 51198,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "claude_cache_creation_5_m_tokens": 0,
+            "claude_cache_creation_1_h_tokens": 0
+          }
+        }
+      },
+      "finished_at_utc": "2026-05-26T07:58:41.419456+00:00",
+      "elapsed_sec": 2769.5
+    },
+    "gpt_4o": {
+      "model_key": "gpt_4o",
+      "requested_model_id": "gpt-4o",
+      "api_provider": "302ai",
+      "started_at_utc": "2026-05-26T07:43:36.629877+00:00",
+      "scenarios": {
+        "target_test_30_oracle": {
+          "n": 30,
+          "parse_rate": 1.0,
+          "macro_f1_strict": 0.4452747252747253,
+          "macro_f1_parsed": 0.4452747252747253,
+          "prediction_counts": {
+            "Elicit": 1,
+            "Recommend": 7,
+            "Inform": 4,
+            "Greet": 3,
+            "Hold": 15
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 6
+            },
+            "Elicit": {
+              "precision": 1.0,
+              "recall": 0.16666666666666666,
+              "f1": 0.2857142857142857,
+              "support": 6
+            },
+            "Inform": {
+              "precision": 0.75,
+              "recall": 0.5,
+              "f1": 0.6,
+              "support": 6
+            },
+            "Recommend": {
+              "precision": 0.7142857142857143,
+              "recall": 0.8333333333333334,
+              "f1": 0.7692307692307692,
+              "support": 6
+            },
+            "Hold": {
+              "precision": 0.4,
+              "recall": 1.0,
+              "f1": 0.5714285714285715,
+              "support": 6
+            }
+          },
+          "derived_from": "cross_domain_60 target subset"
+        },
+        "cross_domain_60_oracle": {
+          "n": 60,
+          "parse_rate": 1.0,
+          "macro_f1_strict": 0.5025944170771757,
+          "macro_f1_parsed": 0.5025944170771757,
+          "prediction_counts": {
+            "Elicit": 10,
+            "Recommend": 8,
+            "Inform": 17,
+            "Greet": 3,
+            "Hold": 22
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 6
+            },
+            "Elicit": {
+              "precision": 0.7,
+              "recall": 0.3684210526315789,
+              "f1": 0.48275862068965514,
+              "support": 19
+            },
+            "Inform": {
+              "precision": 0.5294117647058824,
+              "recall": 0.75,
+              "f1": 0.6206896551724139,
+              "support": 12
+            },
+            "Recommend": {
+              "precision": 0.75,
+              "recall": 0.6,
+              "f1": 0.6666666666666665,
+              "support": 10
+            },
+            "Hold": {
+              "precision": 0.5909090909090909,
+              "recall": 1.0,
+              "f1": 0.7428571428571429,
+              "support": 13
+            }
+          },
+          "usage": {
+            "prompt_tokens": 254113,
+            "completion_tokens": 7875,
+            "total_tokens": 261988
+          }
+        },
+        "target_test_e2e_30": {
+          "n": 30,
+          "step1_parse_rate": 1.0,
+          "step2_parse_rate": 1.0,
+          "macro_f1_strict": 0.3542533936651583,
+          "macro_f1_parsed": 0.3542533936651583,
+          "prediction_counts": {
+            "Elicit": 7,
+            "Inform": 11,
+            "Greet": 2,
+            "Hold": 6,
+            "Recommend": 4
+          },
+          "usage": {
+            "prompt_tokens": 233939,
+            "completion_tokens": 9469,
+            "total_tokens": 243408
+          }
+        },
+        "real_store_20": {
+          "n": 20,
+          "parse_rate": 1.0,
+          "macro_f1_strict": 0.5345695970695971,
+          "macro_f1_parsed": 0.5345695970695971,
+          "prediction_counts": {
+            "Hold": 6,
+            "Greet": 3,
+            "Inform": 8,
+            "Recommend": 2,
+            "Elicit": 1
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 1.0,
+              "recall": 0.6,
+              "f1": 0.7499999999999999,
+              "support": 5
+            },
+            "Elicit": {
+              "precision": 1.0,
+              "recall": 0.2,
+              "f1": 0.33333333333333337,
+              "support": 5
+            },
+            "Inform": {
+              "precision": 0.625,
+              "recall": 1.0,
+              "f1": 0.7692307692307693,
+              "support": 5
+            },
+            "Recommend": {
+              "precision": 0.5,
+              "recall": 0.2,
+              "f1": 0.28571428571428575,
+              "support": 5
+            }
+          },
+          "usage": {
+            "prompt_tokens": 84542,
+            "completion_tokens": 2707,
+            "total_tokens": 87249
+          }
+        }
+      },
+      "finished_at_utc": "2026-05-26T07:59:59.754817+00:00",
+      "elapsed_sec": 983.1
+    },
+    "claude_sonnet_4.6": {
+      "model_key": "claude_sonnet_4.6",
+      "requested_model_id": "claude-sonnet-4-6",
+      "api_provider": "302ai",
+      "started_at_utc": "2026-05-26T07:43:36.624955+00:00",
+      "scenarios": {
+        "target_test_30_oracle": {
+          "n": 30,
+          "parse_rate": 1.0,
+          "macro_f1_strict": 0.5791086691086691,
+          "macro_f1_parsed": 0.5791086691086691,
+          "prediction_counts": {
+            "Elicit": 1,
+            "Recommend": 9,
+            "Inform": 3,
+            "Greet": 7,
+            "Hold": 10
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 0.5714285714285714,
+              "recall": 0.6666666666666666,
+              "f1": 0.6153846153846153,
+              "support": 6
+            },
+            "Elicit": {
+              "precision": 1.0,
+              "recall": 0.16666666666666666,
+              "f1": 0.2857142857142857,
+              "support": 6
+            },
+            "Inform": {
+              "precision": 0.6666666666666666,
+              "recall": 0.3333333333333333,
+              "f1": 0.4444444444444444,
+              "support": 6
+            },
+            "Recommend": {
+              "precision": 0.6666666666666666,
+              "recall": 1.0,
+              "f1": 0.8,
+              "support": 6
+            },
+            "Hold": {
+              "precision": 0.6,
+              "recall": 1.0,
+              "f1": 0.7499999999999999,
+              "support": 6
+            }
+          },
+          "derived_from": "cross_domain_60 target subset"
+        },
+        "cross_domain_60_oracle": {
+          "n": 60,
+          "parse_rate": 1.0,
+          "macro_f1_strict": 0.5690120507511812,
+          "macro_f1_parsed": 0.5690120507511812,
+          "prediction_counts": {
+            "Elicit": 9,
+            "Recommend": 10,
+            "Inform": 11,
+            "Greet": 7,
+            "Hold": 23
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 0.5714285714285714,
+              "recall": 0.6666666666666666,
+              "f1": 0.6153846153846153,
+              "support": 6
+            },
+            "Elicit": {
+              "precision": 0.4444444444444444,
+              "recall": 0.21052631578947367,
+              "f1": 0.2857142857142857,
+              "support": 19
+            },
+            "Inform": {
+              "precision": 0.5454545454545454,
+              "recall": 0.5,
+              "f1": 0.5217391304347826,
+              "support": 12
+            },
+            "Recommend": {
+              "precision": 0.7,
+              "recall": 0.7,
+              "f1": 0.7,
+              "support": 10
+            },
+            "Hold": {
+              "precision": 0.5652173913043478,
+              "recall": 1.0,
+              "f1": 0.7222222222222222,
+              "support": 13
+            }
+          },
+          "usage": {
+            "prompt_tokens": 317266,
+            "completion_tokens": 8015,
+            "total_tokens": 325281,
+            "input_tokens": 317266,
+            "output_tokens": 0,
+            "claude_cache_creation_5_m_tokens": 0,
+            "claude_cache_creation_1_h_tokens": 0
+          }
+        },
+        "target_test_e2e_30": {
+          "n": 30,
+          "step1_parse_rate": 0.9666666666666667,
+          "step2_parse_rate": 0.9666666666666667,
+          "macro_f1_strict": 0.2943692564745196,
+          "macro_f1_parsed": 0.30325814536340856,
+          "prediction_counts": {
+            "Elicit": 3,
+            "Hold": 13,
+            "Inform": 8,
+            "Greet": 4,
+            "PARSE_FAIL": 1,
+            "Recommend": 1
+          },
+          "usage": {
+            "prompt_tokens": 251584,
+            "completion_tokens": 12563,
+            "total_tokens": 264147,
+            "input_tokens": 251584,
+            "output_tokens": 0,
+            "claude_cache_creation_5_m_tokens": 0,
+            "claude_cache_creation_1_h_tokens": 0
+          }
+        },
+        "real_store_20": {
+          "n": 20,
+          "parse_rate": 1.0,
+          "macro_f1_strict": 0.8333333333333333,
+          "macro_f1_parsed": 0.8333333333333333,
+          "prediction_counts": {
+            "Greet": 5,
+            "Elicit": 3,
+            "Inform": 7,
+            "Hold": 2,
+            "Recommend": 3
+          },
+          "per_class_strict": {
+            "Greet": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 5
+            },
+            "Elicit": {
+              "precision": 1.0,
+              "recall": 0.6,
+              "f1": 0.7499999999999999,
+              "support": 5
+            },
+            "Inform": {
+              "precision": 0.7142857142857143,
+              "recall": 1.0,
+              "f1": 0.8333333333333333,
+              "support": 5
+            },
+            "Recommend": {
+              "precision": 1.0,
+              "recall": 0.6,
+              "f1": 0.7499999999999999,
+              "support": 5
+            }
+          },
+          "usage": {
+            "prompt_tokens": 116477,
+            "completion_tokens": 2857,
+            "total_tokens": 119334,
+            "input_tokens": 116477,
+            "output_tokens": 0,
+            "claude_cache_creation_5_m_tokens": 0,
+            "claude_cache_creation_1_h_tokens": 0
+          }
+        }
+      },
+      "finished_at_utc": "2026-05-26T08:24:19.954753+00:00",
+      "elapsed_sec": 2443.3
+    }
+  }
+}

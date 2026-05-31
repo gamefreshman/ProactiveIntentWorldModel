@@ -1,0 +1,16 @@
+{
+  "models": {
+    "count": 725,
+    "selected": {
+      "gemini_2.5_flash": "gemini-2.5-flash",
+      "gpt_4o": "gpt-4o",
+      "claude_sonnet_4.6": "claude-sonnet-4-6"
+    },
+    "missing": {}
+  },
+  "balance": {
+    "ok": false,
+    "status": 403,
+    "body": "{\"error\":{\"err_code\":403,\"message\":\"\",\"message_cn\":\"\",\"message_jp\":\"\",\"type\":\"api_error\"}}"
+  }
+}

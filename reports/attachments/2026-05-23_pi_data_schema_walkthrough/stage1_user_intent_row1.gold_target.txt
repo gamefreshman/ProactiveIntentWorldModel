@@ -1,0 +1,9 @@
+<stage>interest</stage>
+<intent_label>request_demonstration</intent_label>
+<visual_summary>顾客向同伴寻求意见，说明决策受到社交反馈影响。 当前场景是珠宝柜台，可见判断应围绕同伴反馈如何影响佩戴效果、材质、光泽、尺寸和送礼场景。视角为导购可观察中近距离视角。</visual_summary>
+<engagement_pattern>顾客仍围绕商品做判断。 移动不大，重点是沟通和确认。 互动对象从商品扩展到同伴，决策节奏会受第三方反馈影响。</engagement_pattern>
+<gaze_and_attention>视线在商品和同伴之间切换。 视线不只看商品，也在等待同伴反应。</gaze_and_attention>
+<body_and_hands>身体在商品与同伴之间形成互动姿态。 手部可能指向商品或把商品展示给同伴。</body_and_hands>
+<belief>A companion's approval may influence whether the choice feels safe.</belief>
+<desire>see how the product works</desire>
+<intention>ask for a demonstration</intention>

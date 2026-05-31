@@ -1,0 +1,4 @@
+<rationale>顾客身体背向交流区域、视线下垂且无主动求助信号，Stage-1 判断为回避互动和离店倾向；此时任何语音提示都可能增加打扰感，因此最合适的是保持静默等待。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持当前柔和待机状态，不发起语音、屏幕或灯效推进。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

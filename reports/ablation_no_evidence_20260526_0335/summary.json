@@ -1,0 +1,114 @@
+{
+  "artifact": "batch2_ablation_eval",
+  "schema": "no_evidence",
+  "frame_mode": "all",
+  "checkpoint": "checkpoints/ablation_no_evidence_20260526_0335/v0-20260526-032820/checkpoint-513",
+  "target_oracle": {
+    "n": 30,
+    "parse_rate": 1.0,
+    "macro_f1_strict": 0.778119658119658,
+    "macro_f1_parsed": 0.778119658119658,
+    "by_domain": {
+      "combined": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.778119658119658,
+        "macro_f1_parsed": 0.778119658119658,
+        "prediction_counts": {
+          "Elicit": 7,
+          "Inform": 9,
+          "Greet": 4,
+          "Recommend": 7,
+          "Hold": 3
+        }
+      },
+      "target": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.778119658119658,
+        "macro_f1_parsed": 0.778119658119658,
+        "prediction_counts": {
+          "Elicit": 7,
+          "Inform": 9,
+          "Greet": 4,
+          "Recommend": 7,
+          "Hold": 3
+        }
+      }
+    }
+  },
+  "cross_oracle": {
+    "n": 60,
+    "parse_rate": 1.0,
+    "macro_f1_strict": 0.7958269867283653,
+    "macro_f1_parsed": 0.7958269867283653,
+    "by_domain": {
+      "combined": {
+        "n": 60,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.7958269867283653,
+        "macro_f1_parsed": 0.7958269867283653,
+        "prediction_counts": {
+          "Elicit": 22,
+          "Inform": 10,
+          "Greet": 4,
+          "Recommend": 14,
+          "Hold": 10
+        }
+      },
+      "general": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.5883116883116883,
+        "macro_f1_parsed": 0.5883116883116883,
+        "prediction_counts": {
+          "Inform": 1,
+          "Hold": 7,
+          "Elicit": 15,
+          "Recommend": 7
+        }
+      },
+      "target": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.778119658119658,
+        "macro_f1_parsed": 0.778119658119658,
+        "prediction_counts": {
+          "Elicit": 7,
+          "Inform": 9,
+          "Greet": 4,
+          "Recommend": 7,
+          "Hold": 3
+        }
+      }
+    }
+  },
+  "user_intent_60": {
+    "n": 60,
+    "parse_rate": 0.9666666666666667,
+    "stage_macro_f1_strict": 0.36964285714285716,
+    "intent_macro_f1_strict": 0.11465651834504292,
+    "intent_macro_f1_parsed": 0.11590965117712312
+  },
+  "next_state_80": {
+    "n": 80,
+    "parse_rate": 1.0,
+    "next_stage_macro_f1_strict": 0.20523819792436815,
+    "next_stage_macro_f1_parsed": 0.20523819792436815
+  },
+  "e2e_target": {
+    "n": 30,
+    "step1_parse_rate": 1.0,
+    "step2_parse_rate": 0.9333333333333333,
+    "macro_f1_strict": 0.22874458874458875
+  },
+  "elapsed_sec": 1588.4,
+  "paper_table_metrics": {
+    "target_test_f1": 0.778119658119658,
+    "cross_domain_f1": 0.7958269867283653,
+    "e2e_f1": 0.22874458874458875,
+    "aida_f1": 0.36964285714285716,
+    "intent_f1": 0.11590965117712312,
+    "next_state_f1": 0.20523819792436815
+  }
+}

@@ -1,0 +1,4 @@
+<rationale>顾客正拿起并对比护肤品，同时与同伴共同确认，决策重点受同伴反馈影响。此时不宜直接推荐或演示，以免打断两人判断；用开放式问题引导她们说出更在意的价格、功效或使用场景，能帮助确认选择且压力较低。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>终端以温和语音提示，并在屏幕显示“功能、价格、场景”三个选择气泡，等待顾客或同伴选择。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

@@ -1,0 +1,4 @@
+<rationale>顾客处于兴趣浏览阶段，注意力稳定、节奏放慢但不困惑，且状态表明她希望在低打扰环境里继续自由浏览。此时主动提问或推荐会增加打扰，静默等待更符合她当前意图。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持当前柔和待机状态，不发起语音、不弹出新的引导，只保留低干扰浏览环境。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

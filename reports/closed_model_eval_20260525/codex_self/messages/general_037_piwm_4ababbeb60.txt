@@ -1,0 +1,4 @@
+<rationale>顾客已停在腕表柜台前，视线和身体都朝向展品与服务点，处于接近确认选择的阶段。此时应提供低压力的参考性推荐，帮助她做最后比较；直接强推购买过于冒进，静默等待也会错过服务时机。</rationale>
+<chosen>Recommend_8d7f8993e333</chosen>
+<intervention_action>智能售货柜柔和点亮并突出候选腕表，屏幕展示该款作为参考选项，不触发强购买引导。</intervention_action>
+<intervention_utterance>这款可以作为一个参考选项。</intervention_utterance>

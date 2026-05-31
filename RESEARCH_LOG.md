@@ -32,7 +32,7 @@
 | Reference Doc | Role |
 |---|---|
 | [docs/contracts/claim_to_artifact_audit.md](docs/contracts/claim_to_artifact_audit.md) | 论文 claim 与代码/数据工件对应关系 |
-| [docs/contracts/action_space_realization_contract.md](docs/contracts/action_space_realization_contract.md) | 6-act 动作空间、真人导购逻辑 / target terminal 数据边界、旧 A/T 标签兼容迁移 |
+| [docs/contracts/action_space_realization_contract.md](docs/contracts/action_space_realization_contract.md) | 当前 5-act operational 动作空间、真人导购逻辑 / target terminal 数据边界、`Reassure` 排除边界和旧 A/T 标签兼容迁移 |
 | [docs/contracts/data_generation_chain_v2_1_contract.md](docs/contracts/data_generation_chain_v2_1_contract.md) | 动作、场景、label、专家知识库、official 重导的唯一维护链路 |
 | [docs/contracts/data_schema_v2_contract.md](docs/contracts/data_schema_v2_contract.md) | 成熟数据格式、真实拍摄 clip manifest、导出策略和版本维护 |
 | [docs/contracts/world_model_supervision_contract.md](docs/contracts/world_model_supervision_contract.md) | World Model 监督契约 |
@@ -45,6 +45,52 @@
 历史计划、早期状态和解释材料统一放在 `docs/background/`；它们保留参考价值，但不再作为当前 sprint 决策入口。具体定位见 [docs/README.md](docs/README.md)。
 
 ## High-Density Updates
+
+### [2026-05-19 01:30:00 CST] | Phase: Target 5-Act Split Rebalance
+
+> Supersession note: this intermediate split was replaced later on 2026-05-19 by the revised clean 5-act setup: 101 clean records, 71 train records, and a balanced 30-record target eval with 6 examples per operational act.
+
+**Key Progress**
+- Replaced the old "last 30 records are test" target split rule with a fixed 5-act operational test list.
+- Rewrote `PIWM-Target-Frontcam-v1` split metadata while preserving total size for the intermediate official split: train=88, test=30.
+- Intermediate test best-action distribution was `Inform=14 / Elicit=6 / Reassure=5 / Recommend=3 / Hold=2 / Greet=0`; this is not the current revised target eval distribution.
+- All 17 `Reassure` target records are retained in raw/source data, but none appear in the current target test or Stage-2 clean train.
+- Regenerated target eval entrypoints as pending-review files and archived the previous last-30 QA-reviewed eval files under `data/official/domain_specialization_eval_v1/_legacy_last30_qa_reviewed/`.
+- Generated a fresh manual review packet at `data/official/piwm_target_v1/qa_review_target30_5act/`.
+
+**Data Loop Insight**
+- The current target test now matches the 5-act operational paper口径; it is no longer dominated by `Greet`.
+- Because the test membership changed, the 2026-05-17 QA result is historical only. The new test must remain `qa_pending_project_lead_review` until the `qa_review_target30_5act` templates are filled and applied.
+
+**Pending Criticals**
+- Project lead must review the 30 fixed 5-act target test records before the paper can call target eval QA-reviewed.
+- After QA is applied, refresh `DATASET_MANIFEST.json`, `data/official/README.md`, the paper data section, and domain-specialization eval manifests from pending-QA to QA-reviewed.
+
+**Ref Reference**
+- `scripts/target_frontcam_split.py`
+- `scripts/rebalance_target_frontcam_split.py`
+- `data/official/piwm_target_v1/split_rebalance_5act_summary.md`
+- `data/official/piwm_target_v1/qa_review_target30_5act/qa_review_index.md`
+
+### [2026-05-19 00:00:00 CST] | Phase: Action-Space Reporting Convergence
+
+**Key Progress**
+- 收敛当前论文、主训练和 policy-slice 的动作空间口径：当前 5-act operational policy space 已反转为 `Greet / Elicit / Inform / Recommend / Hold`。
+- `Reassure` 不再写成当前 5-act 成员；它只保留为历史/source 标签和兼容分析边界。
+- 已同步更新论文数据段、中文审阅稿、docs 入口、official manifest、dataset inventory、action/schema/generation contracts 和 v2 action distribution 报告。
+
+**Data Loop Insight**
+- 这次是对过去三轮 5-act 口径的反转：当前训练/推理/eval 5-act 主路径保留 `Greet`，过滤 `Reassure`。
+- target-frontcam 中的 `Greet` 样本现在进入主 5-act test/train 口径；`PIWM-Train-Synth-v2` / `PIWM-PolicySlice-v2` 中的 `Reassure` 只作历史/source 覆盖，不进入当前 5-act action-selection。
+
+**Pending Criticals**
+- 后续如果 `Reassure` 要重新进入主训练动作空间，必须先重新决策动作口径，并更新 dataloader、parser、eval、manifest、distribution report 和论文表格。
+
+**Ref Reference**
+- `paper/data_section_emnlp.tex`
+- `paper/data_section_emnlp_zh.md`
+- `docs/contracts/action_space_realization_contract.md`
+- `docs/v2_validation/action_distribution.md`
 
 ### [2026-05-17 19:00:00 CST] | Phase: EMNLP Data Story Reframing
 
@@ -67,15 +113,17 @@
 
 ### [2026-05-17 18:20:00 CST] | Phase: Target QA Merge Into Official Target Data
 
+> Supersession note: this was true for the historical last-30 target split. It is no longer the current target eval split after the 2026-05-19 fixed 5-act rebalance.
+
 **Key Progress**
 - Merged the project-lead-reviewed 30-record target test QA split back into `data/official/piwm_target_v1/main_schema.jsonl`.
 - Updated `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl` so the 180 test-split SFT rows carry `qa_status=qa_reviewed_pass`, `human_review_status=project_lead_reviewed_pass`, reviewer, review date, review type, and warning flags.
-- Refreshed the fixed target eval entrypoints under `data/official/domain_specialization_eval_v1/`: 180 rows from 30 target records, all QA pass, with 2 warning records retained.
+- Historical last-30 eval entrypoints were refreshed under `data/official/domain_specialization_eval_v1/`: 180 rows from 30 target records, all QA pass, with 2 warning records retained. This is superseded by the 2026-05-19 fixed 5-act split.
 - Updated `DATASET_MANIFEST.json`, `data/official/README.md`, `docs/current/dataset_inventory.md`, `docs/current/domain_specialization_experiment_plan.md`, and the target import report to distinguish the reviewed 30-record test split from the 88 synthetic-unreviewed train records.
 
 **Data Loop Insight**
 - Target QA is now part of the official target data surface, not just a sidecar review sheet.
-- The correct paper wording is: `PIWM-Target-Frontcam-v1` has 118 video-backed records; its 30-record test split is project-lead QA-reviewed, while the 88 train records remain synthetic-unreviewed.
+- Historical paper wording at that point was: `PIWM-Target-Frontcam-v1` has 118 video-backed records; its last-30 test split was project-lead QA-reviewed, while the 88 train records remained synthetic-unreviewed. This wording is superseded by the revised balanced 5-act split and should not be used for the current EMNLP experiment.
 - The QA review validates the current-state observation labels and target action choice. It does not prove causal post-action reactions; for example, smiling in a `Greet(close)` third frame should be read as current visual evidence, not as the result caused by the Greeting action.
 
 **Pending Criticals**
@@ -85,7 +133,7 @@
 **Ref Reference**
 - `data/official/piwm_target_v1/main_schema.jsonl`
 - `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl`
-- `data/official/piwm_target_v1/qa_review_target30/qa_review_results.md`
+- `data/official/piwm_target_v1/qa_review_target30/qa_review_results.md` (legacy last-30 split)
 - `data/official/DATASET_MANIFEST.json`
 
 ### [2026-05-17 17:30:00 CST] | Phase: Documentation Entrypoint Cleanup
@@ -364,13 +412,13 @@
 
 **Key Progress**
 - 明确 `PIWM-Train-Synth-v1` 保留真人导购逻辑：主监督是 `best_action_realization.utterance / physical_action / timing / rationale`，不是 target terminal 硬件采集数据。
-- 保留 6 个 `DialogueAct` 作为统一 policy space：`Greet / Elicit / Inform / Recommend / Reassure / Hold`。
+- 当时把 `Greet` 与 `Elicit / Inform / Recommend / Reassure / Hold` 放在统一 policy space。该历史口径已再次被 2026-05-19 的 5-act inversion 取代：当前 operational 5-act 为 `Greet / Elicit / Inform / Recommend / Hold`，`Reassure` 只作为历史/source 标签和兼容分析边界保留。
 - 将顶层 `co_acts` 降级为 legacy alias；2026-05-13 official v2.1 重导后，主表使用 `act_params.supporting_acts` 表示辅助动作，例如 `Reassure(focus=time, supporting_acts=[Hold(ambient)])`，旧回溯字段写为 `legacy_co_acts`。
 - 新增 `scripts/audit_action_space.py`，用于审计 best action、candidate action、DialogueAct 和 supporting-act 分布。
 - 新增 `docs/contracts/data_generation_chain_v2_1_contract.md` 和 `piwm_data/expert_corpus/README.md`，把动作、场景、label、专家知识库和 official 重导链路收敛为一个维护路径。
 
 **Data Loop Insight**
-- 当前 543 条 synthetic train 的 best DialogueAct 分布不是均衡六动作分布：`Inform=407`、`Elicit=69`、`Hold=59`、`Reassure=8`、`Recommend=0`、`Greet=0`。
+- 当前 543 条 synthetic train 的 best DialogueAct 分布不是均衡动作分布：`Inform=407`、`Elicit=69`、`Hold=59`、`Reassure=8`、`Recommend=0`、`Greet=0`。
 - `Recommend=0` 不是动作空间缺失，而是现有 reward/candidate 规则把推荐主要作为强推负样本。后续需要单独构造 balanced policy slice，尤其拆出 `Recommend(pressure=soft)` 正样本。
 - `Greet` 应主要由 realshoot / target terminal 开闭场数据补，不应强行塞进当前 synthetic browsing train。
 
@@ -1510,3 +1558,82 @@
 - [data/piwm_results/remote_full_v2/main_table_piwm_sft_full_v2_len8192_priority40_all_longtok.json](data/piwm_results/remote_full_v2/main_table_piwm_sft_full_v2_len8192_priority40_all_longtok.json)
 - [data/piwm_results/remote_full_v2/e2e_piwm_sft_full_v2_len8192_priority40_decision_loop_longtok.json](data/piwm_results/remote_full_v2/e2e_piwm_sft_full_v2_len8192_priority40_decision_loop_longtok.json)
 - [data/piwm_results/remote_full_v2/future_verification_piwm_sft_full_v2_len8192_all84_longtok.json](data/piwm_results/remote_full_v2/future_verification_piwm_sft_full_v2_len8192_all84_longtok.json)
+
+### [2026-05-19 11:40:00 CST] | Phase: Revised Two-Stage Target Specialization Entry Points
+
+**Key Progress**
+- Implemented the revised two-stage EMNLP data plan: Stage-1 user-intent/world-model training and Stage-2 target-frontcam 5-act action modeling.
+- Added leakage-free `user_intent` prompts that use three frames plus a plain scene description, without candidate actions, best actions, rewards, or recommendations.
+- Added no-leak `action_selection_5act` prompts for target action selection: inputs expose only Stage-1 state, candidate `(act, params)`, and realization; they omit gold reward, risk, benefit, predicted next stage, and next state.
+- Generated the current training and evaluation entrypoints:
+  - `data/official/ms_swift/piwm_train_stage1_user_intent_v1.jsonl`: 2554 rows = 543 `user_intent` + 2011 `next_state_prediction`.
+  - `data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl`: 71 clean target `action_selection_5act` rows.
+  - `data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_v1.jsonl`: 2625 pooled rows for a joint baseline.
+  - `data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl`: 90 eval rows from 30 balanced target records.
+- Fixed the target main metric to five operational acts: `Greet / Elicit / Inform / Recommend / Hold`; `Reassure` remains only a source/compatibility analysis boundary.
+- Added baseline metrics for the 30-row target action-selection eval: always-Greet macro F1 0.067, always-Inform macro F1 0.067, always-Hold macro F1 0.067, random-candidate macro F1 0.281.
+
+**Data Loop Insight**
+- Stage-1 next-state is now explicitly action-conditioned. `Hold(mode=silent)` is the no-intervention branch, avoiding an unsupported claim that the dataset models natural future evolution without action.
+- The revised target split is balanced across the five main acts: each act has 6 held-out records. This prevents the target test from being dominated by `Inform`.
+
+**Pending Criticals**
+- The new 30-record balanced target test is video-backed and all 30 records are `qa_pending_project_lead_review`.
+- Stage-1 and Stage-2 model training have not been run yet for this revised setup; current artifacts are data entrypoints, baselines, docs, and evaluator support.
+- General synthetic image paths are not all present in this local checkout; target image paths are present. Before training, run from the server/data-disk environment that has the referenced general frames.
+
+**Ref Reference**
+- [docs/current/domain_specialization_experiment_plan.md](docs/current/domain_specialization_experiment_plan.md)
+- [data/official/domain_specialization_eval_v2/two_stage_eval_summary.md](data/official/domain_specialization_eval_v2/two_stage_eval_summary.md)
+- [data/piwm_results/domain_specialization_eval/target_5act_action_baselines.md](data/piwm_results/domain_specialization_eval/target_5act_action_baselines.md)
+
+### [2026-05-19 15:05:00 CST] | Phase: 67/30 Target Count Lock + Stage-1 General Split
+
+**Key Progress**
+- Superseded by the later 5-act inversion: the main experiment count is now 71 Stage-2 target train records and a balanced 30-record target 5-act test.
+- Rebuilt the Stage-2 target artifact from the clean 5-act accounting chain: 118 target records - 17 best=`Reassure` - 0 candidate-degenerate rows after removing Reassure = 101 clean 5-act records; 101 - 30 balanced test = 71 train.
+- Created the seed=42 AIDA-stratified Stage-1 general split: 493 train parents / 50 validation parents. The resulting ms-swift entrypoints contain 2322 train examples and 232 validation examples.
+- Added Stage-1 launch and evaluation skeletons under `scripts/train/`: `stage1_train.sh` supports `--dry-run` and does not hard-code the model path; `stage1_eval.py` defines the validation metric surface.
+- Re-ran target action-selection baselines on the balanced 30-row eval: always-Greet macro F1 0.067, always-Inform macro F1 0.067, always-Hold macro F1 0.067, random-candidate macro F1 0.281.
+
+**Data Loop Insight**
+- The 71/30 count is not an arbitrary split: it comes from excluding best=`Reassure` rows and filtering Reassure candidates before holding out a balanced target test.
+- The Stage-1 validation split is parent-level, not transition-level, so transitions from the same parent do not leak across train and validation.
+
+**Pending Criticals**
+- No model training has been started in this pass. `scripts/train/stage1_train.sh --dry-run` is only a command skeleton for the server environment with complete general frames.
+- The balanced 30-record target test remains pending project-lead QA under the revised split; do not reuse the old last-30 QA conclusion for it.
+
+**Ref Reference**
+- [data/official/piwm_train_synth_v2/general_split_seed42.json](data/official/piwm_train_synth_v2/general_split_seed42.json)
+- [data/official/domain_specialization_eval_v2/two_stage_eval_summary.md](data/official/domain_specialization_eval_v2/two_stage_eval_summary.md)
+- [data/piwm_results/domain_specialization_eval/target_5act_action_baselines.md](data/piwm_results/domain_specialization_eval/target_5act_action_baselines.md)
+
+### [2026-05-19 5-act inversion] | Phase: Correct 5-Act Main Path
+
+**Key Progress**
+- Reversed the erroneous 5-act口径. The current operational set is `Greet / Elicit / Inform / Recommend / Hold`; `Reassure` is excluded from current action-selection train/eval/inference.
+- Updated the three hard filters: training collator, inference parser/decision loop, and action-selection evaluator now keep `Greet` and reject/filter `Reassure` when `five_act_only=True`.
+- Rebuilt target artifacts: 118 raw target records - 17 best=`Reassure` - 0 empty-after-filter records = 101 clean 5-act records; 101 - 30 balanced test = 71 Stage-2 train.
+- Rebuilt the balanced target test with `Greet=6 / Elicit=6 / Inform=6 / Recommend=6 / Hold=6`; all 30 records are `qa_pending_project_lead_review`.
+- Re-ran baselines on the new 30-row target action eval: always-Greet macro F1 0.067, always-Inform macro F1 0.067, always-Hold macro F1 0.067, random-candidate macro F1 0.281.
+
+**Pending Criticals**
+- The only remaining human boundary is project-lead QA for the new 30 balanced target test.
+- Feishu labeling, survey digitization, and Stage-1/Stage-2 training are still not started.
+
+### [2026-05-19 23:10:00 CST] | Phase: Maotai Gold Sales Expert Intake
+
+**Key Progress**
+- Structured the three Maotai gold-sales questionnaires into one JSON intake:
+  `data/expert_corpus/raw_intake/maotai_gold_sales_questionnaires_structured_v0.json`.
+- Added an expert-corpus source package:
+  `piwm_data/expert_corpus/sources/maotai_gold_sales_questionnaire_2026_05/`.
+- Registered the aggregate source id
+  `SRC_SALES_MAOTAI_GOLD_QUESTIONNAIRE_2026_05` in `sales_source_registry.jsonl`.
+- Created `distillation_batches/batch_006_maotai_gold_sales/` with 10 source excerpts and 10 draft expert-practice principles covering:
+  quick human scanning, use-case confirmation, hesitation cues, price objection handling, authenticity proof, upsell boundary, closing signals, competitor comparison, hardware trust, and AI context limits.
+
+**Boundary**
+- `finalized.jsonl` is intentionally empty. The Maotai questionnaire has entered the corpus as a traceable source and draft batch, but no runtime rule or official distilled principle has been promoted yet.
+- The A questionnaire is a handwritten scan and still needs targeted human review for several `[unreadable]` or low-confidence spans before its wording is used in paper examples.

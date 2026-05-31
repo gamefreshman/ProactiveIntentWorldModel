@@ -1,0 +1,4 @@
+<rationale>顾客处于兴趣探索阶段，注意力稳定、表情放松，没有困惑或求助信号；她的意图是按自己的节奏继续安静浏览。此时提问、演示或推荐都会打断自主探索，静默等待最匹配当前状态。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持最小闲置界面和柔和呼吸灯，不发声、不弹出提示，继续留出顾客自主浏览空间。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

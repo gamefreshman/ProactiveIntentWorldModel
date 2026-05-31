@@ -1,0 +1,4 @@
+<rationale>开场问候能在顾客刚进入服务区时建立可用性，同时保持低压力。</rationale>
+<chosen>Greet_open_general_aug_88198d5a7a63</chosen>
+<intervention_action>智能导购终端以轻柔灯效和简短欢迎语完成开场，不施加购买压力。</intervention_action>
+<intervention_utterance>欢迎光临，您可以先随意看看，需要时我在。</intervention_utterance>

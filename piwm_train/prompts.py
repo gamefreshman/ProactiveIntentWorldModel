@@ -323,6 +323,12 @@ def build_action_prompt_no_leak(record: dict, *, five_act_only: bool = False) ->
     visual = state.get("visual_state", {})
     frames = record["meta"].get("frames", [])
     candidate_block = format_candidate_block_no_leak(record["meta"]["candidate_block"], five_act_only=five_act_only)
+    five_act_guardrail = (
+        "\n- In the 5-act setting, Hold is a real no-intervention decision, not an uncertainty fallback. "
+        "Choose Hold only when the visible customer state clearly supports waiting or silence."
+        if five_act_only
+        else ""
+    )
     return (
         "You are observing a customer in a retail store. Below are "
         f"{len(frames)} frames sampled from a streaming camera, in chronological order.\n\n"
@@ -347,6 +353,7 @@ def build_action_prompt_no_leak(record: dict, *, five_act_only: bool = False) ->
         "- rationale should use the customer state and action fit, not hidden reward values.\n"
         "- intervention_action must describe the concrete salesperson or terminal behavior.\n"
         "- intervention_utterance must be a short customer-facing sentence, or （静默） for silent Hold."
+        f"{five_act_guardrail}"
     )
 
 

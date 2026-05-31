@@ -1,0 +1,4 @@
+<rationale>顾客已基本选定商品并准备扫码/支付，但状态仍是比较性价比；此时简短展示价格和优惠能帮助她快速确认，不会像推荐那样打断已形成的选择，也比静默更能支持当前决策。</rationale>
+<chosen>Inform_053014d173cc</chosen>
+<intervention_action>智能售货柜在屏幕上显示当前选中商品的价格和优惠信息，灯效轻柔聚焦价格区域，并用中性语气简短提示。</intervention_action>
+<intervention_utterance>我先把价格和优惠信息放在屏幕上，方便您判断。</intervention_utterance>

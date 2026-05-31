@@ -1,0 +1,10 @@
+{
+  "shard_id": "1",
+  "start": 15,
+  "end": 30,
+  "n": 15,
+  "step1_parse_rate": 1.0,
+  "step2_parse_rate": 0.8666666666666667,
+  "macro_f1_strict": 0.14285714285714285,
+  "elapsed_sec": 592.5
+}

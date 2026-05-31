@@ -1,0 +1,11 @@
+5-frame 6-GPU DDP restart
+started_at=Tue May 26 11:26:24 CST 2026
+train_jsonl=data/ablation_5frame/piwm_train_stage1_plus_stage2_target_v2_balanced.5frame.server_resolved.jsonl
+output_dir=checkpoints/ablation_5frame_20260526_1126_6gpu_ddp
+log=logs/batch2_ablation_20260526_1126_6gpu_ddp/5frame.log
+gpus=0,1,2,3,4,5
+launcher=torch.distributed.run --nproc_per_node 6
+per_device_train_batch_size=2
+gradient_accumulation_steps=1
+effective_global_batch=12
+note=Restarted after user requested using all 6 GPUs. This replaces the 2-GPU 0710 run and the non-DDP 1121 launch. Exact original effective global batch 16 is not representable with 6 GPUs and integer accumulation; this run uses global batch 12 for resource utilization.

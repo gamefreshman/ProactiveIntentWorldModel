@@ -1,0 +1,4 @@
+<rationale>顾客已停留观察并在多款饮品间比较，状态是兴趣期且意图偏向性价比和适合场景判断；此时直接给出简短对比能降低选择成本，同时不过度施压。</rationale>
+<chosen>Inform_5ac252a82695</chosen>
+<intervention_action>终端在屏幕上列出几款饮品的价格、功能和适合场景对比，并用柔和灯效聚焦对比卡片。</intervention_action>
+<intervention_utterance>我把这几款的差别列在屏幕上，您可以先比较价格、功能和适合场景。</intervention_utterance>

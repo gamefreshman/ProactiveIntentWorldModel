@@ -1,0 +1,9 @@
+{
+  "batch_id": "batch_006_maotai_gold_sales",
+  "created_at": "2026-05-19",
+  "method": "manual_structured_intake_to_candidate_principles",
+  "model": null,
+  "temperature": null,
+  "source_package": "maotai_gold_sales_questionnaire_2026_05",
+  "finalized_status": "empty_pending_review"
+}

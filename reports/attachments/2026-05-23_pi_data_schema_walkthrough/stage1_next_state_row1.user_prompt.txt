@@ -1,0 +1,37 @@
+<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.
+
+
+
+
+
+Use the frames to infer the customer's current state internally. The current stage, intent, and BDI state are not provided.
+
+Consider one candidate intervention: Elicit_b1166d372e5e
+
+Dialogue-act layer for this candidate:
+- act: Elicit
+- params: {'openness': 'open', 'slot': 'need_focus'}
+
+Terminal realization for this candidate:
+- surface_text: 您想先看价格、功能，还是使用场景？
+- screen: {'action': 'show_choice_bubbles', 'choices': ['功能', '价格', '场景'], 'cta': None}
+- voice_style: warm
+- light: neutral_prompt_color
+
+Concrete execution plan for this candidate:
+- physical action: 智能售货柜按屏幕、语音、灯效执行该候选响应。
+- utterance: 您想先看价格、功能，还是使用场景？
+
+Predict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:
+<next_stage>...</next_stage>
+<next_belief>...</next_belief>
+<next_desire>...</next_desire>
+<next_intention>...</next_intention>
+<risk>...</risk>
+<benefit>...</benefit>
+<reward>...</reward>
+
+- next_stage must be one of: attention, interest, desire, action.
+- risk and benefit must each be one of: low, medium, high.
+- reward must be a number in [-1.00, 1.00] with two decimal places.
+- all textual spans must be a single short clause in English.

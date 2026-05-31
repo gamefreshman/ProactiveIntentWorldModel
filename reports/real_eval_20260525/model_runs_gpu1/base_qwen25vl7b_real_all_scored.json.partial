@@ -1,0 +1,1029 @@
+{
+  "artifact": "ms_swift_checkpoint_eval_partial",
+  "eval_label": "base_qwen25vl7b_real_all_scored",
+  "checkpoint": null,
+  "input_jsonl": "reports/real_eval_20260525/real_all_scored.jsonl",
+  "processed": 60,
+  "total": 60,
+  "parse_success": 36,
+  "outputs": [
+    {
+      "source_id": "real_006",
+      "task": "user_intent",
+      "target": "<stage>attention</stage>\n<intent_label>no_clear_intent</intent_label>\n<visual_summary>低头刷手机走路，路过时抬头看了眼设备，停下来，手机放到腰前。</visual_summary>\n<engagement_pattern>低头刷手机走路，路过时抬头看了眼设备，停下来，手机放到腰前。</engagement_pattern>\n<gaze_and_attention>从低头刷机的专注切换到看设备的轻度好奇，表情自然。</gaze_and_attention>\n<body_and_hands>站姿略随意，手机还握在手中，上身轻微转向设备方向。</body_and_hands>\n<belief>她刷手机路过时注意到了这台设备，好奇是什么。</belief>\n<desire>看一眼，不打算停太久。</desire>\n<intention>短暂抬头观察，很快可能继续刷手机。</intention>",
+      "prediction": "stage: interest\nintent_label: explore_options\nvisual_summary: The customer is walking towards the camera while looking at their phone.\nengagement_pattern: The customer is walking towards the camera.\ngaze_and_attention: The customer is looking at their phone.\nbody_and_hands: The customer is holding a phone in both hands.\nbelief: The customer is interested in the product.\ndesire: The customer wants to explore more options.\nintention: The customer intends to continue exploring the product.",
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "real_007",
+      "task": "user_intent",
+      "target": "<stage>attention</stage>\n<intent_label>no_clear_intent</intent_label>\n<visual_summary>脚步放慢后停在设备前，目光从上到下扫了一遍，公文包提在手中没有放下。</visual_summary>\n<engagement_pattern>脚步放慢后停在设备前，目光从上到下扫了一遍，公文包提在手中没有放下。</engagement_pattern>\n<gaze_and_attention>表情沉稳略带审视，眉头轻收，嘴唇自然闭合。</gaze_and_attention>\n<body_and_hands>身体正面朝向设备，站姿挺拔，拎包的手臂自然垂放，没有前倾。</body_and_hands>\n<belief>他注意到这台设备，打量一下，觉得可能有实用的东西。</belief>\n<desire>看看有没有值得买的，但时间不多。</desire>\n<intention>快速扫一眼，如果有明显吸引力再看，否则离开。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客正在使用手机，可能在查看商品信息或价格。</visual_summary>\n<engagement_pattern>顾客与售货机保持一定距离，没有明显的互动动作。</engagement_pattern>\n<gaze_and_attention>顾客的目光集中在手机屏幕上，没有看向售货机。</gaze_and_attention>\n<body_and_hands>顾客双手握着手机，身体微微前倾。</body_and_hands>\n<belief>顾客对售货机的商品感兴趣，但尚未决定是否购买。</belief>\n<desire>顾客希望了解更多信息或比较不同选项。</desire>\n<intention>顾客可能想确认商品的详细信息或价格，以便做出购买决策。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客正在使用手机，可能在查看商品信息或价格。",
+          "engagement_pattern": "顾客与售货机保持一定距离，没有明显的互动动作。",
+          "gaze_and_attention": "顾客的目光集中在手机屏幕上，没有看向售货机。",
+          "body_and_hands": "顾客双手握着手机，身体微微前倾。"
+        },
+        "bdi": {
+          "belief": "顾客对售货机的商品感兴趣，但尚未决定是否购买。",
+          "desire": "顾客希望了解更多信息或比较不同选项。",
+          "intention": "顾客可能想确认商品的详细信息或价格，以便做出购买决策。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_008",
+      "task": "user_intent",
+      "target": "<stage>attention</stage>\n<intent_label>no_clear_intent</intent_label>\n<visual_summary>从侧边走过来停下，目光扫过设备，水瓶握在手中，没有立刻触碰屏幕。</visual_summary>\n<engagement_pattern>从侧边走过来停下，目光扫过设备，水瓶握在手中，没有立刻触碰屏幕。</engagement_pattern>\n<gaze_and_attention>表情自然，略带随意的好奇，呼吸略快但表情平稳。</gaze_and_attention>\n<body_and_hands>站姿放松，一手持水瓶，身体面向设备，没有前倾或靠近。</body_and_hands>\n<belief>他路过时注意到设备，觉得可能有运动饮料或补充类商品。</belief>\n<desire>想看看有没有适合运动后喝的东西。</desire>\n<intention>停下来扫一眼，如果有合适的就考虑。</intention>",
+      "prediction": "stage: interest\nintent_label: explore_options\nvisual_summary: The customer is walking towards the camera and then stops.\nengagement_pattern: The customer is walking towards the camera and then stops.\ngaze_and_attention: The customer is looking at the camera.\nbody_and_hands: The customer is standing with their hands at their sides.\nbelief: The customer is interested in the product.\ndesire: The customer wants to know more about the product.\nintention: The customer intends to explore options.",
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "real_009",
+      "task": "user_intent",
+      "target": "<stage>attention</stage>\n<intent_label>no_clear_intent</intent_label>\n<visual_summary>脚步放慢在设备前停下，目光在设备正面扫了一圈，购物袋和包都还挂在手上。</visual_summary>\n<engagement_pattern>脚步放慢在设备前停下，目光在设备正面扫了一圈，购物袋和包都还挂在手上。</engagement_pattern>\n<gaze_and_attention>表情随和轻松，带一点随意的好奇，嘴角自然放松。</gaze_and_attention>\n<body_and_hands>身体正面朝向设备，双手各持物品，站姿放松，距离设备稍远。</body_and_hands>\n<belief>她注意到了设备，觉得或许有值得顺手买的东西。</belief>\n<desire>看看有没有适合的，但时间不多。</desire>\n<intention>快速打量一下，随时可能继续走。</intention>",
+      "prediction": "stage: interest\nintent_label: explore_options\nvisual_summary: The customer is standing near the robot and appears to be observing it.\nengagement_pattern: The customer is walking towards the robot.\ngaze_and_attention: The customer is looking at the robot.\nbody_and_hands: The customer is pointing at the robot with their right hand.\nbelief: The customer is interested in the robot.\ndesire: The customer wants to learn more about the robot.\nintention: The customer intends to explore the options available with the robot.",
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "real_010",
+      "task": "user_intent",
+      "target": "<stage>attention</stage>\n<intent_label>no_clear_intent</intent_label>\n<visual_summary>在设备前驻足，微微侧头打量，目光从设备顶部慢慢往下扫，购物袋提在手中。</visual_summary>\n<engagement_pattern>在设备前驻足，微微侧头打量，目光从设备顶部慢慢往下扫，购物袋提在手中。</engagement_pattern>\n<gaze_and_attention>表情温和带好奇，眉头略微抬起，眼神有审视的意味。</gaze_and_attention>\n<body_and_hands>身体正面朝向设备，站姿稳定，微微侧头，布袋提在手中。</body_and_hands>\n<belief>他以前没注意到过这台设备，今天停下来打量，觉得是自动售货机一类的东西。</belief>\n<desire>看看这是什么，顺便看看有没有什么需要买的。</desire>\n<intention>稍微停一下，随时可能离开。</intention>",
+      "prediction": "stage: interest\nintent_label: explore_options\nvisual_summary: The customer is walking towards the camera and appears to be looking around the room.\nengagement_pattern: The customer is walking towards the camera and appears to be looking around the room.\ngaze_and_attention: The customer is looking around the room.\nbody_and_hands: The customer is walking towards the camera with their hands in front of them.\nbelief: The customer is interested in the products in the room.\ndesire: The customer wants to explore the options available.\nintention: The customer intends to browse the products.",
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "real_016",
+      "task": "user_intent",
+      "target": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>站在设备稍远处观察，偶尔伸手点了一下屏幕，又缩回来，在不同位置乱点了几下。</visual_summary>\n<engagement_pattern>站在设备稍远处观察，偶尔伸手点了一下屏幕，又缩回来，在不同位置乱点了几下。</engagement_pattern>\n<gaze_and_attention>表情带着困惑和轻微不安，眉头皱起，嘴唇微张，偶尔抬头看设备顶部。</gaze_and_attention>\n<body_and_hands>身体站立略偏离设备正面，距离稍远，手臂偶尔伸出点屏幕又收回。</body_and_hands>\n<belief>他不太清楚这台设备怎么用，看起来有点复杂，不知道从哪里开始。</belief>\n<desire>想知道怎么操作，如果方便的话就买一样东西。</desire>\n<intention>先摸索一下操作方式，如果搞不定就算了。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is looking at the robot arm.</visual_summary>\n<engagement_pattern>The customer is standing still and looking at the robot arm.</engagement_pattern>\n<gaze_and_attention>The customer is looking down at the robot arm.</gaze_and_attention>\n<body_and_hands>The customer has their hands on their hips.</body_and_hands>\n<belief>The customer is interested in the robot arm and may want to learn more about it.</belief>\n<desire>The customer wants to understand how the robot arm works.</desire>\n<intention>The customer intends to ask for a demonstration of the robot arm.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is looking at the robot arm.",
+          "engagement_pattern": "The customer is standing still and looking at the robot arm.",
+          "gaze_and_attention": "The customer is looking down at the robot arm.",
+          "body_and_hands": "The customer has their hands on their hips."
+        },
+        "bdi": {
+          "belief": "The customer is interested in the robot arm and may want to learn more about it.",
+          "desire": "The customer wants to understand how the robot arm works.",
+          "intention": "The customer intends to ask for a demonstration of the robot arm."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": true,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_017",
+      "task": "user_intent",
+      "target": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>在屏幕上翻看了很多商品，有时点进去看详情，有时来回滑动，表情越来越困惑，没有加购。</visual_summary>\n<engagement_pattern>在屏幕上翻看了很多商品，有时点进去看详情，有时来回滑动，表情越来越困惑，没有加购。</engagement_pattern>\n<gaze_and_attention>表情从最初的轻松好奇逐渐变为困惑，眉头越来越皱，嘴唇轻抿。</gaze_and_attention>\n<body_and_hands>身体正面朝向设备，上身前倾，一手操作屏幕，另一手拿着饮料杯。</body_and_hands>\n<belief>她觉得这里的选项太多了，每一个看起来都有点意思，但越看越难决定。</belief>\n<desire>想选一个最适合现在心情的商品。</desire>\n<intention>继续翻看，但感觉选项越多越难选。</intention>",
+      "prediction": "<stage>attention</stage>\n<intent_label>no_clear_intent</intent_label>\n<visual_summary>The customer is standing with arms crossed, looking down.</visual_summary>\n<engagement_pattern>The customer appears to be in a contemplative state, possibly reflecting on something.</engagement_pattern>\n<gaze_and_attention>The customer's gaze is directed downwards, indicating a lack of immediate engagement with the environment around them.</gaze_and_attention>\n<body_and_hands>The customer has their arms crossed, which could indicate a defensive or closed-off posture.</body_and_hands>\n<belief>The customer may be considering their next move or decision.</belief>\n<desire>The customer might be seeking information or clarification about the product or service.</desire>\n<intention>The customer's intention is unclear; they may be contemplating their purchase or exploring options further.</intention>",
+      "parsed": {
+        "aida_stage": "attention",
+        "intent_label": "no_clear_intent",
+        "visual_state": {
+          "summary": "The customer is standing with arms crossed, looking down.",
+          "engagement_pattern": "The customer appears to be in a contemplative state, possibly reflecting on something.",
+          "gaze_and_attention": "The customer's gaze is directed downwards, indicating a lack of immediate engagement with the environment around them.",
+          "body_and_hands": "The customer has their arms crossed, which could indicate a defensive or closed-off posture."
+        },
+        "bdi": {
+          "belief": "The customer may be considering their next move or decision.",
+          "desire": "The customer might be seeking information or clarification about the product or service.",
+          "intention": "The customer's intention is unclear; they may be contemplating their purchase or exploring options further."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_018",
+      "task": "user_intent",
+      "target": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>在屏幕上浏览，点开几款看详情，偶尔停下来思考，手提包一直握在手中，没有下单。</visual_summary>\n<engagement_pattern>在屏幕上浏览，点开几款看详情，偶尔停下来思考，手提包一直握在手中，没有下单。</engagement_pattern>\n<gaze_and_attention>表情认真且略带迟疑，眉头轻收，偶尔微微摇头，显出不够确定的样子。</gaze_and_attention>\n<body_and_hands>身体正面朝向设备，站姿端正，手提包挂在手腕上，另一只手操作屏幕。</body_and_hands>\n<belief>她觉得这里可能有适合送给长辈的商品，但不知道什么口味或类型更合适。</belief>\n<desire>找到一款体面、适合长辈的商品。</desire>\n<intention>继续翻看，如果有明确的推荐就好了。</intention>",
+      "prediction": "<stage>attention</stage>\n<intent_label>no_clear_intent</intent_label>\n<visual_summary>顾客站在智能售货机前，双臂交叉，目光向下。</visual_summary>\n<engagement_pattern>顾客没有明显的动作或表情变化。</engagement_pattern>\n<gaze_and_attention>顾客的注意力集中在智能售货机上，但目光向下。</gaze_and_attention>\n<body_and_hands>顾客双臂交叉，身体保持静止。</body_and_hands>\n<belief>顾客可能对智能售货机感兴趣，但尚未决定是否进行购买。</belief>\n<desire>顾客可能希望了解更多信息或确认价格。</desire>\n<intention>顾客可能希望获得关于智能售货机的详细信息或确认价格。</intention>",
+      "parsed": {
+        "aida_stage": "attention",
+        "intent_label": "no_clear_intent",
+        "visual_state": {
+          "summary": "顾客站在智能售货机前，双臂交叉，目光向下。",
+          "engagement_pattern": "顾客没有明显的动作或表情变化。",
+          "gaze_and_attention": "顾客的注意力集中在智能售货机上，但目光向下。",
+          "body_and_hands": "顾客双臂交叉，身体保持静止。"
+        },
+        "bdi": {
+          "belief": "顾客可能对智能售货机感兴趣，但尚未决定是否进行购买。",
+          "desire": "顾客可能希望了解更多信息或确认价格。",
+          "intention": "顾客可能希望获得关于智能售货机的详细信息或确认价格。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_019",
+      "task": "user_intent",
+      "target": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>在屏幕上用搜索或分类翻找，来回浏览了好几遍，手机偶尔举起来对比，没有下单。</visual_summary>\n<engagement_pattern>在屏幕上用搜索或分类翻找，来回浏览了好几遍，手机偶尔举起来对比，没有下单。</engagement_pattern>\n<gaze_and_attention>表情专注带着轻微失落，眉头微皱，偶尔歪头，嘴唇轻抿。</gaze_and_attention>\n<body_and_hands>身体正面朝向设备，上身略前倾，手指频繁操作，另一手拿手机。</body_and_hands>\n<belief>他想买某个具体品牌的商品，但在这台机器上找了一圈没有找到，不确定有没有。</belief>\n<desire>找到那个品牌或者功能相近的替代品。</desire>\n<intention>继续找，如果实在没有考虑买差不多的替代品。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客指向某个方向，可能是在询问关于智能售货机的功能。</visual_summary>\n<engagement_pattern>顾客与销售人员有互动，但没有明显的购买行为。</engagement_pattern>\n<gaze_and_attention>顾客的目光集中在销售人员身上，显示出对智能售货机的兴趣。</gaze_and_attention>\n<body_and_hands>顾客用手指向某个方向，可能是在询问关于智能售货机的功能。</body_and_hands>\n<belief>顾客对智能售货机的功能感兴趣，但尚未决定是否购买。</belief>\n<desire>顾客希望了解智能售货机的具体功能和使用方法。</desire>\n<intention>顾客希望获得关于智能售货机的更多信息，以便做出购买决策。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "顾客指向某个方向，可能是在询问关于智能售货机的功能。",
+          "engagement_pattern": "顾客与销售人员有互动，但没有明显的购买行为。",
+          "gaze_and_attention": "顾客的目光集中在销售人员身上，显示出对智能售货机的兴趣。",
+          "body_and_hands": "顾客用手指向某个方向，可能是在询问关于智能售货机的功能。"
+        },
+        "bdi": {
+          "belief": "顾客对智能售货机的功能感兴趣，但尚未决定是否购买。",
+          "desire": "顾客希望了解智能售货机的具体功能和使用方法。",
+          "intention": "顾客希望获得关于智能售货机的更多信息，以便做出购买决策。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": true,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_020",
+      "task": "user_intent",
+      "target": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>在屏幕上随意翻看，偶尔停下来多看两秒，又继续往下翻，没有明确的目标行为。</visual_summary>\n<engagement_pattern>在屏幕上随意翻看，偶尔停下来多看两秒，又继续往下翻，没有明确的目标行为。</engagement_pattern>\n<gaze_and_attention>表情放松带些茫然，眼神飘忽，嘴角略下垂，显出随意但无从下手的状态。</gaze_and_attention>\n<body_and_hands>身体正面朝向设备，姿态较随意，上身不紧绷，双手偶尔交替操作屏幕。</body_and_hands>\n<belief>他觉得来都来了应该买点什么，但脑子里一片空白，不知道自己想要什么。</belief>\n<desire>想买个让自己觉得值、当下合适的零食。</desire>\n<intention>继续漫无目的地翻，希望看到什么让自己有欲望的东西。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is looking at the camera and pointing upwards.</visual_summary>\n<engagement_pattern>The customer is engaging with the camera, possibly seeking information or assistance.</engagement_pattern>\n<gaze_and_attention>The customer is looking directly at the camera.</gaze_and_attention>\n<body_and_hands>The customer raises their right hand and points upwards with their index finger.</body_and_hands>\n<belief>The customer is interested in the product or service being offered and may want a demonstration or more information.</belief>\n<desire>The customer desires clarification or a demonstration related to the product or service.</desire>\n<intention>The customer intends to seek further information or a demonstration about the product or service.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is looking at the camera and pointing upwards.",
+          "engagement_pattern": "The customer is engaging with the camera, possibly seeking information or assistance.",
+          "gaze_and_attention": "The customer is looking directly at the camera.",
+          "body_and_hands": "The customer raises their right hand and points upwards with their index finger."
+        },
+        "bdi": {
+          "belief": "The customer is interested in the product or service being offered and may want a demonstration or more information.",
+          "desire": "The customer desires clarification or a demonstration related to the product or service.",
+          "intention": "The customer intends to seek further information or a demonstration about the product or service."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": true,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_021",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>手指在屏幕上来回切换两款，A看了又切到B，B看了又切回A，眉头轻皱，没有点加入购物车。</visual_summary>\n<engagement_pattern>手指在屏幕上来回切换两款，A看了又切到B，B看了又切回A，眉头轻皱，没有点加入购物车。</engagement_pattern>\n<gaze_and_attention>表情专注带着困惑，眉头轻微皱起，嘴唇紧闭，偶尔轻叹。</gaze_and_attention>\n<body_and_hands>身体正面朝向屏幕，略前倾，手臂抬起在屏幕前操作，重心稳定。</body_and_hands>\n<belief>他认为这两款各有吸引力，但现有信息不足以判断哪款更适合自己的需求。</belief>\n<desire>他想做出一个不后悔的选择，不想靠猜或冲动决定。</desire>\n<intention>他会继续在两款之间来回切换，等待某个明确的区分点帮助自己下决心。</intention>",
+      "prediction": "stage: interest\nintent_label: explore_options\nvisual_summary: The customer is standing near the machine, looking at it.\nengagement_pattern: The customer is walking towards the machine.\ngaze_and_attention: The customer is looking at the machine.\nbody_and_hands: The customer is standing with their hands at their sides.\nbelief: The customer is interested in the machine.\ndesire: The customer wants to know more about the machine.\nintention: The customer intends to explore options related to the machine.",
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one stage tag, found 0"
+    },
+    {
+      "source_id": "real_022",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>把两款都点开看了详情，来回切换，表情有点迷，没有任何一款被加入购物车。</visual_summary>\n<engagement_pattern>把两款都点开看了详情，来回切换，表情有点迷，没有任何一款被加入购物车。</engagement_pattern>\n<gaze_and_attention>表情困惑略带茫然，眉头轻皱，偶尔抬头停顿思考。</gaze_and_attention>\n<body_and_hands>身体正对屏幕，站姿放松，手指在屏幕上频繁滑动切换。</body_and_hands>\n<belief>他觉得两款的页面信息差不多，仅靠自己翻看无法辨别实质区别。</belief>\n<desire>他想快速搞清楚两款的核心差异，不想花太多时间在这上面。</desire>\n<intention>他会继续翻阅两款详情，期待找到某个关键对比点来做决定。</intention>",
+      "prediction": "<stage>attention</stage>\n<intent_label>no_clear_intent</intent_label>\n<visual_summary>顾客站在智能售货机前，身体微微前倾。</visual_summary>\n<engagement_pattern>顾客与售货机保持一定距离。</engagement_pattern>\n<gaze_and_attention>顾客的目光集中在售货机上。</gaze_and_attention>\n<body_and_hands>顾客双手自然下垂。</body_and_hands>\n<belief>顾客对售货机感兴趣但不确定下一步动作。</belief>\n<desire>顾客可能想了解更多信息或尝试操作售货机。</desire>\n<intention>顾客可能希望确认售货机的功能或价格。</intention>",
+      "parsed": {
+        "aida_stage": "attention",
+        "intent_label": "no_clear_intent",
+        "visual_state": {
+          "summary": "顾客站在智能售货机前，身体微微前倾。",
+          "engagement_pattern": "顾客与售货机保持一定距离。",
+          "gaze_and_attention": "顾客的目光集中在售货机上。",
+          "body_and_hands": "顾客双手自然下垂。"
+        },
+        "bdi": {
+          "belief": "顾客对售货机感兴趣但不确定下一步动作。",
+          "desire": "顾客可能想了解更多信息或尝试操作售货机。",
+          "intention": "顾客可能希望确认售货机的功能或价格。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_023",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>把两款摆在屏幕上对比，用手指遮住了价格只看内容，来回查看，一直没有下手。</visual_summary>\n<engagement_pattern>把两款摆在屏幕上对比，用手指遮住了价格只看内容，来回查看，一直没有下手。</engagement_pattern>\n<gaze_and_attention>表情认真专注，眉头轻皱，偶尔歪头思考，嘴唇轻抿。</gaze_and_attention>\n<body_and_hands>身体略前倾，一手遮住部分屏幕，另一手操作滑动，站姿稳定。</body_and_hands>\n<belief>他认为不应让价格主导决定，但仅凭内容对比两款，区别依然不够清晰。</belief>\n<desire>他希望找到一个以实质内容为依据的选择理由，做出令自己信服的判断。</desire>\n<intention>他会继续对比两款的内容细节，但内心已感到需要一个外部指引。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is standing in front of a machine with their hands outstretched.</visual_summary>\n<engagement_pattern>The customer appears engaged but unsure about what to do next.</engagement_pattern>\n<gaze_and_attention>The customer is looking down at the machine, possibly trying to understand it better.</gaze_and_attention>\n<body_and_hands>The customer's hands are outstretched, suggesting they are seeking information or assistance.</body_and_hands>\n<belief>The customer believes the machine can provide some kind of service or product.</belief>\n<desire>The customer desires clarification or demonstration of the machine's function.</desire>\n<intention>The customer intends to learn more about the machine's capabilities before making a decision.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is standing in front of a machine with their hands outstretched.",
+          "engagement_pattern": "The customer appears engaged but unsure about what to do next.",
+          "gaze_and_attention": "The customer is looking down at the machine, possibly trying to understand it better.",
+          "body_and_hands": "The customer's hands are outstretched, suggesting they are seeking information or assistance."
+        },
+        "bdi": {
+          "belief": "The customer believes the machine can provide some kind of service or product.",
+          "desire": "The customer desires clarification or demonstration of the machine's function.",
+          "intention": "The customer intends to learn more about the machine's capabilities before making a decision."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_024",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>两款来回看了好几遍，拿起手机截图发给自己，又回来看屏幕，全程没有下单动作。</visual_summary>\n<engagement_pattern>两款来回看了好几遍，拿起手机截图发给自己，又回来看屏幕，全程没有下单动作。</engagement_pattern>\n<gaze_and_attention>表情认真，眉头略皱，眼神专注扫视屏幕内容，偶尔低头看手机。</gaze_and_attention>\n<body_and_hands>身体正对屏幕，站姿稳定，手机和屏幕之间来回操作，重心不动。</body_and_hands>\n<belief>他认为这两款值得认真对比，截图存档说明他在做理性决策，但仍没有得出结论。</belief>\n<desire>他希望基于客观信息做出有说服力的购买决定，而非冲动选择。</desire>\n<intention>他会继续研究或可能咨询他人意见，在有明确理由之前不会轻易下手。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is looking at the phone in his hand.</visual_summary>\n<engagement_pattern>The customer is standing still and looking down at his phone.</engagement_pattern>\n<gaze_and_attention>The customer is looking down at his phone with a focused expression.</gaze_and_attention>\n<body_and_hands>The customer is holding a phone in his right hand and appears to be examining it closely.</body_and_hands>\n<belief>The customer is interested in the phone he is holding.</belief>\n<desire>The customer wants to know more about the phone's features or functionality.</desire>\n<intention>The customer intends to ask for a demonstration or more information about the phone.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is looking at the phone in his hand.",
+          "engagement_pattern": "The customer is standing still and looking down at his phone.",
+          "gaze_and_attention": "The customer is looking down at his phone with a focused expression.",
+          "body_and_hands": "The customer is holding a phone in his right hand and appears to be examining it closely."
+        },
+        "bdi": {
+          "belief": "The customer is interested in the phone he is holding.",
+          "desire": "The customer wants to know more about the phone's features or functionality.",
+          "intention": "The customer intends to ask for a demonstration or more information about the phone."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_025",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>两款都点开查看配料，看不出区别，来回切换，叹了口气，双手悬在屏幕前停顿。</visual_summary>\n<engagement_pattern>两款都点开查看配料，看不出区别，来回切换，叹了口气，双手悬在屏幕前停顿。</engagement_pattern>\n<gaze_and_attention>表情略带沮丧和无奈，眉头皱起，嘴角微微下撇，偶尔叹气。</gaze_and_attention>\n<body_and_hands>身体前倾靠近屏幕，肩膀略松垂，站姿略显疲态，手指动作缓慢。</body_and_hands>\n<belief>他认为这两款在成分层面几乎一样，仅凭配料表无法区分，感到困惑和无奈。</belief>\n<desire>他希望找到一个明确的理由支持其中一款，而不是硬猜。</desire>\n<intention>他会继续翻看，但已开始感到疲惫，非常需要外部说明来打破僵局。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客正在观察智能售货机。</visual_summary>\n<engagement_pattern>顾客的目光集中在智能售货机上，身体微微前倾。</engagement_pattern>\n<gaze_and_attention>顾客的注意力集中在智能售货机上。</gaze_and_attention>\n<body_and_hands>顾客的身体微微前倾，手部动作不明显。</body_and_hands>\n<belief>顾客对智能售货机感兴趣，但尚未决定是否购买。</belief>\n<desire>顾客可能希望了解更多信息或比较不同选项。</desire>\n<intention>顾客可能想进一步探索智能售货机的功能和价格。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客正在观察智能售货机。",
+          "engagement_pattern": "顾客的目光集中在智能售货机上，身体微微前倾。",
+          "gaze_and_attention": "顾客的注意力集中在智能售货机上。",
+          "body_and_hands": "顾客的身体微微前倾，手部动作不明显。"
+        },
+        "bdi": {
+          "belief": "顾客对智能售货机感兴趣，但尚未决定是否购买。",
+          "desire": "顾客可能希望了解更多信息或比较不同选项。",
+          "intention": "顾客可能想进一步探索智能售货机的功能和价格。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_026",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer is comparing options and needs concrete product differences.</belief>\n<desire>The customer wants useful information before deciding.</desire>\n<intention>The customer is likely to continue evaluating options.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客站在智能售货机前，似乎在观察机器。</visual_summary>\n<engagement_pattern>顾客与售货机保持一定距离，没有明显的互动动作。</engagement_pattern>\n<gaze_and_attention>顾客的目光集中在售货机上，显示出对机器的兴趣。</gaze_and_attention>\n<body_and_hands>顾客双手自然下垂，身体微微前倾。</body_and_hands>\n<belief>顾客对智能售货机感兴趣，但尚未决定是否进行购买。</belief>\n<desire>顾客希望了解智能售货机的功能和价格。</desire>\n<intention>顾客可能想探索更多关于智能售货机的信息，以做出购买决策。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客站在智能售货机前，似乎在观察机器。",
+          "engagement_pattern": "顾客与售货机保持一定距离，没有明显的互动动作。",
+          "gaze_and_attention": "顾客的目光集中在售货机上，显示出对机器的兴趣。",
+          "body_and_hands": "顾客双手自然下垂，身体微微前倾。"
+        },
+        "bdi": {
+          "belief": "顾客对智能售货机感兴趣，但尚未决定是否进行购买。",
+          "desire": "顾客希望了解智能售货机的功能和价格。",
+          "intention": "顾客可能想探索更多关于智能售货机的信息，以做出购买决策。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_027",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer is comparing options and needs concrete product differences.</belief>\n<desire>The customer wants useful information before deciding.</desire>\n<intention>The customer is likely to continue evaluating options.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客在智能售货机前，似乎在观察或思考。</visual_summary>\n<engagement_pattern>顾客与售货机保持一定距离，没有明显的互动动作。</engagement_pattern>\n<gaze_and_attention>顾客的目光集中在售货机上，但没有直接看向镜头。</gaze_and_attention>\n<body_and_hands>顾客双手自然下垂，身体微微前倾。</body_and_hands>\n<belief>顾客对售货机感兴趣，可能在考虑购买。</belief>\n<desire>顾客希望了解更多信息或选择商品。</desire>\n<intention>顾客可能想探索售货机提供的选项。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客在智能售货机前，似乎在观察或思考。",
+          "engagement_pattern": "顾客与售货机保持一定距离，没有明显的互动动作。",
+          "gaze_and_attention": "顾客的目光集中在售货机上，但没有直接看向镜头。",
+          "body_and_hands": "顾客双手自然下垂，身体微微前倾。"
+        },
+        "bdi": {
+          "belief": "顾客对售货机感兴趣，可能在考虑购买。",
+          "desire": "顾客希望了解更多信息或选择商品。",
+          "intention": "顾客可能想探索售货机提供的选项。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_028",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer is comparing options and needs concrete product differences.</belief>\n<desire>The customer wants useful information before deciding.</desire>\n<intention>The customer is likely to continue evaluating options.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is pointing at something off-camera.</visual_summary>\n<engagement_pattern>The customer's hand movement suggests they are directing attention to an object or area of interest.</engagement_pattern>\n<gaze_and_attention>The customer's gaze is directed towards their hand, indicating focus on the object they are pointing at.</gaze_and_attention>\n<body_and_hands>The customer's right hand is extended forward, pointing with the index finger.</body_and_hands>\n<belief>The customer believes there is a specific feature or product that requires demonstration.</belief>\n<desire>The customer desires to understand more about a particular aspect of the product or service.</desire>\n<intention>The customer intends to engage further with the salesperson to receive a demonstration or explanation.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is pointing at something off-camera.",
+          "engagement_pattern": "The customer's hand movement suggests they are directing attention to an object or area of interest.",
+          "gaze_and_attention": "The customer's gaze is directed towards their hand, indicating focus on the object they are pointing at.",
+          "body_and_hands": "The customer's right hand is extended forward, pointing with the index finger."
+        },
+        "bdi": {
+          "belief": "The customer believes there is a specific feature or product that requires demonstration.",
+          "desire": "The customer desires to understand more about a particular aspect of the product or service.",
+          "intention": "The customer intends to engage further with the salesperson to receive a demonstration or explanation."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_029",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer is comparing options and needs concrete product differences.</belief>\n<desire>The customer wants useful information before deciding.</desire>\n<intention>The customer is likely to continue evaluating options.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is pointing at something with their right hand.</visual_summary>\n<engagement_pattern>The customer is looking directly at the camera.</engagement_pattern>\n<gaze_and_attention>The customer is looking directly at the camera.</gaze_and_attention>\n<body_and_hands>The customer is pointing at something with their right hand.</body_and_hands>\n<belief>The customer is interested in the product or service being offered.</belief>\n<desire>The customer wants to learn more about the product or service.</desire>\n<intention>The customer intends to ask for a demonstration or further information about the product or service.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is pointing at something with their right hand.",
+          "engagement_pattern": "The customer is looking directly at the camera.",
+          "gaze_and_attention": "The customer is looking directly at the camera.",
+          "body_and_hands": "The customer is pointing at something with their right hand."
+        },
+        "bdi": {
+          "belief": "The customer is interested in the product or service being offered.",
+          "desire": "The customer wants to learn more about the product or service.",
+          "intention": "The customer intends to ask for a demonstration or further information about the product or service."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_030",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>compare_value_for_money</intent_label>\n<visual_summary>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 两款比较，机器说清区别. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer is comparing options and needs concrete product differences.</belief>\n<desire>The customer wants useful information before deciding.</desire>\n<intention>The customer is likely to continue evaluating options.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is pointing towards the camera with their right hand.</visual_summary>\n<engagement_pattern>The customer is actively engaging with the camera, possibly indicating an interest in the product or service being demonstrated.</engagement_pattern>\n<gaze_and_attention>The customer is looking directly at the camera, suggesting they are focused on the interaction.</gaze_and_attention>\n<body_and_hands>The customer's right hand is extended towards the camera, indicating a gesture that could be interpreted as a request for further information or a demonstration.</body_and_hands>\n<belief>The customer believes there is a product or service that can be demonstrated to them.</belief>\n<desire>The customer desires more information about the product or service being offered.</desire>\n<intention>The customer intends to receive a demonstration of the product or service.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is pointing towards the camera with their right hand.",
+          "engagement_pattern": "The customer is actively engaging with the camera, possibly indicating an interest in the product or service being demonstrated.",
+          "gaze_and_attention": "The customer is looking directly at the camera, suggesting they are focused on the interaction.",
+          "body_and_hands": "The customer's right hand is extended towards the camera, indicating a gesture that could be interpreted as a request for further information or a demonstration."
+        },
+        "bdi": {
+          "belief": "The customer believes there is a product or service that can be demonstrated to them.",
+          "desire": "The customer desires more information about the product or service being offered.",
+          "intention": "The customer intends to receive a demonstration of the product or service."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_031",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>把那款点开，仔细翻看详情，然后停在页面上沉思，没有任何加购或结账动作。</visual_summary>\n<engagement_pattern>把那款点开，仔细翻看详情，然后停在页面上沉思，没有任何加购或结账动作。</engagement_pattern>\n<gaze_and_attention>表情专注而略带沉吟，眉头轻轻收拢，眼神落在屏幕某处停住，嘴唇自然闭合。</gaze_and_attention>\n<body_and_hands>身体正对屏幕，站姿稳定，手指停在屏幕上不动，重心均匀。</body_and_hands>\n<belief>他认为这款商品看起来不错，详情也基本符合预期，但还没有完全说服自己要买。</belief>\n<desire>他想在不冲动的前提下做出一个令自己满意的购买决定。</desire>\n<intention>他会继续停留在产品页面，内心默默权衡，等待自己说服自己。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客正在观察智能售货机。</visual_summary>\n<engagement_pattern>顾客的目光集中在智能售货机上。</engagement_pattern>\n<gaze_and_attention>顾客的注意力集中在智能售货机上。</gaze_and_attention>\n<body_and_hands>顾客的手臂自然垂放在身体两侧，没有明显的动作。</body_and_hands>\n<belief>顾客对智能售货机感兴趣，但尚未决定是否购买。</belief>\n<desire>顾客希望了解智能售货机的功能和价格。</desire>\n<intention>顾客可能想进一步探索智能售货机的功能或价格信息。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客正在观察智能售货机。",
+          "engagement_pattern": "顾客的目光集中在智能售货机上。",
+          "gaze_and_attention": "顾客的注意力集中在智能售货机上。",
+          "body_and_hands": "顾客的手臂自然垂放在身体两侧，没有明显的动作。"
+        },
+        "bdi": {
+          "belief": "顾客对智能售货机感兴趣，但尚未决定是否购买。",
+          "desire": "顾客希望了解智能售货机的功能和价格。",
+          "intention": "顾客可能想进一步探索智能售货机的功能或价格信息。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_032",
+      "task": "user_intent",
+      "target": "<stage>action</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>把那款加入购物车，又移出来，再加进去，停在购物车页面，没有点结账。</visual_summary>\n<engagement_pattern>把那款加入购物车，又移出来，再加进去，停在购物车页面，没有点结账。</engagement_pattern>\n<gaze_and_attention>表情略带纠结，眉头轻皱，嘴唇微微抿着，眼神在屏幕上来回扫。</gaze_and_attention>\n<body_and_hands>身体正对屏幕，手指频繁点击，肩膀略微紧张，站姿稳定。</body_and_hands>\n<belief>他心里已经认可这款，反复加减购物车说明他想买但又在心里拉扯，购买欲已经很强。</belief>\n<desire>他想以一个让自己放心的理由完成这笔购买，而不是带着不确定感结账。</desire>\n<intention>他会继续在购物车页面徘徊，需要一个小推力来完成最后的结账动作。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客正在观察智能售货机。</visual_summary>\n<engagement_pattern>顾客的目光集中在智能售货机上，身体微微前倾。</engagement_pattern>\n<gaze_and_attention>顾客的注意力集中在智能售货机上。</gaze_and_attention>\n<body_and_hands>顾客的身体微微前倾，手部动作不明显。</body_and_hands>\n<belief>顾客对智能售货机感兴趣，但尚未决定是否购买。</belief>\n<desire>顾客可能希望了解更多信息或比较不同选项。</desire>\n<intention>顾客可能希望获得关于智能售货机的更多信息或演示。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客正在观察智能售货机。",
+          "engagement_pattern": "顾客的目光集中在智能售货机上，身体微微前倾。",
+          "gaze_and_attention": "顾客的注意力集中在智能售货机上。",
+          "body_and_hands": "顾客的身体微微前倾，手部动作不明显。"
+        },
+        "bdi": {
+          "belief": "顾客对智能售货机感兴趣，但尚未决定是否购买。",
+          "desire": "顾客可能希望了解更多信息或比较不同选项。",
+          "intention": "顾客可能希望获得关于智能售货机的更多信息或演示。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_033",
+      "task": "user_intent",
+      "target": "<stage>action</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>产品页停留了很久，手指轻放在购买按钮上，始终没有按下，偶尔退出又返回。</visual_summary>\n<engagement_pattern>产品页停留了很久，手指轻放在购买按钮上，始终没有按下，偶尔退出又返回。</engagement_pattern>\n<gaze_and_attention>表情纠结带着些许紧张，眉头微皱，眼神盯着购买按钮，嘴唇微抿。</gaze_and_attention>\n<body_and_hands>身体略前倾，手指悬停在屏幕上，另一只手自然垂着，重心微微前移。</body_and_hands>\n<belief>他在心里已经认可这款了，但最后按下购买键的那一步仍然让他犹豫，担心这笔钱花得不值。</belief>\n<desire>他希望这一笔购买是值得的，不想事后后悔。</desire>\n<intention>他会继续悬停在这一步，等待内心足够确信才会按下购买键。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is standing in front of a smart vending machine.</visual_summary>\n<engagement_pattern>The customer is looking at the vending machine with a focused expression.</engagement_pattern>\n<gaze_and_attention>The customer's gaze is directed towards the vending machine.</gaze_and_attention>\n<body_and_hands>The customer's hands are relaxed at their sides.</body_and_hands>\n<belief>The customer is interested in the vending machine but unsure about what to do next.</belief>\n<desire>The customer wants to know more about the vending machine or how to use it.</desire>\n<intention>The customer intends to ask for a demonstration or explanation of the vending machine's features.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is standing in front of a smart vending machine.",
+          "engagement_pattern": "The customer is looking at the vending machine with a focused expression.",
+          "gaze_and_attention": "The customer's gaze is directed towards the vending machine.",
+          "body_and_hands": "The customer's hands are relaxed at their sides."
+        },
+        "bdi": {
+          "belief": "The customer is interested in the vending machine but unsure about what to do next.",
+          "desire": "The customer wants to know more about the vending machine or how to use it.",
+          "intention": "The customer intends to ask for a demonstration or explanation of the vending machine's features."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_034",
+      "task": "user_intent",
+      "target": "<stage>action</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>停留在结账页面上发呆，视线落在屏幕上但没有任何点击动作，双手悬在身前。</visual_summary>\n<engagement_pattern>停留在结账页面上发呆，视线落在屏幕上但没有任何点击动作，双手悬在身前。</engagement_pattern>\n<gaze_and_attention>表情空洞略带迟疑，眼神涣散停在某处，没有明显情绪起伏。</gaze_and_attention>\n<body_and_hands>身体正对屏幕，站姿略松垂，重心均匀，双手没有操作动作。</body_and_hands>\n<belief>他已经完成选品并进入结账流程，但在最后支付环节出现了心理停顿，不确定是否真的要付款。</belief>\n<desire>他想确认这次购买是合理的，才愿意完成最终的支付动作。</desire>\n<intention>他会继续在结账页面停留，内心在做最后的权衡，需要一点确认感才能完成支付。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客站在智能售货机前，似乎在考虑购买什么。</visual_summary>\n<engagement_pattern>顾客与售货机保持一定距离，没有明显的互动动作。</engagement_pattern>\n<gaze_and_attention>顾客的目光集中在售货机上，但没有直接注视。</gaze_and_attention>\n<body_and_hands>顾客双手自然下垂，身体微微前倾。</body_and_hands>\n<belief>顾客对售货机上的商品感兴趣，但尚未决定是否购买。</belief>\n<desire>顾客希望了解更多信息或确认价格。</desire>\n<intention>顾客可能想探索更多选项或获取更多信息。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客站在智能售货机前，似乎在考虑购买什么。",
+          "engagement_pattern": "顾客与售货机保持一定距离，没有明显的互动动作。",
+          "gaze_and_attention": "顾客的目光集中在售货机上，但没有直接注视。",
+          "body_and_hands": "顾客双手自然下垂，身体微微前倾。"
+        },
+        "bdi": {
+          "belief": "顾客对售货机上的商品感兴趣，但尚未决定是否购买。",
+          "desire": "顾客希望了解更多信息或确认价格。",
+          "intention": "顾客可能想探索更多选项或获取更多信息。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_035",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>点开评价区查看，又切到详情页，再切回评价区，来回反复，没有加购动作。</visual_summary>\n<engagement_pattern>点开评价区查看，又切到详情页，再切回评价区，来回反复，没有加购动作。</engagement_pattern>\n<gaze_and_attention>表情认真谨慎，眉头轻皱，眼神仔细扫视文字内容，嘴唇自然闭合。</gaze_and_attention>\n<body_and_hands>身体略前倾靠近屏幕，手指上下滑动浏览，肩膀放松，站姿稳定。</body_and_hands>\n<belief>他觉得评价整体上还不错，但仍在寻找能让自己完全放心的信息依据，购买信心还不够高。</belief>\n<desire>他希望确保这款商品口碑可靠，不会让自己失望。</desire>\n<intention>他会继续在评价和详情之间来回查看，等信心累积到足够高才会下手。</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客在智能售货机前，身体微微前倾，似乎在观察或思考。</visual_summary>\n<engagement_pattern>顾客与售货机保持一定距离，但身体姿态显示出对售货机的兴趣。</engagement_pattern>\n<gaze_and_attention>顾客的目光集中在售货机上，可能在寻找操作方法或商品信息。</gaze_and_attention>\n<body_and_hands>顾客的手臂自然下垂，手指放松，没有明显的操作动作。</body_and_hands>\n<belief>顾客对售货机的功能或商品感兴趣，但尚未决定是否进行购买。</belief>\n<desire>顾客希望了解如何使用售货机或获取更多信息。</desire>\n<intention>顾客可能想尝试操作售货机或询问关于商品的问题。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "顾客在智能售货机前，身体微微前倾，似乎在观察或思考。",
+          "engagement_pattern": "顾客与售货机保持一定距离，但身体姿态显示出对售货机的兴趣。",
+          "gaze_and_attention": "顾客的目光集中在售货机上，可能在寻找操作方法或商品信息。",
+          "body_and_hands": "顾客的手臂自然下垂，手指放松，没有明显的操作动作。"
+        },
+        "bdi": {
+          "belief": "顾客对售货机的功能或商品感兴趣，但尚未决定是否进行购买。",
+          "desire": "顾客希望了解如何使用售货机或获取更多信息。",
+          "intention": "顾客可能想尝试操作售货机或询问关于商品的问题。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_036",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer has narrowed attention to a plausible choice but still hesitates.</belief>\n<desire>The customer wants confidence to make a decision.</desire>\n<intention>The customer is close to deciding but may benefit from a soft recommendation.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客站在智能售货机前，似乎在观察机器。</visual_summary>\n<engagement_pattern>顾客与售货机保持一定距离，没有明显的互动动作。</engagement_pattern>\n<gaze_and_attention>顾客的目光集中在售货机上。</gaze_and_attention>\n<body_and_hands>顾客双手自然下垂，身体微微前倾。</body_and_hands>\n<belief>顾客对售货机感兴趣，但尚未决定是否购买。</belief>\n<desire>顾客可能想了解售货机的功能或价格。</desire>\n<intention>顾客可能会继续探索售货机的选项或询问更多信息。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客站在智能售货机前，似乎在观察机器。",
+          "engagement_pattern": "顾客与售货机保持一定距离，没有明显的互动动作。",
+          "gaze_and_attention": "顾客的目光集中在售货机上。",
+          "body_and_hands": "顾客双手自然下垂，身体微微前倾。"
+        },
+        "bdi": {
+          "belief": "顾客对售货机感兴趣，但尚未决定是否购买。",
+          "desire": "顾客可能想了解售货机的功能或价格。",
+          "intention": "顾客可能会继续探索售货机的选项或询问更多信息。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_037",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer has narrowed attention to a plausible choice but still hesitates.</belief>\n<desire>The customer wants confidence to make a decision.</desire>\n<intention>The customer is close to deciding but may benefit from a soft recommendation.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is looking at the robotic arm.</visual_summary>\n<engagement_pattern>The customer is standing still and looking at the robotic arm.</engagement_pattern>\n<gaze_and_attention>The customer is looking at the robotic arm with a focused expression.</gaze_and_attention>\n<body_and_hands>The customer's hands are relaxed at their sides.</body_and_hands>\n<belief>The customer is interested in the robotic arm and may want to learn more about it.</belief>\n<desire>The customer desires information about the robotic arm's capabilities and functionality.</desire>\n<intention>The customer intends to ask for a demonstration or explanation of the robotic arm's features.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is looking at the robotic arm.",
+          "engagement_pattern": "The customer is standing still and looking at the robotic arm.",
+          "gaze_and_attention": "The customer is looking at the robotic arm with a focused expression.",
+          "body_and_hands": "The customer's hands are relaxed at their sides."
+        },
+        "bdi": {
+          "belief": "The customer is interested in the robotic arm and may want to learn more about it.",
+          "desire": "The customer desires information about the robotic arm's capabilities and functionality.",
+          "intention": "The customer intends to ask for a demonstration or explanation of the robotic arm's features."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_038",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer has narrowed attention to a plausible choice but still hesitates.</belief>\n<desire>The customer wants confidence to make a decision.</desire>\n<intention>The customer is close to deciding but may benefit from a soft recommendation.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>The customer is standing with arms crossed, looking at the camera.</visual_summary>\n<engagement_pattern>The customer's posture suggests they are engaged but not actively interacting with the product.</engagement_pattern>\n<gaze_and_attention>The customer is looking directly at the camera, indicating they are aware of being observed.</gaze_and_attention>\n<body_and_hands>The customer has their arms crossed, which could indicate a defensive or neutral stance.</body_and_hands>\n<belief>The customer is interested in the product but may be hesitant to engage further.</belief>\n<desire>The customer desires more information about the product or a demonstration.</desire>\n<intention>The customer intends to gather more details about the product before making a decision.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "request_demonstration",
+        "visual_state": {
+          "summary": "The customer is standing with arms crossed, looking at the camera.",
+          "engagement_pattern": "The customer's posture suggests they are engaged but not actively interacting with the product.",
+          "gaze_and_attention": "The customer is looking directly at the camera, indicating they are aware of being observed.",
+          "body_and_hands": "The customer has their arms crossed, which could indicate a defensive or neutral stance."
+        },
+        "bdi": {
+          "belief": "The customer is interested in the product but may be hesitant to engage further.",
+          "desire": "The customer desires more information about the product or a demonstration.",
+          "intention": "The customer intends to gather more details about the product before making a decision."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_039",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer has narrowed attention to a plausible choice but still hesitates.</belief>\n<desire>The customer wants confidence to make a decision.</desire>\n<intention>The customer is close to deciding but may benefit from a soft recommendation.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>顾客正在查看手机，可能在寻找更多信息或比较不同选项。</visual_summary>\n<engagement_pattern>顾客与售货机保持一定距离，但没有明显的互动动作。</engagement_pattern>\n<gaze_and_attention>顾客的注意力集中在手机屏幕上。</gaze_and_attention>\n<body_and_hands>顾客双手握着手机，身体微微前倾。</body_and_hands>\n<belief>顾客对售货机的产品感兴趣，但尚未决定是否购买。</belief>\n<desire>顾客希望了解更多信息或比较不同选项。</desire>\n<intention>顾客可能想确认产品信息或价格，或者继续浏览其他选项。</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "顾客正在查看手机，可能在寻找更多信息或比较不同选项。",
+          "engagement_pattern": "顾客与售货机保持一定距离，但没有明显的互动动作。",
+          "gaze_and_attention": "顾客的注意力集中在手机屏幕上。",
+          "body_and_hands": "顾客双手握着手机，身体微微前倾。"
+        },
+        "bdi": {
+          "belief": "顾客对售货机的产品感兴趣，但尚未决定是否购买。",
+          "desire": "顾客希望了解更多信息或比较不同选项。",
+          "intention": "顾客可能想确认产品信息或价格，或者继续浏览其他选项。"
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_040",
+      "task": "user_intent",
+      "target": "<stage>desire</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</visual_summary>\n<engagement_pattern>Index group label indicates: 锁定一款犹豫，机器温和推一句. Per-session visual annotation is not available.</engagement_pattern>\n<gaze_and_attention>Per-session facial-expression annotation is not available; evaluate primarily on stage/action labels.</gaze_and_attention>\n<body_and_hands>Per-session body-posture annotation is not available; evaluate primarily on stage/action labels.</body_and_hands>\n<belief>The customer has narrowed attention to a plausible choice but still hesitates.</belief>\n<desire>The customer wants confidence to make a decision.</desire>\n<intention>The customer is close to deciding but may benefit from a soft recommendation.</intention>",
+      "prediction": "<stage>interest</stage>\n<intent_label>explore_options</intent_label>\n<visual_summary>The customer is standing near the smart vending machine.</visual_summary>\n<engagement_pattern>The customer appears to be engaged with the machine, possibly considering what to purchase.</engagement_pattern>\n<gaze_and_attention>The customer is looking at the smart vending machine, indicating interest in it.</gaze_and_attention>\n<body_and_hands>The customer's hands are not visible, but their posture suggests they might be contemplating their next move.</body_and_hands>\n<belief>The customer believes there may be something of interest within the smart vending machine.</belief>\n<desire>The customer desires to explore the options available in the smart vending machine.</desire>\n<intention>The customer intends to make a selection from the smart vending machine.</intention>",
+      "parsed": {
+        "aida_stage": "interest",
+        "intent_label": "explore_options",
+        "visual_state": {
+          "summary": "The customer is standing near the smart vending machine.",
+          "engagement_pattern": "The customer appears to be engaged with the machine, possibly considering what to purchase.",
+          "gaze_and_attention": "The customer is looking at the smart vending machine, indicating interest in it.",
+          "body_and_hands": "The customer's hands are not visible, but their posture suggests they might be contemplating their next move."
+        },
+        "bdi": {
+          "belief": "The customer believes there may be something of interest within the smart vending machine.",
+          "desire": "The customer desires to explore the options available in the smart vending machine.",
+          "intention": "The customer intends to make a selection from the smart vending machine."
+        }
+      },
+      "parse_ok": true,
+      "scores": {
+        "stage_exact": false,
+        "intent_exact": false
+      }
+    },
+    {
+      "source_id": "real_006",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Greet for this visible customer state.</rationale>\n<chosen>Greet_attention_real_real_006_226e02dc0a59</chosen>\n<intervention_action>智能售货柜以简短欢迎语和柔和灯效提示可用性。</intervention_action>\n<intervention_utterance>欢迎光临，需要时我可以帮您。</intervention_utterance>",
+      "prediction": "<rationale>The customer has shown interest in the device by looking at it while walking past, but they have not stopped to engage further. The customer's body language suggests they are still focused on their phone, indicating that they may not be ready to make a purchase decision yet. Therefore, it would be appropriate to let them continue with their current activity without interrupting them.</rationale>\n<chosen>Hold_attention_real_real_006_b70b25a89775</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer has shown interest in the device by looking at it while walking past, but they have not stopped to engage further. The customer's body language suggests they are still focused on their phone, indicating that they may not be ready to make a purchase decision yet. Therefore, it would be appropriate to let them continue with their current activity without interrupting them.",
+        "chosen": "Hold_attention_real_real_006_b70b25a89775",
+        "intervention_action": "智能售货柜保持静默和低亮度待机，不主动打断顾客。",
+        "intervention_utterance": "（静默）"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": false
+      }
+    },
+    {
+      "source_id": "real_007",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Greet for this visible customer state.</rationale>\n<chosen>Greet_attention_real_real_007_3af4939b0c72</chosen>\n<intervention_action>智能售货柜以简短欢迎语和柔和灯效提示可用性。</intervention_action>\n<intervention_utterance>欢迎光临，需要时我可以帮您。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in the process of evaluating the product, as indicated by their slow approach and careful observation. There's no immediate indication that they need assistance or are ready to make a purchase. The customer seems to be in a contemplative state, which suggests that they might benefit from some time to think about the product before making a decision. Therefore, it would be appropriate to let them continue their evaluation without interruption.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>Hold</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_008",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Greet for this visible customer state.</rationale>\n<chosen>Greet_attention_real_real_008_18ec68bacb53</chosen>\n<intervention_action>智能售货柜以简短欢迎语和柔和灯效提示可用性。</intervention_action>\n<intervention_utterance>欢迎光临，需要时我可以帮您。</intervention_utterance>",
+      "prediction": "<rationale>The customer has just entered the store and is looking around at the equipment. He seems curious but not immediately interested in interacting with the device. The best course of action is to let him explore the environment without interruption.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_009",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Greet for this visible customer state.</rationale>\n<chosen>Greet_attention_real_real_009_a60896e2782e</chosen>\n<intervention_action>智能售货柜以简短欢迎语和柔和灯效提示可用性。</intervention_action>\n<intervention_utterance>欢迎光临，需要时我可以帮您。</intervention_utterance>",
+      "prediction": "<rationale>The customer has shown interest in the device but seems to be in a hurry as they are walking towards it with a casual and curious expression. The customer's body language suggests they might be considering purchasing something but also wants to move on quickly. Therefore, it would be appropriate to let them continue exploring without immediate interruption.</rationale>\n<chosen>Hold_attention_real_real_009_6a6d7d6092a8</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer has shown interest in the device but seems to be in a hurry as they are walking towards it with a casual and curious expression. The customer's body language suggests they might be considering purchasing something but also wants to move on quickly. Therefore, it would be appropriate to let them continue exploring without immediate interruption.",
+        "chosen": "Hold_attention_real_real_009_6a6d7d6092a8",
+        "intervention_action": "智能售货柜保持静默和低亮度待机，不主动打断顾客。",
+        "intervention_utterance": "（静默）"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": false
+      }
+    },
+    {
+      "source_id": "real_010",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Greet for this visible customer state.</rationale>\n<chosen>Greet_attention_real_real_010_8bf7289fc8a1</chosen>\n<intervention_action>智能售货柜以简短欢迎语和柔和灯效提示可用性。</intervention_action>\n<intervention_utterance>欢迎光临，需要时我可以帮您。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in the early stages of interest, as they are observing the device with curiosity but have not yet shown any clear intent to interact further. The customer's body language suggests they are still exploring their options, which aligns with the \"attention\" stage. There is no immediate need to interrupt or guide them, as they seem to be naturally progressing through their shopping process.</rationale>\n<chosen>Hold_attention_real_real_010_75ae828c6894</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be in the early stages of interest, as they are observing the device with curiosity but have not yet shown any clear intent to interact further. The customer's body language suggests they are still exploring their options, which aligns with the \"attention\" stage. There is no immediate need to interrupt or guide them, as they seem to be naturally progressing through their shopping process.",
+        "chosen": "Hold_attention_real_real_010_75ae828c6894",
+        "intervention_action": "智能售货柜保持静默和低亮度待机，不主动打断顾客。",
+        "intervention_utterance": "（静默）"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": false
+      }
+    },
+    {
+      "source_id": "real_016",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Elicit for this visible customer state.</rationale>\n<chosen>Elicit_interest_real_real_016_1a95a7be8bf8</chosen>\n<intervention_action>智能售货柜展示轻量选项，邀请顾客表达关注点。</intervention_action>\n<intervention_utterance>您想先了解价格、口味，还是适合什么场景？</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be exploring the device with curiosity but seems uncertain about how to proceed. He is standing at a distance, occasionally pointing at the screen, which suggests he is trying to understand its functionality. The customer's body language indicates that he might need more guidance or information before making a decision. Therefore, it would be beneficial to provide some clarification or assistance to help him better understand the device.</rationale>\n<chosen>Elicit_interest_real_real_016_1a95a7be8bf8</chosen>\n<intervention_action>Elicit_interest_real_real_016_1a95a7be8bf8</intervention_action>\n<intervention_utterance>您想先了解价格、口味，还是适合什么场景？</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be exploring the device with curiosity but seems uncertain about how to proceed. He is standing at a distance, occasionally pointing at the screen, which suggests he is trying to understand its functionality. The customer's body language indicates that he might need more guidance or information before making a decision. Therefore, it would be beneficial to provide some clarification or assistance to help him better understand the device.",
+        "chosen": "Elicit_interest_real_real_016_1a95a7be8bf8",
+        "intervention_action": "Elicit_interest_real_real_016_1a95a7be8bf8",
+        "intervention_utterance": "您想先了解价格、口味，还是适合什么场景？"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": true
+      }
+    },
+    {
+      "source_id": "real_017",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Elicit for this visible customer state.</rationale>\n<chosen>Elicit_interest_real_real_017_3cf2e9e5c47a</chosen>\n<intervention_action>智能售货柜展示轻量选项，邀请顾客表达关注点。</intervention_action>\n<intervention_utterance>您想先了解价格、口味，还是适合什么场景？</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a state of contemplation or confusion, as indicated by their crossed arms and closed eyes. This suggests they may need more time to process the information presented to them, rather than being ready for a recommendation or comparison. The current environment seems quiet and focused, which aligns with the \"Hold\" intervention's goal of maintaining a low-key presence without interrupting the customer's thought process.</rationale>\n<chosen>Hold_interest_real_real_017_c59f45e140db</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be in a state of contemplation or confusion, as indicated by their crossed arms and closed eyes. This suggests they may need more time to process the information presented to them, rather than being ready for a recommendation or comparison. The current environment seems quiet and focused, which aligns with the \"Hold\" intervention's goal of maintaining a low-key presence without interrupting the customer's thought process.",
+        "chosen": "Hold_interest_real_real_017_c59f45e140db",
+        "intervention_action": "智能售货柜保持静默和低亮度待机，不主动打断顾客。",
+        "intervention_utterance": "（静默）"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": false
+      }
+    },
+    {
+      "source_id": "real_018",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Elicit for this visible customer state.</rationale>\n<chosen>Elicit_interest_real_real_018_2684b60ed39d</chosen>\n<intervention_action>智能售货柜展示轻量选项，邀请顾客表达关注点。</intervention_action>\n<intervention_utterance>您想先了解价格、口味，还是适合什么场景？</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, with arms crossed and a thoughtful expression. This suggests they might be considering their options carefully before making a decision. The current intervention should focus on maintaining a non-intrusive presence to allow the customer to continue their thought process without being interrupted.</rationale>\n<chosen>Hold_interest_real_real_018_7aa1f5d4c9ab</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be in a contemplative state, with arms crossed and a thoughtful expression. This suggests they might be considering their options carefully before making a decision. The current intervention should focus on maintaining a non-intrusive presence to allow the customer to continue their thought process without being interrupted.",
+        "chosen": "Hold_interest_real_real_018_7aa1f5d4c9ab",
+        "intervention_action": "智能售货柜保持静默和低亮度待机，不主动打断顾客。",
+        "intervention_utterance": "（静默）"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": false
+      }
+    },
+    {
+      "source_id": "real_019",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Elicit for this visible customer state.</rationale>\n<chosen>Elicit_interest_real_real_019_a2ad1017a69c</chosen>\n<intervention_action>智能售货柜展示轻量选项，邀请顾客表达关注点。</intervention_action>\n<intervention_utterance>您想先了解价格、口味，还是适合什么场景？</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a state of exploration, as indicated by their browsing behavior and occasional comparison with a phone. There's no clear indication that they have found what they're looking for or are ready to make a purchase. The customer's expression suggests mild disappointment, which might be due to not finding the desired item. The current situation does not warrant any active intervention; the customer seems to be in a reflective state, possibly considering their options further.</rationale>\n<chosen>Hold_interest_real_real_019_fb292cf0a116</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be in a state of exploration, as indicated by their browsing behavior and occasional comparison with a phone. There's no clear indication that they have found what they're looking for or are ready to make a purchase. The customer's expression suggests mild disappointment, which might be due to not finding the desired item. The current situation does not warrant any active intervention; the customer seems to be in a reflective state, possibly considering their options further.",
+        "chosen": "Hold_interest_real_real_019_fb292cf0a116",
+        "intervention_action": "智能售货柜保持静默和低亮度待机，不主动打断顾客。",
+        "intervention_utterance": "（静默）"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": false
+      }
+    },
+    {
+      "source_id": "real_020",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Elicit for this visible customer state.</rationale>\n<chosen>Elicit_interest_real_real_020_8fb94dfa9398</chosen>\n<intervention_action>智能售货柜展示轻量选项，邀请顾客表达关注点。</intervention_action>\n<intervention_utterance>您想先了解价格、口味，还是适合什么场景？</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a state of exploration, as indicated by their casual browsing and lack of clear intent. The customer's gaze and attention suggest they are still trying to figure out what they want, which aligns with the belief that they feel lost and unsure about their desires. The customer's body language and hand gestures also indicate a lack of focus or decision-making, further supporting the need for guidance rather than immediate recommendation or information. Therefore, it would be more appropriate to hold the customer's interest without interrupting them at this stage.</rationale>\n<chosen>Hold_interest_real_real_020_02d1939c0be1</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be in a state of exploration, as indicated by their casual browsing and lack of clear intent. The customer's gaze and attention suggest they are still trying to figure out what they want, which aligns with the belief that they feel lost and unsure about their desires. The customer's body language and hand gestures also indicate a lack of focus or decision-making, further supporting the need for guidance rather than immediate recommendation or information. Therefore, it would be more appropriate to hold the customer's interest without interrupting them at this stage.",
+        "chosen": "Hold_interest_real_real_020_02d1939c0be1",
+        "intervention_action": "智能售货柜保持静默和低亮度待机，不主动打断顾客。",
+        "intervention_utterance": "（静默）"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": false
+      }
+    },
+    {
+      "source_id": "real_021",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_021_3fc86167c0bb</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in the process of comparing two items, as indicated by their hand movements and the fact that they are looking at the screen. The customer's expression suggests some confusion or indecision, which could be due to the lack of clear information about the differences between the options. The customer has not yet made a decision, so it would be premature to recommend one option over the other. Instead, the customer needs more information to make an informed choice.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_022",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_022_adb7b1514d25</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, possibly trying to make a decision between two options. The customer's gaze and attention suggest they are focused on the product details, and their body language indicates they are actively engaged but not ready to make a purchase yet. There is no indication that the customer is frustrated or needs immediate assistance, which makes the \"Hold\" intervention appropriate as it allows the customer to continue their own decision-making process without interruption.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_023",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_023_02dfe55f124c</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, with a focused expression and occasional head tilts suggesting they are carefully considering their options. There's no indication that they need immediate assistance or guidance; they seem to be in the process of making a decision based on the information available. The customer has already been provided with a brief comparison of the items, which might have helped them narrow down their choices. Given this context, it would be appropriate to let the customer continue their decision-making process without further intervention.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_024",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_024_f9575a239292</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be carefully comparing two products, taking notes on his phone, and is not ready to make a purchase decision yet. He seems focused and methodical, indicating he's still gathering information before making a choice. There's no indication that he needs immediate assistance or guidance at this moment.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_025",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_025_0c60126efc77</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a state of contemplation and slight frustration, as indicated by their body language and facial expressions. They have been comparing two options and seem to be at a standstill, possibly due to the lack of clear information or a decision point. The customer's desire for a clear comparison or recommendation is evident, but they also seem to be weary of further indecision. Therefore, it would be appropriate to hold off on any intervention that might push them into making a decision prematurely.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_026",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_026_2ce49890bbf8</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, possibly considering the product options. There's no indication that they need immediate assistance or information. The customer seems to be evaluating the products without any urgency, which suggests they might benefit from a brief comparison or recommendation later. However, at this moment, it would be more appropriate to let them continue their evaluation without interruption.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_027",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_027_001025d2cd29</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a reflective state, possibly considering the information provided earlier about the differences between the products. There's no indication that they need immediate assistance or guidance at this moment. The customer seems to be processing the information, which aligns with the \"hold\" strategy where the salesperson refrains from interrupting or providing further information until the customer is ready to engage again.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_028",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_028_90f7ff850ee1</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in the process of comparing different options, as indicated by their hand gestures and the context of the previous frame where they were pointing at something off-screen. The customer's body language suggests they are actively engaged in the comparison process and may need more information to make a decision. Therefore, it would be beneficial to provide them with a brief comparison of the options to help them make an informed choice.</rationale>\n<chosen>Inform_desire_real_real_028_90f7ff850ee1</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be in the process of comparing different options, as indicated by their hand gestures and the context of the previous frame where they were pointing at something off-screen. The customer's body language suggests they are actively engaged in the comparison process and may need more information to make a decision. Therefore, it would be beneficial to provide them with a brief comparison of the options to help them make an informed choice.",
+        "chosen": "Inform_desire_real_real_028_90f7ff850ee1",
+        "intervention_action": "智能售货柜展示简短对比信息，避免长篇推销。",
+        "intervention_utterance": "这几款主要区别在口味、容量和价格，我可以帮您快速对比。"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": true
+      }
+    },
+    {
+      "source_id": "real_029",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_029_98e7312e302a</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in the process of comparing two products, as indicated by their hand gestures and the context of the previous frames. The customer seems to be seeking information about the differences between the options, which aligns with the desire stage where the customer wants useful information before making a decision. The customer's focus on the product and the lack of any immediate need for a recommendation suggest that they are still in the comparison phase and may benefit from a brief comparison summary provided by the salesperson.</rationale>\n<chosen>Inform_desire_real_real_029_98e7312e302a</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be in the process of comparing two products, as indicated by their hand gestures and the context of the previous frames. The customer seems to be seeking information about the differences between the options, which aligns with the desire stage where the customer wants useful information before making a decision. The customer's focus on the product and the lack of any immediate need for a recommendation suggest that they are still in the comparison phase and may benefit from a brief comparison summary provided by the salesperson.",
+        "chosen": "Inform_desire_real_real_029_98e7312e302a",
+        "intervention_action": "智能售货柜展示简短对比信息，避免长篇推销。",
+        "intervention_utterance": "这几款主要区别在口味、容量和价格，我可以帮您快速对比。"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": true
+      }
+    },
+    {
+      "source_id": "real_030",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Inform for this visible customer state.</rationale>\n<chosen>Inform_desire_real_real_030_3ef87fe412c9</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in the process of comparing different options, as indicated by their hand gesture pointing towards something off-screen. This suggests they are actively engaged in evaluating products and seeking more information about them. The customer's desire for useful information before making a decision aligns with the \"compare_value_for_money\" intent. Therefore, it would be beneficial to provide a brief comparison of the options to help the customer make an informed choice.</rationale>\n<chosen>Inform_desire_real_real_030_3ef87fe412c9</chosen>\n<intervention_action>智能售货柜展示简短对比信息，避免长篇推销。</intervention_action>\n<intervention_utterance>这几款主要区别在口味、容量和价格，我可以帮您快速对比。</intervention_utterance>",
+      "parsed": {
+        "rationale": "The customer appears to be in the process of comparing different options, as indicated by their hand gesture pointing towards something off-screen. This suggests they are actively engaged in evaluating products and seeking more information about them. The customer's desire for useful information before making a decision aligns with the \"compare_value_for_money\" intent. Therefore, it would be beneficial to provide a brief comparison of the options to help the customer make an informed choice.",
+        "chosen": "Inform_desire_real_real_030_3ef87fe412c9",
+        "intervention_action": "智能售货柜展示简短对比信息，避免长篇推销。",
+        "intervention_utterance": "这几款主要区别在口味、容量和价格，我可以帮您快速对比。"
+      },
+      "parse_ok": true,
+      "scores": {
+        "chosen_exact": true
+      }
+    },
+    {
+      "source_id": "real_031",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_desire_real_real_031_3afce9289a7f</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, with a thoughtful expression and hand on their chin. This suggests they are carefully considering their options before making a decision. The current environment does not seem to require any immediate intervention as the customer is engaged in their own thought process.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_032",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_action_real_real_032_22b604f4ea16</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, possibly weighing their options before making a purchase. The previous actions suggest they have been considering adding items to the cart but haven't yet made a final decision. There's no indication that they need immediate assistance or guidance at this moment. The customer's body language and facial expression suggest they might benefit from some time to think through their choices without external pressure.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>Hold</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_033",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_action_real_real_033_f8a23dcb485f</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, possibly considering their purchase. The previous actions suggest they have been evaluating the product for some time but haven't made a final decision yet. There's no indication that they need immediate assistance or guidance at this moment.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>Hold</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_034",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_action_real_real_034_fc909918baa6</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, possibly considering their purchase. There's no indication that they need immediate assistance or guidance. The customer seems to be processing information or making a decision, which aligns with the \"Hold\" intervention as it allows the customer to continue at their own pace without interruption.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>Hold</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_035",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_desire_real_real_035_052b880ed5cf</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be carefully reviewing the product details and customer reviews, which suggests they are still in the process of gathering information before making a purchase decision. There is no indication that they have made up their mind or are ready to proceed with a purchase. The customer's body language and gaze suggest they are focused and not ready to be interrupted or guided towards a specific option.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_036",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_desire_real_real_036_222f3f11ee9b</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a moment of contemplation, possibly considering their options. There's no clear indication that they need immediate assistance or guidance. The customer seems to be thinking about something, as evidenced by their hand gesture near their mouth. This suggests they might be weighing different choices or gathering more information before making a decision. Therefore, it would be appropriate to hold off on any intervention until the customer is ready to engage further.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_037",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_desire_real_real_037_72ddeeea2fdf</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a moment of consideration, as indicated by their hand gesture and smile. This suggests they might be contemplating a decision rather than needing immediate assistance. The customer's body language does not indicate a strong desire for a recommendation at this moment, which aligns with the \"Hold\" intervention. The customer seems comfortable enough to continue exploring options without immediate pressure or guidance.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_038",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_desire_real_real_038_5ee1192f3dc4</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a contemplative state, with arms crossed and eyes closed, suggesting they might be considering their options or taking a moment to think. There's no clear indication that they need immediate assistance or guidance at this point. The customer seems to be in a reflective mood, possibly evaluating the products or making a decision without needing external prompts. Therefore, it would be appropriate to let them continue their thought process undisturbed.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_039",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_desire_real_real_039_419d4e43e438</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a moment of contemplation, possibly considering their options. They have paused their interaction with the product, which suggests they might need more time to think before making a decision. There's no indication that they're ready to make a purchase at this moment, so it would be premature to push them towards a decision. Instead, allowing them to continue their thought process without interruption could be beneficial.\n</rationale>\n<chosen>Hold</chosen>\n<intervention_action>智能售货柜保持静默和低亮度待机，不主动打断顾客。</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    },
+    {
+      "source_id": "real_040",
+      "task": "action_selection_5act",
+      "target": "<rationale>Real-set gold action is Recommend for this visible customer state.</rationale>\n<chosen>Recommend_desire_real_real_040_14774d2ce1b8</chosen>\n<intervention_action>智能售货柜轻量高亮一个选项，并保留顾客选择空间。</intervention_action>\n<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in a moment of contemplation, possibly considering their options. There's no clear indication that they need immediate assistance or guidance. The customer seems to be thinking about something, as evidenced by their hand gestures and posture. Therefore, it would be appropriate to let them continue their thought process without interruption.</rationale>\n<chosen>Hold</chosen>\n<intervention_action>Hold</intervention_action>\n<intervention_utterance>（静默）</intervention_utterance>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: chosen action is not valid: Hold"
+    }
+  ]
+}

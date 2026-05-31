@@ -10,14 +10,8 @@ from typing import Any
 
 DEFAULT_MAIN_SCHEMA = Path("data/official/piwm_target_v1/main_schema.jsonl")
 DEFAULT_MS_SWIFT = Path("data/official/ms_swift/piwm_train_target_specialization_v1.jsonl")
-DEFAULT_QA_DIR = Path("data/official/piwm_target_v1/qa_review_target30")
+DEFAULT_QA_DIR = Path("data/official/piwm_target_v1/qa_review_target30_5act")
 DEFAULT_DOMAIN_EVAL_DIR = Path("data/official/domain_specialization_eval_v1")
-
-
-WARNING_DECISIONS: dict[str, list[str]] = {
-    "target_piwm_797": ["glass_reflection_visible_but_subject_identity_clear"],
-    "target_piwm_815": ["attention_entry_first_sample_has_partial_pre_entry_context"],
-}
 
 
 def apply_target_frontcam_qa_review(
@@ -27,8 +21,8 @@ def apply_target_frontcam_qa_review(
     domain_eval_dir: Path,
     *,
     reviewer: str = "Project lead human QA",
-    reviewed_at: str = "2026-05-17",
-    review_type: str = "project_lead_human_review_after_codex_visual_qa",
+    reviewed_at: str = "2026-05-19",
+    review_type: str = "project_lead_human_review_after_5act_split_rebalance",
     merge_target_data: bool = False,
 ) -> dict[str, Any]:
     main_rows = _read_jsonl(main_schema)
@@ -39,13 +33,13 @@ def apply_target_frontcam_qa_review(
     decisions = {
         _state_id(row): _decision_for_row(
             row,
-            reviewer=reviewer,
-            reviewed_at=reviewed_at,
-            review_type=review_type,
+            qa_dir=qa_dir,
+            fallback_reviewer=reviewer,
+            fallback_reviewed_at=reviewed_at,
+            fallback_review_type=review_type,
         )
         for row in test_rows
     }
-    _write_manual_templates(decisions, qa_dir / "manual_review_templates")
 
     reviewed_main_rows = []
     for row in test_rows:
@@ -138,8 +132,33 @@ def apply_target_frontcam_qa_review(
     return summary
 
 
-def _decision_for_row(row: dict[str, Any], *, reviewer: str, reviewed_at: str, review_type: str) -> dict[str, Any]:
+def _decision_for_row(
+    row: dict[str, Any],
+    *,
+    qa_dir: Path,
+    fallback_reviewer: str,
+    fallback_reviewed_at: str,
+    fallback_review_type: str,
+) -> dict[str, Any]:
     state_id = _state_id(row)
+    template_path = qa_dir / "manual_review_templates" / f"{state_id}.qa_manual_review.json"
+    if not template_path.exists():
+        raise FileNotFoundError(
+            f"missing manual QA review template for {state_id}: {template_path}. "
+            "Run scripts.build_target_frontcam_qa_review and fill the templates before applying QA."
+        )
+    template = json.loads(template_path.read_text(encoding="utf-8"))
+    checks = template.get("checks") or {}
+    unresolved = [key for key, value in checks.items() if value is not True]
+    if template.get("overall_pass") is None:
+        unresolved.append("overall_pass")
+    if unresolved:
+        raise ValueError(f"manual QA review for {state_id} is incomplete or failed checks: {unresolved}")
+    if template.get("overall_pass") is not True:
+        raise ValueError(f"manual QA review for {state_id} is not pass; failing rows need explicit handling before promotion")
+    reviewer = template.get("reviewer") or fallback_reviewer
+    reviewed_at = template.get("reviewed_at") or fallback_reviewed_at
+    review_type = template.get("review_type") or fallback_review_type
     return {
         "state_id": state_id,
         "source_session_id": row.get("source_session_id"),
@@ -159,8 +178,8 @@ def _decision_for_row(row: dict[str, Any], *, reviewer: str, reviewed_at: str, r
             "action_realization_reasonable": True,
         },
         "overall_pass": True,
-        "warning_flags": WARNING_DECISIONS.get(state_id, []),
-        "notes": _notes_for_row(row),
+        "warning_flags": list(template.get("warning_flags") or []),
+        "notes": template.get("notes") or _notes_for_row(row),
     }
 
 

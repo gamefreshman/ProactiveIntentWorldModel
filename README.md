@@ -64,6 +64,33 @@ node kling/generate_session.js \
   --dry-run
 ```
 
+## Stage-1 训练骨架
+
+当前 revised Stage-1 不直接用完整 543 parent 训练，而是使用 seed=42、按 AIDA stage 分层的 general split：
+
+- train：493 parent / 2309 examples；
+- val：50 parent / 235 examples；
+- split 文件：`data/official/piwm_train_synth_v2/general_split_seed42.json`。
+
+训练启动脚本只做命令骨架，不会默认启动训练：
+
+```bash
+bash scripts/train/stage1_train.sh --dry-run
+```
+
+实际训练必须由项目负责人显式加 `--run`。
+
+训完判定先按这条线看：任务 A（AIDA stage）macro F1 > 0.6，任务 C（next-stage）macro F1 > 0.6；任务 B（intention label）阈值暂待项目负责人确认。真实训练前必须保证 general frames 完整，至少包括：
+
+```text
+Archive_generated_priority24/
+Archive_generated_priority256/
+Archive_generated_priority500_new_after280/
+Archive_generated_priority1000_remaining_after500/
+```
+
+当前脚本已配置 `Qwen/Qwen2.5-VL-7B-Instruct`、8 卡 DDP、LoRA r=16/alpha=32、3 帧输入和 4096 token 上限；具体操作见 [`docs/current/stage1_training_runbook.md`](docs/current/stage1_training_runbook.md)。
+
 ## 文档导航
 
 **唯一结构化索引：** [`docs/README.md`](docs/README.md)（按 current / contracts / background 分层）。

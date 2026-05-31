@@ -30,11 +30,11 @@ def test_scenario_sampler_builds_full_rule_space_counts():
     assert stats["policy_best_dialogue_act_counts"]["Recommend"] > 0
     assert stats["explicit_policy_best_dialogue_act_counts"] == {
         "Elicit": 272,
-        "Hold": 56,
+        "Hold": 96,
         "Inform": 136,
-        "Reassure": 40,
         "Recommend": 360,
     }
+    assert "Reassure" not in stats["explicit_policy_best_dialogue_act_counts"]
 
 
 def test_scenario_sampler_writes_v2_action_specs_and_intent_tier_filter():

@@ -1,6 +1,6 @@
 # PIWM Dataset Inventory
 
-更新时间：2026-05-16 CST
+更新时间：2026-05-19 CST
 
 本文是当前数据集总账。Kling API 已耗尽，本轮不会再新增视频，因此当前已落盘数据固定为 PIWM v1 正式数据集。它的目标不是记录所有历史文件，而是回答三个问题：
 
@@ -21,10 +21,15 @@
 | 用途 | 使用对象 | 口径 |
 |---|---|---|
 | 正式数据集入口 | `data/official/` | PIWM v2-compatible canonical aliases |
-| frozen 主 SFT 训练（轻量） | `data/official/ms_swift/piwm_train_synth_v1.jsonl` | `PIWM-Train-Synth-v1`，high-throughput synthetic train split，未人工视觉审阅；保留真人导购逻辑，动作语义约束为 6-act |
-| schema v2.2 主 SFT 训练 | `data/official/ms_swift/piwm_train_synth_v2.jsonl` | `PIWM-Train-Synth-v2`，2554 examples；独立 v2.2 导出，不覆盖 v1 |
-| v2 policy 生成入口 | `data/official/piwm_policy_slice_v2/policy_manifest.jsonl` | `PIWM-PolicySlice-v2`，864 条 explicit candidate-rule scenarios；不是视频数据 |
-| target 域专项训练 | `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl` | `PIWM-Target-Frontcam-v1`，118 target-frontcam records / 708 examples；30 test records 已完成项目负责人 QA 复核，88 train records 仍是 synthetic_unreviewed |
+| frozen 主 SFT 训练（轻量） | `data/official/ms_swift/piwm_train_synth_v1.jsonl` | `PIWM-Train-Synth-v1`，high-throughput synthetic train split，未人工视觉审阅；保留真人导购逻辑和 legacy-compatible 字段 |
+| schema v2.2 主 SFT 训练 | `data/official/ms_swift/piwm_train_synth_v2.jsonl` | `PIWM-Train-Synth-v2`，2544 examples；独立 v2.2 导出，不覆盖 v1；当前论文/训练口径为 5-act operational policy，`Recommend(pressure=soft/firm)`，`Reassure=0` in main target training/eval/inference/runtime export |
+| v2 policy 生成入口 | `data/official/piwm_policy_slice_v2/policy_manifest.jsonl` | `PIWM-PolicySlice-v2`，864 条 explicit candidate-rule scenarios；5-act operational policy manifest；不是视频数据 |
+| target 域专项训练（旧全量入口） | `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl` | `PIWM-Target-Frontcam-v1`，118 target-frontcam records / 708 examples；保留回溯，不作为 revised EMNLP 主实验入口 |
+| Stage-1 user intent / world model | `data/official/piwm_train_synth_v2/user_intent_train.jsonl` + `data/official/piwm_train_synth_v2/next_state_prediction_train.jsonl` | seed=42 split：493 train parents / 2309 train examples；val 为 50 parents / 235 examples；user_intent prompt 不含动作、候选或 reward |
+| Stage-2 target 5-act action model | `data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl` | 71 no-leak action_selection_5act examples；clean 5-act only，排除 best=`Reassure`，并过滤候选中的 `Reassure` |
+| Stage-2 Greet 增强入口 | `data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v2.jsonl` | 86 no-leak action_selection_5act examples；71 canonical target rows + 15 synthetic general-domain attention-stage `Greet` rows；使用 stage-conditioned candidate list；用于 Path C health check 后的 Stage-2 prelaunch patch，不替代 71-row audit baseline |
+| A4 targetx8 加权入口 | `data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2_targetx8_v1.jsonl` | 3232 examples；Stage-1 general 2544 rows + GreetAug-v2 target action rows 86×8；只表示训练重复采样，不代表新增视频 |
+| revised target 5-act eval | `data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl` | 30 balanced target records / 90 eval rows；Greet/Elicit/Inform/Recommend/Hold 各 6 条；已按新名单 QA-reviewed pass |
 | target 域扩展队列 | `data/official/piwm_target_promptready_v1/promptready_index.jsonl` | `PIWM-Target-PromptReady-v1`，318 prompt-ready records；118 video-backed，200 video-pending；不是 ms-swift SFT 文件 |
 | mixed-view 联合训练 | `data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl` | general v2 + target frontcam；3262 examples；用于 joint SFT 对照，不替代 two-stage 入口 |
 | 下一次从 base 重训 | `data/official/ms_swift/piwm_train_full_v2.jsonl` | `PIWM-Train-Full-v2`，3339 examples；在主训练基础上加入 action-selection、continuation caption、Future Verification |
@@ -40,7 +45,17 @@
 - `PIWM-Train-Synth-v1` 可以训练，但不能写成 QA-pass。`priority1000_unreviewed*` 只能作为 backing/source path 或历史复现实验路径出现，不能当公开数据名。
 - `PIWM-Train-Synth-v2` 是同一批 543 parent 的 schema v2.2 独立导出，不代表新增视频。
 - `PIWM-PolicySlice-v2` 只能写成规则支撑的 policy manifest / 生成入口，不能写成 filmed dataset 或 QA-reviewed dataset。
-- `PIWM-Target-Frontcam-v1` 是从 `guochenmeinian/piwm` 导入的 target 域设备前置摄像头数据；它有视频抽帧和 v2.2 action specs。30 条 test records 已完成项目负责人 QA 复核并写回 target 主数据，整体 118 仍不是 full human QA-reviewed corpus。
+- `PIWM-Target-Frontcam-v1` 是从 `guochenmeinian/piwm` 导入的 target 域设备前置摄像头数据；它有视频抽帧和 v2.2 action specs。2026-05-19 5-act 反转后，revised 主实验使用 derived clean 5-act split：118 条中排除 17 条 best=`Reassure`，过滤候选中的 `Reassure` 且无候选集退化，得到 101 条 clean 5-act records；其中 71 条用于 Stage-2 target train，30 条作为 balanced test，分布为 `Greet=6 / Elicit=6 / Inform=6 / Recommend=6 / Hold=6`。这批新 test 已按新名单 QA-reviewed pass；整体 118 仍不是 full human QA-reviewed corpus。
+Stage-2 clean 5-act 算账链：
+
+```text
+118 total target records
+- 17 best=Reassure
+- 0 empty after Reassure candidate filtering
+= 101 clean 5-act records
+101 - 30 balanced test = 71 Stage-2 train
+```
+
 - `PIWM-Target-PromptReady-v1` 是 target 域上游扩展队列；它有 318 条 `seed / manifest / labeled / prompt`，但其中 200 条没有 Kling 视频和抽帧，不能计入 video-backed multimodal training scale。
 - `PIWM-Eval-QA-v1` 可以评估，但规模是 36 loaded parent，不是 full benchmark。旧名为 `priority40_qareviewed_sample`。
 - `PIWM-WorldModel-v1` 是 World Model 视觉证据，不是主 SFT 规模来源。旧名为 `pilot30_with_continuations`。
@@ -53,7 +68,9 @@
 | `PIWM-Train-Synth-v1` | `data/official/piwm_train_synth_v1` | `data/piwm_dataset_priority1000_unreviewed_compact_v2` | frozen 主 SFT 训练，compact visual-state/action-realization schema；字段文本已加入产品类别、视觉线索和具体导购动作细化 |
 | `PIWM-Train-Synth-v2` | `data/official/piwm_train_synth_v2` | `data/official/piwm_train_synth_v1` | schema v2.2 独立导出：`candidate_action_specs / best_action_spec / next_state_by_action_v2 / compatibility_tier` |
 | `PIWM-PolicySlice-v2` | `data/official/piwm_policy_slice_v2` | `scripts.scenario_sampler --candidate-rule-only` | 864 条 explicit candidate-rule policy manifest；用于后续生成/均衡动作分析，不作为 filmed data |
-| `PIWM-Target-Frontcam-v1` | `data/official/piwm_target_v1` | `/Users/mutsumi/Desktop/WorkSpace/piwm` | target 域智能售货柜前置摄像头数据；118 records，354 sampled frames，708 ms-swift examples；30 test records project-lead QA pass，88 train records synthetic_unreviewed |
+| `PIWM-Target-Frontcam-v1` | `data/official/piwm_target_v1` | `/Users/mutsumi/Desktop/WorkSpace/piwm` | target 域智能售货柜前置摄像头数据；118 records，354 sampled frames；revised 主实验使用 71 条 clean 5-act Stage-2 train + 30 条 balanced 5-act test |
+| `PIWM-Stage1-UserIntent-v1` | `data/official/ms_swift/piwm_train_stage1_user_intent_v1.jsonl` | `data/official/piwm_train_synth_v2` | revised Stage-1 入口；543 user_intent + 2001 action-conditioned next_state_prediction |
+| `PIWM-Stage2-Target-5Act-v1` | `data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl` | `data/official/piwm_target_v1` clean 5-act rows | revised Stage-2 入口；71 no-leak action_selection_5act rows |
 | `PIWM-Target-PromptReady-v1` | `data/official/piwm_target_promptready_v1` | `/Users/mutsumi/Desktop/WorkSpace/piwm/data/{seed,manifest,labeled,prompts}` | target 域上游扩展队列；318 prompt-ready records，200 video-pending |
 | `PIWM-Eval-QA-v1` | `data/official/piwm_eval_qa_v1` | `data/piwm_dataset_priority40_qareviewed_sample_compact_v2_exact` | 主表 / e2e QA 评估，compact visual-state/action-realization schema；与主训练字段语义对齐 |
 | `PIWM-WorldModel-v1` | `data/official/piwm_world_model_v1` | `data/piwm_dataset_pilot30_with_continuations_compact_v2` | continuation / World Model 视觉证据，共享三轴 current/future visual schema |
@@ -71,15 +88,22 @@
 | Human salesperson behavior | `best_action_realization` | `realization` terminal draft | `docs/contracts/data_schema_v2_contract.md` |
 | Target terminal behavior | `realization`, `actor_profile=target_terminal_logic`, `viewpoint=target_frontcam` | piwm `response_id` | `scripts/import_piwm_target_dataset.py` |
 | Real shooting clip | `ShootingClipRecord` | S05 PDF / 旧 A/T 标签 | `docs/current/piwm_real_shooting_scripts_S01_S12.md` |
-| Paper data story | 5 层数据脊柱 | 历史 dataset nickname | `docs/current/paper_data_section_blueprint.md` |
+| Paper data story | 5 层数据脊柱 + 5-act operational policy 口径 | 历史 dataset nickname / Reassure compatibility boundary | `docs/current/paper_data_section_blueprint.md` |
+
+当前动作空间报告口径：
+
+- 当前 operational 5-act 定义是：`Greet / Elicit / Inform / Recommend / Hold`。
+- `Recommend` 在 v2-native policy path 中保留 `pressure=soft/firm` 参数。
+- `Reassure` 保留在历史/source 记录和兼容分析中，但不进入当前 5-act action-selection 训练、评估、推理、runtime export 和 macro-F1 口径。
+- `PIWM-Train-Synth-v2` 和 `PIWM-PolicySlice-v2` 是通用/规则空间产物；若用于当前 target 5-act action-selection，必须在 dataloader/eval 层过滤 `Reassure`，并明确 general 侧没有 `Greet` 主标签覆盖。
 
 `PIWM-Train-Synth-v1`、`PIWM-Eval-QA-v1`、`PIWM-WorldModel-v1` 仍可按旧 action 字段运行。2026-05-13 v2.1 重导后，official 主表输出 `schema_version=dialogue_act_human_salesperson_v2.1` 和 `actor_profile=human_salesperson_logic`；顶层 `co_acts` 只作 legacy input alias，不再作为 official 输出主字段。2026-05-15 runtime/schema 已进入 v2.2，并已写出独立 `PIWM-Train-Synth-v2`：新导出包含 `candidate_action_specs`、`best_action_spec`、`next_state_by_action_v2`、`compatibility_tier`、`legacy_mismatch_flags`。v1 仍保持冻结兼容入口。
 
 `PIWM-RealShoot-v1` 已有 `ShootingClipRecord` manifest 模板与 24 行 S01-S12 A/B 样例。在素材通过 QA 并补齐 assets 前，论文只能写成 planned real-shooting validation protocol，不能写成已完成数据规模。
 
-`PIWM-Target-Frontcam-v1` 已于 2026-05-16 从轻量 `piwm` 仓库导入主项目。该数据把 13 个 `response_id` 映射到 v2.2 canonical `(act, params)`，使用 `target_frontcam` 视角，抽取每条视频 3 帧。它用于 low-resource target-domain specialization：88 条 train records 做 target adaptation，30 条 test split 做 in-domain QA eval。30 条 test split 已于 2026-05-17 完成项目负责人 QA 复核：30 pass / 0 fail / 2 warning records，并已写回 `main_schema.jsonl` 和 target ms-swift 导出；88 条 train records 仍是 `synthetic_unreviewed`。
+`PIWM-Target-Frontcam-v1` 已于 2026-05-16 从轻量 `piwm` 仓库导入主项目。该数据把 13 个 `response_id` 映射到 v2.2 canonical `(act, params)`，使用 `target_frontcam` 视角，抽取每条视频 3 帧。它用于 low-resource target-domain specialization。2026-05-19 5-act 口径反转后，主实验把 `Reassure` 排除在主指标外，并采用 clean 5-act 口径：17 条 best=`Reassure` 样本整条不进入主实验；其余 clean rows 中的 `Reassure` candidate 被过滤且没有候选集退化。当前 Stage-2 adaptation 使用 71 条 train rows，target eval 使用 30 条 balanced 5-act test rows。新 test 已按新名单 QA-reviewed pass；旧错误 5-act eval 文件只作为历史记录，不再作为当前 eval 入口。
 
-`PIWM-Target-PromptReady-v1` 同日建立为 target 扩展队列。轻量 `piwm` 现有 318 条 `seed / manifest / labeled / prompts`，best DialogueAct 分布为每类 53 条；其中 200 条是 `video_pending`，需要 Kling 成片和抽帧后才能进入多模态训练。
+`PIWM-Target-PromptReady-v1` 同日建立为 target 扩展队列。轻量 `piwm` 现有 318 条 `seed / manifest / labeled / prompts`，其中 200 条是 `video_pending`，需要 Kling 成片和抽帧后才能进入多模态训练。该队列可用于补充后续 target extension 的 `Greet` 覆盖，但不能把 video-pending 样本写成 filmed multimodal data。
 
 ## 1.3 V2.1 Re-export Status and V2.2 Independent Export
 
@@ -104,17 +128,23 @@ v2.2 已完成 schema/runtime 增量和独立导出。当前已生成：
 - `docs/v2_validation/compatibility_report.md`
 - basic schema compatibility：`green=462`、`yellow=0`、`red=81`。这里的 `yellow=0` 只表示基础检查没有非阻断 schema mismatch，不表示 policy 没有漂移。
 - extended v2 re-derivation audit：`green=109`、`yellow=353`、`red=81`。
-- official 543 在 v2.2 规则下重新推导的 best action 分布：`Elicit=252`、`Recommend=119`、`Inform=105`、`Reassure=42`、`Hold=25`。
+- official 543 已按 operational 5-act v2 reward 重新写出 best action：`Elicit=252`、`Recommend=125`、`Inform=105`、`Hold=61`、`Greet=0`、`Reassure=0`。
 - `red` 全部来自 `intent_tier_visual_mismatch`，且集中在 `browser_low_intent`：81 / 94 条。
 - `docs/v2_validation/v2_2_reexport_diff_preview.md` 已预演写回 diff；未修改 official JSONL。
 - `next_state_by_action` 当前仍保留 legacy A-label key；`next_state_by_action_v2` 已新增为 v2 action-keyed alias。
-- `data/official/piwm_train_synth_v2/` 已写出：543 main records、543 state rows、2011 transition rows、543 policy rows。
-- `data/official/ms_swift/piwm_train_synth_v2.jsonl` 已写出：2554 examples，perception=543，deliberation=2011。
+- `data/official/piwm_train_synth_v2/` 已写出：543 main records、543 state rows、2001 transition rows、543 policy rows。
+- `data/official/ms_swift/piwm_train_synth_v2.jsonl` 已写出：2544 examples，perception=543，deliberation=2001。
 - `data/official/piwm_policy_slice_v2/policy_manifest.jsonl` 已写出：864 explicit policy scenarios，policy best 为 `Recommend=360 / Elicit=272 / Inform=136 / Hold=56 / Reassure=40`。
 - `data/official/piwm_target_v1/` 已写出：118 target-frontcam main records、354 sampled frames、118 state rows、472 transition rows、118 policy rows。
 - `data/official/ms_swift/piwm_train_target_specialization_v1.jsonl` 已写出：708 examples，perception=118，deliberation=472，action_selection=118。
-- `data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl` 已写出：3262 examples，general=2554，target=708。该文件用于 mixed-view joint SFT 对照；two-stage specialization 仍应显式使用 general stage-1 和 target stage-2 两个入口。
-- `data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl` 已写出：180 reviewed target eval rows，来自 30 条 test records。
+- `data/official/ms_swift/piwm_train_stage1_user_intent_v1.jsonl` 已写出：2544 examples，user_intent=543，next_state_prediction=2001。
+- `data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl` 已写出：71 examples，全部是 no-leak action_selection_5act，且 prompt / target / meta 均无 `Reassure`，正常包含 `Greet`。
+- `data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v2.jsonl` 已写出：86 examples，best-act 分布为 `Greet=26 / Inform=41 / Elicit=14 / Recommend=5 / Hold=0`。其中 15 条是从 general attention-stage frames 构造的 `Greet(phase=open)` augmentation，`qa_status=synthetic_augmented_unreviewed`，只作为 Stage-2 prelaunch patch 使用。旧 `greet_aug_v1` 的 40 条版本保留为 audit artifact，不再作为当前推荐入口。
+- Stage-2 target action-selection prompt 现在使用 stage-conditioned candidates：`attention -> Greet/Elicit/Inform/Hold`，`interest -> Elicit/Inform/Recommend/Hold`，`desire -> Inform/Recommend/Hold`，`action -> Greet/Recommend/Hold`。这只改变候选呈现，不改变锁定的 5-act 集合。
+- `data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_v1.jsonl` 已写出：2615 examples，用于 revised joint baseline。
+- `data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2.jsonl` 已写出：2630 examples，用于带 GreetAug-v2 的 joint baseline。
+- `data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2_targetx8_v1.jsonl` 已写出：3232 examples，用于 A4 target 加权 ablation；target action rows 重复 8 次，不是新增 unique video。
+- `data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl` 已写出：90 eval rows，来自 30 条 balanced 5-act target records；已按新名单 QA-reviewed pass。
 - `data/official/piwm_target_promptready_v1/promptready_index.jsonl` 已写出：318 prompt-ready target records，118 video-backed / 200 video-pending。
 
 如果要重新生成或覆盖 v2.2 独立目录，必须先运行：
@@ -187,11 +217,11 @@ data/piwm_dataset_pilot30_with_continuations_compact_v2/
 | Dataset | Loaded parent | Skipped | State | Transition | Policy | SFT export | 用途 |
 |---|---:|---:|---:|---:|---:|---|---|
 | `data/piwm_dataset_priority280_unreviewed` | 260 | 0 | 260 | 927 | 260 | `ms_swift_priority280_unreviewed` 1187 examples | 旧主训练 split |
-| `data/piwm_dataset_priority500_partial_unreviewed` | 376 | 8 | 376 | 1391 | 376 | `ms_swift_priority500_partial_unreviewed` 1767 examples | warmup 训练 |
+| `data/piwm_dataset_priority500_partial_unreviewed` | 376 | 8 | 376 | 1391 | 376 | `ms_swift_priority500_partial_unreviewed` 1771 examples | warmup 训练 |
 | `data/piwm_dataset_priority500_unreviewed` | 427 | 81 | 427 | 1547 | 427 | `ms_swift_priority500_unreviewed` 1974 examples | priority500 v2 训练 |
 | `data/piwm_dataset_priority1000_unreviewed` | 543 | 465 | 543 | 2011 | 543 | `ms_swift_priority1000_unreviewed` 2554 examples | 旧字段版主训练 split，保留回滚 |
 | `data/piwm_dataset_priority1000_unreviewed_compact_v2` | 543 | 465 | 543 | 2011 | 543 | `ms_swift_priority1000_compact_v2` 2554 examples | `PIWM-Train-Synth-v1` backing source；不要作为公开数据名 |
-| `data/official/piwm_train_synth_v2` | 543 | 465 | 543 | 2011 | 543 | `data/official/ms_swift/piwm_train_synth_v2.jsonl` 2554 examples | `PIWM-Train-Synth-v2`；schema v2.2 独立导出，不新增视频 |
+| `data/official/piwm_train_synth_v2` | 543 | 465 | 543 | 2001 | 543 | `data/official/ms_swift/piwm_train_synth_v2.jsonl` 2544 examples | `PIWM-Train-Synth-v2`；schema v2.2 operational 5-act 导出，不新增视频 |
 | `data/official/piwm_policy_slice_v2` | 864 scenarios | - | - | - | - | `policy_manifest.jsonl` | explicit candidate-rule policy manifest；用于动作均衡和生成，不是视频数据 |
 
 ### 3.1 Current Official Train Entrypoint
@@ -211,9 +241,9 @@ data/official/piwm_train_synth_v2/main_schema.jsonl
 
 规模：
 
-- 2554 SFT examples
+- 2544 SFT examples
 - 543 loaded parent
-- 2011 transition rows
+- 2001 transition rows
 - 543 policy rows retained in dataset; current ms-swift SFT export uses perception + deliberation rows
 - 543 state rows
 - schema：`visual_state.summary / engagement_pattern / gaze_and_attention / body_and_hands` + `dialogue_act / act_params.supporting_acts / candidate_action_specs / best_action_spec / next_state_by_action_v2`，并保留 `best_action / candidate_actions / next_state_by_action / best_action_realization` 兼容字段
@@ -231,18 +261,18 @@ data/official/piwm_train_synth_v2/main_schema.jsonl
 | `Recommend` | 0 |
 | `Greet` | 0 |
 
-因此，`PIWM-Train-Synth-v1` 适合训练当前 synthetic 行为策略，不适合作为“六动作均衡 policy benchmark”。后续需要 balanced policy slice 或 target terminal dataset 来补 `Recommend(pressure=soft)`、`Greet`、更多 `Reassure` 正样本。
+因此，`PIWM-Train-Synth-v1` 适合训练 historical synthetic 行为策略，但不适合作为动作均衡 benchmark。当前 `PIWM-Train-Synth-v2` 已刷新为 5-act operational policy：`Greet / Elicit / Inform / Recommend / Hold`；`Recommend` 保留 `pressure=soft/firm`，`Reassure` 在 training/eval/inference/runtime export 中必须为 0。
 
-v2.2 re-derived policy best 分布另算，不覆盖 legacy `best_action`：
+v2.2 operational policy best 分布：
 
 | DialogueAct | Count |
 |---|---:|
 | `Elicit` | 252 |
-| `Recommend` | 119 |
+| `Recommend` | 125 |
 | `Inform` | 105 |
-| `Reassure` | 42 |
-| `Hold` | 25 |
+| `Hold` | 61 |
 | `Greet` | 0 |
+| `Reassure` | 0 |
 
 来源：
 
@@ -286,7 +316,7 @@ v2.2 re-derived policy best 分布另算，不覆盖 legacy `best_action`：
 | `data/piwm_results/ms_swift_sft_qwen25vl7b_enriched_official_v1_len8192_8gpu/v0-20260502-090632/checkpoint-638` | `data/official/ms_swift/piwm_train_synth_v1.jsonl`，2554 examples | enriched official v1 checkpoint；保留作为轻量主训练对照 |
 | `data/piwm_results/ms_swift_sft_qwen25vl7b_priority1000_current_len8192_8gpu/v0-20260501-082114/checkpoint-638` | `ms_swift_priority1000_unreviewed` 2554 examples | 历史主结果候选；已被 full_v2 取代 |
 | `data/piwm_results/ms_swift_sft_qwen25vl7b_priority500_v2_8gpu/v0-20260501-075304/checkpoint-492` | `ms_swift_priority500_unreviewed` 1974 examples | 中间 checkpoint，主 eval 曾因无进度被中止 |
-| `data/piwm_results/ms_swift_sft_qwen25vl7b_priority500_partial_warmup_8gpu/v0-20260501-072942/checkpoint-220` | `ms_swift_priority500_partial_unreviewed` 1767 examples | warmup checkpoint |
+| `data/piwm_results/ms_swift_sft_qwen25vl7b_priority500_partial_warmup_8gpu/v0-20260501-072942/checkpoint-220` | `ms_swift_priority500_partial_unreviewed` 1771 examples | warmup checkpoint |
 | `data/piwm_results/ms_swift_sft_qwen25vl7b_sprint_combined_4gpu/v0-20260430-200052/checkpoint-660` | `ms_swift_sprint_combined` 1321 examples | v2 主表 checkpoint |
 | `data/piwm_results/ms_swift_sft_qwen25vl7b_future_verification_observed_4gpu/v0-20260501-043301/checkpoint-162` | `ms_swift_pilot30_future_verification_observed` 218 examples | Future Verification checkpoint |
 

@@ -1,0 +1,4 @@
+<rationale>顾客已持续触摸并拿起商品查看细节，处于确认选择阶段，当前最需要的是关键功能和使用细节的快速确认。简短演示能直接回应她的评估动作，比泛泛询问或再次推荐更贴合。</rationale>
+<chosen>Inform_5ff00ba15ca5</chosen>
+<intervention_action>终端播放该商品的关键细节演示，并用中性语气进行简短说明。</intervention_action>
+<intervention_utterance>我给您演示一下这款的关键细节。</intervention_utterance>

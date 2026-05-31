@@ -1,0 +1,4 @@
+<rationale>顾客停留在电脑陈列区，先看商品后转头向周围寻找帮助，说明已接近决策但仍需要人工确认；此时不应静默等待，也不宜直接强推某一款。开放式询问其更关注功能、价格还是使用场景，最符合确认选择前的导购介入。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜以温和语音发起开放式询问，屏幕显示“功能、价格、场景”选择气泡，灯效保持中性提示。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

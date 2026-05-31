@@ -1,0 +1,4 @@
+<rationale>顾客已处于想买但在两侧选项间比较性价比的阶段，表情和动作显示中等犹豫且准备再看一眼后选择。此时轻量推荐一个更稳妥选项能降低决策负担，同时保留自主选择空间，比静默等待或笼统说明更贴合当前需求。</rationale>
+<chosen>Recommend_desire_stage_conditioned_target_piwm_714_0624a17ced7a</chosen>
+<intervention_action>智能售货柜轻量高亮一个更稳妥的选项，并在屏幕上显示软推荐，保留顾客选择空间。</intervention_action>
+<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>

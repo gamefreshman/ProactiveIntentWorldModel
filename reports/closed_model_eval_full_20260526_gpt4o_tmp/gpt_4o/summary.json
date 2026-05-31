@@ -1,0 +1,169 @@
+{
+  "model_key": "gpt_4o",
+  "requested_model_id": "gpt-4o",
+  "api_provider": "302ai",
+  "started_at_utc": "2026-05-26T07:43:36.629877+00:00",
+  "scenarios": {
+    "target_test_30_oracle": {
+      "n": 30,
+      "parse_rate": 1.0,
+      "macro_f1_strict": 0.4452747252747253,
+      "macro_f1_parsed": 0.4452747252747253,
+      "prediction_counts": {
+        "Elicit": 1,
+        "Recommend": 7,
+        "Inform": 4,
+        "Greet": 3,
+        "Hold": 15
+      },
+      "per_class_strict": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "Elicit": {
+          "precision": 1.0,
+          "recall": 0.16666666666666666,
+          "f1": 0.2857142857142857,
+          "support": 6
+        },
+        "Inform": {
+          "precision": 0.75,
+          "recall": 0.5,
+          "f1": 0.6,
+          "support": 6
+        },
+        "Recommend": {
+          "precision": 0.7142857142857143,
+          "recall": 0.8333333333333334,
+          "f1": 0.7692307692307692,
+          "support": 6
+        },
+        "Hold": {
+          "precision": 0.4,
+          "recall": 1.0,
+          "f1": 0.5714285714285715,
+          "support": 6
+        }
+      },
+      "derived_from": "cross_domain_60 target subset"
+    },
+    "cross_domain_60_oracle": {
+      "n": 60,
+      "parse_rate": 1.0,
+      "macro_f1_strict": 0.5025944170771757,
+      "macro_f1_parsed": 0.5025944170771757,
+      "prediction_counts": {
+        "Elicit": 10,
+        "Recommend": 8,
+        "Inform": 17,
+        "Greet": 3,
+        "Hold": 22
+      },
+      "per_class_strict": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "Elicit": {
+          "precision": 0.7,
+          "recall": 0.3684210526315789,
+          "f1": 0.48275862068965514,
+          "support": 19
+        },
+        "Inform": {
+          "precision": 0.5294117647058824,
+          "recall": 0.75,
+          "f1": 0.6206896551724139,
+          "support": 12
+        },
+        "Recommend": {
+          "precision": 0.75,
+          "recall": 0.6,
+          "f1": 0.6666666666666665,
+          "support": 10
+        },
+        "Hold": {
+          "precision": 0.5909090909090909,
+          "recall": 1.0,
+          "f1": 0.7428571428571429,
+          "support": 13
+        }
+      },
+      "usage": {
+        "prompt_tokens": 254113,
+        "completion_tokens": 7875,
+        "total_tokens": 261988
+      }
+    },
+    "target_test_e2e_30": {
+      "n": 30,
+      "step1_parse_rate": 1.0,
+      "step2_parse_rate": 1.0,
+      "macro_f1_strict": 0.3542533936651583,
+      "macro_f1_parsed": 0.3542533936651583,
+      "prediction_counts": {
+        "Elicit": 7,
+        "Inform": 11,
+        "Greet": 2,
+        "Hold": 6,
+        "Recommend": 4
+      },
+      "usage": {
+        "prompt_tokens": 233939,
+        "completion_tokens": 9469,
+        "total_tokens": 243408
+      }
+    },
+    "real_store_20": {
+      "n": 20,
+      "parse_rate": 1.0,
+      "macro_f1_strict": 0.5345695970695971,
+      "macro_f1_parsed": 0.5345695970695971,
+      "prediction_counts": {
+        "Hold": 6,
+        "Greet": 3,
+        "Inform": 8,
+        "Recommend": 2,
+        "Elicit": 1
+      },
+      "per_class_strict": {
+        "Greet": {
+          "precision": 1.0,
+          "recall": 0.6,
+          "f1": 0.7499999999999999,
+          "support": 5
+        },
+        "Elicit": {
+          "precision": 1.0,
+          "recall": 0.2,
+          "f1": 0.33333333333333337,
+          "support": 5
+        },
+        "Inform": {
+          "precision": 0.625,
+          "recall": 1.0,
+          "f1": 0.7692307692307693,
+          "support": 5
+        },
+        "Recommend": {
+          "precision": 0.5,
+          "recall": 0.2,
+          "f1": 0.28571428571428575,
+          "support": 5
+        }
+      },
+      "usage": {
+        "prompt_tokens": 84542,
+        "completion_tokens": 2707,
+        "total_tokens": 87249
+      }
+    }
+  },
+  "finished_at_utc": "2026-05-26T07:59:59.754817+00:00",
+  "elapsed_sec": 983.1
+}

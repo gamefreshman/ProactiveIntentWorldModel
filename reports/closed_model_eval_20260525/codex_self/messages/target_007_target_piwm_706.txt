@@ -1,0 +1,4 @@
+<rationale>顾客已主动靠近并持续查看选项，表情放松、有兴趣，第三帧还开始伸手接近柜门，说明他可能已在形成选择。此时不宜打断或过早推荐；保持静默能保留他的自主决策空间。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持当前轻柔待机状态，不弹出新提示、不发声，只维持低干扰灯效。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

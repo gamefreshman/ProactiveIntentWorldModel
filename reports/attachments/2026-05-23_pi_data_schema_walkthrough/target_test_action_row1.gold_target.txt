@@ -1,0 +1,4 @@
+<rationale>主动询问以轻松提问方式降低探索难度，让顾客感受被理解并激发针对性兴趣，对比后易逐步明晰需求。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜通过屏幕、语音、灯效和必要的柜体反馈执行响应。</intervention_action>
+<intervention_utterance>您今天想先看价格、功能，还是适合什么场景？</intervention_utterance>

@@ -1,0 +1,40 @@
+{
+  "top_level_keys": [
+    "messages",
+    "images",
+    "task",
+    "source_id",
+    "weight",
+    "loss_weight",
+    "meta"
+  ],
+  "roles": [
+    "system",
+    "user",
+    "assistant"
+  ],
+  "image_count": 3,
+  "has_video_field": false,
+  "task": "action_selection_5act",
+  "source_id": "greet_aug_001_piwm_00539e313f",
+  "weight": 1.0,
+  "loss_weight": 1.0,
+  "meta": {
+    "split": "train",
+    "qa_status": "synthetic_augmented_unreviewed",
+    "human_review_status": "not_reviewed",
+    "viewpoint": "salesperson_observable",
+    "best_act": "Greet",
+    "candidate_action_acts": {
+      "Greet_open_general_aug_88198d5a7a63": "Greet",
+      "Elicit_need_focus_general_aug_135cd62fc1e8": "Elicit",
+      "Inform_attributes_general_aug_93d64465ba6a": "Inform",
+      "Hold_silent_general_aug_e7ce85d59d12": "Hold"
+    },
+    "five_act_only": true,
+    "leakage_control": "no_reward_no_predicted_outcome_in_prompt",
+    "augmentation_policy": "stage2_prelaunch_general_greet_augmentation_v2",
+    "augmented_from_state_id": "piwm_00539e313f"
+  },
+  "aida_stage_in_prompt_or_target": "attention"
+}

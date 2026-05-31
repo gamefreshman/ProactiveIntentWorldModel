@@ -1,0 +1,162 @@
+{
+  "artifact": "piwm_end_to_end_best_action_eval",
+  "model": "/root/lanyun-fs/models/Qwen2.5-VL-7B-Instruct",
+  "checkpoint": "/root/lanyun-fs/ProactiveIntentWorldModel/checkpoints/a3_full_targetv2_balanced_3epoch_v1/a3full-20260522-220941-px1003520-ml8192/v0-20260522-220953/checkpoint-500",
+  "user_intent_jsonl": "/root/lanyun-fs/ProactiveIntentWorldModel/reports/rerun_eval_20260525/user_intent_target30_general30_seed42.archive_resolved.server.jsonl",
+  "action_jsonl": "/root/lanyun-fs/ProactiveIntentWorldModel/reports/closed_model_eval_set_60.jsonl",
+  "n_samples": 60,
+  "domains": [
+    "general",
+    "target"
+  ],
+  "step1_parse_rate": 0.6833333333333333,
+  "step2_parse_rate": 0.5333333333333333,
+  "by_domain": {
+    "general": {
+      "n_samples": 30,
+      "macro_f1": 0.4377777777777778,
+      "parse_rate": 0.5333333333333333,
+      "prediction_counts": {
+        "Elicit": 5,
+        "Hold": 5,
+        "PARSE_FAIL": 14,
+        "Recommend": 6
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0.0
+        },
+        "Elicit": {
+          "precision": 1.0,
+          "recall": 0.38461538461538464,
+          "f1": 0.5555555555555556,
+          "support": 13.0
+        },
+        "Inform": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Recommend": {
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "f1": 0.8,
+          "support": 4.0
+        },
+        "Hold": {
+          "precision": 1.0,
+          "recall": 0.7142857142857143,
+          "f1": 0.8333333333333333,
+          "support": 7.0
+        }
+      },
+      "step1_parse_rate": 0.5666666666666667
+    },
+    "target": {
+      "n_samples": 30,
+      "macro_f1": 0.2954545454545454,
+      "parse_rate": 0.5333333333333333,
+      "prediction_counts": {
+        "Elicit": 5,
+        "Greet": 1,
+        "Hold": 2,
+        "Inform": 2,
+        "PARSE_FAIL": 14,
+        "Recommend": 6
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.8,
+          "recall": 0.6666666666666666,
+          "f1": 0.7272727272727272,
+          "support": 6.0
+        },
+        "Inform": {
+          "precision": 0.5,
+          "recall": 0.16666666666666666,
+          "f1": 0.25,
+          "support": 6.0
+        },
+        "Recommend": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "support": 6.0
+        },
+        "Hold": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        }
+      },
+      "step1_parse_rate": 0.8
+    },
+    "combined": {
+      "n_samples": 60,
+      "macro_f1": 0.37998208687863866,
+      "parse_rate": 0.5333333333333333,
+      "prediction_counts": {
+        "Elicit": 10,
+        "Greet": 1,
+        "Hold": 7,
+        "Inform": 2,
+        "PARSE_FAIL": 28,
+        "Recommend": 12
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.9,
+          "recall": 0.47368421052631576,
+          "f1": 0.6206896551724138,
+          "support": 19.0
+        },
+        "Inform": {
+          "precision": 0.5,
+          "recall": 0.08333333333333333,
+          "f1": 0.14285714285714285,
+          "support": 12.0
+        },
+        "Recommend": {
+          "precision": 0.5833333333333334,
+          "recall": 0.7,
+          "f1": 0.6363636363636365,
+          "support": 10.0
+        },
+        "Hold": {
+          "precision": 0.7142857142857143,
+          "recall": 0.38461538461538464,
+          "f1": 0.5,
+          "support": 13.0
+        }
+      },
+      "step1_parse_rate": 0.6833333333333333
+    }
+  },
+  "stage_error_propagation": {
+    "stage_correct": {
+      "n_samples": 18,
+      "best_action_f1": 0.5310924369747899
+    },
+    "stage_incorrect": {
+      "n_samples": 23,
+      "best_action_f1": 0.35873015873015873
+    }
+  }
+}

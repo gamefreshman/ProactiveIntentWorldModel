@@ -1,0 +1,45 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\title{Proactive Intent World Model}
+\author{Anonymous ACL ARR Submission}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Proactive retail assistance requires a model to infer a customer's latent state from visual behavior, compare possible interventions, and decide whether to act before the customer makes an explicit request. We propose the Proactive Intent World Model (PIWM), a vision-language framework for proactive retail guidance. PIWM couples visual customer-state perception with action-conditioned transition supervision derived from sales and consumer-behavior expertise. The current study organizes supervision into a general retail corpus and a compact target front-camera corpus for low-resource domain specialization. The resulting data suite supports state inference, next-state prediction, and five-act target-domain action selection over \textsc{Greet}, \textsc{Elicit}, \textsc{Inform}, \textsc{Recommend}, and \textsc{Hold}.
+\end{abstract}
+
+\section{Introduction}
+
+Many vision-language agents are reactive: a user issues an instruction and the agent responds. Retail assistance requires a more proactive setting. A useful assistant must infer whether a customer is browsing, comparing, hesitating, or ready for help, and then choose whether to greet, elicit a need, provide information, recommend, or hold back.
+
+PIWM treats proactive assistance as a world-modeling problem. Given short visual observations and a candidate action, the model predicts how the customer's state may change. This supports a policy that can compare counterfactual actions rather than directly imitating a single response.
+
+\section{Method Overview}
+
+PIWM uses a two-stage supervision design. Stage 1 trains general retail understanding through user-intent inference and action-conditioned next-state prediction. Stage 2 adapts the model to a target smart-vending/front-camera domain through five-act action selection. The operational five-act set is \textsc{Greet}, \textsc{Elicit}, \textsc{Inform}, \textsc{Recommend}, and \textsc{Hold}; \textsc{Reassure} is retained for source and compatibility analysis but excluded from the current operational action-selection path.
+
+\input{data_section_emnlp}
+
+\section{Experiments}
+
+The planned experiments compare general-only training, target-only training, staged general-to-target adaptation, and joint general-plus-target training. Evaluation focuses on macro-F1 and per-class F1 on a balanced target front-camera test set, plus a general-domain check for forgetting. The paper reports model size, training budget, package versions, split statistics, and action-label distributions.
+
+\section{Limitations}
+
+The current dataset remains compact, especially in the target front-camera domain. Some labels are derived from rule-based expert knowledge rather than large-scale naturally occurring interactions. Synthetic and staged videos may differ from real retail deployments, and proactive intervention can create privacy and over-intervention risks if deployed without additional review. The present study should therefore be interpreted as a controlled method and data-resource study rather than a claim of immediate deployment readiness.
+
+\section{Ethics Statement}
+
+The dataset design separates training data from reviewed evaluation data. Target evaluation records are manually reviewed for visual interpretability and label support. Any release of visual data should follow privacy review, consent handling, and de-identification procedures appropriate to the collection setting.
+
+\end{document}

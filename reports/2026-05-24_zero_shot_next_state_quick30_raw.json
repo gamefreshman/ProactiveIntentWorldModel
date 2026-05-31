@@ -1,0 +1,611 @@
+{
+  "artifact": "ms_swift_checkpoint_eval",
+  "is_training_result": true,
+  "eval_label": "base_qwen25vl_next_state_quick30",
+  "model": "/root/lanyun-fs/models/Qwen2.5-VL-7B-Instruct",
+  "checkpoint": null,
+  "input_jsonl": "reports/2026-05-24_zero_shot_next_state_quick30_server_input.jsonl",
+  "eval_args": {
+    "limit": null,
+    "max_new_tokens": 192,
+    "image_limit": 3,
+    "max_pixels": 501760,
+    "torch_dtype": "bfloat16",
+    "device_map": "auto",
+    "hold_prior_lambda": 0.0,
+    "hold_prior_target": 0.2,
+    "hold_prior_observed": 0.5333333333333333
+  },
+  "n_records": 30,
+  "task_counts": {
+    "next_state_prediction": 30
+  },
+  "parse_success": 21,
+  "parse_rate": 0.7,
+  "metrics": {
+    "benefit_exact": 0.0,
+    "next_stage_exact": 0.047619047619047616,
+    "reward_exact": 0.047619047619047616,
+    "risk_exact": 0.6190476190476191,
+    "next_stage_accuracy": 0.047619047619047616,
+    "next_stage_macro_f1": 0.07142857142857142
+  },
+  "outputs": [
+    {
+      "source_id": "piwm_0b0d31c38b#Elicit_b1166d372e5e",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.83</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in phone features</next_belief>\n<next_desire>customer wants more information about phone features</next_desire>\n<next_intention>customer will ask about phone features</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in phone features",
+          "desire": "customer wants more information about phone features",
+          "intention": "customer will ask about phone features"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_0b0d31c38b#Inform_5ff00ba15ca5",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the product details</next_belief>\n<next_desire>customer wants more information about the product</next_desire>\n<next_intention>customer will ask for more details about the product</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the product details",
+          "desire": "customer wants more information about the product",
+          "intention": "customer will ask for more details about the product"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_0b0d31c38b#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>interest</next_stage>\n<next_belief>Several options remain worth comparing.</next_belief>\n<next_desire>see how the product works</next_desire>\n<next_intention>ask for a demonstration</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\nattention\nThe customer is looking at the phone, indicating they are interested in it.\nlow\nmedium\n0.50",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_0b0d31c38b#Recommend_8d7f8993e333",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may be applying too much pressure.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.30</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the phone</next_belief>\n<next_desire>customer wants more information about the phone</next_desire>\n<next_intention>customer will ask for more details about the phone</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the phone",
+          "desire": "customer wants more information about the phone",
+          "intention": "customer will ask for more details about the phone"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_1cc2c20d89#Elicit_b1166d372e5e",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is considering different product features or price points.</next_belief>\n<next_desire>customer wants to know more about product details.</next_desire>\n<next_intention>customer is interested in exploring product options further.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is considering different product features or price points.",
+          "desire": "customer wants to know more about product details.",
+          "intention": "customer is interested in exploring product options further."
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_1cc2c20d89#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_1cc2c20d89#Recommend_8d7f8993e333",
+      "task": "next_state_prediction",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the product</next_belief>\n<next_desire>customer wants more information about the product</next_desire>\n<next_intention>customer will ask for more details about the product</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the product",
+          "desire": "customer wants more information about the product",
+          "intention": "customer will ask for more details about the product"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_1cc2c20d89#Recommend_9ff23b139b07",
+      "task": "next_state_prediction",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the product</next_belief>\n<next_desire>customer wants to purchase the recommended item</next_desire>\n<next_intention>customer will consider the recommendation</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the product",
+          "desire": "customer wants to purchase the recommended item",
+          "intention": "customer will consider the recommendation"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_23563ed080#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.30</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\nattention\nThe customer is looking at the display, indicating they are paying attention to the products.\nlow\nmedium\n0.50",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_23563ed080#Inform_5ac252a82695",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in comparing product features</next_belief>\n<next_desire>customer wants to know more about product differences</next_desire>\n<next_intention>customer intends to compare products</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in comparing product features",
+          "desire": "customer wants to know more about product differences",
+          "intention": "customer intends to compare products"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_23563ed080#Elicit_b1166d372e5e",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the product display</next_belief>\n<next_desire>customer wants more information about the products</next_desire>\n<next_intention>customer wants to know about the price, features, or usage scenarios</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the product display",
+          "desire": "customer wants more information about the products",
+          "intention": "customer wants to know about the price, features, or usage scenarios"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_23563ed080#Recommend_8d7f8993e333",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may be applying too much pressure.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>high</risk>\n<benefit>low</benefit>\n<reward>-0.50</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the product</next_belief>\n<next_desire>customer wants more information about the product</next_desire>\n<next_intention>customer will ask for more details about the product</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the product",
+          "desire": "customer wants more information about the product",
+          "intention": "customer will ask for more details about the product"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_3549e65d37#Elicit_b1166d372e5e",
+      "task": "next_state_prediction",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the product</next_belief>\n<next_desire>customer wants more information about the product</next_desire>\n<next_intention>customer wants to know about the product's features or benefits</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the product",
+          "desire": "customer wants more information about the product",
+          "intention": "customer wants to know about the product's features or benefits"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_3549e65d37#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_3549e65d37#Recommend_8d7f8993e333",
+      "task": "next_state_prediction",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the product</next_belief>\n<next_desire>customer wants more information about the product</next_desire>\n<next_intention>customer will ask for more details about the product</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the product",
+          "desire": "customer wants more information about the product",
+          "intention": "customer will ask for more details about the product"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_3549e65d37#Recommend_9ff23b139b07",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may be applying too much pressure.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>-0.20</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in the product</next_belief>\n<next_desire>customer wants to purchase the recommended product</next_desire>\n<next_intention>customer will consider purchasing the recommended product</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in the product",
+          "desire": "customer wants to purchase the recommended product",
+          "intention": "customer will consider purchasing the recommended product"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_4d433ad0b0#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.30</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\nattention\nThe customer is looking at the jewelry display case, indicating they are interested in the items.\nlow\nmedium\n0.50",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_4d433ad0b0#Inform_5ac252a82695",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in comparing product details</next_belief>\n<next_desire>customer wants to know more about product differences</next_desire>\n<next_intention>customer intends to compare product features</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in comparing product details",
+          "desire": "customer wants to know more about product differences",
+          "intention": "customer intends to compare product features"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_4d433ad0b0#Elicit_b1166d372e5e",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in jewelry</next_belief>\n<next_desire>customer wants to know more about the jewelry</next_desire>\n<next_intention>customer wants to learn about the jewelry's features or price</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in jewelry",
+          "desire": "customer wants to know more about the jewelry",
+          "intention": "customer wants to learn about the jewelry's features or price"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_4d433ad0b0#Recommend_8d7f8993e333",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may be applying too much pressure.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>high</risk>\n<benefit>low</benefit>\n<reward>-0.50</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>high</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "high",
+          "desire": "medium",
+          "intention": "medium"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_5883d29028#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\nattention\nThe customer is looking at the jewelry display case.\nlow\nmedium\n0.50",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_5883d29028#Recommend_8d7f8993e333",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in jewelry</next_belief>\n<next_desire>customer wants to learn more about the jewelry</next_desire>\n<next_intention>customer will ask for more information about the jewelry</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in jewelry",
+          "desire": "customer wants to learn more about the jewelry",
+          "intention": "customer will ask for more information about the jewelry"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_5d80d9bd7d#Elicit_b1166d372e5e",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.83</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in product features or price</next_belief>\n<next_desire>customer wants to know more about product details</next_desire>\n<next_intention>customer wants to make a purchase decision</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in product features or price",
+          "desire": "customer wants to know more about product details",
+          "intention": "customer wants to make a purchase decision"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_5d80d9bd7d#Inform_5ff00ba15ca5",
+      "task": "next_state_prediction",
+      "target": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\nattention\nThe customer is looking at the laptop, indicating they are paying attention to the product.\nlow\nmedium\n0.70\ninforming the customer about the product details may help them understand the product better, which could lead to a higher likelihood of purchase.\nmedium\n0.60",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_5d80d9bd7d#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>interest</next_stage>\n<next_belief>Several options remain worth comparing.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\nattention\nThe customer is looking at the laptop screen, indicating they are paying attention to the product.\nlow\nmedium\n0.50",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "piwm_6393f77756#Elicit_b1166d372e5e",
+      "task": "next_state_prediction",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>customer is interested in product features or price</next_belief>\n<next_desire>customer wants to know more about product details</next_desire>\n<next_intention>customer intends to gather information about product</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "customer is interested in product features or price",
+          "desire": "customer wants to know more about product details",
+          "intention": "customer intends to gather information about product"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": true
+      }
+    },
+    {
+      "source_id": "piwm_6393f77756#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+      "prediction": "<next_stage>attention</next_stage>\n<next_belief>customer is interested in the product display</next_belief>\n<next_desire>customer wants more information about the product</next_desire>\n<next_intention>customer intends to ask for more details or assistance</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "customer is interested in the product display",
+          "desire": "customer wants more information about the product",
+          "intention": "customer intends to ask for more details or assistance"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": true,
+        "risk_exact": false,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_6393f77756#Recommend_8d7f8993e333",
+      "task": "next_state_prediction",
+      "target": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "medium",
+          "desire": "high",
+          "intention": "medium"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": true,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_6393f77756#Recommend_9ff23b139b07",
+      "task": "next_state_prediction",
+      "target": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may be applying too much pressure.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>-0.20</reward>",
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>high</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "high",
+          "desire": "medium",
+          "intention": "medium"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      },
+      "parse_ok": true,
+      "scores": {
+        "next_stage_exact": false,
+        "risk_exact": false,
+        "benefit_exact": false,
+        "reward_exact": false
+      }
+    },
+    {
+      "source_id": "piwm_72062b7b5a#Hold_eda24b4bb712",
+      "task": "next_state_prediction",
+      "target": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.30</reward>",
+      "prediction": "<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>",
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    }
+  ]
+}

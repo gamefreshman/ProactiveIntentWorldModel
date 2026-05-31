@@ -1,0 +1,4 @@
+<rationale>顾客处于attention阶段且没有明确意图，只是短暂停步扫视设备，表情犹疑、兴趣不高，并有准备离开的姿态。此时最适合低压力地提示设备可用和可提供帮助；直接询问需求或播放演示都偏主动，静默则可能错过他短暂停留的窗口。</rationale>
+<chosen>Greet_attention_stage_conditioned_target_piwm_705_9bb7c9fa3e60</chosen>
+<intervention_action>智能售货柜显示简短欢迎语，并配合柔和灯效提示可用性，不强迫顾客继续互动。</intervention_action>
+<intervention_utterance>欢迎光临，需要时我可以帮您。</intervention_utterance>

@@ -1,0 +1,138 @@
+{
+  "artifact": "piwm_real_eval_ms_swift",
+  "is_training_result": false,
+  "source_real_dir": "references/piwm_lightweight/data/eval/real",
+  "out_dir": "reports/real_eval_20260525",
+  "frame_timestamps_sec": [
+    0.0,
+    5.0,
+    10.0
+  ],
+  "human_annotation_records": 40,
+  "index_derived_weak_label_records": 10,
+  "total_eval_records_before_video_filter": 50,
+  "runnable_records_with_video": 30,
+  "skipped_missing_video_count": 20,
+  "skipped_missing_video": [
+    {
+      "session_id": "real_001",
+      "video_path": "data/videos/real/01.mp4"
+    },
+    {
+      "session_id": "real_002",
+      "video_path": "data/videos/real/02.mp4"
+    },
+    {
+      "session_id": "real_003",
+      "video_path": "data/videos/real/03.mp4"
+    },
+    {
+      "session_id": "real_004",
+      "video_path": "data/videos/real/04.mp4"
+    },
+    {
+      "session_id": "real_005",
+      "video_path": "data/videos/real/05.mp4"
+    },
+    {
+      "session_id": "real_011",
+      "video_path": "data/videos/real/11.mp4"
+    },
+    {
+      "session_id": "real_012",
+      "video_path": "data/videos/real/12.mp4"
+    },
+    {
+      "session_id": "real_013",
+      "video_path": "data/videos/real/13.mp4"
+    },
+    {
+      "session_id": "real_014",
+      "video_path": "data/videos/real/14.mp4"
+    },
+    {
+      "session_id": "real_015",
+      "video_path": "data/videos/real/15.mp4"
+    },
+    {
+      "session_id": "real_041",
+      "video_path": "data/videos/real/41.mp4"
+    },
+    {
+      "session_id": "real_042",
+      "video_path": "data/videos/real/42.mp4"
+    },
+    {
+      "session_id": "real_043",
+      "video_path": "data/videos/real/43.mp4"
+    },
+    {
+      "session_id": "real_044",
+      "video_path": "data/videos/real/44.mp4"
+    },
+    {
+      "session_id": "real_045",
+      "video_path": "data/videos/real/45.mp4"
+    },
+    {
+      "session_id": "real_046",
+      "video_path": "data/videos/real/46.mp4"
+    },
+    {
+      "session_id": "real_047",
+      "video_path": "data/videos/real/47.mp4"
+    },
+    {
+      "session_id": "real_048",
+      "video_path": "data/videos/real/48.mp4"
+    },
+    {
+      "session_id": "real_049",
+      "video_path": "data/videos/real/49.mp4"
+    },
+    {
+      "session_id": "real_050",
+      "video_path": "data/videos/real/50.mp4"
+    }
+  ],
+  "stage_counts_before_video_filter": {
+    "action": 5,
+    "attention": 16,
+    "desire": 19,
+    "interest": 10
+  },
+  "best_action_counts_before_video_filter": {
+    "elicit": 10,
+    "greet": 10,
+    "hold": 10,
+    "inform": 10,
+    "recommend": 10
+  },
+  "stage_counts_runnable": {
+    "action": 3,
+    "attention": 5,
+    "desire": 17,
+    "interest": 5
+  },
+  "best_action_counts_runnable": {
+    "elicit": 5,
+    "greet": 5,
+    "inform": 10,
+    "recommend": 10
+  },
+  "label_source_counts_runnable": {
+    "human_json_annotation": 20,
+    "index_group_weak_label": 10
+  },
+  "intent_label_policy": "heuristic_from_best_action; stage/action metrics are the primary real-set metrics",
+  "jsonl": {
+    "user_intent": "reports/real_eval_20260525/real_user_intent.jsonl",
+    "action_selection_5act": "reports/real_eval_20260525/real_action_selection_5act.jsonl",
+    "all_scored": "reports/real_eval_20260525/real_all_scored.jsonl"
+  },
+  "task_counts": {
+    "user_intent": 30,
+    "action_selection_5act": 30,
+    "all_scored": 60
+  }
+}

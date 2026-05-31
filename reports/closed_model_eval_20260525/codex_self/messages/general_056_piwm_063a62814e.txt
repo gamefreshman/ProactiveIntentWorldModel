@@ -1,0 +1,4 @@
+<rationale>顾客仍停留在护肤品货架前，并在手机与商品之间切换注意力，说明她们处于查询和比较阶段。此时直接演示单品过早，开放询问比较维度能顺着其探索状态，帮助确认她们最关心价格、功能还是使用场景。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜以温和语音发问，并在屏幕上显示“功能、价格、场景”三个选择气泡，等待顾客选择比较重点。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

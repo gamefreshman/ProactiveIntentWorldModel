@@ -1,0 +1,26 @@
+{
+  "artifact": "closed_model_best_action_eval_set",
+  "output_jsonl": "reports/closed_model_eval_set_60.jsonl",
+  "target_input": "data/official/domain_specialization_eval_v2_a3_minimal_20260523/target_frontcam_5act_test_action_selection.server_resolved.jsonl",
+  "n_rows": 60,
+  "domain_counts": {
+    "general": 30,
+    "target": 30
+  },
+  "gold_by_domain": {
+    "general": {
+      "Elicit": 13,
+      "Hold": 7,
+      "Inform": 6,
+      "Recommend": 4
+    },
+    "target": {
+      "Elicit": 6,
+      "Greet": 6,
+      "Hold": 6,
+      "Inform": 6,
+      "Recommend": 6
+    }
+  },
+  "missing_images": []
+}

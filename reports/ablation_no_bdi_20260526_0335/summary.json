@@ -1,0 +1,111 @@
+{
+  "artifact": "batch2_ablation_eval",
+  "schema": "no_bdi",
+  "frame_mode": "all",
+  "checkpoint": "checkpoints/ablation_no_bdi_20260526_0335/v0-20260526-032820/checkpoint-513",
+  "target_oracle": {
+    "n": 30,
+    "parse_rate": 1.0,
+    "macro_f1_strict": 0.5263157894736842,
+    "macro_f1_parsed": 0.5263157894736842,
+    "by_domain": {
+      "combined": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.5263157894736842,
+        "macro_f1_parsed": 0.5263157894736842,
+        "prediction_counts": {
+          "Elicit": 9,
+          "Inform": 13,
+          "Recommend": 4,
+          "Greet": 4
+        }
+      },
+      "target": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.5263157894736842,
+        "macro_f1_parsed": 0.5263157894736842,
+        "prediction_counts": {
+          "Elicit": 9,
+          "Inform": 13,
+          "Recommend": 4,
+          "Greet": 4
+        }
+      }
+    }
+  },
+  "cross_oracle": {
+    "n": 60,
+    "parse_rate": 1.0,
+    "macro_f1_strict": 0.6928042328042329,
+    "macro_f1_parsed": 0.6928042328042329,
+    "by_domain": {
+      "combined": {
+        "n": 60,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.6928042328042329,
+        "macro_f1_parsed": 0.6928042328042329,
+        "prediction_counts": {
+          "Elicit": 23,
+          "Inform": 15,
+          "Recommend": 10,
+          "Greet": 4,
+          "Hold": 8
+        }
+      },
+      "general": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.5992592592592592,
+        "macro_f1_parsed": 0.5992592592592592,
+        "prediction_counts": {
+          "Inform": 2,
+          "Hold": 8,
+          "Elicit": 14,
+          "Recommend": 6
+        }
+      },
+      "target": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.5263157894736842,
+        "macro_f1_parsed": 0.5263157894736842,
+        "prediction_counts": {
+          "Elicit": 9,
+          "Inform": 13,
+          "Recommend": 4,
+          "Greet": 4
+        }
+      }
+    }
+  },
+  "user_intent_60": {
+    "n": 60,
+    "parse_rate": 1.0,
+    "stage_macro_f1_strict": 0.42794821277793416,
+    "intent_macro_f1_strict": 0.11999458874458872,
+    "intent_macro_f1_parsed": 0.11999458874458872
+  },
+  "next_state_80": {
+    "n": 80,
+    "parse_rate": 1.0,
+    "next_stage_macro_f1_strict": 0.16271602980814967,
+    "next_stage_macro_f1_parsed": 0.16271602980814967
+  },
+  "e2e_target": {
+    "n": 30,
+    "step1_parse_rate": 1.0,
+    "step2_parse_rate": 1.0,
+    "macro_f1_strict": 0.21923436041083103
+  },
+  "elapsed_sec": 2014.5,
+  "paper_table_metrics": {
+    "target_test_f1": 0.5263157894736842,
+    "cross_domain_f1": 0.6928042328042329,
+    "e2e_f1": 0.21923436041083103,
+    "aida_f1": 0.42794821277793416,
+    "intent_f1": 0.11999458874458872,
+    "next_state_f1": 0.16271602980814967
+  }
+}

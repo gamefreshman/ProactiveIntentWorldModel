@@ -1142,19 +1142,91 @@ def derive_policy_candidate_specs(
     """
 
     specs = derive_candidate_action_specs(state, aida, intent_tier)
-    if not any(spec["act"] == "Recommend" for spec in specs):
-        return specs
     enriched: list[dict[str, Any]] = []
+    had_recommend = False
+    had_reassure = False
     for spec in specs:
-        if spec["act"] == "Recommend":
-            soft = {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}}
-            firm = {"act": "Recommend", "params": {"target": "item", "pressure": "firm"}}
-            if state == "ready_to_decide" or (state == "active_evaluation" and aida == "desire"):
-                _append_unique_action_spec(enriched, soft)
-            _append_unique_action_spec(enriched, firm)
+        act = spec["act"]
+        if act == "Reassure":
+            had_reassure = True
+            continue
+        if act == "Recommend":
+            had_recommend = True
             continue
         _append_unique_action_spec(enriched, spec)
+    if _should_add_soft_recommend(state, aida, intent_tier, had_recommend, had_reassure, len(enriched)):
+        _append_unique_action_spec(
+            enriched,
+            {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}},
+        )
+    if _should_add_firm_recommend(aida, intent_tier, had_recommend):
+        _append_unique_action_spec(
+            enriched,
+            {"act": "Recommend", "params": {"target": "item", "pressure": "firm"}},
+        )
+    _ensure_min_policy_candidates(enriched, state, aida)
     return enriched
+
+
+_SOFT_RECOMMEND_REASSURE_FALLBACK_STATES = {
+    "high_hesitation",
+    "active_evaluation",
+    "ready_to_decide",
+    "continued_hesitation",
+}
+
+
+def _should_add_soft_recommend(
+    state: str,
+    aida: str,
+    intent_tier: str | None,
+    had_recommend: bool,
+    had_reassure: bool,
+    remaining_count: int,
+) -> bool:
+    if intent_tier == "low_intent_browsing":
+        return False
+    if had_recommend:
+        return True
+    if not had_reassure:
+        return False
+    if remaining_count > 2:
+        return False
+    if aida not in {"attention", "interest", "desire", "action"}:
+        return False
+    return state in _SOFT_RECOMMEND_REASSURE_FALLBACK_STATES
+
+
+def _should_add_firm_recommend(
+    aida: str,
+    intent_tier: str | None,
+    had_recommend: bool,
+) -> bool:
+    if intent_tier == "low_intent_browsing":
+        return False
+    return had_recommend and aida in {"desire", "action"}
+
+
+def _ensure_min_policy_candidates(items: list[dict[str, Any]], state: str, aida: str) -> None:
+    """Keep v2 policy rows pairwise-trainable after removing Reassure."""
+
+    if len(items) >= 2:
+        return
+    hold_modes = {
+        spec.get("params", {}).get("mode")
+        for spec in items
+        if spec.get("act") == "Hold"
+    }
+    if "silent" not in hold_modes:
+        _append_unique_action_spec(items, {"act": "Hold", "params": {"mode": "silent"}})
+    if len(items) >= 2:
+        return
+    if "ambient" not in hold_modes:
+        _append_unique_action_spec(items, {"act": "Hold", "params": {"mode": "ambient"}})
+    if len(items) >= 2:
+        return
+    phase = "close" if state in {"disengaged", "defensive_withdrawal"} or aida == "action" else "open"
+    _append_unique_action_spec(items, {"act": "Greet", "params": {"phase": phase}})
 
 
 def _append_unique_action_spec(items: list[dict[str, Any]], spec: dict[str, Any]) -> None:

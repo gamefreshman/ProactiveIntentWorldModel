@@ -1,0 +1,4 @@
+<rationale>顾客持续专注查看同一位置，姿态稳定、表情放松，没有求助迹象；其当前意图是安静完成最后确认。主动推荐或对比说明都会打断她的自主判断，因此保持静默等待最匹配。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持当前柔和待机状态，不发声、不弹出额外推荐，只维持最小屏幕反馈。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

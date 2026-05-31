@@ -1,4 +1,4 @@
-"""Build fixed eval-set entrypoints for PIWM domain specialization experiments."""
+"""Build eval-set entrypoints for PIWM domain specialization experiments."""
 
 from __future__ import annotations
 

@@ -1,0 +1,4 @@
+<rationale>顾客处于兴趣浏览阶段，视线和手部动作稳定从容，没有困惑或求助信号；状态表明她能够继续自行判断，并希望保留自然浏览节奏，因此此时静默等待比主动询问或推荐更贴合。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持静默，仅维持当前屏幕待机和柔和灯效，不打断顾客浏览。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

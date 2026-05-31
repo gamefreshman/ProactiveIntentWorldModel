@@ -1,8 +1,10 @@
 # PIWM v2.2 Action Distribution Diagnostics
 
-更新时间：2026-05-15
+更新时间：2026-05-19
 
 本页记录 Phase 2/3 之后的动作分布诊断。结论先写清楚：旧 official `best_action` 分布仍然 `Recommend=0`，但 v2-native policy path 已能通过 `Recommend(pressure=soft)` 产生推荐正样本。两者不是同一个口径，不能混用。
+
+2026-05-19 5-act 反转：当前 operational policy space 是 `Greet / Elicit / Inform / Recommend / Hold`，`Reassure` 不进入当前 action-selection 训练、推理和 macro-F1。下表中的 `Greet=0` 说明 general/policy-slice 历史产物缺少 Greet 覆盖；target-frontcam / realshoot 是当前补充 Greet 的主要来源。
 
 ## Official v1 Backing Data
 
@@ -143,7 +145,7 @@ state_aida_to_candidates->intent_tier_filter_removed:A3_strong_recommend = 136
 - `Inform` 在 official 543 条中仍然过强：74.95%。
 - legacy-compatible rule-space simulation 中 `Inform` 降到 30%，但这是全规则空间均匀组合，不代表 official 数据，也不是最终 v2-native policy path。
 - 旧 official best 中 `Recommend=0` 是当前最大动作均衡问题；v2 policy path 已把 official 543 重推导到 `Recommend=119`，把 explicit policy slice 推到 `Recommend=360`。
-- `Greet=0` 是设计选择，本期不修。
+- `Greet=0` 是 general/policy-slice 历史覆盖缺口；当前 5-act 定义仍包含 `Greet`，并由 target-frontcam / realshoot 补充。
 - 真正需要下一步修的是 v2-native candidate/outcome reward calibration，而不是 persona intent-tier mapping。
 
 ## Recommend Zero Root Cause
@@ -240,4 +242,4 @@ scenario["derived"]["candidate_rule_coverage"] == "explicit"
 1. 将 v2-native policy path 的规则从 runtime helper 进一步沉淀回 expert corpus，而不是长期只放在 `rules.py`。
 2. 已导出独立 `data/official/piwm_train_synth_v2/` 和 `data/official/piwm_policy_slice_v2/`，不要覆盖 `PIWM-Train-Synth-v1`。
 3. 已新增 `next_state_by_action_v2`，旧 `next_state_by_action` 继续作为 A-label compatibility alias。
-4. 保持 `Greet=0` 为本期设计选择，只在真实拍摄 manifest / terminal scripts 中保留。
+4. 按当前 5-act 定义补充 `Greet` 覆盖，并在 5-act loader/eval 中过滤 `Reassure`。

@@ -1,0 +1,4 @@
+<rationale>顾客刚从经过转为停下观察，视线被设备吸引但还没有明确购买目标，表情和姿态显示轻度疑问与迟疑。此时适合用低压力的欢迎和可帮助提示建立可用性，不宜直接追问需求或播放具体演示；完全静默也可能错过她刚产生兴趣的窗口。</rationale>
+<chosen>Greet_attention_stage_conditioned_target_piwm_704_51a30acf5b8b</chosen>
+<intervention_action>智能售货柜显示简短欢迎语，配合柔和灯效提示可提供帮助，但不强行打断顾客观察。</intervention_action>
+<intervention_utterance>欢迎光临，需要时我可以帮您。</intervention_utterance>

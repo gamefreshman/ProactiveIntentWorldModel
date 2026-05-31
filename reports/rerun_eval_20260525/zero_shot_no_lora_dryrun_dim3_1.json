@@ -1,0 +1,55 @@
+{
+  "artifact": "piwm_dim3_next_state_eval",
+  "five_act": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Hold"
+  ],
+  "checkpoint": null,
+  "n_records": 1,
+  "parse_success": 0,
+  "outputs": [
+    {
+      "source_id": "target_piwm_700#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_700",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "机器关注并理解她在比较，主动帮助理清关注点，信息获取门槛降低。",
+          "desire": "更方便地筛选出关键考虑因素，明确自己真正关心的内容（如功能/价格/场景）。",
+          "intention": "有动力进一步定位需求，从泛泛兴趣过渡到具体需求探索，准备了解更相关信息。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.21
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    }
+  ],
+  "metrics": {
+    "parse_rate": 0.0,
+    "next_stage_macro_f1": 0.0,
+    "next_stage_strict_macro_f1": 0.0,
+    "accuracy": null,
+    "reward_mae": null,
+    "per_candidate_act": {
+      "Elicit": {
+        "n": 1,
+        "macro_f1": 0.0,
+        "accuracy": 0.0
+      }
+    },
+    "per_gold_stage": {
+      "interest": {
+        "n": 1,
+        "macro_f1": 0.0,
+        "accuracy": 0.0
+      }
+    }
+  }
+}

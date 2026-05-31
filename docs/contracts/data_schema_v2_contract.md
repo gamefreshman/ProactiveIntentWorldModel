@@ -1,6 +1,6 @@
 # PIWM Data Schema v2.2 Contract
 
-更新时间：2026-05-15 CST
+更新时间：2026-05-19 CST
 
 本文定义当前 PIWM 数据格式的成熟口径。目标是让 synthetic 数据、真实拍摄素材、World Model continuation、训练 JSONL 和论文数据叙述都指向同一套字段，而不是各自维护一套标签。
 
@@ -9,7 +9,7 @@ v2.2 的关键边界：
 - `PIWM-Train-Synth-v1` 是真人导购逻辑数据集，主监督仍是 `best_action_realization` 中的导购话术、站位、动作和时机。
 - `PIWM-Train-Synth-v2` 是同一批 543 parent 的 schema v2.2 独立导出，新增 v2 action/outcome key 字段，不代表新增视频。
 - target terminal dataset 后续单独建设，才以 `terminal_realization` 作为主监督。
-- 两条数据线共享 `DialogueAct + act_params` 六元动作空间。
+- 当前 5-act operational `DialogueAct + act_params` 动作空间为：`Greet / Elicit / Inform / Recommend / Hold`。`Recommend` 必须保留 `pressure=soft/firm` 参数；`Reassure` 只作为历史/source 标签和兼容映射保留，不计入当前 5-act action-selection 训练、评估、推理、runtime export 或 macro-F1 口径。
 - 顶层 `co_acts` 降级为 legacy alias；新数据使用 `act_params.supporting_acts`。
 - `CandidateAction` 是 canonical action object，只包含 `act` 和 `params`；旧 A-label 只作为迁移兼容键存在。
 
@@ -42,7 +42,7 @@ Current observation
 
 | 字段 | 用途 |
 |---|---|
-| `dialogue_act` | 最优动作对应的 6-act policy label |
+| `dialogue_act` | 最优动作对应的 5-act operational policy label；target/realshoot 扩展样本可出现 `Greet` |
 | `act_params` | act 参数，如 `{"content_type": "comparison", "depth": "brief"}` |
 | `act_params.supporting_acts` | 非 Task 维度辅助动作，如 `Reassure + Hold` |
 | `candidate_action_specs` | 候选动作的 canonical `(act, params)` 列表 |

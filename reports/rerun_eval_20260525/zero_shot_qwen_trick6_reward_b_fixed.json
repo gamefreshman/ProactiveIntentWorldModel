@@ -1,0 +1,1628 @@
+{
+  "artifact": "piwm_trick6_counterfactual_planning",
+  "five_act": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Hold"
+  ],
+  "reward_mode": "model_score",
+  "checkpoint": null,
+  "action_jsonl": "reports/4dim_eval_raw_20260524/target_action_selection.server.jsonl",
+  "n_scenes": 30,
+  "candidate_total": 107,
+  "candidate_parse_success": 28,
+  "candidate_parse_rate": 0.2616822429906542,
+  "metrics": {
+    "macro_f1": 0.37209150326797386,
+    "accuracy": 0.4,
+    "per_act": {
+      "Greet": {
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8,
+        "support": 6,
+        "pred_count": 4
+      },
+      "Elicit": {
+        "precision": 0.45454545454545453,
+        "recall": 0.8333333333333334,
+        "f1": 0.5882352941176471,
+        "support": 6,
+        "pred_count": 11
+      },
+      "Inform": {
+        "precision": 0.2,
+        "recall": 0.3333333333333333,
+        "f1": 0.25,
+        "support": 6,
+        "pred_count": 10
+      },
+      "Recommend": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 6,
+        "pred_count": 2
+      },
+      "Hold": {
+        "precision": 0.3333333333333333,
+        "recall": 0.16666666666666666,
+        "f1": 0.2222222222222222,
+        "support": 6,
+        "pred_count": 3
+      }
+    },
+    "pred_count": {
+      "Elicit": 11,
+      "Greet": 4,
+      "Hold": 3,
+      "Inform": 10,
+      "Recommend": 2
+    },
+    "support": {
+      "Elicit": 6,
+      "Greet": 6,
+      "Hold": 6,
+      "Inform": 6,
+      "Recommend": 6
+    }
+  },
+  "outputs": [
+    {
+      "scene_id": "target_piwm_700",
+      "current_stage": "interest",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": true,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_24926eed1e21",
+        "Recommend_interest_stage_conditioned_target_piwm_700_605fd47cf01e",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Inform_24926eed1e21": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_700_605fd47cf01e": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_701",
+      "current_stage": "interest",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_053014d173cc",
+        "Recommend_interest_stage_conditioned_target_piwm_701_72bc6d16c156",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>She is considering the options presented.</next_belief>\n<next_desire>To make an informed choice about the drinks available.</next_desire>\n<next_intention>To continue exploring the choices and make a decision based on her preferences.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "She is considering the options presented.",
+              "desire": "To make an informed choice about the drinks available.",
+              "intention": "To continue exploring the choices and make a decision based on her preferences."
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_701_72bc6d16c156": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_702",
+      "current_stage": "interest",
+      "gold_candidate": "Inform_5ac252a82695",
+      "gold_act": "Inform",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": true,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_5ac252a82695",
+        "Recommend_interest_stage_conditioned_target_piwm_702_7b41761a1f49",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_702_7b41761a1f49": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_703",
+      "current_stage": "attention",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_attention_stage_conditioned_target_piwm_703_b337b63da88c",
+        "Elicit_b1166d372e5e",
+        "Inform_5ff00ba15ca5",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_attention_stage_conditioned_target_piwm_703_b337b63da88c": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>He may be interested in the product.</next_belief>\n<next_desire>He might want to learn more about the product.</next_desire>\n<next_intention>He intends to stop and look at the product more closely.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "He may be interested in the product.",
+              "desire": "He might want to learn more about the product.",
+              "intention": "He intends to stop and look at the product more closely."
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": false
+        },
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "high",
+              "intention": "high"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Inform_5ff00ba15ca5": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "high",
+              "intention": "high"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.75
+          },
+          "planning_reward": 0.75,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_704",
+      "current_stage": "attention",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_attention_stage_conditioned_target_piwm_704_51a30acf5b8b",
+        "Elicit_b1166d372e5e",
+        "Inform_5ff00ba15ca5",
+        "Hold_eda24b4bb712",
+        "Hold_e2721a9457de"
+      ],
+      "per_candidate": {
+        "Greet_attention_stage_conditioned_target_piwm_704_51a30acf5b8b": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "high",
+              "intention": "medium"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>high</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "high",
+              "desire": "medium",
+              "intention": "medium"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Inform_5ff00ba15ca5": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "high",
+              "intention": "high"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.75
+          },
+          "planning_reward": 0.75,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>She is now more curious about the vending machine.</next_belief>\n<next_desire>She wants to see what the vending machine offers.</next_desire>\n<next_intention>She intends to approach the vending machine to check the items available.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "She is now more curious about the vending machine.",
+              "desire": "She wants to see what the vending machine offers.",
+              "intention": "She intends to approach the vending machine to check the items available."
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        },
+        "Hold_e2721a9457de": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>low</next_desire>\n<next_intention>low</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "low",
+              "intention": "low"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": 0.2
+          },
+          "planning_reward": 0.2,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_705",
+      "current_stage": "attention",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_attention_stage_conditioned_target_piwm_705_9bb7c9fa3e60",
+        "Elicit_b1166d372e5e",
+        "Inform_5ff00ba15ca5",
+        "Hold_eda24b4bb712",
+        "Hold_e2721a9457de"
+      ],
+      "per_candidate": {
+        "Greet_attention_stage_conditioned_target_piwm_705_9bb7c9fa3e60": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>他可能对智能售货柜的功能产生兴趣。</next_belief>\n<next_desire>他可能希望了解更多信息或尝试使用智能售货柜。</next_desire>\n<next_intention>他可能会更仔细地观察智能售货柜并考虑使用它。</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "他可能对智能售货柜的功能产生兴趣。",
+              "desire": "他可能希望了解更多信息或尝试使用智能售货柜。",
+              "intention": "他可能会更仔细地观察智能售货柜并考虑使用它。"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": false
+        },
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>He is now more interested in the product information.</next_belief>\n<next_desire>He wants to know more about the product features and pricing.</next_desire>\n<next_intention>He intends to explore the product further if he finds it relevant.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "He is now more interested in the product information.",
+              "desire": "He wants to know more about the product features and pricing.",
+              "intention": "He intends to explore the product further if he finds it relevant."
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.75
+          },
+          "planning_reward": 0.75,
+          "has_transition_gold": true
+        },
+        "Inform_5ff00ba15ca5": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>他可能对展示的产品感兴趣。</next_belief>\n<next_desire>他可能希望了解更多信息。</next_desire>\n<next_intention>他可能会继续观察并考虑购买。</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "他可能对展示的产品感兴趣。",
+              "desire": "他可能希望了解更多信息。",
+              "intention": "他可能会继续观察并考虑购买。"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.75
+          },
+          "planning_reward": 0.75,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>他可能对智能售货柜上的商品产生了兴趣。</next_belief>\n<next_desire>他可能想要查看智能售货柜上的商品信息。</next_desire>\n<next_intention>他可能会靠近智能售货柜并查看商品。</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "他可能对智能售货柜上的商品产生了兴趣。",
+              "desire": "他可能想要查看智能售货柜上的商品信息。",
+              "intention": "他可能会靠近智能售货柜并查看商品。"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        },
+        "Hold_e2721a9457de": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>他开始对智能售货柜产生兴趣。</next_belief>\n<next_desire>他希望了解更多信息并做出选择。</next_desire>\n<next_intention>他倾向于深入了解智能售货柜的功能和商品。</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "他开始对智能售货柜产生兴趣。",
+              "desire": "他希望了解更多信息并做出选择。",
+              "intention": "他倾向于深入了解智能售货柜的功能和商品。"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_706",
+      "current_stage": "interest",
+      "gold_candidate": "Elicit_b1166d372e5e",
+      "gold_act": "Elicit",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": true,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_24926eed1e21",
+        "Recommend_interest_stage_conditioned_target_piwm_706_673bc7e63644",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Inform_24926eed1e21": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_706_673bc7e63644": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_707",
+      "current_stage": "interest",
+      "gold_candidate": "Inform_5ac252a82695",
+      "gold_act": "Inform",
+      "chosen_candidate": "Elicit_interest_stage_conditioned_target_piwm_707_985225dc31a3",
+      "chosen_act": "Elicit",
+      "fallback_used": true,
+      "candidate_order": [
+        "Elicit_interest_stage_conditioned_target_piwm_707_985225dc31a3",
+        "Inform_5ac252a82695",
+        "Recommend_interest_stage_conditioned_target_piwm_707_712e294bf9ef",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_interest_stage_conditioned_target_piwm_707_985225dc31a3": {
+          "act": "Elicit",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_707_712e294bf9ef": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_708",
+      "current_stage": "interest",
+      "gold_candidate": "Inform_5ac252a82695",
+      "gold_act": "Inform",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": true,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_5ac252a82695",
+        "Recommend_interest_stage_conditioned_target_piwm_708_abc684e81696",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_708_abc684e81696": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_712",
+      "current_stage": "desire",
+      "gold_candidate": "Inform_053014d173cc",
+      "gold_act": "Inform",
+      "chosen_candidate": "Recommend_desire_stage_conditioned_target_piwm_712_7772394da4d5",
+      "chosen_act": "Recommend",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_desire_stage_conditioned_target_piwm_712_7772394da4d5",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_desire_stage_conditioned_target_piwm_712_7772394da4d5": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>desire</next_stage>\n<next_belief>He believes the recommended item is suitable for his needs.</next_belief>\n<next_desire>He desires to confirm the selection and proceed with the purchase.</next_desire>\n<next_intention>He intends to make a quick decision and buy the recommended item.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "desire",
+            "next_bdi": {
+              "belief": "He believes the recommended item is suitable for his needs.",
+              "desire": "He desires to confirm the selection and proceed with the purchase.",
+              "intention": "He intends to make a quick decision and buy the recommended item."
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_713",
+      "current_stage": "desire",
+      "gold_candidate": "Inform_053014d173cc",
+      "gold_act": "Inform",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_desire_stage_conditioned_target_piwm_713_542ba586daa0",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_desire_stage_conditioned_target_piwm_713_542ba586daa0": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_714",
+      "current_stage": "desire",
+      "gold_candidate": "Inform_5ac252a82695",
+      "gold_act": "Inform",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_desire_stage_conditioned_target_piwm_714_0624a17ced7a",
+        "Hold_eda24b4bb712",
+        "Inform_5ac252a82695"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_desire_stage_conditioned_target_piwm_714_0624a17ced7a": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_718",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_718_db61c6f3be0c",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_718_db61c6f3be0c": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "low",
+              "desire": "medium",
+              "intention": "high"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_719",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_719_91a96e16617b",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "low",
+              "desire": "medium",
+              "intention": "medium"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.75
+          },
+          "planning_reward": 0.75,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_719_91a96e16617b": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>low</next_desire>\n<next_intention>low</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>-0.25</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "low",
+              "intention": "low"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": -0.25
+          },
+          "planning_reward": -0.25,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>action</next_stage>\n<next_belief>He believes he has completed the selection process.</next_belief>\n<next_desire>He desires to quickly finalize his purchase and leave the store.</next_desire>\n<next_intention>He intends to complete the transaction swiftly.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "action",
+            "next_bdi": {
+              "belief": "He believes he has completed the selection process.",
+              "desire": "He desires to quickly finalize his purchase and leave the store.",
+              "intention": "He intends to complete the transaction swiftly."
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_720",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_720_3f432a62c5f6",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.70</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "low",
+              "desire": "medium",
+              "intention": "medium"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.7
+          },
+          "planning_reward": 0.7,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_720_3f432a62c5f6": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>low</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "low",
+              "intention": "medium"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_721",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_721_38623010cdef",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "low",
+              "desire": "medium",
+              "intention": "medium"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_721_38623010cdef": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_760",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_8d7f8993e333",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Inform_desire_stage_conditioned_target_piwm_760_e7247f5d4264",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_desire_stage_conditioned_target_piwm_760_e7247f5d4264",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_desire_stage_conditioned_target_piwm_760_e7247f5d4264": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_762",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_8d7f8993e333",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": false,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": true,
+          "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "interest",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "high",
+              "intention": "high"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": true
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_763",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_9ff23b139b07",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Inform_desire_stage_conditioned_target_piwm_763_98475049c32b",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_desire_stage_conditioned_target_piwm_763_98475049c32b",
+        "Recommend_9ff23b139b07",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_desire_stage_conditioned_target_piwm_763_98475049c32b": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Recommend_9ff23b139b07": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_764",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_9ff23b139b07",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_9ff23b139b07",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_9ff23b139b07": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_765",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_9ff23b139b07",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_9ff23b139b07",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_9ff23b139b07": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_766",
+      "current_stage": "desire",
+      "gold_candidate": "Recommend_8d7f8993e333",
+      "gold_act": "Recommend",
+      "chosen_candidate": "Inform_053014d173cc",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_053014d173cc",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_053014d173cc": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_789",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Recommend_action_stage_conditioned_target_piwm_789_3b3823bf8ff3",
+      "chosen_act": "Recommend",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_789_3b3823bf8ff3",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_789_3b3823bf8ff3": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>low</next_desire>\n<next_intention>low</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>-0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "medium",
+              "desire": "low",
+              "intention": "low"
+            },
+            "risk": "low",
+            "benefit": "low",
+            "reward": -0.5
+          },
+          "planning_reward": -0.5,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_790",
+      "current_stage": "action",
+      "gold_candidate": "Greet_889a5021015d",
+      "gold_act": "Greet",
+      "chosen_candidate": "Greet_889a5021015d",
+      "chosen_act": "Greet",
+      "fallback_used": false,
+      "candidate_order": [
+        "Greet_889a5021015d",
+        "Recommend_action_stage_conditioned_target_piwm_790_172d0e052b42",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Greet_889a5021015d": {
+          "act": "Greet",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>He is satisfied with the service.</next_belief>\n<next_desire>To leave the store quickly.</next_desire>\n<next_intention>To leave the store quickly after receiving the confirmation.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "He is satisfied with the service.",
+              "desire": "To leave the store quickly.",
+              "intention": "To leave the store quickly after receiving the confirmation."
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.75
+          },
+          "planning_reward": 0.75,
+          "has_transition_gold": true
+        },
+        "Recommend_action_stage_conditioned_target_piwm_790_172d0e052b42": {
+          "act": "Recommend",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>商品选择和操作流程已经完成，但对推荐感到好奇。</next_belief>\n<next_desire>了解推荐商品的信息，以便做出更明智的选择。</next_desire>\n<next_intention>查看推荐商品信息，然后决定是否购买。</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.60</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "商品选择和操作流程已经完成，但对推荐感到好奇。",
+              "desire": "了解推荐商品的信息，以便做出更明智的选择。",
+              "intention": "查看推荐商品信息，然后决定是否购买。"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.6
+          },
+          "planning_reward": 0.6,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>He believes the process is complete.</next_belief>\n<next_desire>To quickly receive his items and return to class.</next_desire>\n<next_intention>To remain quiet and wait for the device to finish processing.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "He believes the process is complete.",
+              "desire": "To quickly receive his items and return to class.",
+              "intention": "To remain quiet and wait for the device to finish processing."
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.5
+          },
+          "planning_reward": 0.5,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_810",
+      "current_stage": "interest",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": true,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_5ff00ba15ca5",
+        "Recommend_interest_stage_conditioned_target_piwm_810_5d8cdcc48ed2",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Inform_5ff00ba15ca5": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_810_5d8cdcc48ed2": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_811",
+      "current_stage": "interest",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": true,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_5ac252a82695",
+        "Recommend_interest_stage_conditioned_target_piwm_811_695c53fa4916",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Inform_5ac252a82695": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_811_695c53fa4916": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_812",
+      "current_stage": "desire",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Inform_desire_stage_conditioned_target_piwm_812_24f402b2bf2e",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_desire_stage_conditioned_target_piwm_812_24f402b2bf2e",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_desire_stage_conditioned_target_piwm_812_24f402b2bf2e": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_813",
+      "current_stage": "interest",
+      "gold_candidate": "Hold_e2721a9457de",
+      "gold_act": "Hold",
+      "chosen_candidate": "Hold_eda24b4bb712",
+      "chosen_act": "Hold",
+      "fallback_used": true,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_24926eed1e21",
+        "Recommend_interest_stage_conditioned_target_piwm_813_95885d8f66ad",
+        "Hold_eda24b4bb712",
+        "Hold_e2721a9457de"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Inform_24926eed1e21": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_813_95885d8f66ad": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_e2721a9457de": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_816",
+      "current_stage": "interest",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Elicit_b1166d372e5e",
+      "chosen_act": "Elicit",
+      "fallback_used": false,
+      "candidate_order": [
+        "Elicit_b1166d372e5e",
+        "Inform_24926eed1e21",
+        "Recommend_interest_stage_conditioned_target_piwm_816_5f0058b8809c",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Elicit_b1166d372e5e": {
+          "act": "Elicit",
+          "parse_ok": true,
+          "prediction": "<next_stage>attention</next_stage>\n<next_belief>high</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+          "parsed": {
+            "next_aida_stage": "attention",
+            "next_bdi": {
+              "belief": "high",
+              "desire": "medium",
+              "intention": "medium"
+            },
+            "risk": "low",
+            "benefit": "medium",
+            "reward": 0.8
+          },
+          "planning_reward": 0.8,
+          "has_transition_gold": true
+        },
+        "Inform_24926eed1e21": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Recommend_interest_stage_conditioned_target_piwm_816_5f0058b8809c": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    },
+    {
+      "scene_id": "target_piwm_817",
+      "current_stage": "desire",
+      "gold_candidate": "Hold_eda24b4bb712",
+      "gold_act": "Hold",
+      "chosen_candidate": "Inform_desire_stage_conditioned_target_piwm_817_28eeaae97e81",
+      "chosen_act": "Inform",
+      "fallback_used": true,
+      "candidate_order": [
+        "Inform_desire_stage_conditioned_target_piwm_817_28eeaae97e81",
+        "Recommend_8d7f8993e333",
+        "Hold_eda24b4bb712"
+      ],
+      "per_candidate": {
+        "Inform_desire_stage_conditioned_target_piwm_817_28eeaae97e81": {
+          "act": "Inform",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": false
+        },
+        "Recommend_8d7f8993e333": {
+          "act": "Recommend",
+          "parse_ok": false,
+          "error": "MalformedOutputError: invalid next_stage: ...",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        },
+        "Hold_eda24b4bb712": {
+          "act": "Hold",
+          "parse_ok": false,
+          "error": "MalformedOutputError: expected exactly one next_stage tag, found 0",
+          "planning_reward": -Infinity,
+          "has_transition_gold": true
+        }
+      }
+    }
+  ]
+}

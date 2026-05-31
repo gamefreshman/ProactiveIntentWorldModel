@@ -1,6 +1,6 @@
 # PIWM Documentation Map
 
-更新时间：2026-05-17 CST
+更新时间：2026-05-19 CST
 
 本文是主仓库 `docs/` 的唯一人工阅读入口。当前项目口径已经从单纯的 sprint 结果整理，收敛为：
 
@@ -14,10 +14,10 @@ general retail guidance corpus -> target-frontcam smart-vending specialization
 
 | 层级 | 当前状态 | 入口 |
 |---|---|---|
-| General training | `PIWM-Train-Synth-v2`，543 parent / 2554 ms-swift examples，schema v2.2 独立导出 | [current/dataset_inventory.md](current/dataset_inventory.md) |
-| Target video-backed | `PIWM-Target-Frontcam-v1`，118 records / 354 frames / 708 examples，30 test records 已完成项目负责人 QA 复核并写回 target 数据 | [current/domain_specialization_experiment_plan.md](current/domain_specialization_experiment_plan.md) |
+| General training | `PIWM-Train-Synth-v2`，543 parent / 2544 ms-swift examples；Stage-1 seed=42 split 为 493 train parent / 50 val parent | [current/dataset_inventory.md](current/dataset_inventory.md) |
+| Target video-backed | `PIWM-Target-Frontcam-v1`，118 records / 354 frames；revised 主实验使用 71 条 clean 5-act Stage-2 train + 30 条 balanced 5-act test，当前 test 已按新名单 QA-reviewed pass | [current/domain_specialization_experiment_plan.md](current/domain_specialization_experiment_plan.md) |
 | Target prompt-ready | `PIWM-Target-PromptReady-v1`，318 records，其中 200 条仍是 video-pending | [../data/official/piwm_target_promptready_v1/README.md](../data/official/piwm_target_promptready_v1/README.md) |
-| Domain eval | general QA + target-frontcam test eval entrypoints 已生成；训练和跑分仍待完成 | [../data/official/domain_specialization_eval_v1/eval_sets_summary.md](../data/official/domain_specialization_eval_v1/eval_sets_summary.md) |
+| Domain eval | general QA + target-frontcam balanced 5-act QA-reviewed eval entrypoints 已生成；训练和跑分仍待完成 | [../data/official/domain_specialization_eval_v2/two_stage_eval_summary.md](../data/official/domain_specialization_eval_v2/two_stage_eval_summary.md) |
 | Real shooting | `PIWM-RealShoot-v1` 仍是 S01-S12 A/B manifest 和拍摄协议，不是已采集真实数据 | [current/piwm_real_shooting_scripts_S01_S12.md](current/piwm_real_shooting_scripts_S01_S12.md) |
 
 ## 1. 只想知道数据现在能不能用
@@ -36,7 +36,7 @@ general retail guidance corpus -> target-frontcam smart-vending specialization
 
 - `PIWM-Train-Synth-v2` 是同一批 543 parent 的 v2.2 schema 独立导出，不代表新增视频。
 - `PIWM-Target-PromptReady-v1` 里的 200 条 video-pending 不是多模态训练数据，必须等 Kling 视频、抽帧和 QA 完成。
-- `PIWM-Target-Frontcam-v1` 的 30 条 test records 已完成项目负责人 QA 复核；88 条 train records 仍是 `synthetic_unreviewed`，不要写成 full human-reviewed corpus。
+- `PIWM-Target-Frontcam-v1` 当前主实验使用 derived clean 5-act split：118 条中去掉 17 条 best=`Reassure`，过滤候选中的 `Reassure` 且无候选集退化，得到 101 条 clean records；其中 71 条用于 Stage-2 train，30 条作为 balanced 5-act test；test 已按新名单 QA-reviewed pass，不能沿用旧 last-30 QA 结论。
 - `PIWM-RealShoot-v1` 目前只能写成 planned real-shooting protocol / manifest template。
 
 ## 2. 要写 EMNLP / domain-specialization 实验
@@ -50,7 +50,7 @@ general retail guidance corpus -> target-frontcam smart-vending specialization
 | 3 | [current/claude_project_brief_2026-05-18.md](current/claude_project_brief_2026-05-18.md) | 给 Claude 的项目决策简报：叙事、数据、风险和审阅问题 |
 | 4 | [../paper/data_section_emnlp.tex](../paper/data_section_emnlp.tex) | 可直接进入论文的 EMNLP 风格数据章节草稿 |
 | 5 | [current/dataset_inventory.md](current/dataset_inventory.md) | 论文表格里的数据名、规模、QA 口径 |
-| 6 | [../data/official/domain_specialization_eval_v1/eval_sets_summary.md](../data/official/domain_specialization_eval_v1/eval_sets_summary.md) | 已生成的 target/general eval JSONL 入口 |
+| 6 | [../data/official/domain_specialization_eval_v2/two_stage_eval_summary.md](../data/official/domain_specialization_eval_v2/two_stage_eval_summary.md) | 已生成的 revised target/general eval JSONL 入口 |
 | 7 | [current/experiment_result_digest.md](current/experiment_result_digest.md) | 旧主实验结果速览；引用前确认是否仍服务当前 EMNLP 叙事 |
 | 8 | [current/experiment_status_main_table_v2.md](current/experiment_status_main_table_v2.md) | 主表、ablation、frame budget、Future Verification 历史结果 |
 
@@ -67,7 +67,7 @@ general retail guidance corpus -> target-frontcam smart-vending specialization
 | 文档 | 用途 |
 |---|---|
 | [contracts/data_schema_v2_contract.md](contracts/data_schema_v2_contract.md) | 当前成熟数据格式：MainSchemaRecord、ShootingClipRecord、导出字段和维护规则 |
-| [contracts/action_space_realization_contract.md](contracts/action_space_realization_contract.md) | 6 个 DialogueAct、`act + params`、真人导购逻辑与 target terminal 的边界 |
+| [contracts/action_space_realization_contract.md](contracts/action_space_realization_contract.md) | 当前 5-act operational policy、`act + params`、真人导购逻辑与 target/realshoot 边界 |
 | [contracts/data_generation_chain_v2_1_contract.md](contracts/data_generation_chain_v2_1_contract.md) | 专家知识、规则、scenario、label、policy slice、official 重导的唯一维护链路 |
 | [contracts/visual_input_contract.md](contracts/visual_input_contract.md) | 视角、抽帧、frame manifest、QA gate |
 | [contracts/world_model_supervision_contract.md](contracts/world_model_supervision_contract.md) | continuation / Future Verification 监督定义 |
@@ -76,7 +76,8 @@ general retail guidance corpus -> target-frontcam smart-vending specialization
 
 动作和字段的当前原则：
 
-- 新 policy 语义以 6 个 `DialogueAct + params` 为中心。
+- 当前 operational 5-act 定义是：`Greet / Elicit / Inform / Recommend / Hold`。
+- `Reassure` 只作为历史/source 记录和兼容分析边界保留，不进入当前主 5-act action-selection 训练、推理和 macro-F1 口径。
 - `A1-A8 / T-state` 只保留为 legacy alias、迁移键或历史数据解释。
 - 主项目 `PIWM-Train-Synth-*` 保留真人导购逻辑；target-frontcam 数据使用智能终端 / 设备前置摄像头视角。
 - 旧 `co_acts` 不再作为新 official 顶层字段；辅助动作放到 `act_params.supporting_acts`。

@@ -1,0 +1,29 @@
+{
+  "artifact": "piwm_4dim_eval_inputs",
+  "five_act": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Hold"
+  ],
+  "reassure_operational_count": 0,
+  "user_intent_rows": 30,
+  "action_selection_rows": 30,
+  "stage_conditioned_candidate_total": 107,
+  "next_state_scored_rows": 80,
+  "next_state_unscored_rows": 27,
+  "next_state_unscored_by_act": {
+    "Elicit": 1,
+    "Greet": 3,
+    "Inform": 4,
+    "Recommend": 19
+  },
+  "server_inputs": {
+    "user_intent": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/reports/4dim_eval_raw_20260524/target_user_intent.server.jsonl",
+    "next_state": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/reports/4dim_eval_raw_20260524/next_state_covered80.server.jsonl",
+    "action_selection": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/reports/4dim_eval_raw_20260524/target_action_selection.server.jsonl",
+    "all_scored": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/reports/4dim_eval_raw_20260524/target_all_4dim_scored.server.jsonl",
+    "user_next_scored": "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/reports/4dim_eval_raw_20260524/target_user_next_scored.server.jsonl"
+  }
+}

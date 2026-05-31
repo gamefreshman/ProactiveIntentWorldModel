@@ -1,0 +1,4 @@
+<rationale>顾客已停留并反复查看信息，处于兴趣和比较阶段，但尚未形成明确购买决策；开放式询问能低压力地帮助她明确关注点，比直接推荐更合适，也比继续静默更能推进探索。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>终端以柔和灯效发出邀请，在屏幕上展示“价格、功能、场景”三个选择气泡，引导顾客说明当前关注点。</intervention_action>
+<intervention_utterance>您今天想先看价格、功能，还是适合什么场景？</intervention_utterance>

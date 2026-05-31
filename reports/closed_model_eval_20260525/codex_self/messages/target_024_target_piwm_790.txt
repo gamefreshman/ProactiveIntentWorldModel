@@ -1,0 +1,4 @@
+<rationale>顾客已完成选择并平静等待设备结果，姿态放松、无求助或犹豫迹象；此时推荐会打断流程，结束致谢也可能早于实际出货，因此最匹配的是静默等待。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持当前等待界面和柔和灯效，不发出语音提示，等待设备完成出货或结果确认。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

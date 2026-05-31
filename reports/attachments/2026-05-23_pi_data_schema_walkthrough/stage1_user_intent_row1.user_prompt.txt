@@ -1,0 +1,27 @@
+<image><image><image>You are observing a short customer-behavior window.
+
+Scene: 顾客在零售店内。
+
+Below are 3 frames sampled from a streaming camera, in chronological order.
+
+
+
+
+
+Infer the customer's current user state from the visible behavior only. Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.
+
+Output the following fields, in this exact order, each on its own line:
+<stage>...</stage>
+<intent_label>...</intent_label>
+<visual_summary>...</visual_summary>
+<engagement_pattern>...</engagement_pattern>
+<gaze_and_attention>...</gaze_and_attention>
+<body_and_hands>...</body_and_hands>
+<belief>...</belief>
+<desire>...</desire>
+<intention>...</intention>
+
+- stage must be one of: attention, interest, desire, action.
+- intent_label must be one existing PIWM intention category, such as confirm_choice, explore_options, request_demonstration, seek_reassurance, negotiate_price, leave_without_purchase, compare_value_for_money, or no_clear_intent.
+- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.
+- belief, desire, and intention must be short customer-state clauses, not salesperson advice.

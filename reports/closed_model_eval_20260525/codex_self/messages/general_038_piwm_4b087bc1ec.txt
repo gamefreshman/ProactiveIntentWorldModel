@@ -1,0 +1,4 @@
+<rationale>顾客身体逐渐偏离电脑陈列并回避交流，状态表示其可能想减少互动或离开；此时任何语音提示都可能增加打扰感。静默等待最符合避免推进、降低压力的行动策略。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>终端保持最小 idle 状态，不发起语音或屏幕 CTA，只维持柔和灯效，销售人员不主动靠近。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

@@ -1,0 +1,4 @@
+<rationale>开放式引导提升被理解感，促进关注点聚焦，有助于从泛兴趣向明确探索转变。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜通过屏幕、语音、灯效和必要的柜体反馈执行响应。</intervention_action>
+<intervention_utterance>您今天想先看价格、功能，还是适合什么场景？</intervention_utterance>

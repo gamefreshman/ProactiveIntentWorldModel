@@ -1,0 +1,4 @@
+<rationale>顾客仍停留在家电展示区，视线在手机和商品之间切换，状态是兴趣阶段且意图为请求演示。此时直接提供简短关键细节演示，能帮助她把手机查询到的价格、评价或规格与现场产品功能对应起来，比继续提问或推荐更贴合当前需求。</rationale>
+<chosen>Inform_5ff00ba15ca5</chosen>
+<intervention_action>终端播放该商品的关键细节演示，并用语音简短引导顾客观看。</intervention_action>
+<intervention_utterance>我给您演示一下这款的关键细节。</intervention_utterance>

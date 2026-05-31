@@ -1,0 +1,17 @@
+{
+  "piwm_main": {
+    "status": "not_run",
+    "reason": "未跑：当前工作机缺少 torch，且 PIWM checkpoint 路径不可用",
+    "checkpoint": "/root/lanyun-fs/ProactiveIntentWorldModel/checkpoints/a3_full_targetv2_balanced_3epoch_v1/a3full-20260522-220941-px1003520-ml8192/v0-20260522-220953/checkpoint-500"
+  },
+  "stage1_only": {
+    "status": "not_run",
+    "reason": "未跑：当前工作机缺少 torch，且 Stage-1 checkpoint 路径不可用",
+    "checkpoint": "/root/lanyun-fs/ProactiveIntentWorldModel/checkpoints/stage1_qwen25vl_7b_a100_2gpu_pathC_symmetry_v1/pathC-20260521-185907-px1003520/v0-20260521-190055/checkpoint-432"
+  },
+  "zero_shot_qwen25vl7b": {
+    "status": "not_run",
+    "reason": "未跑：当前工作机缺少 torch/transformers 本地推理环境；zero-shot 需要 --no-lora/checkpoint=None 方式在可用 GPU 环境运行",
+    "checkpoint": null
+  }
+}

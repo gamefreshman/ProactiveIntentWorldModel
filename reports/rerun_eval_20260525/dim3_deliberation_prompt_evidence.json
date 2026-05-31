@@ -1,0 +1,18 @@
+{
+  "source_id": "target_piwm_700#Elicit_b1166d372e5e",
+  "scene_id": "target_piwm_700",
+  "candidate_action": "Elicit_b1166d372e5e",
+  "uses_build_deliberation_prompt": true,
+  "prompt": "<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nThe customer's current state is:\n- stage: interest\n- visible evidence: 顾客走近后在机器前停留，身体轻微前倾，视线先稳定看向前方，再短暂下移，并在前方不同位置之间自然切换数次，持续表现出浏览、比较和确认信息的状态。\n- engagement pattern: 顾客走近后在机器前停留，身体轻微前倾，视线先稳定看向前方，再短暂下移，并在前方不同位置之间自然切换数次，持续表现出浏览、比较和确认信息的状态。\n- gaze and attention: 表情自然克制，带有轻微思考、权衡和犹豫，没有夸张惊讶或明显情绪波动。\n- body and hands: 正面朝向机器，站姿稳定，停留在原地，身体轻微前倾，双手自然放置并始终保持在画面内。\n- belief: 售货机里可能有她感兴趣的商品，值得停下来仔细看一看。她认为当前还需要继续确认和比较信息，暂时没有足够把握立即购买。\n- desire: 想进一步了解商品是否值得购买，并确认它是否符合自己的需求。\n- intention: 继续停留观察，反复确认信息并进行比较，在做出购买决定前保持谨慎。\n\nConsider one candidate intervention: Elicit_b1166d372e5e\n\nDialogue-act layer for this candidate:\n- act: Elicit\n- params: {'openness': 'open', 'slot': 'need_focus'}\n\nTerminal realization for this candidate:\n- surface_text: 您今天想先看价格、功能，还是适合什么场景？\n- screen: {'action': 'show_choice_bubbles', 'choices': ['价格', '功能', '场景'], 'cta': None}\n- voice_style: curious\n- light: soft_invitation\n\nConcrete execution plan for this candidate:\n- physical action: 智能售货柜通过屏幕、语音、灯效和必要的柜体反馈执行响应。\n- utterance: 您今天想先看价格、功能，还是适合什么场景？\n\nPredict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:\n<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\n- next_stage must be one of: attention, interest, desire, action.\n- risk and benefit must each be one of: low, medium, high.\n- reward must be a number in [-1.00, 1.00] with two decimal places.\n- all textual spans must be a single short clause in English.",
+  "gold": "<next_stage>interest</next_stage>\n<next_belief>机器关注并理解她在比较，主动帮助理清关注点，信息获取门槛降低。</next_belief>\n<next_desire>更方便地筛选出关键考虑因素，明确自己真正关心的内容（如功能/价格/场景）。</next_desire>\n<next_intention>有动力进一步定位需求，从泛泛兴趣过渡到具体需求探索，准备了解更相关信息。</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>0.21</reward>",
+  "meta": {
+    "parent_state_id": "target_piwm_700",
+    "candidate_action": "Elicit_b1166d372e5e",
+    "candidate_act": "Elicit",
+    "candidate_params": {
+      "openness": "open",
+      "slot": "need_focus"
+    },
+    "has_transition_gold": true
+  }
+}

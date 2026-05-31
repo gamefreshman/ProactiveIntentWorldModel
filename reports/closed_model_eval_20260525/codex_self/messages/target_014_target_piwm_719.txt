@@ -1,0 +1,4 @@
+<rationale>顾客已经完成明确确认动作，神情稳定、站姿放松，意图是尽快完成购买并等待取货提示；此时不应再推荐商品，适合给出交易完成式的简短确认与致谢反馈。</rationale>
+<chosen>Greet_889a5021015d</chosen>
+<intervention_action>终端显示感谢页面，配合温和语音和交易完成灯效，确认本次操作已完成。</intervention_action>
+<intervention_utterance>感谢惠顾，祝您使用愉快。</intervention_utterance>

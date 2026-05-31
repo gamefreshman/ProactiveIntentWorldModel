@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from math import log
 from typing import Protocol
 
 from piwm_data import rules
@@ -20,6 +21,8 @@ from piwm_train.prompts import (
     build_deliberation_prompt,
     build_perception_prompt,
 )
+
+FIVE_ACT_PREFIXES = {"Greet", "Elicit", "Inform", "Recommend", "Hold"}
 
 
 class VLMClient(Protocol):
@@ -57,10 +60,18 @@ class PIWMDecisionLoop:
         *,
         silence_threshold: int = 1,
         fallback_action: str = infer_config.FALLBACK_ACTION_ON_PARSE_ERROR,
+        five_act_only: bool = False,
+        hold_prior_lambda: float = 0.0,
+        hold_prior_target: float = 0.2,
+        hold_prior_observed: float = 16 / 30,
     ) -> None:
         self.vlm = vlm
         self.silence_threshold = silence_threshold
         self.fallback_action = fallback_action
+        self.five_act_only = five_act_only
+        self.hold_prior_lambda = hold_prior_lambda
+        self.hold_prior_target = hold_prior_target
+        self.hold_prior_observed = hold_prior_observed
 
     def decide(self, state_row: dict) -> DecisionResult:
         """Run perception, deliberation, continuation caption, and action selection."""
@@ -86,6 +97,8 @@ class PIWMDecisionLoop:
             )
 
         candidates = list(perception["candidate_actions"])
+        if self.five_act_only:
+            candidates = [action for action in candidates if _is_five_act_action(action)]
         if perception["proactive_score"] <= self.silence_threshold:
             action = self._fallback_or_first_valid(candidates)
             return DecisionResult(
@@ -146,14 +159,15 @@ class PIWMDecisionLoop:
                 role="action",
                 max_new_tokens=infer_config.MAX_NEW_TOKENS_ACTION,
             )
-            action = parse_action_output(action_raw, valid_actions=set(per_candidate))
+            action = parse_action_output(action_raw, valid_actions=set(per_candidate), five_act_only=self.five_act_only)
+            chosen_action, prior_note = self._apply_hold_prior_calibration(action["chosen"], per_candidate)
             return DecisionResult(
                 state_id=state_id,
                 perception=perception,
                 candidates=candidates,
                 per_candidate=per_candidate,
-                chosen_action=action["chosen"],
-                rationale=action["rationale"],
+                chosen_action=chosen_action,
+                rationale=action["rationale"] + prior_note,
                 errors=errors,
             )
         except MalformedOutputError as exc:
@@ -162,7 +176,7 @@ class PIWMDecisionLoop:
                 per_candidate,
                 key=lambda action: (
                     -per_candidate[action].reward,
-                    rules.ACTIONS.index(action),
+                    _action_rank(action),
                 ),
             )
             return DecisionResult(
@@ -175,6 +189,34 @@ class PIWMDecisionLoop:
                 used_fallback=True,
                 errors=errors,
             )
+
+    def _apply_hold_prior_calibration(
+        self,
+        chosen: str,
+        per_candidate: dict[str, CandidatePrediction],
+    ) -> tuple[str, str]:
+        if not (self.five_act_only and self.hold_prior_lambda > 0):
+            return chosen, ""
+        if _act_prefix(chosen) != "Hold":
+            return chosen, ""
+        if not any(_act_prefix(action) != "Hold" for action in per_candidate):
+            return chosen, ""
+        adjusted = {
+            action: pred.reward + self._hold_prior_reward_adjustment(action)
+            for action, pred in per_candidate.items()
+        }
+        best = max(adjusted, key=lambda action: (adjusted[action], -_action_rank(action)[0], action))
+        if best == chosen:
+            return chosen, ""
+        return best, " Hold was demoted by inference-time prior calibration."
+
+    def _hold_prior_reward_adjustment(self, action: str) -> float:
+        if _act_prefix(action) != "Hold":
+            return 0.0
+        prior = max(float(self.hold_prior_observed), 1e-6)
+        target = max(float(self.hold_prior_target), 1e-6)
+        penalty = self.hold_prior_lambda * log(prior / target)
+        return -penalty if penalty > 0 else 0.0
 
     def _fallback_or_first_valid(self, candidates: list[str]) -> str:
         if self.fallback_action in candidates:
@@ -236,3 +278,18 @@ class PIWMDecisionLoop:
             }
         }
 
+
+def _is_five_act_action(action: str) -> bool:
+    if "_" not in action:
+        return action in rules.ACTIONS
+    return action.split("_", 1)[0] in FIVE_ACT_PREFIXES
+
+
+def _action_rank(action: str) -> tuple[int, str]:
+    if action in rules.ACTIONS:
+        return (rules.ACTIONS.index(action), action)
+    return (len(rules.ACTIONS), action)
+
+
+def _act_prefix(action: str) -> str:
+    return action.split("_", 1)[0] if "_" in action else action

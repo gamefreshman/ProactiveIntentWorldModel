@@ -42,6 +42,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dry-run", action="store_true", help="Load and summarize records without rewriting official files.")
     parser.add_argument("--output-diff", type=Path, default=None, help="With --dry-run, write a planned file-diff summary without modifying official files.")
     parser.add_argument("--output-dir", type=Path, default=None, help="Write one dataset to an independent directory instead of rewriting the source dataset.")
+    parser.add_argument("--operational-5act-policy", action="store_true", help="Materialize strict operational policy rows with Greet/Elicit/Inform/Recommend/Hold and no Reassure.")
     args = parser.parse_args(argv)
     if args.output_diff is not None and not args.dry_run:
         parser.error("--output-diff requires --dry-run")
@@ -55,6 +56,7 @@ def main(argv: list[str] | None = None) -> int:
             dry_run=args.dry_run,
             include_diff=args.output_diff is not None,
             output_dir=args.output_dir if len(dataset_paths) == 1 else None,
+            operational_5act_policy=args.operational_5act_policy,
         )
         for path in dataset_paths
     ]
@@ -81,13 +83,14 @@ def refresh_dataset(
     dry_run: bool = False,
     include_diff: bool = False,
     output_dir: Path | None = None,
+    operational_5act_policy: bool = False,
 ) -> dict[str, Any]:
     resolved = dataset_dir.resolve()
     write_dir = (output_dir or resolved).resolve()
     main_schema = resolved / "main_schema.jsonl"
     if not main_schema.exists():
         raise FileNotFoundError(main_schema)
-    records = _records_with_rederived_v2_outcomes(load_records(main_schema))
+    records = _records_with_rederived_v2_outcomes(load_records(main_schema), operational_5act_policy=operational_5act_policy)
 
     if dry_run:
         n_state = len(records)
@@ -133,6 +136,7 @@ def refresh_dataset(
                 "realization",
                 "legacy_co_acts",
             ],
+            "operational_5act_policy": operational_5act_policy,
         }
     )
     if not dry_run:
@@ -148,6 +152,7 @@ def refresh_dataset(
         "n_transition_modeling_rows": n_transition,
         "n_policy_preference_rows": n_policy,
         "n_world_model_continuation_rows": n_continuation,
+        "operational_5act_policy": operational_5act_policy,
     }
     if dry_run and include_diff:
         summary["planned_file_diffs"] = _planned_file_diffs(records, resolved, stats)
@@ -163,11 +168,24 @@ def load_records(path: Path) -> list[MainSchemaRecord]:
     return records
 
 
-def _records_with_rederived_v2_outcomes(records: list[MainSchemaRecord]) -> list[MainSchemaRecord]:
-    return [_record_with_rederived_v2_outcomes(record) for record in records]
+def _records_with_rederived_v2_outcomes(
+    records: list[MainSchemaRecord],
+    *,
+    operational_5act_policy: bool = False,
+) -> list[MainSchemaRecord]:
+    return [
+        _record_with_rederived_v2_outcomes(record, operational_5act_policy=operational_5act_policy)
+        for record in records
+    ]
 
 
-def _record_with_rederived_v2_outcomes(record: MainSchemaRecord) -> MainSchemaRecord:
+def _record_with_rederived_v2_outcomes(
+    record: MainSchemaRecord,
+    *,
+    operational_5act_policy: bool = False,
+) -> MainSchemaRecord:
+    if operational_5act_policy:
+        return _record_with_operational_5act_policy(record)
     data = record.model_dump(mode="json")
     outcomes: dict[str, dict[str, Any]] = {}
     for action in record.candidate_actions:
@@ -183,6 +201,69 @@ def _record_with_rederived_v2_outcomes(record: MainSchemaRecord) -> MainSchemaRe
     data["reward_by_action"] = {action: outcome["reward"] for action, outcome in outcomes.items()}
     data.pop("next_state_by_action_v2", None)
     return MainSchemaRecord(**data)
+
+
+def _record_with_operational_5act_policy(record: MainSchemaRecord) -> MainSchemaRecord:
+    data = record.model_dump(mode="json")
+    candidate_specs = rules.derive_policy_candidate_specs(
+        record.latent_state,
+        record.aida_stage,
+        record.persona.intent_tier,
+    )
+    candidate_actions = [
+        rules.action_spec_key(spec["act"], spec.get("params", {}))
+        for spec in candidate_specs
+    ]
+    outcomes: dict[str, dict[str, Any]] = {}
+    for action_key, spec in zip(candidate_actions, candidate_specs):
+        outcomes[action_key] = rules.derive_action_outcome(
+            record.latent_state,
+            record.aida_stage,
+            record.persona.type,
+            act=spec["act"],
+            params=spec.get("params", {}),
+            intent_tier=record.persona.intent_tier,
+            visible_cues=record.observable_cues,
+        )
+    best_spec = rules.pick_best_action_spec(
+        record.latent_state,
+        record.aida_stage,
+        record.persona.type,
+        candidates=candidate_specs,
+        intent_tier=record.persona.intent_tier,
+        visible_cues=record.observable_cues,
+    )
+    best_action = rules.action_spec_key(best_spec["act"], best_spec.get("params", {}))
+    terminal_realization = rules.derive_terminal_realization_from_act(
+        best_spec["act"],
+        best_spec.get("params", {}),
+    )
+
+    data["candidate_actions"] = candidate_actions
+    data["candidate_action_specs"] = candidate_specs
+    data["best_action"] = best_action
+    data["best_action_spec"] = best_spec
+    data["dialogue_act"] = best_spec["act"]
+    data["act_params"] = rules.merge_supporting_acts(best_spec.get("params", {}))
+    data["co_acts"] = rules.legacy_co_acts_from_params(data["act_params"])
+    data["realization"] = terminal_realization
+    data["best_action_realization"] = _action_realization_payload(best_action, terminal_realization)
+    data["next_state_by_action"] = outcomes
+    data["next_state_by_action_v2"] = outcomes
+    data["reward_by_action"] = {action: outcome["reward"] for action, outcome in outcomes.items()}
+    data["continuations"] = {}
+    data["rationale"] = outcomes[best_action].get("rationale")
+    return MainSchemaRecord(**data)
+
+
+def _action_realization_payload(action_key: str, terminal_realization: dict[str, Any]) -> dict[str, Any]:
+    surface_text = terminal_realization.get("surface_text") or "（静默）"
+    return {
+        "utterance": surface_text,
+        "physical_action": "智能售货柜按屏幕、语音、灯效执行该候选响应。",
+        "timing": "设备前置摄像头检测到当前顾客状态后触发。",
+        "rationale": f"operational 5-act terminal realization for {action_key}",
+    }
 
 
 def write_main_schema(records: list[MainSchemaRecord], path: Path) -> None:

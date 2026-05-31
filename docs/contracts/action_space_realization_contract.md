@@ -1,15 +1,15 @@
 # PIWM Action Space and Realization Contract
 
-更新时间：2026-05-13 CST
+更新时间：2026-05-19 CST
 
-本文是 PIWM v2.1 动作空间的当前契约。它替代旧文档中把 policy 动作、T-state、屏幕 UI、真人导购动作混在一起的写法。旧 `A1-A8` 和 `T1-T7/T_TRANSACT` 仍作为兼容标签保留，但不再是新体系的语义中心。
+本文是 PIWM v2.2 动作空间的当前契约。它替代旧文档中把 policy 动作、T-state、屏幕 UI、真人导购动作混在一起的写法。旧 `A1-A8` 和 `T1-T7/T_TRANSACT` 仍作为兼容标签保留，但不再是新体系的语义中心。
 
 当前明确分成两条数据线：
 
 - `PIWM-Train-Synth-v1` 保留真人导购逻辑，训练模型理解顾客状态、真人导购介入策略、话术和动作。这里的执行主体是 human salesperson logic。
 - 后续单独建设 target terminal dataset，执行主体才是智能导购终端 / 数字人售货柜，使用 `screen / voice / light / cabinet_motion` 作为主监督。
 
-两条线共享同一个 6-act policy space，不能再扩散出并行动作表。
+当前 operational policy space 收敛为 5 个动作：`Greet / Elicit / Inform / Recommend / Hold`。`Reassure` 保留为历史/source 标签和兼容分析边界，但不进入当前 5-act action-selection 训练、推理和 macro-F1 口径。
 
 ## 1. Three Layers
 
@@ -24,23 +24,29 @@ Terminal target:   screen / voice / light / cabinet motion
 - target terminal dataset 另行用 deterministic template/rule layer 输出终端响应包。
 - Terminal layer 只执行响应包，不理解 AIDA/BDI/reward。
 
-## 2. Dialogue Acts
+## 2. Operational Dialogue Acts
 
 | Act | Dimension | Params | Meaning |
 |---|---|---|---|
-| `Greet` | Social Obligations | `phase=open|close` | 开场或收尾礼节 |
 | `Elicit` | Task | `openness=open|closed`, `slot` | 主动获取顾客信息 |
 | `Inform` | Task | `content_type=comparison|demo|attributes|price`, `depth=brief|detailed` | 提供描述、比较、演示或参数信息 |
 | `Recommend` | Task | `target=item|action`, `pressure=soft|firm` | 建议具体商品或下一步 |
-| `Reassure` | Allo-Feedback | `focus=time|decision|alternatives` | 安抚、降压、降低决策压力 |
+| `Greet` | Social Obligations | `phase=open|close` | 开场或收尾礼节 |
 | `Hold` | Turn Management | `mode=silent|ambient` | 让出话轮或低干扰观察 |
+
+排除/兼容动作：
+
+| Act | Status | Params | Meaning |
+|---|---|---|---|
+| `Reassure` | historical/source compatibility; excluded from current 5-act train/eval/inference | `focus=time|decision|alternatives` | 安抚、降压、降低决策压力 |
 
 共现规则：
 
-- `Elicit / Inform / Recommend` 每轮最多一个。
-- `Greet / Reassure / Hold` 可与 Task act 共现。
+- `Greet / Elicit / Inform / Recommend` 每轮最多一个。
+- `Hold` 可与 Task act 共现。
+- `Reassure` 不进入当前 5-act action-selection 主路径；历史数据中出现时只能作为 source/compatibility 分析对象。
 - 新增终端能力优先挂到已有 act 的 params 或 realization 模板，不直接新增 policy act。
-- v2.1 不再把共现动作作为顶层 `co_acts`；辅助动作写入 `act_params.supporting_acts`。旧 `co_acts` 只作为 legacy alias 读入和回写。
+- v2.2 不再把共现动作作为顶层 `co_acts`；辅助动作写入 `act_params.supporting_acts`。旧 `co_acts` 只作为 legacy alias 读入和回写。
 
 示例：
 
@@ -111,9 +117,9 @@ target terminal dataset 的 realization 输出以下结构：
 | `T3_STRONG_RECOMMEND` | `Recommend(target=item, pressure=firm)` |
 | `T4_OPEN_QUESTION` | `Elicit(openness=open, slot=need_focus)` |
 | `T5_DEMO` | `Inform(content_type=demo, depth=brief)` |
-| `T6_ACK_WAIT` | `Reassure(focus=time, supporting_acts=[Hold(mode=ambient)])` |
+| `T6_ACK_WAIT` | `Reassure(focus=time, supporting_acts=[Hold(mode=ambient)])`，历史/source 兼容，不计入当前主 5-act |
 | `T7_DISENGAGE` | `Hold(mode=ambient)` |
-| `T_TRANSACT` | `Greet(phase=close)` |
+| `T_TRANSACT` | `Greet(phase=close)`，当前 5-act 兼容映射 |
 
 ## 5. Shooting Response Mapping
 
@@ -126,7 +132,7 @@ target terminal dataset 的 realization 输出以下结构：
 | 提供信息 - 罗列参数 / 价格 | `Inform(content_type=attributes, depth=brief)` |
 | 建议推荐 - 力度温和 | `Recommend(target=item, pressure=soft)` |
 | 建议推荐 - 力度强势 | `Recommend(target=item, pressure=firm)` |
-| 安抚降压 | `Reassure(focus=time, supporting_acts=[Hold(mode=ambient)])` |
+| 安抚降压 | `Reassure(focus=time, supporting_acts=[Hold(mode=ambient)])`，历史/source 兼容，不进入当前 5-act |
 | 暂不打扰 - 完全静默 | `Hold(mode=silent)` |
 | 暂不打扰 - 背景退出 | `Hold(mode=ambient)` |
 

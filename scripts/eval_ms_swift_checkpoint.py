@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 import time
 from pathlib import Path
@@ -17,7 +18,7 @@ from typing import Any
 import torch
 from peft import PeftModel
 from qwen_vl_utils import process_vision_info
-from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
+from transformers import AutoProcessor, LogitsProcessor, LogitsProcessorList, Qwen2_5_VLForConditionalGeneration
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -35,6 +36,19 @@ from piwm_infer.parsers import (
 )
 
 
+class TokenBiasLogitsProcessor(LogitsProcessor):
+    """Apply a constant generation-time bias to selected token ids."""
+
+    def __init__(self, token_ids: set[int], bias: float) -> None:
+        self.token_ids = sorted(token_ids)
+        self.bias = bias
+
+    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
+        if self.token_ids and self.bias:
+            scores[:, self.token_ids] += self.bias
+        return scores
+
+
 def _read_rows(path: Path, limit: int | None) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     with path.open(encoding="utf-8") as handle:
@@ -47,7 +61,7 @@ def _read_rows(path: Path, limit: int | None) -> list[dict[str, Any]]:
     return rows
 
 
-def _task_parser(task: str):
+def _task_parser(task: str, row: dict[str, Any] | None = None):
     if task == "user_intent":
         return parse_user_intent_output
     if task == "perception":
@@ -59,7 +73,16 @@ def _task_parser(task: str):
     if task == "future_verification":
         return parse_future_verification_output
     if task in {"action_selection", "action_selection_5act"}:
-        return (lambda raw: parse_action_output(raw, five_act_only=True)) if task == "action_selection_5act" else parse_action_output
+        valid_actions = None
+        if row is not None:
+            mapping = row.get("meta", {}).get("candidate_action_acts", {})
+            if mapping:
+                valid_actions = mapping.keys()
+        return (
+            lambda raw: parse_action_output(raw, valid_actions=valid_actions, five_act_only=True)
+            if task == "action_selection_5act"
+            else parse_action_output(raw, valid_actions=valid_actions)
+        )
     raise ValueError(f"unsupported task: {task}")
 
 
@@ -98,11 +121,44 @@ def _generate_one(model, processor, row: dict[str, Any], args: argparse.Namespac
         return_tensors="pt",
     )
     inputs = inputs.to(model.device)
+    logits_processor = _logits_processor_for_row(processor, row, args)
     with torch.inference_mode():
-        generated_ids = model.generate(**inputs, max_new_tokens=args.max_new_tokens, do_sample=False)
+        generated_ids = model.generate(
+            **inputs,
+            max_new_tokens=args.max_new_tokens,
+            do_sample=False,
+            logits_processor=logits_processor,
+        )
     prompt_len = inputs["input_ids"].shape[-1]
     generated_ids = generated_ids[:, prompt_len:]
     return processor.batch_decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+
+
+def _logits_processor_for_row(processor, row: dict[str, Any], args: argparse.Namespace) -> LogitsProcessorList | None:
+    if row.get("task") != "action_selection_5act":
+        return None
+    if args.hold_prior_lambda <= 0:
+        return None
+    hold_token_ids = _hold_candidate_token_ids(processor, row)
+    if not hold_token_ids:
+        return None
+    prior = max(float(args.hold_prior_observed), 1e-6)
+    target = max(float(args.hold_prior_target), 1e-6)
+    penalty = float(args.hold_prior_lambda) * math.log(prior / target)
+    if penalty <= 0:
+        return None
+    return LogitsProcessorList([TokenBiasLogitsProcessor(hold_token_ids, -penalty)])
+
+
+def _hold_candidate_token_ids(processor, row: dict[str, Any]) -> set[int]:
+    mapping = row.get("meta", {}).get("candidate_action_acts", {})
+    hold_labels = [label for label, act in mapping.items() if act == "Hold"]
+    token_ids: set[int] = set()
+    tokenizer = processor.tokenizer
+    for label in hold_labels:
+        encoded = tokenizer(label, add_special_tokens=False)
+        token_ids.update(int(token_id) for token_id in encoded.get("input_ids", []))
+    return token_ids
 
 
 def _score(parsed: dict[str, Any], gold: dict[str, Any], task: str) -> dict[str, bool]:
@@ -165,6 +221,8 @@ def _classification_items(parsed: dict[str, Any], gold: dict[str, Any], row: dic
 
 def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     rows = _read_rows(args.input_jsonl, args.limit)
+    if args.no_lora:
+        args.checkpoint = None
     processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
     base = Qwen2_5_VLForConditionalGeneration.from_pretrained(
         args.model,
@@ -194,7 +252,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     for index, row in enumerate(rows, start=1):
         task = row.get("task", "unknown")
         task_counts[task] = task_counts.get(task, 0) + 1
-        parser = _task_parser(task)
+        parser = _task_parser(task, row)
         gold_raw = _primary_structured_block(row["messages"][2]["content"])
         gold = parser(gold_raw)
         record: dict[str, Any] = {
@@ -272,6 +330,10 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             "max_pixels": args.max_pixels,
             "torch_dtype": args.torch_dtype,
             "device_map": args.device_map,
+            "no_lora": args.no_lora,
+            "hold_prior_lambda": args.hold_prior_lambda,
+            "hold_prior_target": args.hold_prior_target,
+            "hold_prior_observed": args.hold_prior_observed,
         },
         "n_records": len(rows),
         "task_counts": task_counts,
@@ -378,6 +440,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", type=Path, required=True)
     parser.add_argument("--checkpoint", type=Path, default=None)
+    parser.add_argument("--no-lora", action="store_true", help="Force checkpoint=None for base-model / zero-shot evaluation.")
     parser.add_argument("--eval-label", default=None)
     parser.add_argument("--input-jsonl", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
@@ -387,9 +450,30 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-pixels", type=int, default=None)
     parser.add_argument("--torch-dtype", choices=["bfloat16", "float16"], default="bfloat16")
     parser.add_argument("--device-map", default="auto")
+    parser.add_argument(
+        "--hold-prior-lambda",
+        type=float,
+        default=0.0,
+        help="For action_selection_5act generation, subtract lambda*log(observed/target) from Hold candidate label token logits.",
+    )
+    parser.add_argument(
+        "--hold-prior-target",
+        type=float,
+        default=0.2,
+        help="Target Hold prior used by --hold-prior-lambda. Balanced 5-act target test uses 0.2.",
+    )
+    parser.add_argument(
+        "--hold-prior-observed",
+        type=float,
+        default=16 / 30,
+        help="Observed Hold prediction prior from the Path C quick probe.",
+    )
     parser.add_argument("--progress-every", type=int, default=10)
     parser.add_argument("--partial-out-every", type=int, default=25)
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.no_lora and args.checkpoint is not None:
+        parser.error("--no-lora cannot be combined with --checkpoint")
+    return args
 
 
 def main() -> None:

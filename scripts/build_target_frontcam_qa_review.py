@@ -9,7 +9,7 @@ from typing import Any
 
 
 DEFAULT_MAIN_SCHEMA = Path("data/official/piwm_target_v1/main_schema.jsonl")
-DEFAULT_OUTPUT_DIR = Path("data/official/piwm_target_v1/qa_review_target30")
+DEFAULT_OUTPUT_DIR = Path("data/official/piwm_target_v1/qa_review_target30_5act")
 DEFAULT_FRAME_WIDTH = 260
 
 
@@ -42,7 +42,7 @@ def build_target_frontcam_qa_review(
         "n_records": len(review_rows),
         "n_records_with_all_frames": sum(1 for row in review_rows if row["all_frames_exist"]),
         "n_missing_frames": sum(row["n_missing_frames"] for row in review_rows),
-        "qa_status_before_review": "synthetic_unreviewed",
+        "qa_status_before_review": "qa_pending_project_lead_review",
         "sheets": sheets,
         "review_rows": review_rows,
         "manual_review_instruction": "Fill each template, then promote passing rows to qa_reviewed in a later audited step.",
@@ -107,8 +107,10 @@ def _manual_review_template(record: dict[str, Any]) -> dict[str, Any]:
             "action_realization_reasonable": None,
         },
         "overall_pass": None,
+        "warning_flags": [],
         "reviewer": "",
         "reviewed_at": "",
+        "review_type": "",
         "notes": "",
     }
 

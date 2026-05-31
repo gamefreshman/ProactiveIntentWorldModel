@@ -1,0 +1,1214 @@
+{
+  "artifact": "stage1_task_level_eval_intermediate",
+  "n_records": 235,
+  "parse_counts": {
+    "user_intent::parsed_ok": 50,
+    "next_state_prediction::parsed_ok": 185
+  },
+  "parse_error_rate": 0.0,
+  "user_intent": {
+    "stage": {
+      "macro_f1": 0.41507936507936505,
+      "per_class": {
+        "action": {
+          "precision": 0.5,
+          "recall": 0.14285714285714285,
+          "f1": 0.22222222222222224,
+          "support": 7,
+          "pred_count": 2
+        },
+        "attention": {
+          "precision": 0.6,
+          "recall": 0.75,
+          "f1": 0.6666666666666665,
+          "support": 4,
+          "pred_count": 5
+        },
+        "desire": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 12,
+          "pred_count": 0
+        },
+        "interest": {
+          "precision": 0.627906976744186,
+          "recall": 1.0,
+          "f1": 0.7714285714285715,
+          "support": 27,
+          "pred_count": 43
+        }
+      },
+      "accuracy": 0.62
+    },
+    "intent_label": {
+      "macro_f1": 0.1781609195402299,
+      "per_class": {
+        "compare_value_for_money": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1,
+          "pred_count": 0
+        },
+        "confirm_choice": {
+          "precision": 0.4,
+          "recall": 0.42857142857142855,
+          "f1": 0.4137931034482759,
+          "support": 14,
+          "pred_count": 15
+        },
+        "explore_options": {
+          "precision": 0.6,
+          "recall": 0.42857142857142855,
+          "f1": 0.5,
+          "support": 7,
+          "pred_count": 5
+        },
+        "leave_without_purchase": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2,
+          "pred_count": 0
+        },
+        "negotiate_price": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 5,
+          "pred_count": 0
+        },
+        "request_demonstration": {
+          "precision": 0.23333333333333334,
+          "recall": 0.5833333333333334,
+          "f1": 0.33333333333333337,
+          "support": 12,
+          "pred_count": 30
+        },
+        "seek_reassurance": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9,
+          "pred_count": 0
+        }
+      },
+      "accuracy": 0.32
+    },
+    "intent_confusion": {
+      "request_demonstration": {
+        "confirm_choice": 5,
+        "request_demonstration": 7
+      },
+      "confirm_choice": {
+        "request_demonstration": 8,
+        "confirm_choice": 6
+      },
+      "seek_reassurance": {
+        "request_demonstration": 6,
+        "confirm_choice": 2,
+        "explore_options": 1
+      },
+      "compare_value_for_money": {
+        "confirm_choice": 1
+      },
+      "explore_options": {
+        "request_demonstration": 4,
+        "explore_options": 3
+      },
+      "leave_without_purchase": {
+        "request_demonstration": 1,
+        "explore_options": 1
+      },
+      "negotiate_price": {
+        "request_demonstration": 4,
+        "confirm_choice": 1
+      }
+    }
+  },
+  "next_state_prediction": {
+    "next_stage": {
+      "macro_f1": 0.9140834575260806,
+      "per_class": {
+        "action": {
+          "precision": 0.8888888888888888,
+          "recall": 0.6153846153846154,
+          "f1": 0.7272727272727274,
+          "support": 13,
+          "pred_count": 9
+        },
+        "attention": {
+          "precision": 0.9464285714285714,
+          "recall": 0.9814814814814815,
+          "f1": 0.9636363636363636,
+          "support": 54,
+          "pred_count": 56
+        },
+        "desire": {
+          "precision": 0.9782608695652174,
+          "recall": 0.989010989010989,
+          "f1": 0.9836065573770493,
+          "support": 91,
+          "pred_count": 92
+        },
+        "interest": {
+          "precision": 0.9642857142857143,
+          "recall": 1.0,
+          "f1": 0.9818181818181818,
+          "support": 27,
+          "pred_count": 28
+        }
+      },
+      "accuracy": 0.9621621621621622
+    },
+    "reward": {
+      "n": 185,
+      "mae": 0.03432432432432433,
+      "spearman": 0.9709673904233909
+    }
+  },
+  "bdi_exact": {
+    "user_intent::belief": {
+      "exact_match": 0.4,
+      "correct": 20,
+      "total": 50
+    },
+    "user_intent::desire": {
+      "exact_match": 0.32,
+      "correct": 16,
+      "total": 50
+    },
+    "user_intent::intention": {
+      "exact_match": 0.32,
+      "correct": 16,
+      "total": 50
+    },
+    "next_state_prediction::belief": {
+      "exact_match": 0.9459459459459459,
+      "correct": 175,
+      "total": 185
+    },
+    "next_state_prediction::desire": {
+      "exact_match": 0.9459459459459459,
+      "correct": 175,
+      "total": 185
+    },
+    "next_state_prediction::intention": {
+      "exact_match": 0.9459459459459459,
+      "correct": 175,
+      "total": 185
+    }
+  },
+  "judge_pairs_count": 128,
+  "judge_pairs": [
+    {
+      "task_id": "piwm_0b0d31c38b",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is promising, but fit or usage experience must be confirmed.",
+      "prediction": "The product is promising, but fit or usage experience needs confirmation."
+    },
+    {
+      "task_id": "piwm_0b0d31c38b",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "see how the product works",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_0b0d31c38b",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask for a demonstration",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_1cc2c20d89",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "A suitable option may be close, but staff input is needed before deciding.",
+      "prediction": "The product is interesting, but its value-for-money is not yet justified."
+    },
+    {
+      "task_id": "piwm_1cc2c20d89",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_1cc2c20d89",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_23563ed080",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_23563ed080",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_3549e65d37",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The shopper may be ready for service, but still needs final confirmation.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_3549e65d37",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_3549e65d37",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_4d433ad0b0",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "find better value for money",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_4d433ad0b0",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "compare alternatives before deciding",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_5883d29028",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The shopper may be ready for service, but still needs final confirmation.",
+      "prediction": "The shopper may be ready for service, but still needs confirmation."
+    },
+    {
+      "task_id": "piwm_5d80d9bd7d",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_5d80d9bd7d",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_6393f77756",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_6393f77756",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_72062b7b5a",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is interesting, but its value-for-money is not yet justified.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_72062b7b5a",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_72062b7b5a",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_7ff44d2096",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "Further engagement may feel intrusive at this moment.",
+      "prediction": "The product is interesting, but its value-for-money is not yet justified."
+    },
+    {
+      "task_id": "piwm_7ff44d2096",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "avoid further engagement",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_7ff44d2096",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "leave without buying",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_8916c58066",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The shopper may be ready for service, but still needs final confirmation.",
+      "prediction": "Situation may be promising, but confirmation is needed before deciding."
+    },
+    {
+      "task_id": "piwm_8f67abde4f",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "see how the product works",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_8f67abde4f",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask for a demonstration",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_a0a987dafb",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "Further engagement may feel intrusive at this moment.",
+      "prediction": "The category is only mildly interesting, and interruption may feel premature."
+    },
+    {
+      "task_id": "piwm_a0a987dafb",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "avoid further engagement",
+      "prediction": "explore available options"
+    },
+    {
+      "task_id": "piwm_a0a987dafb",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "leave without buying",
+      "prediction": "continue browsing and comparing"
+    },
+    {
+      "task_id": "piwm_cf882269c4",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "A suitable option may be close, but staff input is needed before deciding.",
+      "prediction": "The product is interesting, but its value-for-money is not yet justified."
+    },
+    {
+      "task_id": "piwm_e9721b3770",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "A suitable option may be close, but staff input is needed before deciding.",
+      "prediction": "Two options remain close, and the decisive difference is not yet clear."
+    },
+    {
+      "task_id": "piwm_fcff61e1e2",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_fcff61e1e2",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_10954062d9",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "Two options remain close, and the decisive difference is not yet clear.",
+      "prediction": "The product is interesting, but its value-for-money is not yet justified."
+    },
+    {
+      "task_id": "piwm_10954062d9",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "see how the product works",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_10954062d9",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask for a demonstration",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_11b1c9b3b2",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "obtain a better price",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_11b1c9b3b2",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask about price flexibility",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_19b9af6906",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is interesting, but its value-for-money is not yet justified.",
+      "prediction": "The category is only mildly interesting, and interruption may feel premature."
+    },
+    {
+      "task_id": "piwm_19b9af6906",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "explore available options"
+    },
+    {
+      "task_id": "piwm_19b9af6906",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "continue browsing and comparing"
+    },
+    {
+      "task_id": "piwm_1e48f04174",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "obtain a better price",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_1e48f04174",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask about price flexibility",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_213a4d53b6",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is promising, but fit or usage experience must be confirmed.",
+      "prediction": "The product details are promising, but tactile or functional confirmation is still needed."
+    },
+    {
+      "task_id": "piwm_213a4d53b6",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_213a4d53b6",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_2a6e68efef",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "Two options remain close, and the decisive difference is not yet clear.",
+      "prediction": "The product details are promising, but tactile or functional confirmation is still needed."
+    },
+    {
+      "task_id": "piwm_2a6e68efef",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_2a6e68efef",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_406e0119ba",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "see how the product works",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_406e0119ba",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask for a demonstration",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_4218e0ce90",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_4218e0ce90",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_4b61cd89e5",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product details are promising, but tactile or functional confirmation is still needed.",
+      "prediction": "External prices, reviews, or specifications may change the choice."
+    },
+    {
+      "task_id": "piwm_7467483f51",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product details are promising, but tactile or functional confirmation is still needed.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_8752ef0117",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is interesting, but its value-for-money is not yet justified.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_8752ef0117",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_8752ef0117",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_894dd04b62",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "Two options remain close, and the decisive difference is not yet clear.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_894dd04b62",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_894dd04b62",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_8baa631185",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is promising, but fit or usage experience must be confirmed.",
+      "prediction": "The product details are promising, but tactile or functional confirmation is still needed."
+    },
+    {
+      "task_id": "piwm_ae109f5eb9",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "obtain a better price",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_ae109f5eb9",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask about price flexibility",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_caff431f9e",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "A suitable option may be close, but staff input is needed before deciding.",
+      "prediction": "The product is interesting, but its value-for-money is not yet justified."
+    },
+    {
+      "task_id": "piwm_caff431f9e",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_caff431f9e",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_cb35ccc54a",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "Two options remain close, and the decisive difference is not yet clear.",
+      "prediction": "A companion's approval may influence whether the choice feels safe."
+    },
+    {
+      "task_id": "piwm_cb35ccc54a",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "see how the product works",
+      "prediction": "confirm the preferred choice"
+    },
+    {
+      "task_id": "piwm_cb35ccc54a",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask for a demonstration",
+      "prediction": "move toward confirming the choice"
+    },
+    {
+      "task_id": "piwm_dbdbef1ea2",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product details are promising, but tactile or functional confirmation is still needed.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_edc774a18b",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "A suitable option may be close, but staff input is needed before deciding.",
+      "prediction": "The product is interesting, but its value-for-money is not yet justified."
+    },
+    {
+      "task_id": "piwm_edc774a18b",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_edc774a18b",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_02f63ed4ff",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product details are promising, but tactile or functional confirmation is still needed.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_28ac101d3f",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is interesting, but its value-for-money is not yet justified.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_28ac101d3f",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_28ac101d3f",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_45f95c24fd",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is interesting, but its value-for-money is not yet justified.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_45f95c24fd",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_45f95c24fd",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_4defa34623",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_4defa34623",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_5c7f311c9f",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is promising, but fit or usage experience must be confirmed.",
+      "prediction": "The product is promising, but visible differences must be confirmed."
+    },
+    {
+      "task_id": "piwm_5c7f311c9f",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "obtain a better price",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_5c7f311c9f",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask about price flexibility",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_b1d41f7478",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_b1d41f7478",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_b389da0cdc",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "Two options remain close, and the decisive difference is not yet clear.",
+      "prediction": "The product is promising, but fit or usage experience must be confirmed."
+    },
+    {
+      "task_id": "piwm_b389da0cdc",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "see how the product works"
+    },
+    {
+      "task_id": "piwm_b389da0cdc",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_bf786f2801",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "The product is interesting, but its value-for-money is not yet justified.",
+      "prediction": "The category is promising, and salesperson should confirm key details."
+    },
+    {
+      "task_id": "piwm_bf786f2801",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "see how the option fits"
+    },
+    {
+      "task_id": "piwm_bf786f2801",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "ask about fit and try-on"
+    },
+    {
+      "task_id": "piwm_cba34b0fb9",
+      "task_type": "user_intent",
+      "field": "belief",
+      "ground_truth": "Two options remain close, and the decisive difference is not yet clear.",
+      "prediction": "A suitable option may be close, but staff input is needed before deciding."
+    },
+    {
+      "task_id": "piwm_cba34b0fb9",
+      "task_type": "user_intent",
+      "field": "desire",
+      "ground_truth": "obtain a better price",
+      "prediction": "see how the option works"
+    },
+    {
+      "task_id": "piwm_cba34b0fb9",
+      "task_type": "user_intent",
+      "field": "intention",
+      "ground_truth": "ask about price flexibility",
+      "prediction": "ask for a demonstration"
+    },
+    {
+      "task_id": "piwm_1cc2c20d89#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "The salesperson may help resolve the decision.",
+      "prediction": "The salesperson may be applying too much pressure."
+    },
+    {
+      "task_id": "piwm_1cc2c20d89#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "avoid further engagement"
+    },
+    {
+      "task_id": "piwm_1cc2c20d89#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "leave without buying"
+    },
+    {
+      "task_id": "piwm_8916c58066#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "The current interaction is not useful enough to continue.",
+      "prediction": "The decision remains uncertain after the last observation."
+    },
+    {
+      "task_id": "piwm_8916c58066#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "avoid further engagement",
+      "prediction": "gain reassurance before deciding"
+    },
+    {
+      "task_id": "piwm_8916c58066#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "leave without buying",
+      "prediction": "look for reassurance or clarification"
+    },
+    {
+      "task_id": "piwm_cf882269c4#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "The decision remains uncertain after the last observation.",
+      "prediction": "The salesperson may help resolve the decision."
+    },
+    {
+      "task_id": "piwm_cf882269c4#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "gain reassurance before deciding",
+      "prediction": "explore available options"
+    },
+    {
+      "task_id": "piwm_cf882269c4#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "look for reassurance or clarification",
+      "prediction": "continue browsing and comparing"
+    },
+    {
+      "task_id": "piwm_cf882269c4#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "The salesperson may help resolve the decision.",
+      "prediction": "The salesperson may be applying too much pressure."
+    },
+    {
+      "task_id": "piwm_cf882269c4#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "avoid further engagement"
+    },
+    {
+      "task_id": "piwm_cf882269c4#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "leave without buying"
+    },
+    {
+      "task_id": "piwm_e9721b3770#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "The salesperson may help resolve the decision.",
+      "prediction": "The decision remains uncertain after the last observation."
+    },
+    {
+      "task_id": "piwm_e9721b3770#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "gain reassurance before deciding"
+    },
+    {
+      "task_id": "piwm_e9721b3770#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "look for reassurance or clarification"
+    },
+    {
+      "task_id": "piwm_efe6705426#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "Several options remain worth comparing.",
+      "prediction": "The decision remains uncertain after the last observation."
+    },
+    {
+      "task_id": "piwm_efe6705426#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "gain reassurance before deciding"
+    },
+    {
+      "task_id": "piwm_efe6705426#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "look for reassurance or clarification"
+    },
+    {
+      "task_id": "piwm_2a6e68efef#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "Several options remain worth comparing.",
+      "prediction": "The decision remains uncertain after the last observation."
+    },
+    {
+      "task_id": "piwm_2a6e68efef#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "gain reassurance before deciding"
+    },
+    {
+      "task_id": "piwm_2a6e68efef#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "look for reassurance or clarification"
+    },
+    {
+      "task_id": "piwm_894dd04b62#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "Several options remain worth comparing.",
+      "prediction": "The decision remains uncertain after the last observation."
+    },
+    {
+      "task_id": "piwm_894dd04b62#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "confirm the preferred choice",
+      "prediction": "gain reassurance before deciding"
+    },
+    {
+      "task_id": "piwm_894dd04b62#Hold_eda24b4bb712",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "move toward confirming the choice",
+      "prediction": "look for reassurance or clarification"
+    },
+    {
+      "task_id": "piwm_caff431f9e#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "The salesperson may help resolve the decision.",
+      "prediction": "The salesperson may be applying too much pressure."
+    },
+    {
+      "task_id": "piwm_caff431f9e#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "avoid further engagement"
+    },
+    {
+      "task_id": "piwm_caff431f9e#Recommend_9ff23b139b07",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "leave without buying"
+    },
+    {
+      "task_id": "piwm_edc774a18b#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "belief",
+      "ground_truth": "The salesperson may help resolve the decision.",
+      "prediction": "The decision remains uncertain after the last observation."
+    },
+    {
+      "task_id": "piwm_edc774a18b#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "desire",
+      "ground_truth": "explore available options",
+      "prediction": "gain reassurance before deciding"
+    },
+    {
+      "task_id": "piwm_edc774a18b#Elicit_b1166d372e5e",
+      "task_type": "next_state_prediction",
+      "field": "intention",
+      "ground_truth": "continue browsing and comparing",
+      "prediction": "look for reassurance or clarification"
+    }
+  ],
+  "error_buckets": {
+    "user_intent::多个错": [
+      {
+        "task_id": "piwm_0b0d31c38b",
+        "task_type": "user_intent",
+        "input": "<image><image><image>You are observing a short customer-behavior window.\n\nScene: 顾客在零售店内。\n\nBelow are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nInfer the customer's current user state from the visible behavior only. Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.\n\nOutput the following fields, in this exact order, each on its own line:\n<stage>...</stage>\n<intent_label>...</intent_label>\n<visual_summary>...</visual_summary>\n<engagement_pattern>...</engagement_pattern>\n<gaze_and_attention>...</gaze_and_attention>\n<body_and_hands>...</body_and_hands>\n<belief>...</belief>\n<desire>...</desire>\n<intention>...</intention>\n\n- stage must be one of: attention, interest, desire, action.\n- intent_label must be one existing PIWM intention category, such as confirm_choice, explore_options, request_demonstration, seek_reassurance, negotiate_price, leave_without_purchase, compare_value_for_money, or no_clear_intent.\n- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.\n- belief, desire, and intention must be short customer-state clauses, not salesperson advice.",
+        "ground_truth": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客正在试用或测试商品，说明已经进入体验式评估。 当前场景是服装陈列区，可见判断应围绕面料手感、垂坠感、版型线条或搭配效果。视角为导购可观察中近距离视角。</visual_summary>\n<engagement_pattern>顾客和商品发生直接体验关系。 动作与试用过程相关，停留意愿较强。 互动已经进入体验层面，重点是面料手感、垂坠感、版型线条或搭配效果是否被确认。</engagement_pattern>\n<gaze_and_attention>视线集中在试用效果、镜面反馈或商品反应上。 视线重点应落在面料手感、垂坠感、版型线条或搭配效果产生的可见反馈。</gaze_and_attention>\n<body_and_hands>身体靠近商品并配合测试动作。 手部正在操作、试穿或测试商品。 手部动作应重点看是否在确认面料手感、垂坠感、版型线条或搭配效果。</body_and_hands>\n<belief>The product is promising, but fit or usage experience must be confirmed.</belief>\n<desire>see how the product works</desire>\n<intention>ask for a demonstration</intention>",
+        "model_output": "<stage>interest</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>顾客正在试用或测试商品，说明已经进入体验式评估。 当前场景是手机陈列区，可见判断应围绕拍照、屏幕手感、电池续航和存储空间中需要手部确认的细节。视角为导购可观察中近距离视角。</visual_summary>\n<engagement_pattern>顾客和商品发生直接体验关系。 动作与试用过程相关，停留意愿较强。 互动已经进入体验层面，重点是拍照、屏幕手感、电池续航和存储空间中需要手部确认的细节，缺少可见反馈时才会转向价格和使用周期。</engagement_pattern>\n<gaze_and_attention>视线集中在试用效果、镜面反馈或商品反应上。 视线重点应落在拍照、屏幕手感、电池续航和存储空间中需要手部确认的细节。</gaze_and_attention>\n<body_and_hands>身体靠近商品并配合测试动作。 手部正在操作、试穿或测试商品。 手部动作应重点看是否在确认拍照、屏幕手感、电池续航和存储空间中的体验细节。</body_and_hands>\n<belief>The product is promising, but fit or usage experience needs confirmation.</belief>\n<desire>confirm the preferred choice</desire>\n<intention>move toward confirming the choice</intention>",
+        "parse_status": "parsed_ok"
+      },
+      {
+        "task_id": "piwm_1cc2c20d89",
+        "task_type": "user_intent",
+        "input": "<image><image><image>You are observing a short customer-behavior window.\n\nScene: 顾客在零售店内。\n\nBelow are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nInfer the customer's current user state from the visible behavior only. Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.\n\nOutput the following fields, in this exact order, each on its own line:\n<stage>...</stage>\n<intent_label>...</intent_label>\n<visual_summary>...</visual_summary>\n<engagement_pattern>...</engagement_pattern>\n<gaze_and_attention>...</gaze_and_attention>\n<body_and_hands>...</body_and_hands>\n<belief>...</belief>\n<desire>...</desire>\n<intention>...</intention>\n\n- stage must be one of: attention, interest, desire, action.\n- intent_label must be one existing PIWM intention category, such as confirm_choice, explore_options, request_demonstration, seek_reassurance, negotiate_price, leave_without_purchase, compare_value_for_money, or no_clear_intent.\n- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.\n- belief, desire, and intention must be short customer-state clauses, not salesperson advice.",
+        "ground_truth": "<stage>action</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>顾客在商品区域停留并向周围寻找帮助，可能已经接近需要导购介入。 当前场景是护肤品陈列区，可见判断应围绕顾客是否需要围绕肤质适配、成分功效、质地和价格容量获得人工确认。视角为导购可观察中近距离视角。</visual_summary>\n<engagement_pattern>顾客仍处在商品或柜台附近。 移动不明显，更多是原地寻找帮助。</engagement_pattern>\n<gaze_and_attention>视线从商品转向周围空间或导购可能出现的位置。</gaze_and_attention>\n<body_and_hands>身体仍面向商品或柜台，但头部/视线外转。 手部动作相对暂停，像是在等待回应。</body_and_hands>\n<belief>A suitable option may be close, but staff input is needed before deciding.</belief>\n<desire>confirm the preferred choice</desire>\n<intention>move toward confirming the choice</intention>",
+        "model_output": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客持续停留在商品区域，并反复关注价格或价值信息，表现为有兴趣但仍在犹豫。 当前场景是护肤品陈列区，可见判断应围绕成分、容量、质地和适合肤质是否足以支撑价格。视角为导购可观察中近距离视角。</visual_summary>\n<engagement_pattern>顾客和商品保持稳定关系，不是快速经过；注意力围绕商品和价格区域。 移动速度较慢或基本停留，缺少快速离场动作。 停留本身更像在核对成分、容量、质地和适合肤质，而不是已经准备成交。</engagement_pattern>\n<gaze_and_attention>视线持续落在商品、价签或附近陈列区域，呈现反复查看而非一次性扫视。 注意力可能在价格、评价和肤质适配之间切换。</gaze_and_attention>\n<body_and_hands>身体朝向商品区域，姿态相对停留，没有明显转身离开。 手部没有快速离开商品区域，可能停在商品附近或保持比较姿态。</body_and_hands>\n<belief>The product is interesting, but its value-for-money is not yet justified.</belief>\n<desire>see how the product works</desire>\n<intention>ask for a demonstration</intention>",
+        "parse_status": "parsed_ok"
+      },
+      {
+        "task_id": "piwm_23563ed080",
+        "task_type": "user_intent",
+        "input": "<image><image><image>You are observing a short customer-behavior window.\n\nScene: 顾客在零售店内。\n\nBelow are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nInfer the customer's current user state from the visible behavior only. Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.\n\nOutput the following fields, in this exact order, each on its own line:\n<stage>...</stage>\n<intent_label>...</intent_label>\n<visual_summary>...</visual_summary>\n<engagement_pattern>...</engagement_pattern>\n<gaze_and_attention>...</gaze_and_attention>\n<body_and_hands>...</body_and_hands>\n<belief>...</belief>\n<desire>...</desire>\n<intention>...</intention>\n\n- stage must be one of: attention, interest, desire, action.\n- intent_label must be one existing PIWM intention category, such as confirm_choice, explore_options, request_demonstration, seek_reassurance, negotiate_price, leave_without_purchase, compare_value_for_money, or no_clear_intent.\n- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.\n- belief, desire, and intention must be short customer-state clauses, not salesperson advice.",
+        "ground_truth": "<stage>interest</stage>\n<intent_label>seek_reassurance</intent_label>\n<visual_summary>顾客持续停留在商品区域，并反复关注价格或价值信息，表现为有兴趣但仍在犹豫。 当前场景是家电展示区，可见判断应围绕功能覆盖、能耗、安装条件和长期使用成本是否足以支撑价格。视角为导购可观察中近距离视角。</visual_summary>\n<engagement_pattern>顾客和商品保持稳定关系，不是快速经过；注意力围绕商品和价格区域。 移动速度较慢或基本停留，缺少快速离场动作。 停留本身更像在核对功能覆盖、能耗、安装条件和长期使用成本，而不是已经准备成交。</engagement_pattern>\n<gaze_and_attention>视线持续落在商品、价签或附近陈列区域，呈现反复查看而非一次性扫视。 注意力可能在价格、评价和尺寸、功率/能耗、核心功能、安装条件和售后之间切换。</gaze_and_attention>\n<body_and_hands>身体朝向商品区域，姿态相对停留，没有明显转身离开。 手部没有快速离开商品区域，可能停在商品附近或保持比较姿态。</body_and_hands>\n<belief>The product is interesting, but its value-for-money is not yet justified.</belief>\n<desire>gain reassurance before deciding</desire>\n<intention>look for reassurance or clarification</intention>",
+        "model_output": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客持续停留在商品区域，并反复关注价格或价值信息，表现为有兴趣但仍在犹豫。 当前场景是家电展示区，可见判断应围绕功能覆盖、能耗、安装条件和长期使用成本是否足以支撑价格。视角为导购可观察中近距离视角。</visual_summary>\n<engagement_pattern>顾客和商品保持稳定关系，不是快速经过；注意力围绕商品和价格区域。 移动速度较慢或基本停留，缺少快速离场动作。 停留本身更像在核对功能覆盖、能耗、安装条件和长期使用成本，而不是已经准备成交。</engagement_pattern>\n<gaze_and_attention>视线持续落在商品、价签或附近陈列区域，呈现反复查看而非一次性扫视。 注意力可能在价格、评价和尺寸、功率/能耗、核心功能、安装条件和售后之间切换。</gaze_and_attention>\n<body_and_hands>身体朝向商品区域，姿态相对停留，没有明显转身离开。 手部没有快速离开商品区域，可能停在商品附近或保持比较姿态。</body_and_hands>\n<belief>The product is interesting, but its value-for-money is not yet justified.</belief>\n<desire>see how the product works</desire>\n<intention>ask for a demonstration</intention>",
+        "parse_status": "parsed_ok"
+      }
+    ],
+    "user_intent::bdi 错": [
+      {
+        "task_id": "piwm_8916c58066",
+        "task_type": "user_intent",
+        "input": "<image><image><image>You are observing a short customer-behavior window.\n\nScene: 顾客在零售店内。\n\nBelow are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nInfer the customer's current user state from the visible behavior only. Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.\n\nOutput the following fields, in this exact order, each on its own line:\n<stage>...</stage>\n<intent_label>...</intent_label>\n<visual_summary>...</visual_summary>\n<engagement_pattern>...</engagement_pattern>\n<gaze_and_attention>...</gaze_and_attention>\n<body_and_hands>...</body_and_hands>\n<belief>...</belief>\n<desire>...</desire>\n<intention>...</intention>\n\n- stage must be one of: attention, interest, desire, action.\n- intent_label must be one existing PIWM intention category, such as confirm_choice, explore_options, request_demonstration, seek_reassurance, negotiate_price, leave_without_purchase, compare_value_for_money, or no_clear_intent.\n- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.\n- belief, desire, and intention must be short customer-state clauses, not salesperson advice.",
+        "ground_truth": "<stage>interest</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>顾客主动走向柜台或服务区域，说明接近明确咨询或决策时刻。 当前场景是珠宝柜台，可见判断应围绕顾客是否需要围绕佩戴效果、材质、光泽、尺寸和送礼场景获得人工确认。视角为斜角监控/第三方视角。</visual_summary>\n<engagement_pattern>顾客从浏览转向服务/结算区域。 移动方向明确，正在接近服务点。</engagement_pattern>\n<gaze_and_attention>视线朝向柜台、导购或服务点。</gaze_and_attention>\n<body_and_hands>身体朝柜台方向前进。 手部可能携带商品、指向柜台或准备询问。</body_and_hands>\n<belief>The shopper may be ready for service, but still needs final confirmation.</belief>\n<desire>confirm the preferred choice</desire>\n<intention>move toward confirming the choice</intention>",
+        "model_output": "<stage>interest</stage>\n<intent_label>confirm_choice</intent_label>\n<visual_summary>顾客向柜台或导购方向移动，说明接近明确咨询或决策。 当前场景是珠宝柜台，可见判断应围绕柜台互动和商品细节是否足以支撑停留意图。视角为斜角监控/第三方视角。</visual_summary>\n<engagement_pattern>顾客从浏览转向服务区域，说明当前互动开始影响判断。 移动方向明确，正在前往柜台或导购点。</engagement_pattern>\n<gaze_and_attention>视线朝柜台、导购或服务区域移动。 视线变化更关键，重点是柜台方向的视线变化。</gaze_and_attention>\n<body_and_hands>身体朝柜台方向前进。 手部可能携带商品、拿起商品或靠近柜台。</body_and_hands>\n<belief>Situation may be promising, but confirmation is needed before deciding.</belief>\n<desire>confirm the preferred choice</desire>\n<intention>move toward confirming the choice</intention>",
+        "parse_status": "parsed_ok"
+      },
+      {
+        "task_id": "piwm_4b61cd89e5",
+        "task_type": "user_intent",
+        "input": "<image><image><image>You are observing a short customer-behavior window.\n\nScene: 顾客在零售店内。\n\nBelow are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nInfer the customer's current user state from the visible behavior only. Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.\n\nOutput the following fields, in this exact order, each on its own line:\n<stage>...</stage>\n<intent_label>...</intent_label>\n<visual_summary>...</visual_summary>\n<engagement_pattern>...</engagement_pattern>\n<gaze_and_attention>...</gaze_and_attention>\n<body_and_hands>...</body_and_hands>\n<belief>...</belief>\n<desire>...</desire>\n<intention>...</intention>\n\n- stage must be one of: attention, interest, desire, action.\n- intent_label must be one existing PIWM intention category, such as confirm_choice, explore_options, request_demonstration, seek_reassurance, negotiate_price, leave_without_purchase, compare_value_for_money, or no_clear_intent.\n- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.\n- belief, desire, and intention must be short customer-state clauses, not salesperson advice.",
+        "ground_truth": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客反复接触或摆弄商品，说明正在主动评估商品细节。 当前场景是服装陈列区，可见判断应围绕版型、面料、颜色、尺码和搭配场景中需要手部确认的细节。视角为斜角监控/第三方视角。</visual_summary>\n<engagement_pattern>顾客与商品有持续直接互动。 移动较少，动作集中在商品操作上。 互动已经进入体验层面，重点是面料手感、垂坠感、版型线条或搭配效果是否被确认。</engagement_pattern>\n<gaze_and_attention>视线主要集中在商品细节和手部操作位置。 视线重点应落在面料手感、垂坠感、版型线条或搭配效果产生的可见反馈。</gaze_and_attention>\n<body_and_hands>身体保持靠近商品，姿态显示评估意愿。 手部反复拿起、放下、调整或触摸商品。 手部动作应重点看是否在确认面料手感、垂坠感、版型线条或搭配效果。</body_and_hands>\n<belief>The product details are promising, but tactile or functional confirmation is still needed.</belief>\n<desire>see how the product works</desire>\n<intention>ask for a demonstration</intention>",
+        "model_output": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客在商品区域查看手机，可能正在做价格、评价或规格研究。 当前场景是服装陈列区，可见判断应围绕手机查询内容与面料、剪裁、版型和搭配场景中需要确认的细节是否产生互动。视角为斜角监控/第三方视角。</visual_summary>\n<engagement_pattern>顾客没有离开商品区域，手机行为与商品决策同时发生。 移动较少，处在查询和比较状态。 停留本身更像在核对面料、剪裁、版型和搭配，而不是已经准备成交。</engagement_pattern>\n<gaze_and_attention>视线在手机和商品区域之间切换。 注意力可能在价格、评价和版型、面料、颜色、尺码和价格差异之间切换。</gaze_and_attention>\n<body_and_hands>身体仍靠近商品，说明手机查询服务于当前商品判断。 至少一只手持手机或操作手机。</body_and_hands>\n<belief>External prices, reviews, or specifications may change the choice.</belief>\n<desire>see how the product works</desire>\n<intention>ask for a demonstration</intention>",
+        "parse_status": "parsed_ok"
+      },
+      {
+        "task_id": "piwm_7467483f51",
+        "task_type": "user_intent",
+        "input": "<image><image><image>You are observing a short customer-behavior window.\n\nScene: 顾客在零售店内。\n\nBelow are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nInfer the customer's current user state from the visible behavior only. Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.\n\nOutput the following fields, in this exact order, each on its own line:\n<stage>...</stage>\n<intent_label>...</intent_label>\n<visual_summary>...</visual_summary>\n<engagement_pattern>...</engagement_pattern>\n<gaze_and_attention>...</gaze_and_attention>\n<body_and_hands>...</body_and_hands>\n<belief>...</belief>\n<desire>...</desire>\n<intention>...</intention>\n\n- stage must be one of: attention, interest, desire, action.\n- intent_label must be one existing PIWM intention category, such as confirm_choice, explore_options, request_demonstration, seek_reassurance, negotiate_price, leave_without_purchase, compare_value_for_money, or no_clear_intent.\n- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.\n- belief, desire, and intention must be short customer-state clauses, not salesperson advice.",
+        "ground_truth": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客反复接触或摆弄商品，说明正在主动评估商品细节。 当前场景是电脑陈列区，可见判断应围绕屏幕尺寸、键盘手感、性能配置、重量和价格差异中需要手部确认的细节。视角为导购可观察中近距离视角。</visual_summary>\n<engagement_pattern>顾客与商品有持续直接互动。 移动较少，动作集中在商品操作上。 互动已经进入体验层面，重点是屏幕显示、键盘触感、机身重量或接口布局是否被确认。</engagement_pattern>\n<gaze_and_attention>视线主要集中在商品细节和手部操作位置。 视线重点应落在屏幕显示、键盘触感、机身重量或接口布局产生的可见反馈。</gaze_and_attention>\n<body_and_hands>身体保持靠近商品，姿态显示评估意愿。 手部反复拿起、放下、调整或触摸商品。 手部动作应重点看是否在确认屏幕显示、键盘触感、机身重量或接口布局。</body_and_hands>\n<belief>The product details are promising, but tactile or functional confirmation is still needed.</belief>\n<desire>see how the product works</desire>\n<intention>ask for a demonstration</intention>",
+        "model_output": "<stage>interest</stage>\n<intent_label>request_demonstration</intent_label>\n<visual_summary>顾客正在试用或测试商品，说明已经进入体验式评估。 当前场景是电脑陈列区，可见判断应围绕屏幕显示、键盘手感、机身重量和续航表现。视角为导购可观察中近距离视角。</visual_summary>\n<engagement_pattern>顾客和商品发生直接体验关系。 动作与试用过程相关，停留意愿较强。 互动已经进入体验层面，重点是屏幕显示、键盘手感、机身重量和续航表现是否被确认。</engagement_pattern>\n<gaze_and_attention>视线集中在试用效果、镜面反馈或商品反应上。 视线重点应落在屏幕显示、键盘手感、机身重量和续航表现产生的可见反馈。</gaze_and_attention>\n<body_and_hands>身体靠近商品并配合测试动作。 手部正在操作、试穿或测试商品。 手部动作应重点看是否在确认屏幕显示、键盘手感、机身重量和续航表现。</body_and_hands>\n<belief>The product is promising, but fit or usage experience must be confirmed.</belief>\n<desire>see how the product works</desire>\n<intention>ask for a demonstration</intention>",
+        "parse_status": "parsed_ok"
+      }
+    ],
+    "next_state_prediction::多个错": [
+      {
+        "task_id": "piwm_1cc2c20d89#Recommend_9ff23b139b07",
+        "task_type": "next_state_prediction",
+        "input": "<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nThe customer's current state is:\n- stage: action\n- visible evidence: 顾客在商品区域停留并向周围寻找帮助，可能已经接近需要导购介入。 当前场景是护肤品陈列区，可见判断应围绕顾客是否需要围绕肤质适配、成分功效、质地和价格容量获得人工确认。视角为导购可观察中近距离视角。\n- engagement pattern: 顾客仍处在商品或柜台附近。 移动不明显，更多是原地寻找帮助。\n- gaze and attention: 视线从商品转向周围空间或导购可能出现的位置。\n- body and hands: 身体仍面向商品或柜台，但头部/视线外转。 手部动作相对暂停，像是在等待回应。\n- belief: A suitable option may be close, but staff input is needed before deciding.\n- desire: confirm the preferred choice\n- intention: move toward confirming the choice\n\nConsider one candidate intervention: Recommend_9ff23b139b07\n\nDialogue-act layer for this candidate:\n- act: Recommend\n- params: {'target': 'item', 'pressure': 'firm'}\n\nTerminal realization for this candidate:\n- surface_text: 这款最适合您，建议直接选这款。\n- screen: {'action': 'show_fullscreen_recommendation', 'target': '{candidate_item}', 'cta': '立即购买'}\n- voice_style: firm\n- light: warm_red_or_yellow_guidance\n\nConcrete execution plan for this candidate:\n- physical action: 智能售货柜按屏幕、语音、灯效执行该候选响应。\n- utterance: 这款最适合您，建议直接选这款。\n\nPredict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:\n<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\n- next_stage must be one of: attention, interest, desire, action.\n- risk and benefit must each be one of: low, medium, high.\n- reward must be a number in [-1.00, 1.00] with two decimal places.\n- all textual spans must be a single short clause in English.",
+        "ground_truth": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+        "model_output": "<next_stage>attention</next_stage>\n<next_belief>The salesperson may be applying too much pressure.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>-0.20</reward>",
+        "parse_status": "parsed_ok"
+      },
+      {
+        "task_id": "piwm_8916c58066#Hold_eda24b4bb712",
+        "task_type": "next_state_prediction",
+        "input": "<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nThe customer's current state is:\n- stage: interest\n- visible evidence: 顾客主动走向柜台或服务区域，说明接近明确咨询或决策时刻。 当前场景是珠宝柜台，可见判断应围绕顾客是否需要围绕佩戴效果、材质、光泽、尺寸和送礼场景获得人工确认。视角为斜角监控/第三方视角。\n- engagement pattern: 顾客从浏览转向服务/结算区域。 移动方向明确，正在接近服务点。\n- gaze and attention: 视线朝向柜台、导购或服务点。\n- body and hands: 身体朝柜台方向前进。 手部可能携带商品、指向柜台或准备询问。\n- belief: The shopper may be ready for service, but still needs final confirmation.\n- desire: confirm the preferred choice\n- intention: move toward confirming the choice\n\nConsider one candidate intervention: Hold_eda24b4bb712\n\nDialogue-act layer for this candidate:\n- act: Hold\n- params: {'mode': 'silent'}\n\nTerminal realization for this candidate:\n- surface_text: \n- screen: {'action': 'idle_minimal', 'cta': None}\n- voice_style: silent\n- light: maintain_current_soft_breathing\n\nConcrete execution plan for this candidate:\n- physical action: 智能售货柜按屏幕、语音、灯效执行该候选响应。\n- utterance: （静默）\n\nPredict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:\n<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\n- next_stage must be one of: attention, interest, desire, action.\n- risk and benefit must each be one of: low, medium, high.\n- reward must be a number in [-1.00, 1.00] with two decimal places.\n- all textual spans must be a single short clause in English.",
+        "ground_truth": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+        "model_output": "<next_stage>interest</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.30</reward>",
+        "parse_status": "parsed_ok"
+      },
+      {
+        "task_id": "piwm_cf882269c4#Elicit_b1166d372e5e",
+        "task_type": "next_state_prediction",
+        "input": "<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nThe customer's current state is:\n- stage: action\n- visible evidence: 顾客在商品区域停留并向周围寻找帮助，可能已经接近需要导购介入。 当前场景是鞋类商品区，可见判断应围绕顾客是否需要围绕尺码、脚感、支撑、鞋型和价格差异获得人工确认。视角为斜角监控/第三方视角。\n- engagement pattern: 顾客仍处在商品或柜台附近。 移动不明显，更多是原地寻找帮助。\n- gaze and attention: 视线从商品转向周围空间或导购可能出现的位置。\n- body and hands: 身体仍面向商品或柜台，但头部/视线外转。 手部动作相对暂停，像是在等待回应。\n- belief: A suitable option may be close, but staff input is needed before deciding.\n- desire: confirm the preferred choice\n- intention: move toward confirming the choice\n\nConsider one candidate intervention: Elicit_b1166d372e5e\n\nDialogue-act layer for this candidate:\n- act: Elicit\n- params: {'openness': 'open', 'slot': 'need_focus'}\n\nTerminal realization for this candidate:\n- surface_text: 您想先看价格、功能，还是使用场景？\n- screen: {'action': 'show_choice_bubbles', 'choices': ['功能', '价格', '场景'], 'cta': None}\n- voice_style: warm\n- light: neutral_prompt_color\n\nConcrete execution plan for this candidate:\n- physical action: 智能售货柜按屏幕、语音、灯效执行该候选响应。\n- utterance: 您想先看价格、功能，还是使用场景？\n\nPredict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:\n<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\n- next_stage must be one of: attention, interest, desire, action.\n- risk and benefit must each be one of: low, medium, high.\n- reward must be a number in [-1.00, 1.00] with two decimal places.\n- all textual spans must be a single short clause in English.",
+        "ground_truth": "<next_stage>desire</next_stage>\n<next_belief>The decision remains uncertain after the last observation.</next_belief>\n<next_desire>gain reassurance before deciding</next_desire>\n<next_intention>look for reassurance or clarification</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.20</reward>",
+        "model_output": "<next_stage>action</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+        "parse_status": "parsed_ok"
+      }
+    ],
+    "next_state_prediction::preference 错": [
+      {
+        "task_id": "piwm_3549e65d37#Hold_eda24b4bb712",
+        "task_type": "next_state_prediction",
+        "input": "<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nThe customer's current state is:\n- stage: action\n- visible evidence: 顾客主动走向柜台或服务区域，说明接近明确咨询或决策时刻。 当前场景是护肤品陈列区，可见判断应围绕顾客是否需要围绕肤质适配、成分功效、质地和价格容量获得人工确认。视角为导购可观察中近距离视角。\n- engagement pattern: 顾客从浏览转向服务/结算区域。 移动方向明确，正在接近服务点。\n- gaze and attention: 视线朝向柜台、导购或服务点。\n- body and hands: 身体朝柜台方向前进。 手部可能携带商品、指向柜台或准备询问。\n- belief: The shopper may be ready for service, but still needs final confirmation.\n- desire: gain reassurance before deciding\n- intention: look for reassurance or clarification\n\nConsider one candidate intervention: Hold_eda24b4bb712\n\nDialogue-act layer for this candidate:\n- act: Hold\n- params: {'mode': 'silent'}\n\nTerminal realization for this candidate:\n- surface_text: \n- screen: {'action': 'idle_minimal', 'cta': None}\n- voice_style: silent\n- light: maintain_current_soft_breathing\n\nConcrete execution plan for this candidate:\n- physical action: 智能售货柜按屏幕、语音、灯效执行该候选响应。\n- utterance: （静默）\n\nPredict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:\n<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\n- next_stage must be one of: attention, interest, desire, action.\n- risk and benefit must each be one of: low, medium, high.\n- reward must be a number in [-1.00, 1.00] with two decimal places.\n- all textual spans must be a single short clause in English.",
+        "ground_truth": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+        "model_output": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.25</reward>",
+        "parse_status": "parsed_ok"
+      },
+      {
+        "task_id": "piwm_5883d29028#Hold_eda24b4bb712",
+        "task_type": "next_state_prediction",
+        "input": "<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nThe customer's current state is:\n- stage: attention\n- visible evidence: 顾客主动走向柜台或服务区域，说明接近明确咨询或决策时刻。 当前场景是珠宝柜台，可见判断应围绕顾客是否需要围绕佩戴效果、材质、光泽、尺寸和送礼场景获得人工确认。视角为斜角监控/第三方视角。\n- engagement pattern: 顾客从浏览转向服务/结算区域。 移动方向明确，正在接近服务点。\n- gaze and attention: 视线朝向柜台、导购或服务点。\n- body and hands: 身体朝柜台方向前进。 手部可能携带商品、指向柜台或准备询问。\n- belief: The shopper may be ready for service, but still needs final confirmation.\n- desire: confirm the preferred choice\n- intention: move toward confirming the choice\n\nConsider one candidate intervention: Hold_eda24b4bb712\n\nDialogue-act layer for this candidate:\n- act: Hold\n- params: {'mode': 'silent'}\n\nTerminal realization for this candidate:\n- surface_text: \n- screen: {'action': 'idle_minimal', 'cta': None}\n- voice_style: silent\n- light: maintain_current_soft_breathing\n\nConcrete execution plan for this candidate:\n- physical action: 智能售货柜按屏幕、语音、灯效执行该候选响应。\n- utterance: （静默）\n\nPredict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:\n<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\n- next_stage must be one of: attention, interest, desire, action.\n- risk and benefit must each be one of: low, medium, high.\n- reward must be a number in [-1.00, 1.00] with two decimal places.\n- all textual spans must be a single short clause in English.",
+        "ground_truth": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.20</reward>",
+        "model_output": "<next_stage>attention</next_stage>\n<next_belief>The current interaction is not useful enough to continue.</next_belief>\n<next_desire>avoid further engagement</next_desire>\n<next_intention>leave without buying</next_intention>\n<risk>medium</risk>\n<benefit>low</benefit>\n<reward>-0.25</reward>",
+        "parse_status": "parsed_ok"
+      },
+      {
+        "task_id": "piwm_5883d29028#Recommend_8d7f8993e333",
+        "task_type": "next_state_prediction",
+        "input": "<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nThe customer's current state is:\n- stage: attention\n- visible evidence: 顾客主动走向柜台或服务区域，说明接近明确咨询或决策时刻。 当前场景是珠宝柜台，可见判断应围绕顾客是否需要围绕佩戴效果、材质、光泽、尺寸和送礼场景获得人工确认。视角为斜角监控/第三方视角。\n- engagement pattern: 顾客从浏览转向服务/结算区域。 移动方向明确，正在接近服务点。\n- gaze and attention: 视线朝向柜台、导购或服务点。\n- body and hands: 身体朝柜台方向前进。 手部可能携带商品、指向柜台或准备询问。\n- belief: The shopper may be ready for service, but still needs final confirmation.\n- desire: confirm the preferred choice\n- intention: move toward confirming the choice\n\nConsider one candidate intervention: Recommend_8d7f8993e333\n\nDialogue-act layer for this candidate:\n- act: Recommend\n- params: {'target': 'item', 'pressure': 'soft'}\n\nTerminal realization for this candidate:\n- surface_text: 这款可以作为一个参考选项。\n- screen: {'action': 'highlight_item', 'target': '{candidate_item}', 'cta': None}\n- voice_style: neutral\n- light: soft_focus_on_recommendation\n\nConcrete execution plan for this candidate:\n- physical action: 智能售货柜按屏幕、语音、灯效执行该候选响应。\n- utterance: 这款可以作为一个参考选项。\n\nPredict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:\n<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\n- next_stage must be one of: attention, interest, desire, action.\n- risk and benefit must each be one of: low, medium, high.\n- reward must be a number in [-1.00, 1.00] with two decimal places.\n- all textual spans must be a single short clause in English.",
+        "ground_truth": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>medium</risk>\n<benefit>high</benefit>\n<reward>0.60</reward>",
+        "model_output": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.85</reward>",
+        "parse_status": "parsed_ok"
+      }
+    ]
+  },
+  "error_bucket_counts": {
+    "user_intent::多个错": 38,
+    "user_intent::bdi 错": 5,
+    "next_state_prediction::多个错": 10,
+    "next_state_prediction::preference 错": 8
+  }
+}

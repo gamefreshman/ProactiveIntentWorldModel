@@ -1,0 +1,4 @@
+<rationale>顾客持续近距离触摸并调整鞋子，已从浏览进入确认选择阶段，主要需要鞋底、鞋面、脚跟包裹等关键细节的功能性确认。简短演示能顺着她正在检查的细节提供补充信息，压力低且比泛泛推荐更贴合当前动作。</rationale>
+<chosen>Inform_5ff00ba15ca5</chosen>
+<intervention_action>智能售货柜播放当前鞋款的关键细节演示，并用柔和灯效引导顾客查看鞋底弯折、鞋面材质和后跟支撑等位置。</intervention_action>
+<intervention_utterance>我给您演示一下这款的关键细节。</intervention_utterance>

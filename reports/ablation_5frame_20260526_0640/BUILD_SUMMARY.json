@@ -1,0 +1,59 @@
+{
+  "variant": "5frame",
+  "train_file": "data/ablation_5frame/piwm_train_stage1_plus_stage2_target_v2_balanced.5frame.server_resolved.jsonl",
+  "val_files": [
+    "data/ablation_5frame/piwm_train_stage1_user_intent_val_v1.5frame.jsonl",
+    "data/ablation_5frame/piwm_train_stage1_next_state_prediction_val_v1.5frame.jsonl"
+  ],
+  "frame_error_count": 0,
+  "frame_error_examples": {},
+  "outputs": [
+    {
+      "source": "data/official/ms_swift_targetv2_balanced_20260524/piwm_train_stage1_plus_stage2_target_v2_balanced.server_resolved.jsonl",
+      "output": "data/ablation_5frame/piwm_train_stage1_plus_stage2_target_v2_balanced.5frame.server_resolved.jsonl",
+      "input_rows": 2734,
+      "written_rows": 2734,
+      "skipped_rows": 0,
+      "skip_examples": {},
+      "task_count": {
+        "user_intent": 543,
+        "next_state_prediction": 2001,
+        "action_selection_5act": 190
+      },
+      "image_count": {
+        "5": 2734
+      },
+      "sha256": "3efe103356dd03bd085bd9b848e4671fa06bccbdd82a8f8705235fc2907f6189"
+    },
+    {
+      "source": "data/official/ms_swift_pathC_symmetry_20260521/piwm_train_stage1_user_intent_val_v1.jsonl",
+      "output": "data/ablation_5frame/piwm_train_stage1_user_intent_val_v1.5frame.jsonl",
+      "input_rows": 50,
+      "written_rows": 50,
+      "skipped_rows": 0,
+      "skip_examples": {},
+      "task_count": {
+        "user_intent": 50
+      },
+      "image_count": {
+        "5": 50
+      },
+      "sha256": "ef943ccbb5416707987044d7eecfe44e383fb745a039726374beaf5589107e2b"
+    },
+    {
+      "source": "data/official/ms_swift_pathC_symmetry_20260521/piwm_train_stage1_next_state_prediction_val_v1.jsonl",
+      "output": "data/ablation_5frame/piwm_train_stage1_next_state_prediction_val_v1.5frame.jsonl",
+      "input_rows": 185,
+      "written_rows": 185,
+      "skipped_rows": 0,
+      "skip_examples": {},
+      "task_count": {
+        "next_state_prediction": 185
+      },
+      "image_count": {
+        "5": 185
+      },
+      "sha256": "b08c57e3e4e524df4dcdd2f543b6e2b40da8959f0d55565dde3720b7d6f38db5"
+    }
+  ]
+}

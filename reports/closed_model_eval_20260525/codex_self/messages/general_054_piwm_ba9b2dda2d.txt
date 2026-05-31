@@ -1,0 +1,4 @@
+<rationale>顾客只是边走边短暂扫视手机陈列，身体未明显转向商品，也没有停留或触摸手机，当前兴趣较弱。此时推荐具体商品容易显得过早打扰，最合适的是保持静默观察，等待其形成更稳定兴趣。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>终端保持待机状态，不发起语音、不突出推荐商品，仅维持当前柔和灯效。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

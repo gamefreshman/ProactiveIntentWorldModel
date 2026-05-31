@@ -1,0 +1,39 @@
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a multimodal sales-guidance agent trained on retail pedagogy. You observe customers in physical retail stores via a streaming camera and decide whether and how to intervene. Always output your reasoning in the structured tag format requested by the user prompt. Do not output free-form prose outside the requested tags."
+    },
+    {
+      "role": "user",
+      "content": "<image><image><image>You are observing a customer in a retail store. Below are 3 frames sampled from a streaming camera, in chronological order.\n\n\n\n\n\nUse the frames to infer the customer's current state internally. The current stage, intent, and BDI state are not provided.\n\nConsider one candidate intervention: Elicit_b1166d372e5e\n\nDialogue-act layer for this candidate:\n- act: Elicit\n- params: {'openness': 'open', 'slot': 'need_focus'}\n\nTerminal realization for this candidate:\n- surface_text: 您想先看价格、功能，还是使用场景？\n- screen: {'action': 'show_choice_bubbles', 'choices': ['功能', '价格', '场景'], 'cta': None}\n- voice_style: warm\n- light: neutral_prompt_color\n\nConcrete execution plan for this candidate:\n- physical action: 智能售货柜按屏幕、语音、灯效执行该候选响应。\n- utterance: 您想先看价格、功能，还是使用场景？\n\nPredict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:\n<next_stage>...</next_stage>\n<next_belief>...</next_belief>\n<next_desire>...</next_desire>\n<next_intention>...</next_intention>\n<risk>...</risk>\n<benefit>...</benefit>\n<reward>...</reward>\n\n- next_stage must be one of: attention, interest, desire, action.\n- risk and benefit must each be one of: low, medium, high.\n- reward must be a number in [-1.00, 1.00] with two decimal places.\n- all textual spans must be a single short clause in English."
+    },
+    {
+      "role": "assistant",
+      "content": "<next_stage>desire</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.83</reward>"
+    }
+  ],
+  "images": [
+    "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/Archive_generated_priority24/piwm_09df40aae2/frames/000.jpg",
+    "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/Archive_generated_priority24/piwm_09df40aae2/frames/001.jpg",
+    "/Users/mutsumi/Desktop/WorkSpace/ProactiveIntentWorldModel/Archive_generated_priority24/piwm_09df40aae2/frames/002.jpg"
+  ],
+  "task": "next_state_prediction",
+  "source_id": "piwm_09df40aae2#Elicit_b1166d372e5e",
+  "weight": 1.0,
+  "loss_weight": 1.0,
+  "meta": {
+    "parent_state_id": "piwm_09df40aae2",
+    "candidate_action": "Elicit_b1166d372e5e",
+    "candidate_act": "Elicit",
+    "candidate_params": {
+      "openness": "open",
+      "slot": "need_focus"
+    },
+    "no_intervention_branch": false,
+    "split": "train",
+    "qa_status": null,
+    "human_review_status": null,
+    "viewpoint": "salesperson_observable"
+  }
+}

@@ -1,0 +1,4 @@
+<rationale>顾客处于兴趣和简单比较阶段，目光稳定扫视、姿态放松，说明她已有轻微购买意向但还未锁定选项。此时轻量高亮一个稳妥选择能降低决策成本，同时不打断她继续比较；相比开放追问或泛泛说明，软推荐更贴合“快速找到合适饮品”的意图。Hold 不适合，因为她已在主动观察选项。</rationale>
+<chosen>Recommend_interest_stage_conditioned_target_piwm_701_72bc6d16c156</chosen>
+<intervention_action>智能售货柜轻量高亮一个推荐饮品选项，屏幕保持可继续浏览，灯效柔和提示，不强迫选择。</intervention_action>
+<intervention_utterance>如果您想省心选择，可以优先看这款更稳妥的。</intervention_utterance>

@@ -1,0 +1,256 @@
+\appendix
+
+\section{Prompt Templates}
+\label{app:prompts}
+
+All prompts use the following system message.
+
+\begin{verbatim}
+You are a multimodal sales-guidance agent trained on retail pedagogy.
+You observe customers in physical retail stores via a streaming camera
+and decide whether and how to intervene. Always output your reasoning
+in the structured tag format requested by the user prompt. Do not output
+free-form prose outside the requested tags.
+\end{verbatim}
+
+\subsection{State Estimation Prompt}
+\label{app:prompt_state}
+
+Current code source: \texttt{piwm\_train/prompts.py::build\_user\_intent\_prompt}.
+
+\begin{verbatim}
+You are observing a short customer-behavior window.
+
+Scene: {scene}
+
+Below are {n_frames} frames sampled from a streaming camera, in chronological order.
+
+<image>
+<image>
+<image>
+
+Infer the customer's current user state from the visible behavior only. Do not choose a sales action. Do not output candidate actions, rewards, or recommendations.
+
+Output the following fields, in this exact order, each on its own line:
+<stage>...</stage>
+<intent_label>...</intent_label>
+<visual_summary>...</visual_summary>
+<engagement_pattern>...</engagement_pattern>
+<gaze_and_attention>...</gaze_and_attention>
+<body_and_hands>...</body_and_hands>
+<belief>...</belief>
+<desire>...</desire>
+<intention>...</intention>
+
+- stage must be one of: attention, interest, desire, action.
+- intent_label must be one existing PIWM intention category, such as confirm_choice, explore_options, request_demonstration, seek_reassurance, negotiate_price, leave_without_purchase, compare_value_for_money, or no_clear_intent.
+- visual_summary, engagement_pattern, gaze_and_attention, and body_and_hands must cite visible evidence.
+- belief, desire, and intention must be short customer-state clauses, not salesperson advice.
+\end{verbatim}
+
+\subsection{Outcome Prediction Prompt}
+\label{app:prompt_outcome}
+
+Current code source: \texttt{piwm\_train/prompts.py::build\_deliberation\_prompt}.
+
+\begin{verbatim}
+You are observing a customer in a retail store. Below are {n_frames} frames sampled from a streaming camera, in chronological order.
+
+<image>
+<image>
+<image>
+
+The customer's current state is:
+- stage: {aida_stage}
+- visible evidence: {visual_summary}
+- engagement pattern: {engagement_pattern}
+- gaze and attention: {gaze_and_attention}
+- body and hands: {body_and_hands}
+- belief: {belief}
+- desire: {desire}
+- intention: {intention}
+
+Consider one candidate intervention: {candidate_action}
+
+Dialogue-act layer for this candidate:
+- act: {act}
+- params: {params}
+
+Terminal realization for this candidate:
+- surface_text: {surface_text}
+- screen: {screen}
+- voice_style: {voice_style}
+- light: {light}
+
+Concrete execution plan for this candidate:
+- physical action: {physical_action}
+- utterance: {utterance}
+
+Predict how this candidate intervention will change the customer's state in the next decision step. Output the following fields, in this exact order, each on its own line:
+<next_stage>...</next_stage>
+<next_belief>...</next_belief>
+<next_desire>...</next_desire>
+<next_intention>...</next_intention>
+<risk>...</risk>
+<benefit>...</benefit>
+<reward>...</reward>
+
+- next_stage must be one of: attention, interest, desire, action.
+- risk and benefit must each be one of: low, medium, high.
+- reward must be a number in [-1.00, 1.00] with two decimal places.
+- all textual spans must be a single short clause in English.
+\end{verbatim}
+
+\subsection{Best-Action Selection Prompt}
+\label{app:prompt_action}
+
+Current code source: \texttt{piwm\_train/prompts.py::build\_action\_prompt\_no\_leak(..., five\_act\_only=True)}. The current repository does not define a separate function named \texttt{build\_best\_action\_prompt}; this is the best-action prompt used for the 5-act action-selection rows and closed-model evaluation set.
+
+\begin{verbatim}
+You are observing a customer in a retail store. Below are {n_frames} frames sampled from a streaming camera, in chronological order.
+
+<image>
+<image>
+<image>
+
+The Stage-1 customer-state representation is:
+- stage: {aida_stage}
+- intent_label: {intent_label}
+- visible evidence: {visual_summary}
+- engagement pattern: {engagement_pattern}
+- gaze and attention: {gaze_and_attention}
+- body and hands: {body_and_hands}
+- belief: {belief}
+- desire: {desire}
+- intention: {intention}
+
+Candidate interventions are listed below. They include only the action identity, parameters, and concrete realization. They do not include gold rewards, predicted next states, risks, or benefits.
+
+{candidate_block_no_leak}
+
+Choose the best intervention and explain your reasoning briefly.
+
+Output the following fields, in this exact order:
+<rationale>...</rationale>
+<chosen>...</chosen>
+<intervention_action>...</intervention_action>
+<intervention_utterance>...</intervention_utterance>
+
+- chosen must be one of the candidate labels listed above, exact string match.
+- rationale should use the customer state and action fit, not hidden reward values.
+- intervention_action must describe the concrete salesperson or terminal behavior.
+- intervention_utterance must be a short customer-facing sentence, or （静默） for silent Hold.
+- In the 5-act setting, Hold is a real no-intervention decision, not an uncertainty fallback. Choose Hold only when the visible customer state clearly supports waiting or silence.
+\end{verbatim}
+
+\section{Dataset Sample}
+\label{app:sample}
+
+The following example is drawn from \texttt{data/GuidanceSalesBench/general/main\_schema.jsonl} and keeps the task-relevant manifest, frame references, candidate actions, action-conditioned outcomes, and best-action label.
+
+\begin{verbatim}
+{
+  "state_id": "piwm_09df40aae2",
+  "product_category": "jewelry",
+  "viewpoint": "salesperson_observable",
+  "manifest": {
+    "aida_stage": "interest",
+    "latent_state": "active_evaluation",
+    "intent": "request_demonstration",
+    "persona": {
+      "description": "A first-time buyer considering a higher-stakes purchase and needing reassurance.",
+      "intent_tier": "exploring",
+      "type": "first_time_high_consideration"
+    },
+    "bdi": {
+      "belief": "A companion's approval may influence whether the choice feels safe.",
+      "desire": "see how the product works",
+      "intention": "ask for a demonstration"
+    },
+    "observable_cues": ["asking_companion_opinion"],
+    "visual_state": {
+      "summary": "顾客向同伴寻求意见，说明决策受到社交反馈影响。 当前场景是珠宝柜台，可见判断应围绕同伴反馈如何影响佩戴效果、材质、光泽、尺寸和送礼场景。视角为导购可观察中近距离视角。",
+      "engagement_pattern": "顾客仍围绕商品做判断。 移动不大，重点是沟通和确认。 互动对象从商品扩展到同伴，决策节奏会受第三方反馈影响。",
+      "gaze_and_attention": "视线在商品和同伴之间切换。 视线不只看商品，也在等待同伴反应。",
+      "body_and_hands": "身体在商品与同伴之间形成互动姿态。 手部可能指向商品或把商品展示给同伴。"
+    },
+    "proactive_score": 3
+  },
+  "frames": [
+    {"index": 0, "relative_path": "Archive_generated_priority24/piwm_09df40aae2/frames/000.jpg", "timestamp_sec": null},
+    {"index": 1, "relative_path": "Archive_generated_priority24/piwm_09df40aae2/frames/001.jpg", "timestamp_sec": null},
+    {"index": 2, "relative_path": "Archive_generated_priority24/piwm_09df40aae2/frames/002.jpg", "timestamp_sec": null}
+  ],
+  "candidate_actions": [
+    "Elicit_b1166d372e5e",
+    "Inform_5ff00ba15ca5",
+    "Hold_eda24b4bb712",
+    "Recommend_8d7f8993e333"
+  ],
+  "outcomes": {
+    "Elicit_b1166d372e5e": {
+      "dialogue_act": "Elicit",
+      "act_params": {"openness": "open", "slot": "need_focus"},
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "The salesperson may help resolve the decision.",
+        "desire": "explore available options",
+        "intention": "continue browsing and comparing"
+      },
+      "risk": "low",
+      "benefit": "high",
+      "reward": 0.83
+    },
+    "Inform_5ff00ba15ca5": {
+      "dialogue_act": "Inform",
+      "act_params": {"content_type": "demo", "depth": "brief"},
+      "next_aida_stage": "desire",
+      "next_bdi": {
+        "belief": "The salesperson may help resolve the decision.",
+        "desire": "explore available options",
+        "intention": "continue browsing and comparing"
+      },
+      "risk": "low",
+      "benefit": "high",
+      "reward": 0.8
+    },
+    "Hold_eda24b4bb712": {
+      "dialogue_act": "Hold",
+      "act_params": {"mode": "silent"},
+      "next_aida_stage": "interest",
+      "next_bdi": {
+        "belief": "Several options remain worth comparing.",
+        "desire": "see how the product works",
+        "intention": "ask for a demonstration"
+      },
+      "risk": "low",
+      "benefit": "low",
+      "reward": 0.2
+    },
+    "Recommend_8d7f8993e333": {
+      "dialogue_act": "Recommend",
+      "act_params": {"pressure": "soft", "target": "item"},
+      "next_aida_stage": "attention",
+      "next_bdi": {
+        "belief": "The salesperson may be applying too much pressure.",
+        "desire": "avoid further engagement",
+        "intention": "leave without buying"
+      },
+      "risk": "medium",
+      "benefit": "low",
+      "reward": -0.3
+    }
+  },
+  "best_action": "Elicit_b1166d372e5e",
+  "best_action_spec": {"act": "Elicit", "params": {"openness": "open", "slot": "need_focus"}},
+  "best_action_realization": {
+    "physical_action": "智能售货柜按屏幕、语音、灯效执行该候选响应。",
+    "utterance": "您想先看价格、功能，还是使用场景？"
+  }
+}
+\end{verbatim}
+
+\section{Failure Case Analysis}
+\label{app:failures}
+
+[PLACEHOLDER: merge Batch 2 failure-case analysis here after final table and figure numbering are stable.]

@@ -9,9 +9,9 @@ OUT = ROOT / "reports" / "figures_batch1"
 
 CLASSES = ["Greet", "Elicit", "Inform", "Recommend", "Hold"]
 DATA = {
-    "PIWM": [0.800, 0.750, 0.769, 0.600, 0.286],
-    "State-Outcome Model": [0.000, 0.286, 0.250, 0.250, 0.417],
-    "Qwen2.5-VL-7B (zero-shot)": [0.000, 0.500, 0.000, 0.667, 0.400],
+    "PIWM": [0.800, 0.750, 0.714, 0.600, 0.250],
+    "State-Outcome Model": [0.000, 0.286, 0.182, 0.250, 0.417],
+    "Qwen2.5-VL-7B (zero-shot)": [0.000, 0.286, 0.000, 0.286, 0.200],
 }
 COLORS = {
     "PIWM": "#1d4ed8",
@@ -27,13 +27,22 @@ def main():
     fig, ax = plt.subplots(figsize=(6.2, 6.0), subplot_kw={"polar": True})
     for model, values in DATA.items():
         vals = values + values[:1]
-        ax.plot(angles, vals, label=model, color=COLORS[model], linewidth=2.0)
-        ax.fill(angles, vals, color=COLORS[model], alpha=0.12)
+        is_piwm = model == "PIWM"
+        ax.plot(
+            angles,
+            vals,
+            label=model,
+            color=COLORS[model],
+            linewidth=3.0 if is_piwm else 1.5,
+            linestyle="-" if is_piwm else "--",
+            alpha=1.0 if is_piwm else 0.75,
+        )
+        ax.fill(angles, vals, color=COLORS[model], alpha=0.14 if is_piwm else 0.06)
 
     ax.set_xticks(angles[:-1], CLASSES)
     ax.set_ylim(0, 1.0)
     ax.set_yticks([0.2, 0.4, 0.6, 0.8, 1.0])
-    ax.set_yticklabels(["0.2", "0.4", "0.6", "0.8", "1.0"], fontsize=8)
+    ax.set_yticklabels(["0.2", "0.4", "0.6", "0.8", "1.0"], fontsize=10)
     ax.set_title("Per-Class F1 on Target-Test (n=30)", pad=18)
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=1, frameon=False, fontsize=8)
     fig.tight_layout()

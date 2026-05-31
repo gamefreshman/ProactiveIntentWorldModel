@@ -1,0 +1,37 @@
+{
+  "artifact": "ms_swift_checkpoint_eval",
+  "is_training_result": true,
+  "eval_label": "smoke_zero_shot_closed_best_action",
+  "model": "/root/lanyun-fs/models/Qwen2.5-VL-7B-Instruct",
+  "checkpoint": null,
+  "input_jsonl": "reports/closed_model_eval_set_60.jsonl",
+  "eval_args": {
+    "limit": 1,
+    "max_new_tokens": 128,
+    "image_limit": 3,
+    "max_pixels": 1003520,
+    "torch_dtype": "bfloat16",
+    "device_map": "auto",
+    "no_lora": true,
+    "hold_prior_lambda": 0.0,
+    "hold_prior_target": 0.2,
+    "hold_prior_observed": 0.5333333333333333
+  },
+  "n_records": 1,
+  "task_counts": {
+    "action_selection_5act": 1
+  },
+  "parse_success": 0,
+  "parse_rate": 0.0,
+  "metrics": {},
+  "outputs": [
+    {
+      "source_id": "target_piwm_700",
+      "task": "action_selection_5act",
+      "target": "<rationale>主动询问以轻松提问方式降低探索难度，让顾客感受被理解并激发针对性兴趣，对比后易逐步明晰需求。</rationale>\n<chosen>Elicit_b1166d372e5e</chosen>\n<intervention_action>智能售货柜通过屏幕、语音、灯效和必要的柜体反馈执行响应。</intervention_action>\n<intervention_utterance>您今天想先看价格、功能，还是适合什么场景？</intervention_utterance>",
+      "prediction": "<rationale>The customer appears to be in the exploration phase, as indicated by their initial focus on the screen and their subtle movements. They seem to be gathering information and considering different options before making a decision. The current state suggests that they might benefit from some guidance to help them narrow down their choices or understand more about the product's features and benefits.</rationale>\n<chosen>Elicit_b1166d372e5e</chosen>\n<intervention_action>智能售货柜通过屏幕、语音、灯效和必要的柜体反馈执行响应。</intervention_action>\n<intervention_utterance>您今天",
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one intervention_utterance tag, found 0"
+    }
+  ]
+}

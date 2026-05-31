@@ -1,0 +1,4 @@
+<rationale>顾客在两个候选商品之间反复看、比较，处于想确认偏好的阶段，但关键决策维度尚不清楚。此时直接推荐或演示可能过早，先用开放式问题确认她更关注价格、功能还是使用场景，更能帮助收敛选择。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜以温和语音询问顾客关注点，并在屏幕上显示“功能、价格、场景”三个选择按钮。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

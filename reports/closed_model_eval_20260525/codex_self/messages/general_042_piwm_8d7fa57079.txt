@@ -1,0 +1,4 @@
+<rationale>顾客持续停留并近距离查看价签，处于有兴趣但需要确认性价比的状态。简短展示价格、功能和适用场景对比，能直接回应其求证需求，同时保持低压力，不会过早推销。</rationale>
+<chosen>Inform_5ac252a82695</chosen>
+<intervention_action>终端在屏幕上展示几款商品的价格、功能和适合场景对比卡片，并用柔和灯效聚焦对比信息。</intervention_action>
+<intervention_utterance>我把这几款的差别列在屏幕上，您可以先比较价格、功能和适合场景。</intervention_utterance>

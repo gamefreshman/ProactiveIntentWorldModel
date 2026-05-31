@@ -1,0 +1,7 @@
+<next_stage>desire</next_stage>
+<next_belief>The salesperson may help resolve the decision.</next_belief>
+<next_desire>explore available options</next_desire>
+<next_intention>continue browsing and comparing</next_intention>
+<risk>low</risk>
+<benefit>high</benefit>
+<reward>0.83</reward>

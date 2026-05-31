@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -17,11 +18,20 @@ from piwm_train.targets import build_action_target, build_deliberation_target, b
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIVE_ACTS = {"Greet", "Elicit", "Inform", "Recommend", "Hold"}
+STAGE_CONDITIONED_ACT_ORDER = {
+    "attention": ("Greet", "Elicit", "Inform", "Hold"),
+    "interest": ("Elicit", "Inform", "Recommend", "Hold"),
+    "desire": ("Inform", "Recommend", "Hold"),
+    "action": ("Greet", "Recommend", "Hold"),
+}
+STAGE_CONDITIONED_ACTS = {stage: set(acts) for stage, acts in STAGE_CONDITIONED_ACT_ORDER.items()}
 DEFAULT_GENERAL_DIR = Path("data/official/piwm_train_synth_v2")
 DEFAULT_GENERAL_EVAL_DIR = Path("data/official/piwm_eval_qa_v1")
 DEFAULT_TARGET_DIR = Path("data/official/piwm_target_v1")
 DEFAULT_MS_SWIFT_DIR = Path("data/official/ms_swift")
 DEFAULT_EVAL_DIR = Path("data/official/domain_specialization_eval_v2")
+GREET_AUGMENTATION_DEFAULT_COUNT = 15
+GREET_AUGMENTATION_VERSION = "v2"
 
 
 def build_two_stage_artifacts(
@@ -33,6 +43,9 @@ def build_two_stage_artifacts(
     eval_dir: Path,
     target_test_per_act: int = 6,
     act_balancing: ActBalancing = "none",
+    greet_augmentation_count: int = 0,
+    stage_conditioned_candidates: bool = True,
+    target_repeat: int = 1,
 ) -> dict[str, Any]:
     root = REPO_ROOT
     general_dir = _resolve(general_dir)
@@ -46,10 +59,23 @@ def build_two_stage_artifacts(
     stage1_summary = _write_ms_swift(general_stage1, stage1_out, root=root)
 
     target_main = _index_by_state(_read_jsonl(target_dir / "main_schema.jsonl"))
-    target_state = _index_by_state(_read_jsonl(target_dir / "state_inference.jsonl"))
-    target_transitions = _read_jsonl(target_dir / "transition_modeling.jsonl")
-    target_policy_rows = _read_jsonl(target_dir / "policy_preference.jsonl")
-    clean_policy_rows, excluded_counts = _clean_5act_policy_rows(target_policy_rows)
+    target_state_rows = [
+        _overlay_target_review_status(row, target_main)
+        for row in _read_jsonl(target_dir / "state_inference.jsonl")
+    ]
+    target_state = _index_by_state(target_state_rows)
+    target_transitions = [
+        _overlay_target_review_status(row, target_main)
+        for row in _read_jsonl(target_dir / "transition_modeling.jsonl")
+    ]
+    target_policy_rows = [
+        _overlay_target_review_status(row, target_main)
+        for row in _read_jsonl(target_dir / "policy_preference.jsonl")
+    ]
+    clean_policy_rows, excluded_counts = _clean_5act_policy_rows(
+        target_policy_rows,
+        stage_conditioned_candidates=stage_conditioned_candidates,
+    )
     test_ids = _select_balanced_target_test_ids(clean_policy_rows, per_act=target_test_per_act)
     test_id_set = set(test_ids)
     train_policy_rows = [row for row in clean_policy_rows if row["state_id"] not in test_id_set]
@@ -60,8 +86,46 @@ def build_two_stage_artifacts(
     stage2_out = ms_swift_dir / "piwm_train_stage2_target_5act_v1.jsonl"
     stage2_summary = _write_ms_swift(stage2_target, stage2_out, root=root)
 
+    augmented_stage2_summary = None
+    augmented_joint_summary = None
+    augmentation_summary = None
+    if greet_augmentation_count > 0:
+        greet_aug_rows = _build_general_greet_aug_policy_rows(
+            general_dir,
+            count=greet_augmentation_count,
+        )
+        greet_aug_examples = [_action_example(row) for row in greet_aug_rows]
+        augmented_stage2 = stage2_target + greet_aug_examples
+        augmented_stage2_out = ms_swift_dir / f"piwm_train_stage2_target_5act_greet_aug_{GREET_AUGMENTATION_VERSION}.jsonl"
+        augmented_stage2_summary = _write_ms_swift(augmented_stage2, augmented_stage2_out, root=root)
+        augmented_joint_out = ms_swift_dir / f"piwm_train_stage1_plus_stage2_target_5act_greet_aug_{GREET_AUGMENTATION_VERSION}.jsonl"
+        augmented_joint_summary = _write_rows(_read_jsonl(stage1_out) + _read_jsonl(augmented_stage2_out), augmented_joint_out)
+        augmentation_summary = {
+            "policy": f"stage2_prelaunch_general_greet_augmentation_{GREET_AUGMENTATION_VERSION}",
+            "source": _display_path(general_dir / "state_inference.jsonl"),
+            "count_requested": greet_augmentation_count,
+            "count_written": len(greet_aug_examples),
+            "source_aida_stage": "attention",
+            "best_act": "Greet",
+            "qa_status": "synthetic_augmented_unreviewed",
+            "note": (
+                "These rows are a Stage-2 prelaunch data patch for Greet coverage. "
+                "They do not modify the canonical 71-row target split and are not "
+                "project-lead QA-reviewed target-test rows."
+            ),
+        }
+
     joint_out = ms_swift_dir / "piwm_train_stage1_plus_stage2_target_5act_v1.jsonl"
     joint_summary = _write_rows(_read_jsonl(stage1_out) + _read_jsonl(stage2_out), joint_out)
+    weighted_joint_summary = None
+    if greet_augmentation_count > 0 and target_repeat > 1:
+        augmented_stage2_rows = _read_jsonl(augmented_stage2_out)
+        repeated_stage2 = augmented_stage2_rows * target_repeat
+        weighted_joint_out = (
+            ms_swift_dir
+            / f"piwm_train_stage1_plus_stage2_target_5act_greet_aug_{GREET_AUGMENTATION_VERSION}_targetx{target_repeat}_v1.jsonl"
+        )
+        weighted_joint_summary = _write_rows(_read_jsonl(stage1_out) + repeated_stage2, weighted_joint_out)
 
     eval_dir.mkdir(parents=True, exist_ok=True)
     target_eval_user = [_user_intent_example(target_state[state_id]) for state_id in test_ids]
@@ -97,7 +161,11 @@ def build_two_stage_artifacts(
         "is_training_result": False,
         "stage1_train": stage1_summary,
         "stage2_target_5act_train": stage2_summary,
+        "stage2_target_5act_greet_aug_train": augmented_stage2_summary,
         "joint_stage1_stage2_target_5act": joint_summary,
+        "joint_stage1_stage2_target_5act_greet_aug": augmented_joint_summary,
+        "joint_stage1_stage2_target_5act_greet_aug_weighted": weighted_joint_summary,
+        "greet_augmentation": augmentation_summary,
         "target_5act_split": {
             "source_records": len(target_policy_rows),
             "official_split_counts": _split_counts(target_policy_rows),
@@ -106,11 +174,17 @@ def build_two_stage_artifacts(
             "train_records": len(train_policy_rows),
             "test_records": len(test_policy_rows),
             "filtered_records": excluded_counts,
+            "stage_conditioned_candidates": stage_conditioned_candidates,
+            "stage_conditioned_policy": {
+                stage: sorted(acts)
+                for stage, acts in sorted(STAGE_CONDITIONED_ACTS.items())
+            },
             "test_per_act": target_test_per_act,
             "test_best_act_counts": _act_counts(test_policy_rows),
             "train_best_act_counts": _act_counts(train_policy_rows),
             "test_qa_status_counts": test_qa_status_counts,
             "stage2_act_balancing": act_balancing,
+            "target_repeat": target_repeat,
             "accounting_chain": [
                 "118 total target records",
                 "-17 rows with best_act=Reassure",
@@ -230,8 +304,181 @@ def _action_example(row: dict[str, Any]) -> SFTExample:
             "candidate_action_acts": _candidate_action_acts(row),
             "five_act_only": True,
             "leakage_control": "no_reward_no_predicted_outcome_in_prompt",
+            "augmentation_policy": row.get("meta", {}).get("augmentation_policy"),
+            "augmented_from_state_id": row.get("meta", {}).get("augmented_from_state_id"),
         },
     )
+
+
+def _build_general_greet_aug_policy_rows(general_dir: Path, *, count: int) -> list[dict[str, Any]]:
+    """Create deterministic Stage-2 Greet augmentation rows from general attention states.
+
+    The target-frontcam corpus is the only filmed target source with Greet labels,
+    but the Stage-1 general corpus has no Greet best labels. This augmentation
+    uses existing general-domain frames and creates low-leak action-selection
+    examples where an opening Greet is the correct response to attention-stage
+    approach/entry behavior. The rows are marked synthetic_augmented_unreviewed
+    and are written only to the explicit *_greet_aug_* Stage-2 entrypoint.
+    """
+    if count <= 0:
+        return []
+    states = [
+        row
+        for row in _read_jsonl(general_dir / "state_inference.jsonl")
+        if row.get("output", {}).get("aida_stage") == "attention"
+    ]
+    states = sorted(states, key=lambda row: row["state_id"])
+    if len(states) < count:
+        raise ValueError(f"not enough general attention rows for Greet augmentation: need {count}, found {len(states)}")
+    return [_general_greet_aug_policy_row(row, index=index) for index, row in enumerate(states[:count], start=1)]
+
+
+def _general_greet_aug_policy_row(state_row: dict[str, Any], *, index: int) -> dict[str, Any]:
+    out = state_row["output"]
+    visual = out.get("visual_state") or {}
+    state_summary = {
+        "aida_stage": "attention",
+        "product_category": state_row.get("meta", {}).get("product_category", "general_retail"),
+        "state_subtype": out.get("state_subtype") or out.get("current_state") or "approach_or_entry",
+        "state": out.get("current_state") or out.get("state_subtype") or "approach_or_entry",
+        "visual_state": {
+            "summary": _greet_visible_summary(visual.get("summary", "")),
+            "engagement_pattern": visual.get("engagement_pattern", visual.get("summary", "")),
+            "gaze_and_attention": visual.get("gaze_and_attention", visual.get("gaze", "")),
+            "body_and_hands": visual.get("body_and_hands", ""),
+        },
+        "intent": "no_clear_intent",
+        "intent_tier": "exploring",
+        "bdi": {
+            "belief": "The shopper has just entered the selling zone and may need orientation.",
+            "desire": "feel welcomed without being pressured",
+            "intention": "decide whether to continue browsing or ask for help",
+        },
+        "proactive_score": 3,
+        "candidate_action_specs": [
+            {"act": "Greet", "params": {"phase": "open"}},
+            {"act": "Elicit", "params": {"openness": "open", "slot": "need_focus"}},
+            {"act": "Inform", "params": {"content_type": "attributes", "depth": "brief"}},
+            {"act": "Hold", "params": {"mode": "silent"}},
+        ],
+        "best_action_spec": {"act": "Greet", "params": {"phase": "open"}},
+        "persona_type": state_row.get("input", {}).get("persona_summary", "general_retail_shopper"),
+        "observable_cues": ["approach_or_entry", "initial_attention"],
+        "dialogue_act": "Greet",
+        "act_params": {"phase": "open"},
+    }
+    blocks = [
+        _action_block(
+            "Greet_open_general_aug",
+            "Greet",
+            {"phase": "open"},
+            "欢迎光临，您可以先随意看看，需要时我在。",
+            "show_welcome_message",
+            "warm",
+            "soft_welcome",
+            "智能导购终端以轻柔灯效和简短欢迎语完成开场，不施加购买压力。",
+            "开场问候能在顾客刚进入服务区时建立可用性，同时保持低压力。",
+        ),
+        _action_block(
+            "Elicit_need_focus_general_aug",
+            "Elicit",
+            {"openness": "open", "slot": "need_focus"},
+            "您今天想先看价格、功能，还是适合什么场景？",
+            "show_choice_bubbles",
+            "curious",
+            "soft_invitation",
+            "智能导购终端给出轻量选择问题，引导顾客表达关注点。",
+            "顾客刚进入服务区时直接追问需求可能偏早，问候更自然。",
+        ),
+        _action_block(
+            "Inform_attributes_general_aug",
+            "Inform",
+            {"content_type": "attributes", "depth": "brief"},
+            "需要时我可以帮您说明这几款的主要区别。",
+            "show_comparison_or_details",
+            "warm",
+            "soft_breathing",
+            "智能导购终端准备简短信息说明，但不主动展开长篇介绍。",
+            "顾客尚处初始注意阶段，直接说明信息可能早于其明确兴趣。",
+        ),
+        _action_block(
+            "Hold_silent_general_aug",
+            "Hold",
+            {"mode": "silent"},
+            "",
+            "idle_minimal",
+            "silent",
+            "maintain_current_soft_breathing",
+            "智能导购终端保持静默和低亮度呼吸灯。",
+            "完全静默能避免打扰，但会错过开场建立可用性的机会。",
+        ),
+    ]
+    chosen = blocks[0]
+    rejected = blocks[-1]
+    return {
+        "state_id": f"greet_aug_{index:03d}_{state_row['state_id']}",
+        "chosen": chosen["action"],
+        "rejected": rejected["action"],
+        "chosen_json": chosen,
+        "rejected_json": rejected,
+        "reward_gap": 0.25,
+        "meta": {
+            "product_category": state_summary["product_category"],
+            "split": "train",
+            "viewpoint": state_row.get("meta", {}).get("viewpoint", "salesperson_observable"),
+            "actor_profile": "general_retail_greet_augmentation",
+            "frames": list(state_row.get("input", {}).get("frames", [])),
+            "is_augmented": True,
+            "augmentation_policy": f"stage2_prelaunch_general_greet_augmentation_{GREET_AUGMENTATION_VERSION}",
+            "augmented_from_state_id": state_row["state_id"],
+            "qa_status": "synthetic_augmented_unreviewed",
+            "human_review_status": "not_reviewed",
+            "state_summary": state_summary,
+            "candidate_block": blocks,
+        },
+    }
+
+
+def _greet_visible_summary(summary: str) -> str:
+    if not summary:
+        return "The shopper has just entered or approached the service area and shows initial attention."
+    return f"{summary} This augmentation treats the scene as an initial approach/entry moment suitable for a low-pressure greeting."
+
+
+def _action_block(
+    action: str,
+    act: str,
+    params: dict[str, Any],
+    utterance: str,
+    screen_action: str,
+    voice_style: str,
+    light: str,
+    physical_action: str,
+    rationale: str,
+) -> dict[str, Any]:
+    digest = hashlib.sha1(f"{action}|{act}|{json.dumps(params, sort_keys=True)}".encode("utf-8")).hexdigest()[:12]
+    label = f"{action}_{digest}"
+    terminal = {
+        "surface_text": utterance,
+        "screen": {"action": screen_action, "cta": None},
+        "voice_style": voice_style,
+        "light": light,
+        "cabinet_motion": None,
+        "duration_ms": 3000 if act == "Greet" else 4000,
+    }
+    return {
+        "action": label,
+        "action_spec": {"act": act, "params": params},
+        "dialogue_act": {"act": act, "params": params, "legacy_co_acts": []},
+        "rationale": rationale,
+        "action_realization": {
+            "utterance": utterance or "（静默）",
+            "physical_action": physical_action,
+            "timing": "设备或导购在识别到当前顾客状态后立即触发。",
+            "rationale": "stage2 prelaunch Greet augmentation",
+        },
+        "terminal_realization": terminal,
+    }
 
 
 def _target_hold_transition_rows(rows: list[dict[str, Any]], state_ids: list[str]) -> list[dict[str, Any]]:
@@ -246,19 +493,37 @@ def _target_hold_transition_rows(rows: list[dict[str, Any]], state_ids: list[str
     return sorted(out, key=lambda row: row.get("meta", {}).get("parent_state_id", ""))
 
 
-def _clean_5act_policy_rows(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, int]]:
+def _clean_5act_policy_rows(
+    rows: list[dict[str, Any]],
+    *,
+    stage_conditioned_candidates: bool = True,
+) -> tuple[list[dict[str, Any]], dict[str, int]]:
     clean_rows: list[dict[str, Any]] = []
-    excluded = Counter({"best_non_5act": 0, "candidate_non_5act": 0, "empty_5act_candidates": 0})
+    excluded = Counter(
+        {
+            "best_non_5act": 0,
+            "candidate_non_5act": 0,
+            "candidate_stage_conditioned_filtered": 0,
+            "empty_5act_candidates": 0,
+        }
+    )
     for row in rows:
         best = _best_act(row)
         if best not in FIVE_ACTS:
             excluded["best_non_5act"] += 1
             continue
-        updated = _filter_policy_row_candidates(row)
+        updated = _filter_policy_row_candidates(row, stage_conditioned=stage_conditioned_candidates)
         original_candidate_count = len(row.get("meta", {}).get("candidate_block", []))
         filtered_candidate_count = len(updated.get("meta", {}).get("candidate_block", []))
-        if original_candidate_count != filtered_candidate_count:
+        five_act_only_count = sum(
+            1
+            for item in row.get("meta", {}).get("candidate_block", [])
+            if _block_act(item) in FIVE_ACTS
+        )
+        if original_candidate_count != five_act_only_count:
             excluded["candidate_non_5act"] += 1
+        if five_act_only_count != filtered_candidate_count:
+            excluded["candidate_stage_conditioned_filtered"] += 1
         if filtered_candidate_count == 0:
             excluded["empty_5act_candidates"] += 1
             continue
@@ -282,7 +547,7 @@ def _select_balanced_target_test_ids(rows: list[dict[str, Any]], *, per_act: int
 
 def _clean_balanced_5act_policy_rows(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
     """Return clean 5-act train/test rows using the current balanced split."""
-    clean_rows, excluded = _clean_5act_policy_rows(rows)
+    clean_rows, excluded = _clean_5act_policy_rows(rows, stage_conditioned_candidates=True)
     test_ids = set(_select_balanced_target_test_ids(clean_rows, per_act=6))
     train_rows = [row for row in clean_rows if row["state_id"] not in test_ids]
     test_rows = [row for row in clean_rows if row["state_id"] in test_ids]
@@ -327,14 +592,134 @@ def _candidate_action_acts(row: dict[str, Any], *, five_act_filter: bool = True)
     return mapping
 
 
-def _filter_policy_row_candidates(row: dict[str, Any]) -> dict[str, Any]:
+def _filter_policy_row_candidates(row: dict[str, Any], *, stage_conditioned: bool = True) -> dict[str, Any]:
     updated = dict(row)
     meta = dict(updated.get("meta") or {})
-    meta["candidate_block"] = [
-        item
-        for item in meta.get("candidate_block", [])
-        if _block_act(item) in FIVE_ACTS
-    ]
+    stage = str((meta.get("state_summary") or {}).get("aida_stage") or "")
+    if stage_conditioned and stage in STAGE_CONDITIONED_ACT_ORDER:
+        meta["candidate_block"] = _stage_conditioned_candidate_block(row, stage)
+    else:
+        meta["candidate_block"] = [
+            item
+            for item in meta.get("candidate_block", [])
+            if _block_act(item) in FIVE_ACTS
+        ]
+    updated["meta"] = meta
+    return updated
+
+
+def _stage_conditioned_candidate_block(row: dict[str, Any], stage: str) -> list[dict[str, Any]]:
+    by_act: dict[str, dict[str, Any]] = {}
+    for item in list(row.get("meta", {}).get("candidate_block", [])) + [
+        row.get("chosen_json", {}),
+        row.get("rejected_json", {}),
+    ]:
+        act = _block_act(item)
+        if act in FIVE_ACTS and act not in by_act:
+            by_act[act] = item
+    blocks: list[dict[str, Any]] = []
+    for act in STAGE_CONDITIONED_ACT_ORDER[stage]:
+        blocks.append(by_act.get(act) or _stage_conditioned_placeholder_block(row, stage, act))
+    return blocks
+
+
+def _stage_conditioned_placeholder_block(row: dict[str, Any], stage: str, act: str) -> dict[str, Any]:
+    templates = {
+        "Greet": {
+            "params": {"phase": "close" if stage == "action" else "open"},
+            "utterance": "欢迎光临，需要时我可以帮您。",
+            "screen_action": "show_welcome_message",
+            "voice_style": "warm",
+            "light": "soft_welcome",
+            "physical_action": "智能售货柜以简短欢迎语和柔和灯效提示可用性。",
+            "rationale": "Stage-conditioned candidate supplied to keep the operational action set complete for this AIDA stage.",
+        },
+        "Elicit": {
+            "params": {"openness": "open", "slot": "need_focus"},
+            "utterance": "您想先了解价格、口味，还是适合什么场景？",
+            "screen_action": "show_choice_bubbles",
+            "voice_style": "curious",
+            "light": "soft_invitation",
+            "physical_action": "智能售货柜展示轻量选项，邀请顾客表达关注点。",
+            "rationale": "Stage-conditioned candidate supplied to keep the operational action set complete for this AIDA stage.",
+        },
+        "Inform": {
+            "params": {"content_type": "comparison", "depth": "brief"},
+            "utterance": "这几款主要区别在口味、容量和价格，我可以帮您快速对比。",
+            "screen_action": "show_comparison_or_details",
+            "voice_style": "clear",
+            "light": "soft_breathing",
+            "physical_action": "智能售货柜展示简短对比信息，避免长篇推销。",
+            "rationale": "Stage-conditioned candidate supplied to keep the operational action set complete for this AIDA stage.",
+        },
+        "Recommend": {
+            "params": {"target": "item", "pressure": "soft"},
+            "utterance": "如果您想省心选择，可以优先看这款更稳妥的。",
+            "screen_action": "highlight_soft_recommendation",
+            "voice_style": "calm",
+            "light": "highlight_one_option_soft",
+            "physical_action": "智能售货柜轻量高亮一个选项，并保留顾客选择空间。",
+            "rationale": "Stage-conditioned candidate supplied to keep the operational action set complete for this AIDA stage.",
+        },
+        "Hold": {
+            "params": {"mode": "silent"},
+            "utterance": "",
+            "screen_action": "idle_minimal",
+            "voice_style": "silent",
+            "light": "maintain_current_soft_breathing",
+            "physical_action": "智能售货柜保持静默和低亮度待机，不主动打断顾客。",
+            "rationale": "Stage-conditioned candidate supplied to keep the operational action set complete for this AIDA stage.",
+        },
+    }
+    template = templates[act]
+    return _action_block(
+        f"{act}_{stage}_stage_conditioned_{row['state_id']}",
+        act,
+        template["params"],
+        template["utterance"],
+        template["screen_action"],
+        template["voice_style"],
+        template["light"],
+        template["physical_action"],
+        template["rationale"],
+    )
+
+
+def _overlay_target_review_status(row: dict[str, Any], main_by_state: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Use target main_schema as the authority for revised-split QA status."""
+    state_id = str(row.get("state_id", ""))
+    meta = dict(row.get("meta") or {})
+    base_state_id = str(meta.get("parent_state_id") or state_id.split("#", 1)[0])
+    main = main_by_state.get(base_state_id)
+    if not main:
+        return row
+
+    qa_status = main.get("qa_status")
+    human_review_status = main.get("human_review_status")
+    qa_review = main.get("qa_review") or {}
+    if not qa_status and not human_review_status and not qa_review:
+        return row
+
+    updated = dict(row)
+    if qa_status:
+        meta["qa_status"] = qa_status
+    if human_review_status:
+        meta["human_review_status"] = human_review_status
+    if qa_review:
+        meta["qa_reviewer"] = qa_review.get("reviewer")
+        meta["qa_reviewed_at"] = qa_review.get("reviewed_at")
+        meta["qa_review_type"] = qa_review.get("review_type")
+        meta["qa_warning_flags"] = list(qa_review.get("warning_flags") or [])
+
+    state_summary = meta.get("state_summary")
+    if isinstance(state_summary, dict):
+        state_summary = dict(state_summary)
+        if qa_status:
+            state_summary["qa_status"] = qa_status
+        if human_review_status:
+            state_summary["human_review_status"] = human_review_status
+        meta["state_summary"] = state_summary
+
     updated["meta"] = meta
     return updated
 
@@ -465,6 +850,27 @@ def build_parser() -> argparse.ArgumentParser:
         default="none",
         help="Stage-2 target action-selection balancing mode.",
     )
+    parser.add_argument(
+        "--greet-augmentation-count",
+        type=int,
+        default=0,
+        help=(
+            "Write additional explicit *_greet_aug_* Stage-2 entrypoints with N "
+            "general-domain attention-stage Greet examples. The canonical 71-row "
+            "Stage-2 file is still written unchanged."
+        ),
+    )
+    parser.add_argument(
+        "--no-stage-conditioned-candidates",
+        action="store_true",
+        help="Disable AIDA-stage-conditioned candidate filtering for target action-selection rows.",
+    )
+    parser.add_argument(
+        "--target-repeat",
+        type=int,
+        default=1,
+        help="When Greet augmentation is enabled, write an additional joint entrypoint with the augmented target set repeated N times.",
+    )
     return parser
 
 
@@ -478,6 +884,9 @@ def main(argv: list[str] | None = None) -> int:
         eval_dir=args.eval_dir,
         target_test_per_act=args.target_test_per_act,
         act_balancing=args.act_balancing,
+        greet_augmentation_count=args.greet_augmentation_count,
+        stage_conditioned_candidates=not args.no_stage_conditioned_candidates,
+        target_repeat=args.target_repeat,
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0

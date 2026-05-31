@@ -1,0 +1,4 @@
+<rationale>顾客只是边走边短暂扫视手机陈列区，没有停下、转身或触碰商品，当前仍是低强度浏览与探索状态。此时主动推荐具体手机容易过早打断，因此更适合保持安静观察。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>终端保持当前柔和灯效与最小待机界面，不发起语音或屏幕推荐，等待顾客出现停留、靠近或触碰等更明确兴趣信号。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

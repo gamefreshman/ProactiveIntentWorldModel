@@ -1,0 +1,400 @@
+{
+  "artifact": "closed_model_best_action_summary",
+  "main_table": "reports/2026-05-25_closed_model_best_action_main_table.md",
+  "models": {
+    "gpt-4o": {
+      "target_macro_f1": 0.0,
+      "general_macro_f1": 0.0,
+      "combined_macro_f1": 0.0,
+      "parse_rate": 0.0,
+      "prediction_counts": {
+        "PARSE_FAIL": 60
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 19.0
+        },
+        "Inform": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 12.0
+        },
+        "Recommend": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10.0
+        },
+        "Hold": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 13.0
+        }
+      },
+      "n_outputs": 1
+    },
+    "gemini-2.5-flash": {
+      "target_macro_f1": 0.0,
+      "general_macro_f1": 0.0,
+      "combined_macro_f1": 0.0,
+      "parse_rate": 0.0,
+      "prediction_counts": {
+        "PARSE_FAIL": 60
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 19.0
+        },
+        "Inform": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 12.0
+        },
+        "Recommend": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10.0
+        },
+        "Hold": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 13.0
+        }
+      },
+      "n_outputs": 1
+    },
+    "claude-sonnet-4.6": {
+      "target_macro_f1": 0.0,
+      "general_macro_f1": 0.0,
+      "combined_macro_f1": 0.0,
+      "parse_rate": 0.0,
+      "prediction_counts": {
+        "PARSE_FAIL": 60
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 19.0
+        },
+        "Inform": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 12.0
+        },
+        "Recommend": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10.0
+        },
+        "Hold": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 13.0
+        }
+      },
+      "n_outputs": 1
+    },
+    "grok-3": {
+      "target_macro_f1": 0.0,
+      "general_macro_f1": 0.0,
+      "combined_macro_f1": 0.0,
+      "parse_rate": 0.0,
+      "prediction_counts": {
+        "PARSE_FAIL": 60
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 19.0
+        },
+        "Inform": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 12.0
+        },
+        "Recommend": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10.0
+        },
+        "Hold": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 13.0
+        }
+      },
+      "n_outputs": 1
+    }
+  },
+  "local_models": {
+    "piwm_main": {
+      "target_macro_f1": 0.6228571428571429,
+      "general_macro_f1": 0.6025974025974026,
+      "combined_macro_f1": 0.734025974025974,
+      "parse_rate": 0.9333333333333333,
+      "prediction_counts": {
+        "Elicit": 23,
+        "Greet": 4,
+        "Hold": 9,
+        "Inform": 9,
+        "PARSE_FAIL": 4,
+        "Recommend": 11
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.8260869565217391,
+          "recall": 1.0,
+          "f1": 0.9047619047619047,
+          "support": 19.0
+        },
+        "Inform": {
+          "precision": 0.6666666666666666,
+          "recall": 0.5,
+          "f1": 0.5714285714285715,
+          "support": 12.0
+        },
+        "Recommend": {
+          "precision": 0.6363636363636364,
+          "recall": 0.7,
+          "f1": 0.6666666666666666,
+          "support": 10.0
+        },
+        "Hold": {
+          "precision": 0.8888888888888888,
+          "recall": 0.6153846153846154,
+          "f1": 0.7272727272727274,
+          "support": 13.0
+        }
+      },
+      "n_outputs": 60
+    },
+    "stage1_only": {
+      "target_macro_f1": 0.22683982683982684,
+      "general_macro_f1": 0.29888198757763973,
+      "combined_macro_f1": 0.25890421635102484,
+      "parse_rate": 0.9166666666666666,
+      "prediction_counts": {
+        "Elicit": 9,
+        "Hold": 34,
+        "Inform": 9,
+        "PARSE_FAIL": 5,
+        "Recommend": 3
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.4444444444444444,
+          "recall": 0.21052631578947367,
+          "f1": 0.2857142857142857,
+          "support": 19.0
+        },
+        "Inform": {
+          "precision": 0.2222222222222222,
+          "recall": 0.16666666666666666,
+          "f1": 0.1904761904761905,
+          "support": 12.0
+        },
+        "Recommend": {
+          "precision": 0.6666666666666666,
+          "recall": 0.2,
+          "f1": 0.30769230769230765,
+          "support": 10.0
+        },
+        "Hold": {
+          "precision": 0.35294117647058826,
+          "recall": 0.9230769230769231,
+          "f1": 0.5106382978723405,
+          "support": 13.0
+        }
+      },
+      "n_outputs": 60
+    },
+    "zero_shot_qwen25vl7b": {
+      "target_macro_f1": 0.15428571428571428,
+      "general_macro_f1": 0.11633986928104574,
+      "combined_macro_f1": 0.14243771043771045,
+      "parse_rate": 0.43333333333333335,
+      "prediction_counts": {
+        "Elicit": 6,
+        "Hold": 14,
+        "Inform": 5,
+        "PARSE_FAIL": 34,
+        "Recommend": 1
+      },
+      "per_class": {
+        "Greet": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6.0
+        },
+        "Elicit": {
+          "precision": 0.3333333333333333,
+          "recall": 0.10526315789473684,
+          "f1": 0.16,
+          "support": 19.0
+        },
+        "Inform": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 12.0
+        },
+        "Recommend": {
+          "precision": 1.0,
+          "recall": 0.1,
+          "f1": 0.18181818181818182,
+          "support": 10.0
+        },
+        "Hold": {
+          "precision": 0.35714285714285715,
+          "recall": 0.38461538461538464,
+          "f1": 0.3703703703703704,
+          "support": 13.0
+        }
+      },
+      "n_outputs": 60
+    }
+  },
+  "openrouter_status": {
+    "gpt-4o": {
+      "status": "model_unavailable_or_first_call_failed",
+      "raw_outputs": "reports/closed_model_eval_20260525/gpt-4o/raw_outputs.jsonl",
+      "error": "RuntimeError: HTTP 402: {\"error\":{\"message\":\"Insufficient credits. Add more using https://openrouter.ai/settings/credits\",\"code\":402}}"
+    },
+    "gemini-2.5-flash": {
+      "status": "model_unavailable_or_first_call_failed",
+      "raw_outputs": "reports/closed_model_eval_20260525/gemini-2.5-flash/raw_outputs.jsonl",
+      "error": "RuntimeError: HTTP 402: {\"error\":{\"message\":\"Insufficient credits. Add more using https://openrouter.ai/settings/credits\",\"code\":402}}"
+    },
+    "claude-sonnet-4.6": {
+      "status": "model_unavailable_or_first_call_failed",
+      "raw_outputs": "reports/closed_model_eval_20260525/claude-sonnet-4.6/raw_outputs.jsonl",
+      "error": "RuntimeError: HTTP 402: {\"error\":{\"message\":\"Insufficient credits. Add more using https://openrouter.ai/settings/credits\",\"code\":402}}"
+    },
+    "grok-3": {
+      "status": "model_unavailable_or_first_call_failed",
+      "raw_outputs": "reports/closed_model_eval_20260525/grok-3/raw_outputs.jsonl",
+      "error": "RuntimeError: HTTP 404: {\"error\":{\"message\":\"Grok 3 is deprecated. xAI recommends switching to Grok 4.3 (https://openrouter.ai/x-ai/grok-4.3)\",\"code\":404},\"user_id\":\"user_3ABpSw9fw0QUHon4Pt5ye6lQRCw\"}"
+    }
+  },
+  "random": {
+    "target_macro_f1": 0.4137362637362637,
+    "general_macro_f1": 0.4211764705882352,
+    "combined_macro_f1": 0.4661484409310496,
+    "parse_rate": 1.0,
+    "prediction_counts": {
+      "Elicit": 17,
+      "Greet": 2,
+      "Hold": 20,
+      "Inform": 11,
+      "Recommend": 10
+    },
+    "per_class": {
+      "Greet": {
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5,
+        "support": 6.0
+      },
+      "Elicit": {
+        "precision": 0.6470588235294118,
+        "recall": 0.5789473684210527,
+        "f1": 0.6111111111111113,
+        "support": 19.0
+      },
+      "Inform": {
+        "precision": 0.45454545454545453,
+        "recall": 0.4166666666666667,
+        "f1": 0.43478260869565216,
+        "support": 12.0
+      },
+      "Recommend": {
+        "precision": 0.3,
+        "recall": 0.3,
+        "f1": 0.3,
+        "support": 10.0
+      },
+      "Hold": {
+        "precision": 0.4,
+        "recall": 0.6153846153846154,
+        "f1": 0.4848484848484849,
+        "support": 13.0
+      }
+    },
+    "n_outputs": 60
+  },
+  "local_status": {
+    "piwm_main": {
+      "status": "not_run",
+      "reason": "未跑：当前工作机缺少 torch，且 PIWM checkpoint 路径不可用",
+      "checkpoint": "/root/lanyun-fs/ProactiveIntentWorldModel/checkpoints/a3_full_targetv2_balanced_3epoch_v1/a3full-20260522-220941-px1003520-ml8192/v0-20260522-220953/checkpoint-500"
+    },
+    "stage1_only": {
+      "status": "not_run",
+      "reason": "未跑：当前工作机缺少 torch，且 Stage-1 checkpoint 路径不可用",
+      "checkpoint": "/root/lanyun-fs/ProactiveIntentWorldModel/checkpoints/stage1_qwen25vl_7b_a100_2gpu_pathC_symmetry_v1/pathC-20260521-185907-px1003520/v0-20260521-190055/checkpoint-432"
+    },
+    "zero_shot_qwen25vl7b": {
+      "status": "not_run",
+      "reason": "未跑：当前工作机缺少 torch/transformers 本地推理环境；zero-shot 需要 --no-lora/checkpoint=None 方式在可用 GPU 环境运行",
+      "checkpoint": null
+    }
+  }
+}

@@ -1,0 +1,4 @@
+<rationale>顾客已基本确定选择，正在短暂停顿后继续完成确认操作；此时感谢语过早，推荐也可能打断最后确认流程。静默等待最贴合其专注、快速完成购买的状态。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>终端保持当前界面与柔和待机灯效，不主动语音或推荐，等待顾客完成确认操作。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

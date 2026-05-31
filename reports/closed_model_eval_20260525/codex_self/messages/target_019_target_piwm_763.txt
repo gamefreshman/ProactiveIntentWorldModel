@@ -1,0 +1,4 @@
+<rationale>顾客已处于 desire 阶段，注意力稳定集中在正前方商品/终端上，表情放松并出现轻微上扬，身体姿态稳定且接近确认动作；状态描述也表明她希望获得明确坚定的推荐来完成最后决策。因此强推荐最贴合当前需求，简短对比会延长犹豫，静默等待也不符合她即将确认的状态。</rationale>
+<chosen>Recommend_9ff23b139b07</chosen>
+<intervention_action>智能售货柜高亮推荐单品，显示立即购买 CTA，并用坚定语气给出直接购买建议。</intervention_action>
+<intervention_utterance>这款最适合您，建议直接选这款。</intervention_utterance>

@@ -31,9 +31,9 @@ Delivered artifacts:
 |---|---:|
 | `data/official/piwm_train_synth_v2/main_schema.jsonl` | 543 |
 | `data/official/piwm_train_synth_v2/state_inference.jsonl` | 543 |
-| `data/official/piwm_train_synth_v2/transition_modeling.jsonl` | 2011 |
+| `data/official/piwm_train_synth_v2/transition_modeling.jsonl` | 2001 |
 | `data/official/piwm_train_synth_v2/policy_preference.jsonl` | 543 |
-| `data/official/ms_swift/piwm_train_synth_v2.jsonl` | 2554 |
+| `data/official/ms_swift/piwm_train_synth_v2.jsonl` | 2544 |
 | `data/official/piwm_policy_slice_v2/policy_manifest.jsonl` | 864 |
 
 ## Compatibility Result
@@ -75,5 +75,5 @@ Latest full test result: `213 passed`.
 - `PIWM-Train-Synth-v2` is still synthetic train pending visual QA.
 - `PIWM-Train-Synth-v2` does not mean new Kling videos were generated.
 - `PIWM-PolicySlice-v2` is a rule-space policy manifest, not a filmed or QA-reviewed dataset.
-- `Greet=0` remains a deliberate v2.2 design choice for synthetic browsing train.
+- Current 5-act definition is `Greet / Elicit / Inform / Recommend / Hold`; `Recommend` is represented with `pressure=soft/firm` params in current v2-native policy paths. `Reassure` is excluded from training/eval/inference/runtime export and remains source/compat only. `Greet=0` in older general/policy-slice artifacts is a coverage gap, not the action-space definition.
 - v2.3 should remove migration-only A-key dependencies only after downstream loaders switch to `next_state_by_action_v2`.

@@ -1,0 +1,24 @@
+% Merge position: Section 6.1 Experimental Setup or Appendix.
+% Evidence sources:
+% - reports/training_config_audit_remote_20260524/run_args.json
+% - reports/training_config_audit_remote_20260524/adapter_config.json
+% - scripts/eval_ms_swift_checkpoint.py
+% - scripts/eval_e2e_decision_loop_checkpoint.py
+% - scripts/extract_frames.py
+\subsection{Reproducibility}
+\label{sec:reproducibility}
+
+\paragraph{Training configuration.}
+All trained PIWM variants use Qwen2.5-VL-7B-Instruct as the base vision-language model and ms-swift as the fine-tuning framework. The main checkpoint is trained with LoRA adaptation (\texttt{tuner\_type=lora}) using rank 16, alpha 32, dropout 0.05, and no LoRA bias. The ms-swift configuration specifies \texttt{target\_modules=all-linear}; the saved PEFT adapter materializes this over the Qwen projection and MLP modules (\texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, \texttt{o\_proj}, \texttt{gate\_proj}, \texttt{up\_proj}, and \texttt{down\_proj} under \texttt{model.*}). The optimizer is AdamW (\texttt{adamw\_torch}) with learning rate $2\times10^{-5}$, weight decay 0.1, $\beta_1=0.9$, $\beta_2=0.95$, cosine learning-rate schedule, max gradient norm 1.0, no warmup (\texttt{warmup\_steps=0}, \texttt{warmup\_ratio=0.0}), bf16 precision, gradient checkpointing, per-device batch size 4, gradient accumulation 2, and 3 training epochs. The random seed and data seed are both 42.
+
+\paragraph{Data and schedule.}
+The main PIWM training file is the joint Stage-1 plus Stage-2 ms-swift file with 2,734 rows: 543 user-intent rows, 2,001 next-state-prediction rows, and 190 balanced action-selection rows. The archived run arguments record \texttt{max\_length=8192} and \texttt{max\_pixels=1003520}. Stage-1-only variants use the same user-intent and next-state objectives without the balanced action-selection rows. Zero-shot Qwen2.5-VL-7B is evaluated without loading a LoRA adapter.
+
+\paragraph{Hardware and compute.}
+The project used an A100 80GB server pool. For paper-level accounting, each main training run is budgeted at approximately 1.5 wall-clock hours on 6 A100 80GB GPUs, or about 9 A100-hours per run. Counting the main PIWM run plus four ablations gives an estimated total of about 45 A100-hours. Audit note: the archived ms-swift \texttt{run\_args.json} for the main checkpoint records \texttt{global\_world\_size=2}; reconcile this sentence with the final server log before camera-ready if exact hardware accounting is required.
+
+\paragraph{Inference configuration.}
+All local checkpoint evaluations use greedy decoding. In \texttt{scripts/eval\_ms\_swift\_checkpoint.py}, generation calls \texttt{model.generate(..., do\_sample=False)} with default \texttt{max\_new\_tokens=256}. In \texttt{scripts/eval\_e2e\_decision\_loop\_checkpoint.py}, perception, deliberation, and action calls also use \texttt{do\_sample=False} and default to 128 new tokens for each step. The ms-swift checkpoint metadata stores \texttt{temperature=0.0} and \texttt{num\_beams=1}. Parse failures are counted as errors in strict metrics unless a table explicitly states a parsed-output convention.
+
+\paragraph{Frame sampling.}
+The standard input contains three sparse frames per video. The frame extractor uses a cue-timeline sampling plan with default timestamps at 2.0s (\texttt{cue\_onset}), 5.0s (\texttt{cue\_peak}), and 8.0s (\texttt{cue\_resolution}) when a prompt does not provide a custom \texttt{frame\_sampling\_plan}. Extracted frames are stored as \texttt{000.jpg}, \texttt{001.jpg}, and \texttt{002.jpg}, and the prompt presents them in chronological order.

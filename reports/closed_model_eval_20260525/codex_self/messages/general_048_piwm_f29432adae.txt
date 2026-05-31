@@ -1,0 +1,4 @@
+<rationale>顾客已靠近并实际操作手机，说明进入体验式评估；状态中价格灵活性是当前潜在意图。相比继续演示或推荐，开放式询问能顺势确认她是更关注价格、功能还是使用场景，并给出价格入口，不会打断试用过重。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>终端以温和语音询问关注点，并在屏幕上显示“功能、价格、场景”三个选择气泡，等待顾客选择。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

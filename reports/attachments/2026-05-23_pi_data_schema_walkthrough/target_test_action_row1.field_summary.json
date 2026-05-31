@@ -1,0 +1,40 @@
+{
+  "top_level_keys": [
+    "messages",
+    "images",
+    "task",
+    "source_id",
+    "weight",
+    "loss_weight",
+    "meta"
+  ],
+  "roles": [
+    "system",
+    "user",
+    "assistant"
+  ],
+  "image_count": 3,
+  "has_video_field": false,
+  "task": "action_selection_5act",
+  "source_id": "target_piwm_700",
+  "weight": 1.0,
+  "loss_weight": 1.0,
+  "meta": {
+    "split": "test",
+    "qa_status": "qa_reviewed_pass",
+    "human_review_status": "project_lead_reviewed_pass",
+    "viewpoint": "target_frontcam",
+    "best_act": "Elicit",
+    "candidate_action_acts": {
+      "Elicit_b1166d372e5e": "Elicit",
+      "Inform_24926eed1e21": "Inform",
+      "Recommend_interest_stage_conditioned_target_piwm_700_605fd47cf01e": "Recommend",
+      "Hold_eda24b4bb712": "Hold"
+    },
+    "five_act_only": true,
+    "leakage_control": "no_reward_no_predicted_outcome_in_prompt",
+    "augmentation_policy": null,
+    "augmented_from_state_id": null
+  },
+  "aida_stage_in_prompt_or_target": "interest"
+}

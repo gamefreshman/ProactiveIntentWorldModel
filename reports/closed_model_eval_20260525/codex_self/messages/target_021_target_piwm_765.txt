@@ -1,0 +1,4 @@
+<rationale>顾客视线稳定、动作果断，已表现出快速确认并购买已看中商品的意图；此时最匹配的是明确推荐并给出直接购买入口，而不是继续泛泛说明或静默等待。</rationale>
+<chosen>Recommend_9ff23b139b07</chosen>
+<intervention_action>智能售货柜高亮推荐商品，在屏幕显示“立即购买”按钮，并用坚定语气给出直接推荐。</intervention_action>
+<intervention_utterance>这款最适合您，建议直接选这款。</intervention_utterance>

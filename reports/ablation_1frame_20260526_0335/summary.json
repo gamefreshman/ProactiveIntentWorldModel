@@ -1,0 +1,116 @@
+{
+  "artifact": "batch2_ablation_eval",
+  "schema": "full",
+  "frame_mode": "middle",
+  "checkpoint": "checkpoints/ablation_1frame_20260526_0335/v0-20260526-032819/checkpoint-513",
+  "target_oracle": {
+    "n": 30,
+    "parse_rate": 1.0,
+    "macro_f1_strict": 0.5885714285714286,
+    "macro_f1_parsed": 0.5885714285714286,
+    "by_domain": {
+      "combined": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.5885714285714286,
+        "macro_f1_parsed": 0.5885714285714286,
+        "prediction_counts": {
+          "Recommend": 8,
+          "Elicit": 8,
+          "Inform": 8,
+          "Greet": 4,
+          "Hold": 2
+        }
+      },
+      "target": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.5885714285714286,
+        "macro_f1_parsed": 0.5885714285714286,
+        "prediction_counts": {
+          "Recommend": 8,
+          "Elicit": 8,
+          "Inform": 8,
+          "Greet": 4,
+          "Hold": 2
+        }
+      }
+    }
+  },
+  "cross_oracle": {
+    "n": 60,
+    "parse_rate": 0.9833333333333333,
+    "macro_f1_strict": 0.722987012987013,
+    "macro_f1_parsed": 0.7287012987012986,
+    "by_domain": {
+      "combined": {
+        "n": 60,
+        "parse_rate": 0.9833333333333333,
+        "macro_f1_strict": 0.722987012987013,
+        "macro_f1_parsed": 0.7287012987012986,
+        "prediction_counts": {
+          "Recommend": 14,
+          "Elicit": 23,
+          "Inform": 9,
+          "Greet": 4,
+          "Hold": 9,
+          "PARSE_FAIL": 1
+        }
+      },
+      "general": {
+        "n": 30,
+        "parse_rate": 0.9666666666666667,
+        "macro_f1_strict": 0.6028571428571429,
+        "macro_f1_parsed": 0.6123809523809524,
+        "prediction_counts": {
+          "Inform": 1,
+          "Hold": 7,
+          "Elicit": 15,
+          "Recommend": 6,
+          "PARSE_FAIL": 1
+        }
+      },
+      "target": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.5885714285714286,
+        "macro_f1_parsed": 0.5885714285714286,
+        "prediction_counts": {
+          "Recommend": 8,
+          "Elicit": 8,
+          "Inform": 8,
+          "Greet": 4,
+          "Hold": 2
+        }
+      }
+    }
+  },
+  "user_intent_60": {
+    "n": 60,
+    "parse_rate": 1.0,
+    "stage_macro_f1_strict": 0.3703349282296651,
+    "intent_macro_f1_strict": 0.07427536231884058,
+    "intent_macro_f1_parsed": 0.07427536231884058
+  },
+  "next_state_80": {
+    "n": 80,
+    "parse_rate": 1.0,
+    "next_stage_macro_f1_strict": 0.16511377044528952,
+    "next_stage_macro_f1_parsed": 0.16511377044528952
+  },
+  "e2e_target": {
+    "n": 30,
+    "step1_parse_rate": 1.0,
+    "step2_parse_rate": 0.9333333333333333,
+    "macro_f1_strict": 0.1885375494071146
+  },
+  "elapsed_sec": 1748.6,
+  "paper_table_metrics": {
+    "target_test_f1": 0.5885714285714286,
+    "cross_domain_f1": 0.722987012987013,
+    "e2e_f1": 0.1885375494071146,
+    "aida_f1": 0.3703349282296651,
+    "intent_f1": 0.07427536231884058,
+    "next_state_f1": 0.16511377044528952
+  }
+}

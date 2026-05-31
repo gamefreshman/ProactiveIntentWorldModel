@@ -1,6 +1,6 @@
 # PIWM Data Generation Chain v2.2 Contract
 
-更新时间：2026-05-15 CST
+更新时间：2026-05-19 CST
 
 本文定义后续更新动作、场景、label 和专家规则时的唯一链路。目标是避免只改某个 JSONL 或某个文档，导致规则、数据、训练和论文口径再次分叉。
 
@@ -15,7 +15,7 @@
 | `PIWM-PolicySlice-v2` | 专家规则 policy manifest | 动作均衡、后续生成和 policy-head 数据规划 | 已写出 864 条 explicit candidate-rule scenarios；不是视频数据 |
 | target terminal dataset | 智能导购终端 / 数字人售货柜 | 训练或评估终端屏幕、语音、灯效、柜体动作 | 后续单独建设 |
 
-两条数据线共享同一 6-act policy space：`Greet / Elicit / Inform / Recommend / Reassure / Hold`。
+当前 5-act operational policy space 为：`Greet / Elicit / Inform / Recommend / Hold`。`Reassure` 不进入当前 5-act action-selection 训练、推理或 macro-F1 口径；历史 `PIWM-Train-Synth-v2` / `PIWM-PolicySlice-v2` 中的 `Reassure` 只能作为 source/compatibility 分析对象。
 
 ## 2. Source Of Truth
 
@@ -77,7 +77,7 @@
 
 解释：
 
-- `Greet=0` 对 synthetic train 是合理的，因为当前不是交易完成或欢迎/送别数据集。
+- `Greet=0` 是 synthetic train 的覆盖缺口；当前 5-act 主路径需要通过 target-frontcam / realshoot 补充 `Greet`。
 - `Recommend=0` 说明现有 reward/candidate 规则过度把推荐当负样本或候选对照，不适合作为平衡 policy-head 数据。
 - `Inform` 过高，说明 active evaluation 场景与演示/比较奖励过强。
 
@@ -109,8 +109,8 @@ python3 -m scripts.scenario_sampler \
 |---|---|
 | 增加 `Recommend(pressure=soft)` 正样本 | 已在 v2 policy path 拆出，并落到 `PIWM-PolicySlice-v2` |
 | 保留 `Recommend(pressure=firm)` 负样本 | 只作为强推反例，不混成推荐整体反例 |
-| 增加 `Reassure` 正样本 | 扩充高犹豫、放弃倾向、购买后确认场景 |
-| 保留 `Greet` 在 target/realshoot | 不强行塞进 synthetic browsing train |
+| 处理 `Reassure` 历史样本 | 当前 5-act 过滤掉 `Reassure`；如果未来恢复，需要先重开动作口径决策 |
+| 保留 `Greet` 在 target/realshoot | `Greet` 是当前 5-act 成员；target/realshoot 是补充该 act 覆盖的主要来源 |
 | 降低 `Inform` 独占 | 在 active evaluation 中区分“需要提问”和“需要演示/比较”的视觉 cue |
 
 ## 4. Scene And Label Refresh
@@ -149,7 +149,7 @@ scene_spec
 
 1. 审阅 `state_aida_to_candidates` 和 `transition`，解决 best-act 分布偏斜。
 2. 把 `Recommend(pressure=soft)` 从 `A3_strong_recommend` 中拆出正向推荐规则。
-3. 为 `Reassure` 和购买后 `Greet` 增加真实拍摄或专家审阅依据。
+3. 为 `Greet` 增加更多正样本依据；`Reassure` 如需重新进入主动作空间，必须先重新决策动作口径并重跑过滤、切分、评测和文档。
 4. 更新 `_provenance_coverage.json`，不能声称 expert-reviewed。
 
 ## 6. Required Checks

@@ -24,6 +24,9 @@ Archive_continuation_prompts_*/
 # Review/contact-sheet exports
 _remote_review_sheets/
 _remote_review_sheets_fix3/
+reports/2026-05-25_figure_data_samples_assets.zip
+reports/2026-05-25_figure_data_samples_assets/
+local_artifacts/hf_upload_stage_*/
 
 # Server sync scratch dirs
 .__tmp_sync_marker/
@@ -62,3 +65,19 @@ wandb/
 *.tmp
 *.bak
 piwm_videos_review/
+
+# LaTeX build outputs and local paper renders
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+pdflatex*.fls
+paper/*.log
+paper/*.out
+paper/*.pdf
+
+# Local scratch / Overleaf mirrors
+tmp/*
+!tmp/README.md

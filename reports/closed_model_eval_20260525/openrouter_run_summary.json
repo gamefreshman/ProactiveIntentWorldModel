@@ -1,0 +1,22 @@
+{
+  "gpt-4o": {
+    "status": "model_unavailable_or_first_call_failed",
+    "raw_outputs": "reports/closed_model_eval_20260525/gpt-4o/raw_outputs.jsonl",
+    "error": "RuntimeError: HTTP 402: {\"error\":{\"message\":\"Insufficient credits. Add more using https://openrouter.ai/settings/credits\",\"code\":402}}"
+  },
+  "gemini-2.5-flash": {
+    "status": "model_unavailable_or_first_call_failed",
+    "raw_outputs": "reports/closed_model_eval_20260525/gemini-2.5-flash/raw_outputs.jsonl",
+    "error": "RuntimeError: HTTP 402: {\"error\":{\"message\":\"Insufficient credits. Add more using https://openrouter.ai/settings/credits\",\"code\":402}}"
+  },
+  "claude-sonnet-4.6": {
+    "status": "model_unavailable_or_first_call_failed",
+    "raw_outputs": "reports/closed_model_eval_20260525/claude-sonnet-4.6/raw_outputs.jsonl",
+    "error": "RuntimeError: HTTP 402: {\"error\":{\"message\":\"Insufficient credits. Add more using https://openrouter.ai/settings/credits\",\"code\":402}}"
+  },
+  "grok-3": {
+    "status": "model_unavailable_or_first_call_failed",
+    "raw_outputs": "reports/closed_model_eval_20260525/grok-3/raw_outputs.jsonl",
+    "error": "RuntimeError: HTTP 404: {\"error\":{\"message\":\"Grok 3 is deprecated. xAI recommends switching to Grok 4.3 (https://openrouter.ai/x-ai/grok-4.3)\",\"code\":404},\"user_id\":\"user_3ABpSw9fw0QUHon4Pt5ye6lQRCw\"}"
+  }
+}

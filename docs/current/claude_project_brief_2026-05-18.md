@@ -1,6 +1,6 @@
 # PIWM 给 Claude 的项目决策简报
 
-更新时间：2026-05-18 CST  
+更新时间：2026-05-19 CST
 用途：让 Claude 快速理解 PIWM 当前项目状态，并作为论文叙事、数据口径、实验设计的决策审阅者参与。
 
 ## 1. 一句话理解本项目
@@ -33,8 +33,8 @@ general retail guidance corpus
 ```text
 我们构造了一个 general -> target 的低资源跨域适配问题：
 general 数据学通用主动导购，
-88 条 target train 做专项适配，
-30 条 target QA-reviewed test 做 in-domain evaluation。
+71 条 clean 5-act target train 做专项适配，
+30 条 balanced 5-act target test 做 in-domain evaluation；这批新 test 已按新名单 QA-reviewed pass。
 ```
 
 因此，200 条 `PIWM-Target-PromptReady-v1` video-pending 样本只能作为未来扩展队列，不能进入当前论文主数据规模，也不能写成 filmed multimodal training data。
@@ -47,8 +47,8 @@ Claude 参与决策时应围绕这个问题判断：
 
 对应实验应至少包含：
 
-1. `general_on_target`：只用 general 训练，在 target QA test 上 zero-shot。
-2. `target_on_target`：general 后继续用 88 条 target train 适配，再测 target QA test。
+1. `general_on_target`：只用 general 训练，在 balanced 5-act target test 上 zero-shot；当前需要先完成项目负责人 QA。
+2. `target_on_target`：general 后继续用 71 条 clean 5-act target train 适配，再测 balanced 5-act target test。
 3. `joint_on_target`：general + target 混合训练，作为 joint baseline。
 4. `target_on_general`：target-specialized 模型回测 general QA eval，检查是否遗忘 general 能力。
 
@@ -58,17 +58,27 @@ Claude 参与决策时应围绕这个问题判断：
 
 | 数据名 | 角色 | 当前规模 | QA 口径 |
 |---|---|---:|---|
-| `PIWM-Train-Synth-v2` | general retail guidance 训练集 | 543 parent / 2554 training examples | synthetic train，未人工视觉 QA |
-| `PIWM-Target-Frontcam-v1` train | target-frontcam 适配训练 | 88 records / 528 examples / 264 frames | synthetic train |
-| `PIWM-Target-Frontcam-v1` test | target-frontcam in-domain test | 30 records / 180 examples / 90 frames | 项目负责人 QA pass |
+| `PIWM-Train-Synth-v2` | general retail guidance 训练集 | 543 parent / 2544 full examples；seed=42 split 为 493 train parent / 50 val parent | synthetic train，未人工视觉 QA |
+| `PIWM-Target-Frontcam-v1` clean 5-act train | target-frontcam 适配训练 | 71 records / 213 frames / 71 action-selection examples | synthetic train；排除 best=`Reassure`，并过滤候选中的 `Reassure` |
+| `PIWM-Target-Frontcam-v1` balanced test | target-frontcam in-domain test | 30 records / 90 frames / 90 eval rows | balanced 5-act split，QA-reviewed pass |
 | `PIWM-Eval-QA-v1` | general QA eval / forgetting check | 36 parent / 162 eval rows | QA-reviewed subset |
 | `PIWM-Target-PromptReady-v1` | target 未来生成队列 | 318 prompt-ready records，其中 200 video-pending | 不是 filmed data |
 
 需要强调：
 
 - `PIWM-Target-Frontcam-v1` 全量 118 条不是 full human QA-reviewed corpus。
-- 只有其中 30 条 test records 是项目负责人 QA-reviewed。
-- 88 条 target train records 可用于训练，但不能写成 benchmark。
+- 其中 30 条 test records 已重新固定为 balanced 5-act split，并已按新名单 QA-reviewed pass；旧 split 的 QA pass 结论只作为历史记录。
+- 71 条 clean 5-act target train records 可用于 Stage-2 target adaptation，但不能写成 benchmark。
+Stage-2 clean 5-act 算账链必须这样写：
+
+```text
+118 total target records
+- 17 best=Reassure
+- 0 rows whose candidate set degenerates after filtering Reassure candidates
+= 101 clean 5-act records
+101 - 30 balanced test = 71 Stage-2 train
+```
+
 - 200 条 prompt-ready / video-pending 不进入当前多模态训练规模。
 
 ## 4. 数据如何生成：专家知识到结构化输出
@@ -122,7 +132,7 @@ scene cues
 
 - `customer state` 包含 AIDA 阶段和 BDI。
 - BDI 是 belief / desire / intention，即顾客相信什么、想要什么、打算做什么。
-- `candidate actions` 来自 6 个 DialogueAct 的候选规则。
+- `candidate actions` 来自当前 5-act operational DialogueAct 候选规则：`Greet / Elicit / Inform / Recommend / Hold`。
 - `action outcomes` 包含 next state、reward、risk、benefit、failure mode。
 - `training targets` 被导出为 perception、deliberation、action selection 等训练任务。
 
@@ -130,15 +140,14 @@ scene cues
 
 ## 5. 动作空间
 
-当前统一使用 6 个 DialogueAct：
+当前论文和主训练口径使用 5 个 operational DialogueAct：
 
 | DialogueAct | 含义 |
 |---|---|
-| `Greet` | 问候、开启或结束互动 |
 | `Elicit` | 询问需求，澄清顾客意图 |
 | `Inform` | 提供事实信息，如比较、演示、属性、价格 |
 | `Recommend` | 推荐商品，区分 soft / firm pressure |
-| `Reassure` | 降低压力，安抚犹豫 |
+| `Greet` | 开场或收尾问候，建立低压力交互入口 |
 | `Hold` | 等待、静默、低干预 |
 
 动作不是单个扁平标签，而是 `act + params`。
@@ -156,6 +165,8 @@ scene cues
 ```
 
 旧 `A1-A8` 只作为历史兼容 alias，不应作为论文主表达。
+
+本次 5-act 口径已反转并锁定为 `Greet / Elicit / Inform / Recommend / Hold`。`Reassure` 只保留为历史/source 标签与兼容分析边界，不进入当前 action-selection 训练、推理和 macro-F1。
 
 ## 6. General 与 Target 的主体差异
 
@@ -190,16 +201,14 @@ QA 是 Quality Assurance，即质量复核。这里主要检查：
 - 三张抽帧图是否时间连续。
 - 标签是否能被视觉证据支撑。
 
-当前 target test QA 结果：
+当前 target test QA 状态：
 
 ```text
-30 pass / 0 fail / 2 warning
+30 balanced 5-act test records project-lead QA-reviewed pass
+test distribution: Greet=6, Elicit=6, Inform=6, Recommend=6, Hold=6, Reassure=0
 ```
 
-两个 warning：
-
-- `target_piwm_797`：玻璃反光可见，但顾客主体清楚。
-- `target_piwm_815`：attention 阶段第一张图带有部分进入前上下文，但后续帧清楚。
+旧 split 曾经有 30 pass / 0 fail / 2 warning，但现在已经归档为历史记录，因为新的 5-act test 名单发生了变化。
 
 重要边界：
 
@@ -219,8 +228,8 @@ QA 是 Quality Assurance，即质量复核。这里主要检查：
 - 低资源 target specialization 叙事。
 - general / target / eval 数据表。
 - perception / deliberation / action selection 任务表。
-- 6-act 动作空间与 target action 分布表。
-- QA 说明。
+- 5-act operational 动作空间与 target action 分布表；当前主动作空间是 `Greet / Elicit / Inform / Recommend / Hold`；`Reassure` 只作为历史/source 兼容说明，不计入当前主 macro-F1。
+- QA 说明：当前 target test 已完成项目负责人 QA，旧 last-30 QA 只作为历史记录。
 - 专家知识到结构化输出链路。
 
 Claude 可以直接审这两份稿件的逻辑、措辞和是否过度主张。
@@ -244,34 +253,36 @@ Claude 可以直接审这两份稿件的逻辑、措辞和是否过度主张。
 
 请 Claude 重点回答以下问题：
 
-1. **主故事是否成立？**  
+1. **主故事是否成立？**
    “general proactive retail guidance -> low-resource target-frontcam specialization” 是否足够强，还是仍显得像小规模 pilot？
 
-2. **数据规模是否表述得当？**  
-   118 条 target video-backed + 30 QA-reviewed target test 是否能作为低资源适配实验成立？论文中如何避免 reviewer 质疑规模太小？
+2. **数据规模是否表述得当？**
+   118 条 target video-backed + 30 条 balanced 5-act target test 是否能作为低资源适配实验成立？如果 QA 尚未完成，论文中哪些句子必须暂时降级？
 
-3. **专家知识链路是否可信？**  
+3. **专家知识链路是否可信？**
    27 principles + 78 source-linked rules 的叙事是否足够支撑“pedagogy-anchored supervision”？是否需要在论文中加入更多 provenance 表或例子？
 
-4. **评估矩阵是否完整？**  
+4. **评估矩阵是否完整？**
    zero-shot、Stage-2、joint baseline、forgetting check 是否够？是否还必须加 target-only baseline？
 
-5. **是否存在过度主张？**  
+5. **是否存在过度主张？**
    哪些句子容易被 reviewer 认为夸大？尤其注意：
    - 不能说 full target corpus QA-reviewed。
+   - 可以说当前 balanced 5-act target test 已按新名单 QA-reviewed pass；不能沿用旧 last-30 QA 结论，也不能把 QA 结论扩展到全量 118 条。
    - 不能说 200 pending 是视频数据。
    - 不能说 Greet 导致顾客笑。
    - 不能说 expert-reviewed rules，当前是 source-linked / project-reviewed / theory-anchored。
 
-6. **数据章节是否足够 EMNLP 风格？**  
+6. **数据章节是否足够 EMNLP 风格？**
    当前数据章节是否更像 NeurIPS 方法论文，还是足够贴近 EMNLP 对 dataset / annotation / evaluation protocol 的期待？
 
 ## 11. Claude 不应误读的红线
 
 - 不要把 `PIWM-Target-PromptReady-v1` 的 200 条 video-pending 写成已完成视频。
 - 不要把 `PIWM-Target-Frontcam-v1` 全量 118 条写成 full human QA-reviewed。
+- 当前 balanced 5-act target test 已 QA-reviewed pass；旧 last-30 QA-reviewed split 已归档，不能作为当前 split 依据。
 - 不要把 `PIWM-Train-Synth-v2` 写成新增视频规模；它是同一批 543 parent 的 v2.2 schema 独立导出。
-- 不要把旧 `A1-A8` 写成主动作空间；正文应写 6-act `DialogueAct + params`。
+- 不要把旧 `A1-A8` 写成主动作空间；正文应写 5-act operational `DialogueAct + params`。
 - 不要把 current observation frames 解释成 post-action causal reaction。
 - 不要说已有 Stage-1 / Stage-2 target specialization 结果；目前只是入口和数据已准备。
 
@@ -279,25 +290,25 @@ Claude 可以直接审这两份稿件的逻辑、措辞和是否过度主张。
 
 如果 Claude 只能看少量文件，优先顺序如下：
 
-1. `paper/data_section_emnlp_zh.md`  
+1. `paper/data_section_emnlp_zh.md`
    中文数据章节审阅稿，最适合先判断叙事。
 
-2. `paper/data_section_emnlp.tex`  
+2. `paper/data_section_emnlp.tex`
    英文 LaTeX 数据章节，可直接进入论文。
 
-3. `docs/current/domain_specialization_experiment_plan.md`  
+3. `docs/current/domain_specialization_experiment_plan.md`
    训练与评估矩阵。
 
-4. `docs/current/dataset_inventory.md`  
+4. `docs/current/dataset_inventory.md`
    数据总账和规模口径。
 
-5. `data/official/DATASET_MANIFEST.json`  
+5. `data/official/DATASET_MANIFEST.json`
    机器可读 official manifest。
 
-6. `docs/v2_validation/distillation_summary.md`  
+6. `docs/v2_validation/distillation_summary.md`
    专家知识蒸馏、principles、rules、source 链路状态。
 
-7. `docs/v2_validation/piwm_target_frontcam_import.md`  
+7. `docs/v2_validation/piwm_target_frontcam_import.md`
    target frontcam 数据如何从轻量 `piwm` 仓库进入主项目。
 
 ## 13. 建议给 Claude 的审阅提示词
@@ -310,7 +321,7 @@ Claude 可以直接审这两份稿件的逻辑、措辞和是否过度主张。
 
 请判断：
 1. 当前“general retail guidance -> low-resource target-frontcam specialization”的强主会故事是否成立。
-2. 118 条 target video-backed 数据、88 train、30 QA-reviewed test 的数据口径是否足以支撑 EMNLP 论文。
+2. 118 条 target video-backed 数据、71 条 clean 5-act train、30 条 balanced 5-act QA-reviewed-pass test 的数据口径是否足以支撑 EMNLP 论文。
 3. 专家知识 -> distilled principles -> conditional rules -> structured outputs 的链路是否说得可信，是否需要补表或例子。
 4. 当前 eval matrix 是否足够，是否必须增加 target-only baseline 或 human eval。
 5. 哪些句子存在过度主张、概念混淆或 reviewer 会攻击的点。
@@ -321,4 +332,3 @@ Claude 可以直接审这两份稿件的逻辑、措辞和是否过度主张。
 - 建议补充的实验或表格
 - 你认为当前最强和最弱的论文 claim
 ```
-

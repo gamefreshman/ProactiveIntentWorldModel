@@ -1,0 +1,4 @@
+<rationale>顾客处于回避互动、可能离开的状态，且当前进一步开口可能增加打扰感；静默等待比低压提示语更符合“避免进一步接触”的需求。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>终端保持静默与当前柔和灯效，不主动发声、不弹出引导，只等待顾客自行决定。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

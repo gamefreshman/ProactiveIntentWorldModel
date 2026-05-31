@@ -1,0 +1,4 @@
+<rationale>顾客已靠近并拿起手机，视线集中在屏幕和手持体验上，处于主动试用以确认选择的阶段。此时最适合给出简短关键细节演示，帮助其验证功能和使用体验；直接推荐过早，继续静默则错过了体验评估中的辅助时机。</rationale>
+<chosen>Inform_5ff00ba15ca5</chosen>
+<intervention_action>终端在屏幕上播放该手机的简短产品演示，并用中性语音提示关键细节。</intervention_action>
+<intervention_utterance>我给您演示一下这款的关键细节。</intervention_utterance>

@@ -1,0 +1,4 @@
+<rationale>顾客仍停留在护肤品陈列前，视线从商品转向周围，手部动作暂停，符合“接近确认选择但需要人工确认”的状态。此时继续静默会错过介入窗口，柔和推荐一个参考选项更匹配其确认需求且压力较低。</rationale>
+<chosen>Recommend_8d7f8993e333</chosen>
+<intervention_action>智能售货柜以柔和灯效聚焦候选商品，屏幕高亮该商品，并用中性语气进行低压力推荐。</intervention_action>
+<intervention_utterance>这款可以作为一个参考选项。</intervention_utterance>

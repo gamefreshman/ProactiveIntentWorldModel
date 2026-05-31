@@ -1,0 +1,4 @@
+<rationale>顾客处于 desire 阶段，已表现出持续关注和购买倾向，但仍有最后确认的犹豫；软性推荐能顺着她当前关注点给出温和确认，比继续沉默或展开对比更能降低决策负担。</rationale>
+<chosen>Recommend_8d7f8993e333</chosen>
+<intervention_action>智能售货柜轻柔高亮当前推荐商品，屏幕突出该商品但不弹出强 CTA，并用柔和语音提示。</intervention_action>
+<intervention_utterance>如果您想省时间，可以先从这款开始看，它比较符合您现在关注的点。</intervention_utterance>

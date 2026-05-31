@@ -1,0 +1,4 @@
+<rationale>顾客已在腕表柜台停留，先看商品后转头寻找周围帮助，手部动作暂停，符合“接近确认但需要导购输入”的状态。此时主动用开放问题询问关注点，比继续静默更能帮助她确认选择。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜以温和语音发问，屏幕显示“功能、价格、场景”三个选项气泡，灯效保持中性提示。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

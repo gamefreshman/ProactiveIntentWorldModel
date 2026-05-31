@@ -1,0 +1,4 @@
+<rationale>顾客已持续拿起并查看护肤品，处于主动评估阶段，同时状态显示她关注价格弹性。直接推荐或演示可能偏离当前价格诉求；开放式询问并提供“价格”选项，能低压力承接她的议价意图，同时保留功能和使用场景的选择空间。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜以温和语音发问，并在屏幕上显示“功能、价格、场景”三个选择按钮。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

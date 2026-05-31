@@ -1,10 +1,10 @@
 # PIWM Paper Data Section Blueprint
 
-更新时间：2026-05-17 CST
+更新时间：2026-05-19 CST
 
 本文是论文数据部分的当前写作蓝图。它把 general synthetic 数据、target-frontcam 数据、真实拍摄数据、World Model continuation、动作空间 v2 和 QA 口径放到同一条叙事里，避免论文、代码、拍摄文档各说一套。
 
-当前 EMNLP 口径已经确定为强主会式的低资源 target specialization：不等待 200 条 video-pending 样本成片，不把 target 规模包装成 300+，而是明确写成 88 条 target train + 30 条项目负责人 QA-reviewed target test 的跨域适配实验。
+当前 EMNLP 口径已经确定为强主会式的低资源 target specialization：不等待 200 条 video-pending 样本成片，不把 target 规模包装成 300+，而是明确写成 71 条 clean 5-act target train + 30 条 balanced 5-act target test 的跨域适配实验。注意：2026-05-19 重新划分后的 target test 已按新名单 QA-reviewed pass；旧 last-30 split 的 QA pass 结论只作为历史记录。
 
 ## 1. 数据目标
 
@@ -20,7 +20,7 @@ current visual evidence
 论文中应强调三点：
 
 1. 当前状态来自可见证据，而不是纯文本标签。
-2. 策略动作采用 6 个 `DialogueAct` 及参数，不再依赖旧的扁平 A1-A8 标签。
+2. 策略动作采用当前 5 个 operational `DialogueAct` 及参数，不再依赖旧的扁平 A1-A8 标签；`Reassure` 只作为历史/source 记录和兼容分析边界保留。
 3. World Model 监督要求同一当前状态下，不同动作导致不同未来反应。
 
 ## 2. 数据层级
@@ -40,8 +40,8 @@ current visual evidence
 | 数据名 | 角色 | 当前口径 |
 |---|---|---|
 | `PIWM-Train-Synth-v1` | 主 synthetic 训练集 | 可训练，不写成 QA-reviewed |
-| `PIWM-Train-Synth-v2` | general retail guidance schema v2.2 训练入口 | 543 parent / 2554 examples；不是新增视频规模 |
-| `PIWM-Target-Frontcam-v1` | target 域设备前置摄像头数据 | 118 records / 708 examples；30-record test split 已项目负责人 QA 复核，88 train records 仍是 synthetic_unreviewed |
+| `PIWM-Train-Synth-v2` | general retail guidance schema v2.2 训练入口 | 543 parent / 2544 examples；不是新增视频规模；`Recommend(pressure=soft/firm)`；main target eval uses Greet and excludes Reassure |
+| `PIWM-Target-Frontcam-v1` | target 域设备前置摄像头数据 | 118 video-backed records；主实验使用 71 条 clean 5-act train / 30 条 balanced 5-act test，test 已按新名单 QA-reviewed pass |
 | `PIWM-Target-PromptReady-v1` | target 域扩展生成队列 | 318 prompt-ready records，其中 200 条 video-pending，不能当作 filmed multimodal training data |
 | `PIWM-Train-Full-v2` | 下一次 fresh 训练入口 | 合并 state、policy、continuation/FV |
 | `PIWM-Eval-QA-v1` | 主 QA 评估集 | 可写成 QA-reviewed subset |
@@ -73,6 +73,9 @@ current visual evidence
 
 - 正文写 `DialogueAct + params`。
 - 附录或兼容说明写旧 `A1-A8 / T-state`。
+- 当前 5-act operational policy 写成：`Greet / Elicit / Inform / Recommend / Hold`。
+- `Recommend` 写作时必须保留 `pressure=soft/firm` 参数。
+- `Reassure` 不写入当前主训练 / eval / inference / runtime export 的动作覆盖表；如需提及，只写成历史/source 兼容边界。
 - `PIWM-Train-Synth-*` 当前仍保留 human-salesperson guidance 逻辑；`PIWM-Target-Frontcam-v1` 才是 target terminal / smart vending 视角。
 - 终端执行写 `TerminalRealization`，不要把 target terminal 数据反写成真人导购肢体动作。
 - 表格中保留旧动作 alias，只是为了复现实验和兼容历史数据。
@@ -113,21 +116,22 @@ current visual evidence
 |---|---|---:|---:|---|---|
 | Train-Synth | Synthetic video + rule templates | TBD from inventory | TBD | No | SFT / policy warmup |
 | Eval-QA | QA-reviewed synthetic subset | TBD | TBD | Yes | Main evaluation |
-| Target-Frontcam | Device front-camera target domain | 118 | 708 SFT examples | Test split only | Domain specialization |
+| Target-Frontcam | Device front-camera target domain | 101 clean 5-act records | 71 train + 30 balanced eval records | Balanced 5-act test QA-reviewed pass | Domain specialization |
 | Target-PromptReady | Target generation queue | 318 | prompt-ready only | No | Future video generation |
 | WorldModel | Continuation subset | TBD | TBD | Yes | Future prediction |
 | RealShoot | S01-S12 A/B scripts | TBD after filming | TBD | After QA | Real-world validation |
 
-### Table: Action Space
+### Table: Current Operational Action Space
 
 | DialogueAct | Example Params | Role |
 |---|---|---|
-| `Greet` | `phase=close` | polite opening / closing |
 | `Elicit` | `openness=open, slot=need_focus` | collect intent |
 | `Inform` | `content_type=comparison/demo` | provide factual help |
 | `Recommend` | `target=item, pressure=firm/soft` | recommend item |
-| `Reassure` | `focus=time` | reduce pressure |
+| `Greet` | `phase=open/close` | open or close the interaction |
 | `Hold` | `mode=silent/ambient` | wait or remain non-intrusive |
+
+`Greet(phase=open/close)` 是当前 5-act 成员。`Recommend` 保留 `pressure=soft/firm`。`Reassure` 保留为历史/source 兼容边界，不计入当前 5-act 主动作空间，且在 training/eval/inference/runtime export 中必须为 0。
 
 ### Table: Real Shooting A/B Design
 

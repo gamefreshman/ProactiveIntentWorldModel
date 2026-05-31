@@ -1,0 +1,4 @@
+<rationale>顾客已经明确选定目标并主动伸手操作，状态是确认购买而非犹豫比较；此时推荐会打断动作，成交感谢又过早，因此最合适的是保持静默等待其完成确认。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持当前界面与柔和待机灯效，不发出语音，不主动干预顾客操作。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

@@ -1,0 +1,4 @@
+<rationale>顾客状态稳定、专注且犹豫程度很低，当前更像是在自行确认目标选择；此时额外对比或推荐容易打断其决策节奏，静默等待最符合“不需要额外推动”的意图。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>智能售货柜保持最小待机界面和柔和灯效，不发起语音或推荐，等待顾客自行完成确认。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

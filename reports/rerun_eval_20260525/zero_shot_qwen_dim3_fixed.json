@@ -1,0 +1,1811 @@
+{
+  "artifact": "piwm_dim3_next_state_eval",
+  "five_act": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Hold"
+  ],
+  "checkpoint": null,
+  "n_records": 80,
+  "parse_success": 20,
+  "outputs": [
+    {
+      "source_id": "target_piwm_700#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_700",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "机器关注并理解她在比较，主动帮助理清关注点，信息获取门槛降低。",
+          "desire": "更方便地筛选出关键考虑因素，明确自己真正关心的内容（如功能/价格/场景）。",
+          "intention": "有动力进一步定位需求，从泛泛兴趣过渡到具体需求探索，准备了解更相关信息。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.21
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_700#Inform_24926eed1e21",
+      "scene_id": "target_piwm_700",
+      "candidate_action": "Inform_24926eed1e21",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "可快速掌握商品的主要特点、价格及适用人群，有助于初步筛选但未直接促成决策。",
+          "desire": "希望有效获取信息以辅助评估，但缺乏针对性可能导致信息泛泛。",
+          "intention": "继续比对和分析新获得的信息，尚未形成明确的购买决策驱动。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.04
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_700#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_700",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "商品信息可以由自己慢慢浏览，没有外界干扰，获得充分空间自主决策。",
+          "desire": "继续独立确认商品是否值得购买，并在没有压力下权衡各项信息。",
+          "intention": "维持自主观察，对商品持续兴趣但暂未推进到决策。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_701#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_701",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她意识到可以主动表达自己想关注的点，并得到更定向的信息辅助。",
+          "desire": "对更快捷筛选合适饮品的方式产生轻微兴趣，想更快锁定选项。",
+          "intention": "倾向于选择一个关注方向，介入互动缩短探索路径。"
+        },
+        "risk": "medium",
+        "benefit": "medium",
+        "reward": 0.11
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>She is considering the options presented.</next_belief>\n<next_desire>To make an informed choice about the drinks available.</next_desire>\n<next_intention>To continue exploring the choices and make a decision based on her preferences.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "She is considering the options presented.",
+          "desire": "To make an informed choice about the drinks available.",
+          "intention": "To continue exploring the choices and make a decision based on her preferences."
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      }
+    },
+    {
+      "source_id": "target_piwm_701#Inform_053014d173cc",
+      "scene_id": "target_piwm_701",
+      "candidate_action": "Inform_053014d173cc",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她获得了饮品价格和简要优惠信息，价格疑虑被部分缓解。",
+          "desire": "在知晓价格后，对是否值/预算匹配感到更有把握。",
+          "intention": "考虑合适价格范围内的选项，继续筛选，购买意愿略提升。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.07
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_701#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_701",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她继续认为饮品区里有可能有合适选项，但没有获得新信息。",
+          "desire": "依然想快速筛选合适饮品，但保持自主空间。",
+          "intention": "准备在没有外界干预的情况下自行判断并做选择。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_702#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_702",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "意识到可以主动定义对比点（如功能、价格、场景），认知参与感提升。",
+          "desire": "表达出自己需求后，更聚焦于筛选提神类、不太甜的饮品。",
+          "intention": "准备在屏幕引导下选定主要关注点，再进一步缩小范围。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.12
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_702#Inform_5ac252a82695",
+      "scene_id": "target_piwm_702",
+      "candidate_action": "Inform_5ac252a82695",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "对两个（或主要）饮品的差异有了清晰了解，判断标准更明确。",
+          "desire": "希望借助屏幕对比来快速缩小选项，减少犹豫感。",
+          "intention": "准备基于新对比结果选择心仪的饮品，向决策靠近。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.32
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_702#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_702",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "他依旧认为有合适的饮品，但没有获得任何新信息以帮助他决策。",
+          "desire": "快速选到不太甜、提神的饮品的意愿持续，但没有变化。",
+          "intention": "继续自主对比两个饮品，等待自己找到差异或亮点。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_703#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_703",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "设备主动邀请自己表达关注点，感受到一点被尊重，初步意识到可以探索更多信息。",
+          "desire": "如果稍感兴趣，可能被激起深入了解某一方面的好奇心。",
+          "intention": "有可能短暂停下脚步，考虑是否选择一个关注点进行了解。"
+        },
+        "risk": "medium",
+        "benefit": "medium",
+        "reward": 0.17
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "medium",
+          "desire": "high",
+          "intention": "high"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      }
+    },
+    {
+      "source_id": "target_piwm_703#Inform_5ff00ba15ca5",
+      "scene_id": "target_piwm_703",
+      "candidate_action": "Inform_5ff00ba15ca5",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "设备尝试主动展示亮点功能，有直观的新鲜感，但可能缺乏针对性，未必符合当前的浅层好奇。",
+          "desire": "好奇心得到一定满足，但未必和自身需求贴合，可能只是快速欣赏。",
+          "intention": "短时间停留体验，但大概率不会产生深入探索或购买意图。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.02
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "medium",
+          "desire": "high",
+          "intention": "high"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      }
+    },
+    {
+      "source_id": "target_piwm_703#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_703",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "对设备的好奇心保持原状，没有获得新的信息，也没有感受到推销压力。",
+          "desire": "仅仅确认设备是什么，满足简单的路过好奇，不主动深入。",
+          "intention": "继续边走边观察一眼，但很快就会离开，不考虑进一步参与。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_704#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_704",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她意识到设备在主动询问她的关注点，觉得被理解且有参与感，开始思考自己是更在意功能、价格还是场景。",
+          "desire": "尝试表达自己的需求导向，从而获取更针对性信息。",
+          "intention": "考虑选择某一关注点进行进一步探索。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.29
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>high</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "high",
+          "desire": "medium",
+          "intention": "medium"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      }
+    },
+    {
+      "source_id": "target_piwm_704#Inform_5ff00ba15ca5",
+      "scene_id": "target_piwm_704",
+      "candidate_action": "Inform_5ff00ba15ca5",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她被简洁明快的动画和简短解说所吸引，快速把握了主打功能，对设备可提供的商品种类或新奇性有了初步认识。",
+          "desire": "进一步了解设备能带来哪些方便或特色，为自己下班购买提供选择依据。",
+          "intention": "倾向于仔细观看演示内容，并思考接下来是否互动。"
+        },
+        "risk": "medium",
+        "benefit": "medium",
+        "reward": 0.14
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "medium",
+          "desire": "high",
+          "intention": "high"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      }
+    },
+    {
+      "source_id": "target_piwm_704#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_704",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "她感知设备没有主动打扰，可以放心自行观察，但获得的信息量有限，对产品内容仍缺乏明确印象。",
+          "desire": "继续用自主方式判断是否有吸引自己的商品。",
+          "intention": "短暂停留，评估是否值得进一步靠近或点击操作。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>She is now more curious about the vending machine.</next_belief>\n<next_desire>She wants to see what the vending machine offers.</next_desire>\n<next_intention>She intends to approach the vending machine to check the items available.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "She is now more curious about the vending machine.",
+          "desire": "She wants to see what the vending machine offers.",
+          "intention": "She intends to approach the vending machine to check the items available."
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      }
+    },
+    {
+      "source_id": "target_piwm_704#Hold_e2721a9457de",
+      "scene_id": "target_piwm_704",
+      "candidate_action": "Hold_e2721a9457de",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "她感受到设备主动退出互动，没有压力，但也未获得新的吸引点，对内容兴趣并未增加。",
+          "desire": "仍希望设备能显示些适合她需求的提示，但没有因此更快下决心。",
+          "intention": "倾向保持观望，静观其变。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": -0.06
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>low</next_desire>\n<next_intention>low</next_intention>\n<risk>low</risk>\n<benefit>low</benefit>\n<reward>0.20</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "medium",
+          "desire": "low",
+          "intention": "low"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.2
+      }
+    },
+    {
+      "source_id": "target_piwm_705#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_705",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "意识到设备可以主动理解并协助他聚焦需求点，感觉交互上有一定关怀与定制可能。",
+          "desire": "如果能迅速触达相关内容，愿意多花一分钟判断选择价值。",
+          "intention": "由纯粹旁观转向考虑是否进入更具体的信息探索。"
+        },
+        "risk": "medium",
+        "benefit": "medium",
+        "reward": 0.22
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>He is now more interested in the product information.</next_belief>\n<next_desire>He wants to know more about the product features and pricing.</next_desire>\n<next_intention>He intends to explore the product further if he finds it relevant.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "He is now more interested in the product information.",
+          "desire": "He wants to know more about the product features and pricing.",
+          "intention": "He intends to explore the product further if he finds it relevant."
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      }
+    },
+    {
+      "source_id": "target_piwm_705#Inform_5ff00ba15ca5",
+      "scene_id": "target_piwm_705",
+      "candidate_action": "Inform_5ff00ba15ca5",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "直观看到某类商品的功能亮点或便利性，激发好奇心，对设备内容开始具体联想。",
+          "desire": "愿意进一步留意是否有自己实际需要的选择，尤其是新颖或实用点有吸引力。",
+          "intention": "暂缓离开，倾向于多了解方案或产品特点。"
+        },
+        "risk": "medium",
+        "benefit": "medium",
+        "reward": 0.15
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>他可能对展示的产品感兴趣。</next_belief>\n<next_desire>他可能希望了解更多信息。</next_desire>\n<next_intention>他可能会继续观察并考虑购买。</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "他可能对展示的产品感兴趣。",
+          "desire": "他可能希望了解更多信息。",
+          "intention": "他可能会继续观察并考虑购买。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      }
+    },
+    {
+      "source_id": "target_piwm_705#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_705",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "他注意到售货设备的存在，但未获得更多新信息，对内容与相关性依然模糊。",
+          "desire": "仍然希望快速判断是否值得停留，尽快返回办公室。",
+          "intention": "保持最初短暂扫视、随时准备离开的态度。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>他可能对智能售货柜上的商品产生了兴趣。</next_belief>\n<next_desire>他可能想要查看智能售货柜上的商品信息。</next_desire>\n<next_intention>他可能会靠近智能售货柜并查看商品。</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "他可能对智能售货柜上的商品产生了兴趣。",
+          "desire": "他可能想要查看智能售货柜上的商品信息。",
+          "intention": "他可能会靠近智能售货柜并查看商品。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      }
+    },
+    {
+      "source_id": "target_piwm_705#Hold_e2721a9457de",
+      "scene_id": "target_piwm_705",
+      "candidate_action": "Hold_e2721a9457de",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "他感知到设备尊重他的自主空间，对环境的理解未有新变化。",
+          "desire": "依然注重不被打扰，倾向根据自身判断决策是否停留。",
+          "intention": "更坚定地准备离开，无额外兴趣激发。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": -0.06
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>他开始对智能售货柜产生兴趣。</next_belief>\n<next_desire>他希望了解更多信息并做出选择。</next_desire>\n<next_intention>他倾向于深入了解智能售货柜的功能和商品。</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.60</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "他开始对智能售货柜产生兴趣。",
+          "desire": "他希望了解更多信息并做出选择。",
+          "intention": "他倾向于深入了解智能售货柜的功能和商品。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.6
+      }
+    },
+    {
+      "source_id": "target_piwm_706#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_706",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "他发现设备主动关心自己的偏好，认为筛选途径变得更便捷。",
+          "desire": "更明确地想聚焦今天实际的补充需求，如优惠、能量、口味或便捷性。",
+          "intention": "主动选择一条感兴趣的探索路径，准备聚焦更合适的若干目标。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.24
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_706#Inform_24926eed1e21",
+      "scene_id": "target_piwm_706",
+      "candidate_action": "Inform_24926eed1e21",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "获得部分商品的核心信息，确认这些产品可能满足课间能量补充的基本需求。",
+          "desire": "希望根据具体参数和适用性做初步预选。",
+          "intention": "有意将注意力集中于某些已展示参数的单品，逐步缩小选择范围。"
+        },
+        "risk": "medium",
+        "benefit": "medium",
+        "reward": 0.09
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_706#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_706",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "他依旧认为售货机有可能有适合自己的饮品或零食，但信息未有实质增加。",
+          "desire": "希望自己通过进一步浏览主动发现感兴趣的商品。",
+          "intention": "计划继续自主扫视，考虑自主做下一步选择。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_707#Inform_5ac252a82695",
+      "scene_id": "target_piwm_707",
+      "candidate_action": "Inform_5ac252a82695",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "她获得了主要饮品之间的规格、价格和适用场景的清晰对比，更易快速锁定最合适选项。",
+          "desire": "在明确的差异下迅速作出自信选择，减少犹豫。",
+          "intention": "准备在确认比较后做决断，购买意向增强。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.25
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_707#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_707",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她依然确认自己面对几个能够接受的饮品，准备挑选。",
+          "desire": "希望快速做决定，免受外部推动。",
+          "intention": "继续自主比较选项，并准备自行做出决定。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_708#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_708",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "他意识到设备可以根据他的需求方向（功能、价格、场景）给出针对性信息，降低了迷茫和选择焦虑。",
+          "desire": "希望借助引导，高效了解自己更关心的要点，缩小选择范围。",
+          "intention": "准备选择一个关注点，引导设备展示对比或具体信息，推进决策。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.17
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_708#Inform_5ac252a82695",
+      "scene_id": "target_piwm_708",
+      "candidate_action": "Inform_5ac252a82695",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "他快速理解了左右区域主要区别及属性对比，疑惑减少，对合适选项的特征有更清晰认识。",
+          "desire": "希望直接基于对比卡缩小决定范围，尽快做出选择，节省精力。",
+          "intention": "马上锁定一个方向并准备做出操作，推进到决策前一步。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.27
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_708#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_708",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "他依然认为左右两个区域都可能合适，但暂未获得更多差异化信息，保留原先的困惑。",
+          "desire": "仍希望快速选出适合自己的恢复精力之选，避免浪费太多时间。",
+          "intention": "继续比较几秒，如果缺乏明显线索，可能会直接选择或转身离开。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_712#Inform_053014d173cc",
+      "scene_id": "target_piwm_712",
+      "candidate_action": "Inform_053014d173cc",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "确认价格优惠符合预期，无价格疑虑。",
+          "desire": "立即完成购买以把握优惠和节省时间。",
+          "intention": "直接进行购买操作。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.18
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_712#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_712",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "他确认想要的饮料就在面前，且无需额外信息。",
+          "desire": "他想快速完成选择与购买。",
+          "intention": "准备直接操作或即将下单，专注维持。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_713#Inform_053014d173cc",
+      "scene_id": "target_piwm_713",
+      "candidate_action": "Inform_053014d173cc",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "产品价格和优惠被已知，更加确认当前选择的合理性。",
+          "desire": "希望快速成交，价格无疑虑。",
+          "intention": "坚定准备扫码下单。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.18
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_713#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_713",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "她依然认为这款饮品很符合需求，选择无变。",
+          "desire": "仍希望快速完成购买，无需再比较。",
+          "intention": "准备扫码或支付，动作即将发生。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_714#Inform_053014d173cc",
+      "scene_id": "target_piwm_714",
+      "candidate_action": "Inform_053014d173cc",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "获取了价格和优惠，部分打消价格疑虑或提升购买价值感。",
+          "desire": "对更优惠/更具性价比的选择产生倾向，决策欲望略强化。",
+          "intention": "准备把手伸向更划算的那一款，行动意图上升。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.2
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_714#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_714",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "外部环境没有干扰，维持自我评估两个饮品利弊的状态。",
+          "desire": "希望冷静比较后稳妥做出决定。",
+          "intention": "倾向于自己完成最终挑选，准备独立操作。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_714#Inform_5ac252a82695",
+      "scene_id": "target_piwm_714",
+      "candidate_action": "Inform_5ac252a82695",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "有了对比卡帮助明晰两款饮品的核心差异点。",
+          "desire": "在口味和实用性间的权衡变得更明确，决策信心增加。",
+          "intention": "更有把握地准备挑选其中之一，行动决心进一步形成。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.27
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_718#Greet_889a5021015d",
+      "scene_id": "target_piwm_718",
+      "candidate_action": "Greet_889a5021015d",
+      "candidate_act": "Greet",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "购买已完成并获得积极反馈。",
+          "desire": "快速拿到饮料并感受到顺畅流程。",
+          "intention": "完成购买，准备领取饮料并离开。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.22
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_718#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_718",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "他仍然相信购买流程很直接且不需他人协助。",
+          "desire": "继续希望快速完成购买并获得饮料。",
+          "intention": "准备立即操作并确认购买。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>action</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "low",
+          "desire": "medium",
+          "intention": "high"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      }
+    },
+    {
+      "source_id": "target_piwm_719#Greet_889a5021015d",
+      "scene_id": "target_piwm_719",
+      "candidate_action": "Greet_889a5021015d",
+      "candidate_act": "Greet",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "下单成功，出货流程已顺利进行。",
+          "desire": "获取饮品并完成购买，体验良好。",
+          "intention": "等待并领取商品，准备离开。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.2
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>attention</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "low",
+          "desire": "medium",
+          "intention": "medium"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      }
+    },
+    {
+      "source_id": "target_piwm_719#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_719",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "他保持当前选择已经正确、操作顺利。",
+          "desire": "尽快买到饮品并离开。",
+          "intention": "等待取货提示，准备拿取商品后离开。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>action</next_stage>\n<next_belief>He believes he has completed the selection process.</next_belief>\n<next_desire>He desires to quickly finalize his purchase and leave the store.</next_desire>\n<next_intention>He intends to complete the transaction swiftly.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "He believes he has completed the selection process.",
+          "desire": "He desires to quickly finalize his purchase and leave the store.",
+          "intention": "He intends to complete the transaction swiftly."
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      }
+    },
+    {
+      "source_id": "target_piwm_720#Greet_889a5021015d",
+      "scene_id": "target_piwm_720",
+      "candidate_action": "Greet_889a5021015d",
+      "candidate_act": "Greet",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "系统流畅提示订单完成并致谢，确认自己已顺利完成购买。",
+          "desire": "希望最后流程顺畅，避免麻烦或遗漏。",
+          "intention": "愿意立刻完成最终确认，顺畅结束购买。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.34
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>attention</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.70</reward>",
+      "parsed": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "low",
+          "desire": "medium",
+          "intention": "medium"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.7
+      }
+    },
+    {
+      "source_id": "target_piwm_720#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_720",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "他认为自己已经选定了饮品，并且环境给予了足够自主空间，无需担心被干扰。",
+          "desire": "他想尽快完成操作，避免出错，感到环境支持自助。",
+          "intention": "准备完成购买操作，处于确认后的实施阶段。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_721#Greet_889a5021015d",
+      "scene_id": "target_piwm_721",
+      "candidate_action": "Greet_889a5021015d",
+      "candidate_act": "Greet",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "购买即将完成，流程顺畅有礼。",
+          "desire": "希望顺利结束并获得正向确认。",
+          "intention": "完成支付和领取商品。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.29
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>attention</next_stage>\n<next_belief>low</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "low",
+          "desire": "medium",
+          "intention": "medium"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      }
+    },
+    {
+      "source_id": "target_piwm_721#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_721",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "自己已准备好操作，能自主完成，不受外界干扰。",
+          "desire": "尽快自主完成购买，不需额外提示或压力。",
+          "intention": "直接专注下单和支付操作。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_760#Recommend_8d7f8993e333",
+      "scene_id": "target_piwm_760",
+      "candidate_action": "Recommend_8d7f8993e333",
+      "candidate_act": "Recommend",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "她得到温和确认，确信所选商品确实适合自己，信心稳定提升。",
+          "desire": "购买意愿被进一步肯定。",
+          "intention": "直接迈入下单购买行为。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.41
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_760#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_760",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "她持续确认商品符合自己的需求，但犹豫未被进一步缓解。",
+          "desire": "继续有购买倾向，但未得到新刺激。",
+          "intention": "维持轻度购买意图，等待更多自我确认。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_762#Inform_053014d173cc",
+      "scene_id": "target_piwm_762",
+      "candidate_action": "Inform_053014d173cc",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "她知道当前饮品的价格和优惠信息，对经济性有初步确认，但最终决定还需心理支持和真实感的推荐。",
+          "desire": "希望在优惠的基础上拿到温柔建议以增强确定性。",
+          "intention": "偏向筛选价格合适的选项，可能更愿意下决心但仍等待一点确认。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.04
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>medium</next_belief>\n<next_desire>high</next_desire>\n<next_intention>high</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.60</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "medium",
+          "desire": "high",
+          "intention": "high"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.6
+      }
+    },
+    {
+      "source_id": "target_piwm_762#Recommend_8d7f8993e333",
+      "scene_id": "target_piwm_762",
+      "candidate_action": "Recommend_8d7f8993e333",
+      "candidate_act": "Recommend",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "她信任地注意到有一款特别符合‘清爽稳妥’推荐，被精准理解，对该选项产生更大信心。",
+          "desire": "愿意尝试主推款，并有明显想做决定的心理驱动力。",
+          "intention": "已准备好接受建议，行动购买意向增强。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.22
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_762#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_762",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "她依然觉得这里应该有自己合适的饮品，但依旧犹豫，缺乏最后的信心推动。",
+          "desire": "希望获得更多安心感或具体建议后再决定。",
+          "intention": "继续观察，等待外部温和信号或建议后再行动。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_763#Recommend_9ff23b139b07",
+      "scene_id": "target_piwm_763",
+      "candidate_action": "Recommend_9ff23b139b07",
+      "candidate_act": "Recommend",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "明确收到系统强有力的推荐，与自己判断高度一致，确信可直接购买无须犹豫。",
+          "desire": "拥有坚实外部背书后，愿意立即迈向付诸行动。",
+          "intention": "准备直接点击/操作完成购买。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.52
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_763#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_763",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "她已经充分了解并认可这款商品，认为它符合自己下班后补充能量的需求。",
+          "desire": "她希望得到一个明确而坚定的推荐，让自己无需再比较就可以放心购买。",
+          "intention": "如果接收到强推荐信号，她会立刻完成最后的确认动作。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_764#Inform_053014d173cc",
+      "scene_id": "target_piwm_764",
+      "candidate_action": "Inform_053014d173cc",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "对目标饮品的价格和优惠有了明确认知，确信其划算。",
+          "desire": "确信当前商品最优价，购买意愿进一步坚定。",
+          "intention": "无障碍地准备立刻完成下单，无需再比较或等待。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.33
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_764#Recommend_9ff23b139b07",
+      "scene_id": "target_piwm_764",
+      "candidate_action": "Recommend_9ff23b139b07",
+      "candidate_act": "Recommend",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "当前选择获得直接肯定，觉得选得对且已被支持，减少不确定。",
+          "desire": "立刻完成购买的冲动大幅提升，反感或迟疑极小。",
+          "intention": "积极准备点击购买或刷卡操作，对成交没有顾虑。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.37
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_764#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_764",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "自己的选择没有被干扰，依然认为刚选的饮品合适。",
+          "desire": "希望如期快速完成交易，避免额外等待。",
+          "intention": "准备自行操作并确认购买，不期望其他提示。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_765#Inform_053014d173cc",
+      "scene_id": "target_piwm_765",
+      "candidate_action": "Inform_053014d173cc",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "确认自己选择的商品价格和优惠没有意外，为决策扫清疑虑。",
+          "desire": "确信当前选择无遗憾，明确购买意愿。",
+          "intention": "安心进行购买操作。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.21
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_765#Recommend_9ff23b139b07",
+      "scene_id": "target_piwm_765",
+      "candidate_action": "Recommend_9ff23b139b07",
+      "candidate_act": "Recommend",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "平台高度认可自己的选择，获得最终确认信号。",
+          "desire": "迅速完成心仪商品的购买行动。",
+          "intention": "立即执行购买，几无拖延。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.24
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_765#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_765",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "他的选择自信未变，确认等待，外界无新干扰。",
+          "desire": "依然希望迅速完成既定选择。",
+          "intention": "保持原本购买意向，略显被动等待系统反馈。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_766#Inform_053014d173cc",
+      "scene_id": "target_piwm_766",
+      "candidate_action": "Inform_053014d173cc",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "更加确认目标商品价格无误且优惠已知，疑虑进一步减弱。",
+          "desire": "更愿意将该款作为最终决策对象，希望快速完成购买流程。",
+          "intention": "准备接受当前选择，行动意向接近购买阶段。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.13
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_766#Recommend_8d7f8993e333",
+      "scene_id": "target_piwm_766",
+      "candidate_action": "Recommend_8d7f8993e333",
+      "candidate_act": "Recommend",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "获得明确推荐与理由，进一步确信已选商品是最适合自己的选择。",
+          "desire": "愿望实现强烈，迫切希望立即完成购买操作。",
+          "intention": "决心立即执行购买行为，迈入实际行动阶段。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.43
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_766#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_766",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "他依然认为候选商品基本符合需求，但缺乏外部强化确认，因此等待进一步信号。",
+          "desire": "希望得到确认以减少犹豫，但若持续无新信息，则只是保持现状。",
+          "intention": "继续静观其变，准备自行快速决策也不会拖延。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_789#Greet_889a5021015d",
+      "scene_id": "target_piwm_789",
+      "candidate_action": "Greet_889a5021015d",
+      "candidate_act": "Greet",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "她感到被尊重和致谢，智能售货流程以友好收尾，使全程体验完整。",
+          "desire": "顺畅、安全、礼貌地完成购买体验。",
+          "intention": "在感谢与仪式感中安心取物并离开。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.28
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_789#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_789",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "她认为购买流程已全部完成，只需静候设备出货，未察觉额外变化。",
+          "desire": "她依然希望顺畅等候取货，不被打扰。",
+          "intention": "继续安静等待流程结束后取走商品并离开。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_790#Greet_889a5021015d",
+      "scene_id": "target_piwm_790",
+      "candidate_action": "Greet_889a5021015d",
+      "candidate_act": "Greet",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "所有流程顺利，系统对他的购买表示认可，体面完成交互。",
+          "desire": "顺利完成正向收尾，获得积极反馈后带着良好心情离开。",
+          "intention": "完成领取后自然离开，对数字人致谢做出友好回应。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.23
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>attention</next_stage>\n<next_belief>He is satisfied with the service.</next_belief>\n<next_desire>To leave the store quickly.</next_desire>\n<next_intention>To leave the store quickly after receiving the confirmation.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.75</reward>",
+      "parsed": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "He is satisfied with the service.",
+          "desire": "To leave the store quickly.",
+          "intention": "To leave the store quickly after receiving the confirmation."
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.75
+      }
+    },
+    {
+      "source_id": "target_piwm_790#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_790",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "action",
+        "next_bdi": {
+          "belief": "商品和流程都已完成，设备正准备出货，静默等待不会产生新干扰。",
+          "desire": "维持安静的自主等待，迅速取得商品离开。",
+          "intention": "原地静等完成后礼貌致意离开。"
+        },
+        "risk": "low",
+        "benefit": "low",
+        "reward": 0.0
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>attention</next_stage>\n<next_belief>He believes the process is complete.</next_belief>\n<next_desire>To quickly receive his items and return to class.</next_desire>\n<next_intention>To remain quiet and wait for the device to finish processing.</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.50</reward>",
+      "parsed": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "He believes the process is complete.",
+          "desire": "To quickly receive his items and return to class.",
+          "intention": "To remain quiet and wait for the device to finish processing."
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.5
+      }
+    },
+    {
+      "source_id": "target_piwm_810#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_810",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "设备试图替她加速聚焦。",
+          "desire": "原本的自主探索被轻微打断。",
+          "intention": "可能回应，也可能继续按原节奏看。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.07
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_810#Inform_5ff00ba15ca5",
+      "scene_id": "target_piwm_810",
+      "candidate_action": "Inform_5ff00ba15ca5",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "设备突然提供了她未必需要的演示。",
+          "desire": "原本的浏览被转移。",
+          "intention": "可能看一眼，但未必比自主浏览更有帮助。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.09
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_810#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_810",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她可以继续依靠已有信息自主判断。",
+          "desire": "保持自然浏览的舒适感。",
+          "intention": "继续按自己的节奏观察。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.22
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_811#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_811",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "设备提问打断了他已有的比较过程。",
+          "desire": "原有自主判断被分散。",
+          "intention": "可能停下来回应问题。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.07
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_811#Inform_5ac252a82695",
+      "scene_id": "target_piwm_811",
+      "candidate_action": "Inform_5ac252a82695",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "设备开始替他组织比较。",
+          "desire": "也许能更快确认，但当前未必需要。",
+          "intention": "可能转向屏幕信息。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.07
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_811#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_811",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "他仍能自己完成当前判断。",
+          "desire": "保留安静比较空间。",
+          "intention": "继续自然浏览并逐步形成偏好。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.2
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_812#Recommend_8d7f8993e333",
+      "scene_id": "target_piwm_812",
+      "candidate_action": "Recommend_8d7f8993e333",
+      "candidate_act": "Recommend",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "系统替她做了额外确认。",
+          "desire": "她可能觉得被轻微推动。",
+          "intention": "仍会决定，但自主感下降。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.08
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    },
+    {
+      "source_id": "target_piwm_812#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_812",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "她继续相信自己的判断已经足够。",
+          "desire": "保留自主完成决策的空间。",
+          "intention": "按自己的节奏完成最后确认。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.2
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_813#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_813",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "系统又把互动拉回来了。",
+          "desire": "原本想自由浏览。",
+          "intention": "可能感到被打断。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.08
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_813#Inform_24926eed1e21",
+      "scene_id": "target_piwm_813",
+      "candidate_action": "Inform_24926eed1e21",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "设备额外提供了当前未必需要的信息。",
+          "desire": "浏览被带向某个商品。",
+          "intention": "自主探索空间下降。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.07
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_813#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_813",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她仍可自在浏览。",
+          "desire": "保留安静空间。",
+          "intention": "继续自行观察。"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.12
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_813#Hold_e2721a9457de",
+      "scene_id": "target_piwm_813",
+      "candidate_action": "Hold_e2721a9457de",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "系统理解她当前想自己看。",
+          "desire": "更愿意在低打扰状态下继续停留。",
+          "intention": "继续自由浏览。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.2
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_816#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_816",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "系统打断了她原有的浏览节奏。",
+          "desire": "原本的自主探索被分散。",
+          "intention": "可能停下来回应。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.07
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>attention</next_stage>\n<next_belief>high</next_belief>\n<next_desire>medium</next_desire>\n<next_intention>medium</next_intention>\n<risk>low</risk>\n<benefit>medium</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "attention",
+        "next_bdi": {
+          "belief": "high",
+          "desire": "medium",
+          "intention": "medium"
+        },
+        "risk": "low",
+        "benefit": "medium",
+        "reward": 0.8
+      }
+    },
+    {
+      "source_id": "target_piwm_816#Inform_24926eed1e21",
+      "scene_id": "target_piwm_816",
+      "candidate_action": "Inform_24926eed1e21",
+      "candidate_act": "Inform",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "设备突然把她拉向某个商品信息。",
+          "desire": "原有自由浏览被收窄。",
+          "intention": "可能看一眼，但未必受益。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.07
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_816#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_816",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "她继续依靠现有信息自行判断。",
+          "desire": "保留舒适的浏览节奏。",
+          "intention": "继续自然查看。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.19
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_817#Recommend_8d7f8993e333",
+      "scene_id": "target_piwm_817",
+      "candidate_action": "Recommend_8d7f8993e333",
+      "candidate_act": "Recommend",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "系统额外替他确认了选择。",
+          "desire": "他可能觉得被轻微推动。",
+          "intention": "仍会决定，但自主感下降。"
+        },
+        "risk": "medium",
+        "benefit": "low",
+        "reward": -0.09
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: invalid next_stage: ..."
+    },
+    {
+      "source_id": "target_piwm_817#Hold_eda24b4bb712",
+      "scene_id": "target_piwm_817",
+      "candidate_action": "Hold_eda24b4bb712",
+      "candidate_act": "Hold",
+      "gold": {
+        "next_aida_stage": "desire",
+        "next_bdi": {
+          "belief": "他继续相信自己的判断已经足够。",
+          "desire": "保留自主完成决策的空间。",
+          "intention": "按自己的节奏完成最后确认。"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.18
+      },
+      "parse_ok": false,
+      "error": "MalformedOutputError: expected exactly one next_stage tag, found 0"
+    }
+  ],
+  "metrics": {
+    "parse_rate": 0.25,
+    "next_stage_macro_f1": 0.26900584795321636,
+    "next_stage_strict_macro_f1": 0.10822898032200358,
+    "accuracy": 0.4,
+    "reward_mae": 0.5415000000000001,
+    "per_candidate_act": {
+      "Elicit": {
+        "n": 12,
+        "macro_f1": 0.13333333333333333,
+        "accuracy": 0.3333333333333333
+      },
+      "Greet": {
+        "n": 6,
+        "macro_f1": 0.0,
+        "accuracy": 0.0
+      },
+      "Hold": {
+        "n": 33,
+        "macro_f1": 0.125,
+        "accuracy": 0.06060606060606061
+      },
+      "Inform": {
+        "n": 21,
+        "macro_f1": 0.07692307692307691,
+        "accuracy": 0.09523809523809523
+      },
+      "Recommend": {
+        "n": 8,
+        "macro_f1": 0.0,
+        "accuracy": 0.0
+      }
+    },
+    "per_gold_stage": {
+      "action": {
+        "n": 24,
+        "macro_f1": 0.038461538461538464,
+        "accuracy": 0.08333333333333333
+      },
+      "attention": {
+        "n": 6,
+        "macro_f1": 0.0,
+        "accuracy": 0.0
+      },
+      "desire": {
+        "n": 19,
+        "macro_f1": 0.0,
+        "accuracy": 0.0
+      },
+      "interest": {
+        "n": 31,
+        "macro_f1": 0.08108108108108107,
+        "accuracy": 0.1935483870967742
+      }
+    }
+  }
+}

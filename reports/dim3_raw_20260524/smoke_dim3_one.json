@@ -1,0 +1,66 @@
+{
+  "artifact": "piwm_dim3_next_state_eval",
+  "five_act": [
+    "Greet",
+    "Elicit",
+    "Inform",
+    "Recommend",
+    "Hold"
+  ],
+  "checkpoint": "/root/lanyun-fs/ProactiveIntentWorldModel/checkpoints/a3_full_targetv2_balanced_3epoch_v1/a3full-20260522-220941-px1003520-ml8192/v0-20260522-220953/checkpoint-500",
+  "n_records": 1,
+  "parse_success": 1,
+  "outputs": [
+    {
+      "source_id": "target_piwm_700#Elicit_b1166d372e5e",
+      "scene_id": "target_piwm_700",
+      "candidate_action": "Elicit_b1166d372e5e",
+      "candidate_act": "Elicit",
+      "gold": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "机器关注并理解她在比较，主动帮助理清关注点，信息获取门槛降低。",
+          "desire": "更方便地筛选出关键考虑因素，明确自己真正关心的内容（如功能/价格/场景）。",
+          "intention": "有动力进一步定位需求，从泛泛兴趣过渡到具体需求探索，准备了解更相关信息。"
+        },
+        "risk": "medium",
+        "benefit": "high",
+        "reward": 0.21
+      },
+      "parse_ok": true,
+      "prediction": "<next_stage>interest</next_stage>\n<next_belief>The salesperson may help resolve the decision.</next_belief>\n<next_desire>explore available options and compare them</next_desire>\n<next_intention>continue browsing and comparing</next_intention>\n<risk>low</risk>\n<benefit>high</benefit>\n<reward>0.80</reward>",
+      "parsed": {
+        "next_aida_stage": "interest",
+        "next_bdi": {
+          "belief": "The salesperson may help resolve the decision.",
+          "desire": "explore available options and compare them",
+          "intention": "continue browsing and comparing"
+        },
+        "risk": "low",
+        "benefit": "high",
+        "reward": 0.8
+      }
+    }
+  ],
+  "metrics": {
+    "parse_rate": 1.0,
+    "next_stage_macro_f1": 0.25,
+    "next_stage_strict_macro_f1": 0.25,
+    "accuracy": 1.0,
+    "reward_mae": 0.5900000000000001,
+    "per_candidate_act": {
+      "Elicit": {
+        "n": 1,
+        "macro_f1": 0.25,
+        "accuracy": 1.0
+      }
+    },
+    "per_gold_stage": {
+      "interest": {
+        "n": 1,
+        "macro_f1": 0.25,
+        "accuracy": 1.0
+      }
+    }
+  }
+}

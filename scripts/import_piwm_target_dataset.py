@@ -24,6 +24,7 @@ from piwm_data.schemas import (
     TerminalRealization,
 )
 from piwm_train.ms_swift_adapter import export_ms_swift_jsonl
+from scripts.target_frontcam_split import split_for_target_frontcam_session
 
 
 DEFAULT_SAMPLE_TIMESTAMPS = [2.0, 5.0, 8.0]
@@ -63,7 +64,7 @@ def import_piwm_target_dataset(
         )
         frame_index_rows.extend(frame_rows)
 
-        split = "test" if ordinal >= max(0, len(labeled_paths) - 30) else "train"
+        split = split_for_target_frontcam_session(session_id)
         record = _build_main_schema_record(
             labeled=labeled,
             manifest=manifest,
@@ -463,7 +464,8 @@ def _summary(
         "qa_status_counts": {"synthetic_unreviewed": len(records)},
         "notes": [
             "Imported target-domain front-camera data from lightweight piwm.",
-            "The final 30 samples are split=test as an unreviewed in-domain eval candidate; they still require QA before paper claims.",
+            "The split uses the balanced 5-act operational test set; Reassure records remain only in raw/source compatibility data.",
+            "The 30 test samples require project-lead QA before paper reviewed-eval claims.",
         ],
     }
 

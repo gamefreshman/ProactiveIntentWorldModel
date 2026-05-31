@@ -1,0 +1,54 @@
+{
+  "artifact": "codex_self_eval",
+  "is_paper_baseline": false,
+  "note": "Diagnostic local Codex CLI self-eval; not an API/OpenRouter closed-model baseline.",
+  "eval_set": "reports/closed_model_eval_set_60.jsonl",
+  "raw_outputs": "reports/closed_model_eval_20260525/codex_self/raw_outputs.jsonl",
+  "n_outputs": 60,
+  "metrics": {
+    "target_macro_f1": 0.6216883116883117,
+    "general_macro_f1": 0.5727195225916454,
+    "combined_macro_f1": 0.647965367965368,
+    "parse_rate": 1.0,
+    "prediction_counts": {
+      "Elicit": 11,
+      "Greet": 5,
+      "Hold": 17,
+      "Inform": 16,
+      "Recommend": 11
+    },
+    "per_class": {
+      "Greet": {
+        "precision": 0.4,
+        "recall": 0.3333333333333333,
+        "f1": 0.3636363636363636,
+        "support": 6.0
+      },
+      "Elicit": {
+        "precision": 0.7272727272727273,
+        "recall": 0.42105263157894735,
+        "f1": 0.5333333333333333,
+        "support": 19.0
+      },
+      "Inform": {
+        "precision": 0.625,
+        "recall": 0.8333333333333334,
+        "f1": 0.7142857142857143,
+        "support": 12.0
+      },
+      "Recommend": {
+        "precision": 0.7272727272727273,
+        "recall": 0.8,
+        "f1": 0.761904761904762,
+        "support": 10.0
+      },
+      "Hold": {
+        "precision": 0.7647058823529411,
+        "recall": 1.0,
+        "f1": 0.8666666666666666,
+        "support": 13.0
+      }
+    },
+    "n_outputs": 60
+  }
+}

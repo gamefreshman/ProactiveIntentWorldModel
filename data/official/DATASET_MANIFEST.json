@@ -1,10 +1,10 @@
 {
   "artifact": "piwm_official_dataset_manifest",
   "version": "v2.2",
-  "updated_at_cst": "2026-05-17 00:00:00",
+  "updated_at_cst": "2026-05-22 Path C Claude prerequisites: GreetAug-v2, stage-conditioned candidates, Hold prior, targetx8",
   "canonical_root": "data/official",
   "remote_root": "/root/lanyun-fs/ProactiveIntentWorldModel/data/official",
-  "note": "Official PIWM datasets include frozen v1 aliases, independent v2.2 exports, target-frontcam domain data, and prompt-ready target expansion. PIWM-Target-Frontcam-v1 has 118 video-backed records; its 30-record test split has now been project-lead human QA reviewed after Codex visual QA and merged back into the target main schema/ms-swift export. PIWM-Target-PromptReady-v1 contains 318 upstream records, including 200 video-pending rows that are not yet filmed multimodal training data.",
+  "note": "Official PIWM datasets include frozen v1 aliases, independent v2.2 exports, target-frontcam domain data, and prompt-ready target expansion. The current main operational 5-act policy definition is Greet, Elicit, Inform, Recommend, Hold; Reassure is retained only for source/compatibility analysis. PIWM-Target-Frontcam-v1 has 118 video-backed records. The revised main experiment uses 101 clean 5-act records after excluding 17 best=Reassure rows and removing Reassure candidates without candidate-set degeneration: 71 Stage-2 target train records and a balanced 30-record held-out target test with six records each for Greet/Elicit/Inform/Recommend/Hold. The balanced target test is project-lead QA-reviewed pass under the revised split. PIWM-Target-PromptReady-v1 contains 318 upstream records, including 200 video-pending rows that are not yet filmed multimodal training data. Revised two-stage EMNLP entrypoints are PIWM-Stage1-UserIntent-v1, PIWM-Stage2-Target-5Act-v1, and PIWM-DomainSpecializationEval-v2. Stage-1 general parent split seed=42 creates 493 train parents and 50 validation parents. Path C prelaunch follow-up adds PIWM-Stage2-Target-5Act-GreetAug-v2 with 15 synthetic general Greet rows, stage-conditioned candidate lists, and a targetx8 weighted joint entrypoint for A4; the older GreetAug-v1 is retained only as an audit artifact.",
   "datasets": [
     {
       "canonical_name": "PIWM-Train-Synth-v1",
@@ -42,15 +42,22 @@
       "qa_status": "synthetic_train_pending_visual_qa",
       "loaded_parent": 543,
       "state_rows": 543,
-      "transition_rows": 2011,
+      "transition_rows": 2001,
       "policy_rows": 543,
       "ms_swift_jsonl": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
-      "ms_swift_rows": 2554,
-      "paper_usage": "Independent schema v2.2 export of PIWM-Train-Synth-v1. Use for v2.2 data-format experiments; still synthetic train pending visual QA and still human-salesperson logic.",
+      "ms_swift_rows": 2544,
+      "paper_usage": "Independent schema v2.2 export of PIWM-Train-Synth-v1 refreshed as strict operational 5-act policy data. Use for current data-format and Stage-1 experiments; still synthetic train pending visual QA and still human-salesperson logic. Recommend is parameterized as pressure=soft|firm; Reassure is retained only in source/compat history and is 0 in current training/eval/inference/runtime export. Greet remains a valid operational act, though this general synthetic split has no Greet best labels.",
       "schema_version": "dialogue_act_human_salesperson_v2.2",
+      "operational_dialogue_acts": [
+        "Greet",
+        "Elicit",
+        "Inform",
+        "Recommend",
+        "Hold"
+      ],
       "task_counts": {
         "perception": 543,
-        "deliberation": 2011
+        "deliberation": 2001
       },
       "compatibility_extended_audit": {
         "green": 109,
@@ -68,7 +75,28 @@
         "legacy_co_acts",
         "realization",
         "actor_profile"
-      ]
+      ],
+      "current_5act_note": "Current main 5-act definition: Greet/Elicit/Inform/Recommend/Hold. Reassure is retained only for source/compatibility analysis and is excluded from operational training/eval/inference/runtime export.",
+      "policy_best_dialogue_act_counts_operational_5act": {
+        "Elicit": 252,
+        "Recommend": 125,
+        "Inform": 105,
+        "Hold": 61,
+        "Greet": 0,
+        "Reassure": 0
+      },
+      "candidate_dialogue_act_counts_operational_5act": {
+        "Elicit": 476,
+        "Inform": 481,
+        "Hold": 449,
+        "Recommend": 595,
+        "Greet": 0,
+        "Reassure": 0
+      },
+      "recommend_candidate_pressure_counts": {
+        "soft": 437,
+        "firm": 158
+      }
     },
     {
       "canonical_name": "PIWM-PolicySlice-v2",
@@ -79,15 +107,23 @@
       "scenarios": 864,
       "policy_manifest_jsonl": "data/official/piwm_policy_slice_v2/policy_manifest.jsonl",
       "stats_json": "data/official/piwm_policy_slice_v2/_stats.json",
-      "paper_usage": "Use as a rule-supported policy distribution and generation manifest, not as a filmed or QA-reviewed video dataset.",
+      "paper_usage": "Use as a rule-supported 5-act operational policy distribution and generation manifest, not as a filmed or QA-reviewed video dataset. This rule-space export was created before the 5-act inversion; Reassure rows are legacy/excluded for current 5-act action-selection and Greet coverage must come from target-frontcam/realshoot data until the rule-space generator is regenerated.",
       "schema_version": "policy_manifest_v2.2",
+      "operational_dialogue_acts": [
+        "Greet",
+        "Elicit",
+        "Inform",
+        "Recommend",
+        "Hold"
+      ],
       "policy_best_dialogue_act_counts": {
         "Elicit": 272,
         "Hold": 56,
         "Inform": 136,
         "Reassure": 40,
         "Recommend": 360
-      }
+      },
+      "current_5act_note": "Current main 5-act definition: Greet/Elicit/Inform/Recommend/Hold. Reassure is retained only for source/compatibility analysis and is excluded from operational training/eval/inference/runtime export."
     },
     {
       "canonical_name": "PIWM-Target-Frontcam-v1",
@@ -96,7 +132,7 @@
       "role": "target_domain_frontcam_specialization",
       "viewpoint": "target_frontcam",
       "actor_profile": "target_terminal_logic",
-      "qa_status": "mixed_synthetic_train_with_project_lead_qa_reviewed_test_pass",
+      "qa_status": "mixed_synthetic_train_with_balanced_5act_test_qa_reviewed_pass",
       "records": 118,
       "sampled_frames": 354,
       "state_rows": 118,
@@ -118,25 +154,35 @@
         "review_rows": 30,
         "rows_with_all_sampled_frames": 30,
         "missing_frames": 0,
-        "qa_review_index": "data/official/piwm_target_v1/qa_review_target30/qa_review_index.md",
-        "qa_review_rows": "data/official/piwm_target_v1/qa_review_target30/qa_review_rows.jsonl",
+        "qa_review_index": "data/official/piwm_target_v1/qa_review_target30_5act/qa_review_index.md",
+        "qa_review_rows": "data/official/piwm_target_v1/qa_review_target30_5act/qa_review_rows.jsonl",
         "contact_sheets": [
-          "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_00.jpg",
-          "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_01.jpg",
-          "data/official/piwm_target_v1/qa_review_target30/target_frontcam_qa_sheet_02.jpg"
+          "data/official/piwm_target_v1/qa_review_target30_5act/target_frontcam_qa_sheet_00.jpg",
+          "data/official/piwm_target_v1/qa_review_target30_5act/target_frontcam_qa_sheet_01.jpg",
+          "data/official/piwm_target_v1/qa_review_target30_5act/target_frontcam_qa_sheet_02.jpg"
         ],
-        "qa_review_status": "project_lead_human_qa_completed_after_codex_visual_qa",
-        "qa_review_results": "data/official/piwm_target_v1/qa_review_target30/qa_review_results.md",
+        "qa_review_status": "qa_reviewed_pass_after_5act_rebalance",
+        "qa_review_results": "data/official/piwm_target_v1/qa_review_target30_5act/qa_review_results.json",
         "qa_reviewed_pass_records": 30,
         "qa_reviewed_fail_records": 0,
-        "warning_records": 2,
-        "reviewed_eval_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
-        "reviewed_eval_rows": 180,
+        "warning_records": 0,
+        "reviewed_eval_jsonl": "data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl",
+        "reviewed_eval_rows": 90,
         "reviewer": "Project lead human QA",
-        "reviewed_at": "2026-05-17",
-        "review_type": "project_lead_human_review_after_codex_visual_qa",
-        "merged_into_main_schema": true,
-        "merged_into_ms_swift": true
+        "reviewed_at": "2026-05-19",
+        "review_type": "project_lead_human_review_after_5act_rebalance",
+        "split_rebalanced_into_main_schema": true,
+        "split_rebalanced_into_ms_swift": true,
+        "qa_merged_into_main_schema": true,
+        "qa_merged_into_ms_swift": true,
+        "legacy_last30_qa_review_dir": "data/official/piwm_target_v1/qa_review_target30",
+        "legacy_reviewed_eval_archive": "data/official/domain_specialization_eval_v1/_legacy_wrong_5act",
+        "reviewed_action_eval_jsonl": "data/official/domain_specialization_eval_v2/target_frontcam_5act_test_action_selection.jsonl",
+        "reviewed_action_eval_rows": 30,
+        "reviewed_aux_eval_jsonl": "data/official/domain_specialization_eval_v2/target_frontcam_test_qa_reviewed_all.jsonl",
+        "reviewed_aux_eval_rows": 180,
+        "qa_merged_into_state_transition_policy": true,
+        "qa_merged_into_domain_eval_v2": true
       },
       "best_dialogue_act_counts": {
         "Elicit": 20,
@@ -146,7 +192,7 @@
         "Reassure": 17,
         "Recommend": 11
       },
-      "paper_usage": "Target-domain front-camera smart-vending corpus for low-resource domain specialization. Use 88 train records for target adaptation and the 30 project-lead-QA-reviewed test records for in-domain evaluation; the 88 train records remain synthetic_unreviewed.",
+      "paper_usage": "Target-domain front-camera smart-vending corpus for low-resource domain specialization. The full source has 118 video-backed records. For the main five-act experiment, exclude 17 rows whose best act is Reassure and filter Reassure from candidate lists, yielding 101 clean 5-act records. Use 71 records for Stage-2 target adaptation and reserve a balanced 30-record held-out target set with six records each for Greet/Elicit/Inform/Recommend/Hold. The balanced target test is project-lead QA-reviewed pass; do not describe the full 118-record corpus or the 71 target-train records as fully human-QA-reviewed.",
       "schema_version": "dialogue_act_human_salesperson_v2.2",
       "v2_2_fields": [
         "target_frontcam",
@@ -159,7 +205,32 @@
         "source_session_id",
         "human_review_status",
         "qa_review.review_type"
-      ]
+      ],
+      "split_policy": "derived_clean_5act_balanced_test_seed42_state_id_order_no_reassure",
+      "split_best_dialogue_act_counts": {
+        "stage2_train_5act": {
+          "Elicit": 14,
+          "Greet": 11,
+          "Inform": 41,
+          "Recommend": 5
+        },
+        "balanced_test_5act": {
+          "Greet": 6,
+          "Elicit": 6,
+          "Inform": 6,
+          "Recommend": 6,
+          "Hold": 6
+        }
+      },
+      "clean_5act_accounting": {
+        "total_target_records": 118,
+        "excluded_best_reassure": 17,
+        "candidate_reassure_rows_filtered": 39,
+        "empty_after_reassure_candidate_filter": 0,
+        "clean_5act_records": 101,
+        "balanced_test_records": 30,
+        "stage2_train_records": 71
+      }
     },
     {
       "canonical_name": "PIWM-Target-PromptReady-v1",
@@ -232,11 +303,11 @@
         "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
         "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl"
       ],
-      "role": "domain_specialization_eval_entrypoints",
-      "qa_status": "mixed_general_qa_reviewed_and_target_project_lead_qa_reviewed",
+      "role": "legacy_domain_specialization_eval_entrypoints",
+      "qa_status": "historical_general_qa_and_legacy_target_eval_superseded_by_v2",
       "target_frontcam_test_rows": 180,
-      "target_frontcam_test_qa_reviewed_rows": 180,
-      "target_frontcam_test_qa_reviewed_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
+      "target_frontcam_test_qa_reviewed_rows": 0,
+      "target_frontcam_test_qa_reviewed_jsonl": null,
       "target_frontcam_test_task_counts": {
         "perception": 30,
         "deliberation": 120,
@@ -249,8 +320,18 @@
       },
       "eval_sets_summary": "data/official/domain_specialization_eval_v1/eval_sets_summary.md",
       "result_summary_entrypoint": "scripts.summarize_domain_specialization_results",
-      "paper_usage": "Fixed evaluation entrypoints for general-to-target domain specialization. Target split rows come from 30 target-frontcam test records that passed project-lead human QA after Codex visual QA; general rows come from the existing QA-reviewed general subset.",
-      "schema_version": "ms_swift_eval_entrypoints_v1"
+      "paper_usage": "Historical eval entrypoints retained for audit only. Some files under this v1 area belong to the superseded wrong 5-act setup that excluded Greet and included Reassure; current EMNLP main experiment uses PIWM-DomainSpecializationEval-v2, whose target 5-act test has passed project-lead QA.",
+      "schema_version": "ms_swift_eval_entrypoints_v1",
+      "target_frontcam_test_split_policy": "legacy_wrong_5act_operational_test_ids_no_greet",
+      "target_frontcam_test_best_dialogue_act_counts": {
+        "Elicit": 6,
+        "Hold": 2,
+        "Inform": 14,
+        "Reassure": 5,
+        "Recommend": 3
+      },
+      "legacy_reviewed_eval_archive": "data/official/domain_specialization_eval_v1/_legacy_wrong_5act",
+      "legacy_wrong_5act_archive": "data/official/domain_specialization_eval_v1/_legacy_wrong_5act"
     },
     {
       "canonical_name": "PIWM-WorldModel-v1",
@@ -307,6 +388,251 @@
       "manifest_template_json": "data/official/piwm_realshoot_v1/realshoot_manifest_template.json",
       "paper_usage": "Can be described as a planned real-shooting validation protocol and manifest schema; do not report it as collected real data before videos pass QA.",
       "schema_version": "ShootingClipRecord_v1_dialogue_act_terminal_realization_v2"
+    },
+    {
+      "canonical_name": "PIWM-Stage1-UserIntent-v1",
+      "canonical_path": "data/official/ms_swift/piwm_train_stage1_user_intent_v1.jsonl",
+      "source_path": "data/official/piwm_train_synth_v2",
+      "role": "stage1_user_intent_world_model_training",
+      "qa_status": "synthetic_train_pending_visual_qa",
+      "ms_swift_rows": 2544,
+      "task_counts": {
+        "user_intent": 543,
+        "next_state_prediction": 2001
+      },
+      "paper_usage": "Revised Stage-1 entrypoint and split. Full export has 2544 rows; seed=42 AIDA-stratified parent split creates 493 train parents / 2309 examples and 50 val parents / 235 examples. User-intent rows expose no action labels; next-state rows are action-conditioned with Hold(mode=silent) as no-intervention.",
+      "schema_version": "two_stage_user_intent_v1",
+      "train_val_split_seed42": {
+        "parent_id_field": "state_id",
+        "stratification": "AIDA stage",
+        "train_parent_count": 493,
+        "val_parent_count": 50,
+        "stage_counts": {
+          "attention": 49,
+          "interest": 289,
+          "desire": 128,
+          "action": 77
+        },
+        "train_stage_counts": {
+          "attention": 45,
+          "interest": 262,
+          "desire": 116,
+          "action": 70
+        },
+        "val_stage_counts": {
+          "attention": 4,
+          "interest": 27,
+          "desire": 12,
+          "action": 7
+        },
+        "chi_square_pvalue": 0.9953,
+        "train_examples": 2309,
+        "val_examples": 235,
+        "files": {
+          "train_parents": "data/official/piwm_train_synth_v2/general_train_parents.txt",
+          "val_parents": "data/official/piwm_train_synth_v2/general_val_parents.txt",
+          "summary": "data/official/piwm_train_synth_v2/general_split_seed42.json",
+          "user_intent_train": "data/official/piwm_train_synth_v2/user_intent_train.jsonl",
+          "user_intent_val": "data/official/piwm_train_synth_v2/user_intent_val.jsonl",
+          "next_state_prediction_train": "data/official/piwm_train_synth_v2/next_state_prediction_train.jsonl",
+          "next_state_prediction_val": "data/official/piwm_train_synth_v2/next_state_prediction_val.jsonl",
+          "ms_swift_user_intent_train": "data/official/ms_swift/piwm_train_stage1_user_intent_train_v1.jsonl",
+          "ms_swift_user_intent_val": "data/official/ms_swift/piwm_train_stage1_user_intent_val_v1.jsonl",
+          "ms_swift_next_state_prediction_train": "data/official/ms_swift/piwm_train_stage1_next_state_prediction_train_v1.jsonl",
+          "ms_swift_next_state_prediction_val": "data/official/ms_swift/piwm_train_stage1_next_state_prediction_val_v1.jsonl"
+        },
+        "task_counts": {
+          "train": {
+            "user_intent": 493,
+            "next_state_prediction": 1816
+          },
+          "val": {
+            "user_intent": 50,
+            "next_state_prediction": 185
+          }
+        }
+      }
+    },
+    {
+      "canonical_name": "PIWM-Stage2-Target-5Act-v1",
+      "canonical_path": "data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl",
+      "source_path": "data/official/piwm_target_v1",
+      "role": "stage2_target_frontcam_5act_action_model_training",
+      "viewpoint": "target_frontcam",
+      "actor_profile": "target_terminal_logic",
+      "qa_status": "video_backed_synthetic_train_pending_target_eval_review",
+      "source_target_records": 118,
+      "main_path_5act_records": 101,
+      "official_train_records": "not_used_as_main_stage2_count",
+      "train_records": 71,
+      "ms_swift_rows": 71,
+      "task_counts": {
+        "action_selection_5act": 71
+      },
+      "operational_dialogue_acts": [
+        "Greet",
+        "Elicit",
+        "Inform",
+        "Recommend",
+        "Hold"
+      ],
+      "paper_usage": "Revised Stage-2 target adaptation entrypoint. It uses the 71-record clean five-act train split left after excluding best=Reassure rows, filtering Reassure candidates, and holding out a balanced 30-record target test. Prompts omit gold reward, risk, benefit, predicted next stage, and next state.",
+      "schema_version": "target_5act_no_leak_action_selection_v1",
+      "clean_5act_records": 101,
+      "filtered_records": {
+        "best_non_5act_reassure": 17,
+        "candidate_non_5act_reassure_rows": 39,
+        "empty_after_reassure_candidate_filter": 0
+      },
+      "balanced_test_records": 30
+    },
+    {
+      "canonical_name": "PIWM-Stage2-Target-5Act-GreetAug-v1",
+      "canonical_path": "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v1.jsonl",
+      "source_path": [
+        "data/official/piwm_target_v1",
+        "data/official/piwm_train_synth_v2/state_inference.jsonl"
+      ],
+      "role": "stage2_prelaunch_greet_augmentation_patch_audit_v1",
+      "viewpoint": "mixed_target_frontcam_and_general_salesperson_observable",
+      "actor_profile": "target_terminal_logic_with_general_greet_augmentation",
+      "qa_status": "canonical_target_train_video_backed_synthetic; 40 Greet augmentation rows are synthetic_augmented_unreviewed",
+      "ms_swift_rows": 111,
+      "task_counts": {
+        "action_selection_5act": 111
+      },
+      "best_act_counts": {
+        "Greet": 51,
+        "Elicit": 14,
+        "Inform": 41,
+        "Recommend": 5,
+        "Hold": 0
+      },
+      "operational_dialogue_acts": [
+        "Greet",
+        "Elicit",
+        "Inform",
+        "Recommend",
+        "Hold"
+      ],
+      "paper_usage": "Audit artifact only. This earlier 40-row Greet augmentation was replaced by GreetAug-v2 with 15 augmented rows after Claude review. Do not use as the recommended Stage-2 prelaunch input.",
+      "schema_version": "target_5act_no_leak_action_selection_greet_aug_v1",
+      "augmentation_policy": "stage2_prelaunch_general_greet_augmentation_v1",
+      "canonical_baseline_path": "data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl"
+    },
+    {
+      "canonical_name": "PIWM-Stage2-Target-5Act-GreetAug-v2",
+      "canonical_path": "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v2.jsonl",
+      "source_path": [
+        "data/official/piwm_target_v1",
+        "data/official/piwm_train_synth_v2/state_inference.jsonl"
+      ],
+      "role": "stage2_prelaunch_greet_augmentation_patch_balanced_v2",
+      "viewpoint": "mixed_target_frontcam_and_general_salesperson_observable",
+      "actor_profile": "target_terminal_logic_with_general_greet_augmentation",
+      "qa_status": "canonical_target_train_video_backed_synthetic; 15 Greet augmentation rows are synthetic_augmented_unreviewed",
+      "ms_swift_rows": 86,
+      "task_counts": {
+        "action_selection_5act": 86
+      },
+      "best_act_counts": {
+        "Greet": 26,
+        "Elicit": 14,
+        "Inform": 41,
+        "Recommend": 5,
+        "Hold": 0
+      },
+      "candidate_policy": "stage_conditioned_candidates_v1",
+      "stage_conditioned_candidates": {
+        "attention": [
+          "Greet",
+          "Elicit",
+          "Inform",
+          "Hold"
+        ],
+        "interest": [
+          "Elicit",
+          "Inform",
+          "Recommend",
+          "Hold"
+        ],
+        "desire": [
+          "Inform",
+          "Recommend",
+          "Hold"
+        ],
+        "action": [
+          "Greet",
+          "Recommend",
+          "Hold"
+        ]
+      },
+      "operational_dialogue_acts": [
+        "Greet",
+        "Elicit",
+        "Inform",
+        "Recommend",
+        "Hold"
+      ],
+      "paper_usage": "Recommended Stage-2 prelaunch patch after Claude review. It keeps the canonical 71 target rows intact, appends 15 general-domain attention-stage Greet examples, and uses stage-conditioned candidates. Do not describe the 15 augmented rows as target-frontcam QA-reviewed video data.",
+      "schema_version": "target_5act_no_leak_action_selection_greet_aug_v2",
+      "augmentation_policy": "stage2_prelaunch_general_greet_augmentation_v2",
+      "canonical_baseline_path": "data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl"
+    },
+    {
+      "canonical_name": "PIWM-Stage1PlusStage2-Target5Act-GreetAugTargetX8-v1",
+      "canonical_path": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2_targetx8_v1.jsonl",
+      "source_path": [
+        "data/official/ms_swift/piwm_train_stage1_user_intent_v1.jsonl",
+        "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v2.jsonl"
+      ],
+      "role": "A4_weighted_joint_sft_entrypoint",
+      "qa_status": "stage1_general_synthetic_plus_stage2_target_greet_aug_v2; target repeated 8x for low-resource adaptation ablation",
+      "ms_swift_rows": 3232,
+      "task_counts": {
+        "user_intent": 543,
+        "next_state_prediction": 2001,
+        "action_selection_5act": 688
+      },
+      "target_repeat": 8,
+      "paper_usage": "A4 ablation candidate: Path C Stage-1 tasks plus target 5-act action-selection rows repeated 8x. Do not treat repeated rows as new unique videos.",
+      "schema_version": "mixed_stage1_stage2_target_5act_greet_aug_v2_targetx8_v1"
+    },
+    {
+      "canonical_name": "PIWM-DomainSpecializationEval-v2",
+      "canonical_path": "data/official/domain_specialization_eval_v2",
+      "source_path": [
+        "data/official/piwm_eval_qa_v1",
+        "data/official/piwm_target_v1"
+      ],
+      "role": "revised_two_stage_domain_specialization_eval_entrypoints",
+      "qa_status": "general_qa_reviewed_and_target_5act_project_lead_qa_reviewed_pass",
+      "target_frontcam_5act_test_records": 30,
+      "target_frontcam_5act_test_rows": 90,
+      "target_frontcam_5act_test_best_act_counts": {
+        "Greet": 6,
+        "Elicit": 6,
+        "Inform": 6,
+        "Recommend": 6,
+        "Hold": 6
+      },
+      "target_frontcam_5act_test_all_jsonl": "data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl",
+      "target_frontcam_5act_test_task_counts": {
+        "user_intent": 30,
+        "next_state_prediction": 30,
+        "action_selection_5act": 30
+      },
+      "general_qa_rows": 162,
+      "general_qa_task_counts": {
+        "user_intent": 36,
+        "next_state_prediction": 126
+      },
+      "eval_sets_summary": "data/official/domain_specialization_eval_v2/two_stage_eval_summary.md",
+      "paper_usage": "Revised evaluation entrypoints for general_on_general, general_on_target, target_specialized_on_target, and target_specialized_on_general. Target 5-act test is balanced, video-backed, stage-conditioned for action-selection candidates, excludes Reassure as best or candidate action, preserves Recommend params, and is project-lead QA-reviewed pass under the revised split.",
+      "schema_version": "two_stage_eval_entrypoints_v2",
+      "target_frontcam_5act_test_split_policy": "derived_clean_5act_balanced_6_per_act_no_reassure",
+      "target_frontcam_test_qa_reviewed_rows": 90,
+      "target_frontcam_test_qa_reviewed_records": 30
     }
   ],
   "deprecated_public_names": [
@@ -320,7 +646,11 @@
     "Do not claim 1000 completed videos; current formal train set has 543 loaded parent records.",
     "Do not use smoke or DPO adapter directories as official dataset names.",
     "Do not call PIWM-RealShoot-v1 a collected real dataset until video assets and QA pass are filled.",
-    "Do not call all PIWM-Target-Frontcam-v1 full-corpus QA-reviewed: only the 30-record test split is project-lead QA-reviewed; the 88 train records remain synthetic_unreviewed."
+    "The current balanced 30-record target 5-act eval is project-lead QA-reviewed pass under the revised split; do not reuse the previous last-30 QA-reviewed conclusion.",
+    "Do not use action-selection prompts that expose gold reward, risk, benefit, predicted_next_stage, or next_state for the main Stage-2 experiment.",
+    "Do not allow Reassure in operational training, eval, inference, or runtime export; it is retained only in source/compat history. Preserve Recommend pressure=soft|firm params wherever Recommend appears.",
+    "Do not remove Greet from the main 5-act macro F1; Greet/Elicit/Inform/Recommend/Hold is the locked operational set.",
+    "Do not call all PIWM-Target-Frontcam-v1 full-corpus QA-reviewed: the 71 Stage-2 target train records remain synthetic_unreviewed, and the revised 30-record target eval is project-lead QA-reviewed pass."
   ],
   "recommended_next_training_entrypoint": "data/official/ms_swift/piwm_train_full_v2.jsonl",
   "current_schema_v2_2_training_entrypoint": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
@@ -360,16 +690,75 @@
       "deliberation": 472,
       "action_selection": 118
     },
-    "status": "low_resource_target_specialization_entrypoint_with_project_lead_qa_reviewed_test_split",
+    "status": "low_resource_target_specialization_entrypoint_with_balanced_5act_eval_qa_reviewed_pass",
     "qa_reviewed_test_records": 30,
-    "synthetic_unreviewed_train_records": 88
+    "synthetic_unreviewed_train_records": 71,
+    "pending_qa_test_records": 0,
+    "split_policy": "balanced_5act_operational_test_ids_no_reassure",
+    "test_best_dialogue_act_counts": {
+      "Greet": 6,
+      "Elicit": 6,
+      "Inform": 6,
+      "Recommend": 6,
+      "Hold": 6
+    },
+    "legacy_wrong_5act_archive": "data/official/domain_specialization_eval_v1/_legacy_wrong_5act",
+    "qa_reviewed_test_rows": 90
   },
   "domain_specialization_entrypoints": {
-    "stage1_general": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
-    "stage2_target": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
-    "mixed_view_joint_sft": "data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl",
-    "mixed_view_joint_rows": 3262,
-    "warning": "target test split is project-lead QA-reviewed; target train rows remain synthetic_unreviewed; do not count video-pending rows as current multimodal data",
-    "paper_framing": "strong_low_resource_target_specialization_with_current_video_backed_data"
+    "stage1_general": "data/official/ms_swift/piwm_train_stage1_user_intent_v1.jsonl",
+    "stage2_target_5act": "data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl",
+    "stage2_target_5act_greet_aug": "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v2.jsonl",
+    "mixed_view_joint_sft": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_v1.jsonl",
+    "mixed_view_joint_sft_greet_aug": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2.jsonl",
+    "target_5act_eval": "data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl",
+    "general_stage1_eval": "data/official/domain_specialization_eval_v2/general_qa_stage1_all.jsonl",
+    "warning": "target 5-act eval is balanced, video-backed, excludes Reassure, preserves Recommend pressure params, and is project-lead QA-reviewed pass; Reassure must not be counted in main 5-act macro F1",
+    "paper_framing": "two_stage_user_intent_world_model_then_low_resource_target_5act_action_model",
+    "stage1_train_split": "data/official/piwm_train_synth_v2/general_split_seed42.json",
+    "stage1_ms_swift_train_files": [
+      "data/official/ms_swift/piwm_train_stage1_user_intent_train_v1.jsonl",
+      "data/official/ms_swift/piwm_train_stage1_next_state_prediction_train_v1.jsonl"
+    ],
+    "stage1_ms_swift_val_files": [
+      "data/official/ms_swift/piwm_train_stage1_user_intent_val_v1.jsonl",
+      "data/official/ms_swift/piwm_train_stage1_next_state_prediction_val_v1.jsonl"
+    ],
+    "stage2_target_5act_greet_aug_v2": "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v2.jsonl",
+    "mixed_view_joint_sft_greet_aug_v2": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2.jsonl",
+    "mixed_view_joint_sft_greet_aug_v2_targetx8": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2_targetx8_v1.jsonl",
+    "stage2_hold_prior_lambda_default": "1.0",
+    "stage2_hold_prior_lambda_sweep": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "stage_conditioned_candidates": {
+      "attention": [
+        "Greet",
+        "Elicit",
+        "Inform",
+        "Hold"
+      ],
+      "interest": [
+        "Elicit",
+        "Inform",
+        "Recommend",
+        "Hold"
+      ],
+      "desire": [
+        "Inform",
+        "Recommend",
+        "Hold"
+      ],
+      "action": [
+        "Greet",
+        "Recommend",
+        "Hold"
+      ]
+    },
+    "stage2_target_5act_greet_aug_audit_v1": "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v1.jsonl",
+    "mixed_view_joint_sft_greet_aug_audit_v1": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v1.jsonl",
+    "mixed_view_joint_sft_greet_aug_targetx8": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2_targetx8_v1.jsonl"
   }
 }

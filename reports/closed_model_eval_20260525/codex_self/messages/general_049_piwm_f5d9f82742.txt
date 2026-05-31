@@ -1,0 +1,4 @@
+<rationale>顾客从电脑转向周围寻找帮助，仍停留在陈列区，符合需要导购确认而不是继续静默等待；先开放询问关注点能低压力介入，明确他想比较功能、价格还是使用场景，直接推荐会过早。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>终端以温和语音主动询问，并在屏幕显示“功能、价格、场景”选择气泡，灯效保持中性提示。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

@@ -1,0 +1,4961 @@
+{
+  "schema_name": "maotai_gold_sales_expert_questionnaire_json_v0",
+  "language": "zh-CN",
+  "created_by": "Codex transcription draft",
+  "source_mapping": {
+    "salesperson_A": "茅台金牌导购深度知识-01.pdf",
+    "salesperson_B": "茅台金牌导购深度知识-02.docx",
+    "salesperson_C": "茅台金牌导购深度知识-03.docx"
+  },
+  "global_rules_applied": [
+    "未填写字段使用 null",
+    "无法辨认手写使用 [unreadable]",
+    "勾选题使用 selected/options/free_text 结构",
+    "表格按行转 object"
+  ],
+  "records": [
+    {
+      "annotator_id": "salesperson_A",
+      "source_file": "茅台金牌导购深度知识-01.pdf",
+      "section_1_profile": {
+        "experience_band": {
+          "selected": "3-5年（独当一面）",
+          "options": [
+            "1年以下（新手上路）",
+            "1-3年（逐渐熟练）",
+            "3-5年（独当一面）",
+            "5-10年（资深专家）",
+            "10年以上（大师级）"
+          ],
+          "free_text": null
+        }
+      },
+      "section_2_customer_types": [
+        {
+          "rank": 2,
+          "type": "商务送礼",
+          "age_range": "35岁",
+          "dress_code": "商务休闲",
+          "behavior_pattern": "目标明确",
+          "purchase_motivation": "领导送礼",
+          "budget_range": "10000+",
+          "share_percent": "80%",
+          "difficulty": "1"
+        },
+        {
+          "rank": 3,
+          "type": "商务宴请",
+          "age_range": "40-45",
+          "dress_code": "商务休闲",
+          "behavior_pattern": "直接选酒",
+          "purchase_motivation": "招待客户",
+          "budget_range": "10000",
+          "share_percent": "25%",
+          "difficulty": "2"
+        },
+        {
+          "rank": 4,
+          "type": "个人收藏",
+          "age_range": "30岁",
+          "dress_code": "休闲",
+          "behavior_pattern": "目标明确",
+          "purchase_motivation": "爱好收藏/送给贵人",
+          "budget_range": "5000",
+          "share_percent": "10%",
+          "difficulty": "2"
+        },
+        {
+          "rank": 5,
+          "type": "自己饮用",
+          "age_range": "35-55岁",
+          "dress_code": "舒适休闲",
+          "behavior_pattern": "对比性价比",
+          "purchase_motivation": "品质品味/日常小酌",
+          "budget_range": "1000",
+          "share_percent": "5%",
+          "difficulty": "2"
+        },
+        {
+          "rank": 6,
+          "type": "收藏投资",
+          "age_range": "35-55岁",
+          "dress_code": "稳重休闲",
+          "behavior_pattern": "查询和计划购买",
+          "purchase_motivation": "稀缺收藏",
+          "budget_range": "10000+",
+          "share_percent": "10%",
+          "difficulty": "1"
+        },
+        {
+          "rank": 7,
+          "type": "仪式用酒/重要场合",
+          "age_range": "30-45岁",
+          "dress_code": "商务西装",
+          "behavior_pattern": "目标明确",
+          "purchase_motivation": "婚宴、家庭、春节等场合",
+          "budget_range": "3000+",
+          "share_percent": "5%",
+          "difficulty": "3"
+        },
+        {
+          "rank": 8,
+          "type": "年轻新潮尝鲜",
+          "age_range": "25-35岁",
+          "dress_code": "潮牌/轻奢",
+          "behavior_pattern": "小瓶体验",
+          "purchase_motivation": "新奇体验、尝鲜",
+          "budget_range": "2000+",
+          "share_percent": "3%",
+          "difficulty": "1"
+        },
+        {
+          "rank": 9,
+          "type": "家庭宴请",
+          "age_range": "45-60岁",
+          "dress_code": "低调稳重/注重仪式感",
+          "behavior_pattern": "自用囤货/目标明确",
+          "purchase_motivation": "家庭用酒",
+          "budget_range": "5000+",
+          "share_percent": "15%",
+          "difficulty": "2"
+        },
+        {
+          "rank": null,
+          "type": null,
+          "age_range": null,
+          "dress_code": null,
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        }
+      ],
+      "section_3_human_scanner": {
+        "what_i_see": "性别、年龄、着装、言谈举止、气质、同行人关系、眼神动作、购买意图。",
+        "what_i_judge": "酒类需求、用途、是否懂酒、最终决策者。",
+        "decision": {
+          "selected": "立即上前主动搭讪",
+          "options": [
+            "立即上前主动搭讪",
+            "再观察一下",
+            "等TA主动开口",
+            "其他"
+          ],
+          "free_text": null
+        },
+        "decision_basis": "销售场景中的应用场景。",
+        "advanced_observation_table": [
+          {
+            "priority": 2,
+            "observation_point": "步伐速度",
+            "what_to_look_for": "目的是不是明确",
+            "inferred_info": "明确用途（送礼/自用/招待）或目标明确"
+          },
+          {
+            "priority": 3,
+            "observation_point": "年龄与性别",
+            "what_to_look_for": "衣着身份",
+            "inferred_info": "用酒用途：送礼、自用、宴请"
+          },
+          {
+            "priority": 4,
+            "observation_point": "穿着配饰",
+            "what_to_look_for": "消费层级、购买属性",
+            "inferred_info": "社交身份、消费层级"
+          },
+          {
+            "priority": 5,
+            "observation_point": "眼神",
+            "what_to_look_for": "进门看商品",
+            "inferred_info": "目标明确程度、懂不懂酒"
+          }
+        ],
+        "followup_selected": [
+          "步伐速度（急促/悠闲）",
+          "进店后的停留位置"
+        ],
+        "followup_free_text": null
+      },
+      "section_4_behavior_signals": [
+        {
+          "customer_behavior": "拿起酒盒端详后又放回，重复2次",
+          "duration": "5-10秒",
+          "interpretation": "酒盒外观特点",
+          "real_intent": "看商品还是对价格犹豫",
+          "immediate_response": "详细讲解+预留观察",
+          "matching_utterance": "这款小茅台好，500ml包装。",
+          "absolute_dont": "不能强行说贵不贵，要确认客户疑虑点。"
+        },
+        {
+          "customer_behavior": "双臂抱胸，身体微微后仰",
+          "duration": "20-30秒",
+          "interpretation": "思考价格及购买愿意",
+          "real_intent": "担心质量",
+          "immediate_response": "询问顾虑点，再讲解疑虑",
+          "matching_utterance": "全程讲解三重防伪，证据做支撑。",
+          "absolute_dont": "不能过度贴近，不了解情绪和价格顾虑就购买逼单。"
+        },
+        {
+          "customer_behavior": "频繁看手机，眼神不聚焦",
+          "duration": "2-3分钟",
+          "interpretation": "问题未明",
+          "real_intent": "处理工作事项",
+          "immediate_response": "延迟主动，缓和情绪",
+          "matching_utterance": "您先忙，需要时叫我。",
+          "absolute_dont": "频繁去问，打断沟通。"
+        },
+        {
+          "customer_behavior": "与同伴低声商量，同伴摇头",
+          "duration": "2分钟",
+          "interpretation": "拿不定主意，询问同伴意见并想引导",
+          "real_intent": "不确定是否适合",
+          "immediate_response": "轻微建议，强调价值",
+          "matching_utterance": "普通款和精品各有优势，可以按场合选。",
+          "absolute_dont": "抬高价值、高价产品、强行逼单。"
+        },
+        {
+          "customer_behavior": "突然露出笑容并点头",
+          "duration": "4-5秒",
+          "interpretation": "认同、满意、基本确定",
+          "real_intent": "商品弄清楚，待话术确认",
+          "immediate_response": "给话术性确认",
+          "matching_utterance": "您可以放心，稍后给您备好。",
+          "absolute_dont": null
+        },
+        {
+          "customer_behavior": "用手指轻敲柜台，沉默不语",
+          "duration": "5-10秒",
+          "interpretation": "内心有权衡、犹豫",
+          "real_intent": "想买但考虑风险",
+          "immediate_response": "带领参观",
+          "matching_utterance": null,
+          "absolute_dont": null
+        },
+        {
+          "customer_behavior": "触摸酒瓶但不拿起",
+          "duration": "3分钟",
+          "interpretation": null,
+          "real_intent": null,
+          "immediate_response": null,
+          "matching_utterance": null,
+          "absolute_dont": null
+        },
+        {
+          "customer_behavior": "深呼吸+叹气",
+          "duration": "5分钟",
+          "interpretation": null,
+          "real_intent": null,
+          "immediate_response": null,
+          "matching_utterance": null,
+          "absolute_dont": null
+        },
+        {
+          "customer_behavior": "眼神在两款产品间反复",
+          "duration": "10秒",
+          "interpretation": null,
+          "real_intent": null,
+          "immediate_response": null,
+          "matching_utterance": null,
+          "absolute_dont": null
+        }
+      ],
+      "section_5_tone_analysis": {
+        "set_A": [
+          {
+            "scenario_name": "A1 假性拒绝",
+            "speech_speed": {
+              "selected": "中",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "平稳",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "中",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "温柔、微笑",
+            "body_posture": null,
+            "real_thought": "顾虑多、价格敏感",
+            "response_utterance": "有顾虑可以说出来，我帮您参考。",
+            "success_rate": "50%"
+          },
+          {
+            "scenario_name": "A2 真性犹豫",
+            "speech_speed": {
+              "selected": "慢",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "下降",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "中",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": null,
+            "body_posture": null,
+            "real_thought": "在原价格处犹豫",
+            "response_utterance": "现在价格是比较稳的，后续可能浮动，您可以结合用途考虑。",
+            "success_rate": "60%"
+          },
+          {
+            "scenario_name": "A3 礼貌性拒绝",
+            "speech_speed": {
+              "selected": "中",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "平稳",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "中",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": null,
+            "body_posture": null,
+            "real_thought": "暂时不想要",
+            "response_utterance": "保持联系，合适时再联系。",
+            "success_rate": null
+          }
+        ],
+        "set_B": [
+          {
+            "scenario_name": "B1 试探能否降价",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": null,
+            "body_posture": null,
+            "real_thought": "考虑价格",
+            "response_utterance": "您看的是品质和服务，我们这边有保障体系和防伪。",
+            "success_rate": "60%"
+          },
+          {
+            "scenario_name": "B2 真的超出预算",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": null,
+            "body_posture": null,
+            "real_thought": "预算不够",
+            "response_utterance": null,
+            "success_rate": null
+          },
+          {
+            "scenario_name": "B3 想要更高性价比",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": null,
+            "body_posture": null,
+            "real_thought": "对比、评估",
+            "response_utterance": "自饮的话可以考虑公斤装，更划算。",
+            "success_rate": "50%"
+          }
+        ],
+        "set_C": [
+          {
+            "scenario_name": "C1 真的在对比",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": null,
+            "body_posture": null,
+            "real_thought": null,
+            "response_utterance": null,
+            "success_rate": null
+          },
+          {
+            "scenario_name": "C2 想听专业意见",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": null,
+            "body_posture": null,
+            "real_thought": null,
+            "response_utterance": null,
+            "success_rate": null
+          },
+          {
+            "scenario_name": "C3 已有倾向，求验证",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": null,
+            "body_posture": null,
+            "real_thought": null,
+            "response_utterance": "可以定量、管明白联系。",
+            "success_rate": null
+          }
+        ]
+      },
+      "section_6_complete_dialogue": {
+        "customer_profile": {
+          "gender_age": "男，35-38",
+          "dress": "商务休闲",
+          "entry_mode": "独自",
+          "first_impression": "沉稳",
+          "initial_judgment": "商务送礼，预算5000以内"
+        },
+        "round_1_icebreaker": {
+          "first_action": "环顾四周",
+          "wait_seconds": 5,
+          "opening_line": "您好，欢迎光临。",
+          "distance": "约1米",
+          "tone": "热情",
+          "body_action": "微笑询问、俯身看",
+          "possible_reactions": [
+            {
+              "type": "positive",
+              "customer": "飞天贵不贵",
+              "reply": "今天飞天价格是[unreadable]",
+              "purchase_intent_score": 5
+            },
+            {
+              "type": "neutral",
+              "customer": "我这儿没有带钱吧",
+              "reply": "店里可结算，支持选择。",
+              "purchase_intent_score": 3
+            },
+            {
+              "type": "negative",
+              "customer": "有没有便宜的酒，大概送得起",
+              "reply": "您希望预算多少？我按您的预算推荐。",
+              "purchase_intent_score": 1
+            }
+          ]
+        },
+        "round_2_need_discovery": {
+          "continue_based_on": "询问客户应用场景",
+          "question_1": "礼赠、送领导、存酒吗？",
+          "question_1_purpose": "了解客户真实购买意图",
+          "customer_answer_1": "礼赠，预算5000以内",
+          "interpretation": {
+            "real_thought": "不想花太多但用于礼赠",
+            "pain_point": "顾虑价格",
+            "budget_range": "3000-5000",
+            "decision_stage": "信息收集"
+          },
+          "question_2": "这瓶大概贵的预算刚好在5000以内？",
+          "customer_answer_2": "是的，质量有保障吗？一定要保真。",
+          "question_3": "你对质量有顾虑？",
+          "customer_answer_3": "以你这里价格的，但[unreadable]质量问题。"
+        },
+        "round_3_5_value_creation": {
+          "recommended_product": "2瓶飞天",
+          "round_3_interest": null,
+          "round_4_trust": null,
+          "round_5_value_anchor": null,
+          "buying_signal": null
+        },
+        "round_6_8_objection_handling": {
+          "objection": "五粮液也不错啊，为什么一定要买茅台？",
+          "response_sentences": [
+            "非茅台也有优点，但茅台是商务接待中的常用代表。",
+            "茅台市场认知度、接受度和价值感会更合适。"
+          ],
+          "resolution_effect": null,
+          "second_objection": null,
+          "second_response": null
+        },
+        "round_9_10_closing": {
+          "closing_signal": "支付方式、发票。",
+          "selected_signals": [
+            "开始关心支付方式、发票、配送"
+          ],
+          "closing_utterance": null,
+          "if_hesitate": "用成功案例刺激。",
+          "final_amount": null,
+          "duration_minutes": null,
+          "key_turning_point": null
+        }
+      },
+      "section_7_high_frequency_cases": {
+        "case_A": {
+          "customer_profile": "了解产品、询问价格、找话。",
+          "dialogue_rounds": [
+            {
+              "round": 1,
+              "utterance": "飞天多少钱？"
+            },
+            {
+              "round": 2,
+              "utterance": "今天飞天的价格是1599。"
+            },
+            {
+              "round": "3-5",
+              "utterance": "有没有小房子/低度点的？"
+            },
+            {
+              "round": "6-8",
+              "utterance": "有的，我们有小闷头850一条，一条5小瓶50ml，这个就很合适。"
+            },
+            {
+              "round": "9-10",
+              "utterance": "好的，那我拿这个吧。"
+            }
+          ],
+          "result_and_key_point": "了解客户需求。"
+        },
+        "case_B": {
+          "customer_profile": "询问价格，对比其他店。",
+          "dialogue_rounds": [
+            {
+              "round": 1,
+              "utterance": "你家飞天多少钱？"
+            },
+            {
+              "round": 2,
+              "utterance": "今天飞天的价格是1899。"
+            },
+            {
+              "round": "3-5",
+              "utterance": "那比华联的贵啊，你们为什么比别的贵？"
+            },
+            {
+              "round": "6-8",
+              "utterance": "咱家有独创的三重防伪，保障真品。"
+            },
+            {
+              "round": "9-10",
+              "utterance": "可以在你家拿吧，真的放心。"
+            }
+          ],
+          "result_and_key_point": "解决客户疑虑。"
+        },
+        "case_C": {
+          "customer_profile": "询问价格直接拿下。",
+          "dialogue_rounds": [
+            {
+              "round": 1,
+              "utterance": "飞天多少钱？"
+            },
+            {
+              "round": 2,
+              "utterance": "今天飞天是1899。"
+            },
+            {
+              "round": "3-5",
+              "utterance": "拿两瓶，今天正好接待买两瓶晚上喝。"
+            },
+            {
+              "round": "6-8",
+              "utterance": "好的，您这边用两瓶是一个比较合适的价位。"
+            },
+            {
+              "round": "9-10",
+              "utterance": "不用了，都是远，今天也比较忙。"
+            }
+          ],
+          "result_and_key_point": "让客户确认信任，争取复购。"
+        }
+      },
+      "section_8_upsell_art": {
+        "step_1_budget_probe": {
+          "utterance": "您之前了解过15年吗？",
+          "budget_judgment": "如果送礼，可以推荐生肖、精品、陈年；如果自饮，可继续询问口味和使用场景。"
+        },
+        "step_2_need_upgrade": {
+          "higher_need": "看客户的应用场景。",
+          "utterance": "您是招待还是自己饮用呢？对商品的规格有要求吗？"
+        },
+        "step_3_product_switch": {
+          "timing_round": "第4轮",
+          "transition_utterance": "您可以看看包装。"
+        },
+        "step_4_anchor_new_price": "体现身份和商品的价值感。",
+        "step_5_risk_avoidance": "好的，推荐还是需要选择适合您的。",
+        "upsell_success_rate": "50%",
+        "failure_reason": "不在客户预算内，不符合应用场景。"
+      },
+      "section_9_objection_library": {
+        "price": {
+          "customer_original_words": "太贵了，网上才1800。",
+          "step_1_emotion_mgmt": "先确认顾客重视正品保障。",
+          "step_2_value_reshape": "咱家商品有三重防伪。",
+          "step_3_risk_hint": "保证从证照到商品都是正品。",
+          "step_4_action_guide": "怡和小众做的是放心，没有低质商品。",
+          "absolute_taboo": "讽刺到店顾客。",
+          "success_rate": "80%"
+        },
+        "authenticity": {
+          "customer_original_words": "你们这怎么保真？",
+          "step_1_emotion_mgmt": "咱们货品一手货源、正规渠道。",
+          "step_2_value_reshape": "检测全流程有可信体系。",
+          "step_3_risk_hint": "商品到店后细密鉴定，中鉴名酒鉴定和三重防伪可分辨。",
+          "step_4_action_guide": "可以带您参观验真和防伪体系。",
+          "absolute_taboo": "真假问题不能模糊，不要说客户没常识；怡和小众绝对没有假货。",
+          "success_rate": "92%"
+        },
+        "delay": {
+          "customer_original_words": "我回去和老婆商量商量。",
+          "step_1_emotion_mgmt": "当然可以，您可以商量了再做决定。",
+          "step_2_value_reshape": "但是茅台一天一个价，随时在变化。",
+          "step_3_risk_hint": "如果您觉得价格现在合适，建议可以考虑购买。",
+          "step_4_action_guide": "或者留下电话，后续问您考虑情况。",
+          "absolute_taboo": "不要说“不用商量，您来决定”。",
+          "success_rate": "50%"
+        },
+        "supplementary": [
+          {
+            "rank": 1,
+            "customer_objection": "比别人贵。",
+            "severity": "4",
+            "full_response": "强调正品保障、三重防伪和中鉴名酒鉴定。",
+            "success_rate": null,
+            "fallback": "从品质而不是低价切入。"
+          },
+          {
+            "rank": 2,
+            "customer_objection": "怎么保证是真货？",
+            "severity": "5",
+            "full_response": "展示溯源、防伪膜、中鉴名酒鉴定证明。",
+            "success_rate": null,
+            "fallback": "带看鉴定流程。"
+          },
+          {
+            "rank": 3,
+            "customer_objection": "我再考虑。",
+            "severity": "3",
+            "full_response": "尊重顾客选择，同时提醒行情波动和留联系方式。",
+            "success_rate": null,
+            "fallback": "微信跟进。"
+          },
+          {
+            "rank": 4,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 5,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 6,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 7,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 8,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 9,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 10,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          }
+        ]
+      },
+      "section_10_emergency_cases": [
+        {
+          "customer_background": "询问价格，想买优惠，不优惠希望询问其他卖价。",
+          "crisis_trigger": "因为价格。",
+          "emotional_state": {
+            "customer": "不耐烦",
+            "salesperson": "冷静"
+          },
+          "ta_expression": "慢慢回心而异，以不卖。",
+          "immediate_5sec_response": {
+            "utterance": "先确认需求并申请优惠。",
+            "action": "先安抚并确认需求。"
+          },
+          "rescue_steps": "降低价格，在申请范围内给出优惠。",
+          "turning_point": "给客户申请了优惠。",
+          "result": "成交",
+          "deal_amount": "10784元",
+          "reflection": "如提前提好活动先可以申请优惠，时机成熟即可申请。"
+        },
+        {
+          "customer_background": "询问价格，质疑真假。",
+          "crisis_trigger": "想知道货真假。",
+          "emotional_state": {
+            "customer": "疑问",
+            "salesperson": "冷静"
+          },
+          "ta_expression": "询问。",
+          "immediate_5sec_response": {
+            "utterance": "介绍三重防伪，带领[unreadable]。",
+            "action": "专业鉴定并介绍。"
+          },
+          "rescue_steps": "通过权威介绍三重防伪和门店经验。",
+          "turning_point": "用防伪体系证实可信。",
+          "result": "成交",
+          "deal_amount": "10784元",
+          "reflection": "用独创三重防伪让客户信服。"
+        },
+        {
+          "customer_background": "一共两家，价格仍比别人便宜。",
+          "crisis_trigger": "三重防伪就一定保真的吗？",
+          "emotional_state": {
+            "customer": "询问",
+            "salesperson": "冷静"
+          },
+          "ta_expression": "挺高。",
+          "immediate_5sec_response": {
+            "utterance": "我们有三重防伪，任意贴门时防止调包。",
+            "action": "专业讲解。"
+          },
+          "rescue_steps": "介绍门店对膜、更换、中鉴名酒鉴定等增强信任。",
+          "turning_point": "证实可信任。",
+          "result": "成交",
+          "deal_amount": "10784元",
+          "reflection": "让顾客对怡和产生信任。"
+        }
+      ],
+      "section_11_failure_cases": [
+        {
+          "customer_type": "多方比价",
+          "stage_reached": "已问价",
+          "fatal_node": "价格高",
+          "what_i_said": "已降到最低价",
+          "customer_reaction": "比别家贵，不想选择",
+          "failure_reason": "客户重在乎价格",
+          "redo_plan": "更强调质量"
+        },
+        {
+          "customer_type": "店里没有客户想要的酒，精准失效",
+          "stage_reached": "已拿起产品",
+          "fatal_node": "客户更倾向于自己想买的那款",
+          "what_i_said": "客户强调汾酒188，我推荐了习酒产品",
+          "customer_reaction": "询问了老抢、老和特价188",
+          "failure_reason": "客户坚持",
+          "redo_plan": "无"
+        },
+        {
+          "customer_type": "兴趣转一转",
+          "stage_reached": "已问价",
+          "fatal_node": "客户只是转一转",
+          "what_i_said": "了解客户需求和预算",
+          "customer_reaction": "什么也不买，只想看看",
+          "failure_reason": "客户不需要",
+          "redo_plan": "无"
+        },
+        {
+          "customer_type": "不想要高价位，只想低价的，想要基红王",
+          "stage_reached": "已谈支付方式",
+          "fatal_node": "咱们不卖单瓶，客户量不够多",
+          "what_i_said": "这款两瓶有，但是只卖原封箱，不单卖",
+          "customer_reaction": "只要两瓶一盒。",
+          "failure_reason": "不够卖",
+          "redo_plan": "推荐单套和低价位"
+        },
+        {
+          "customer_type": "想定基王1935",
+          "stage_reached": "已问价",
+          "fatal_node": "咱们不经常卖散酒",
+          "what_i_said": "因有盒上台账，这类酒少卖，咱们不经营散酒",
+          "customer_reaction": "想买这款，转到小买的",
+          "failure_reason": "帮别人代卖",
+          "redo_plan": "询问顾客囤酒数量，是否可以换。"
+        }
+      ],
+      "section_11_newbie_pitfalls": [
+        {
+          "wrong_behavior": "顾客询问产品，价格是否能少",
+          "typical_scenario": "比价",
+          "consequence": "顾客离开",
+          "correct_approach": "询问客户预算再行推荐"
+        },
+        {
+          "wrong_behavior": "过度热情或冷漠",
+          "typical_scenario": "两个极端态度",
+          "consequence": "给顾客造成心理压力",
+          "correct_approach": "懂得倾听，态度正常"
+        },
+        {
+          "wrong_behavior": "缺乏倾听，只顾自己说",
+          "typical_scenario": "为多讲用于强性推销",
+          "consequence": "顾客不耐烦",
+          "correct_approach": "不要只以自我为中心，倾听客户"
+        },
+        {
+          "wrong_behavior": "产品讲解无吸引力",
+          "typical_scenario": "只会背指标、媒介卖点",
+          "consequence": "顾客不信任",
+          "correct_approach": "更新产品文案"
+        },
+        {
+          "wrong_behavior": "以自我为中心",
+          "typical_scenario": "“我觉得这个好”",
+          "consequence": "客户不认同",
+          "correct_approach": "看客户预算和同一方案"
+        },
+        {
+          "wrong_behavior": "不会处理异议",
+          "typical_scenario": "顾客说“太贵了”急于解释",
+          "consequence": "客户反感",
+          "correct_approach": "介绍怡和的后盾和三重防伪"
+        },
+        {
+          "wrong_behavior": "服务态度不到位",
+          "typical_scenario": "客户反复询问，态度冷漠",
+          "consequence": "态度让客户反感",
+          "correct_approach": "态度礼貌热情"
+        },
+        {
+          "wrong_behavior": "过早推入价格",
+          "typical_scenario": "客户在选择看着，不停提价格",
+          "consequence": "客户体验不佳",
+          "correct_approach": "找到合适时机再切入"
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        }
+      ],
+      "section_13_utterance_arsenal": [
+        {
+          "utterance": "你放心，是一份保障。",
+          "use_case": "大额的场景",
+          "purpose": "让客户相信咱们的产品保真",
+          "effectiveness_pct": "80%",
+          "why_effective": "茅台更注重品质，避免客户担心买到假货。"
+        },
+        {
+          "utterance": "我们卖的不只是茅台，更是保障。",
+          "use_case": "担心质量",
+          "purpose": "解决客户的疑虑",
+          "effectiveness_pct": "80%",
+          "why_effective": "缓解客户疑虑。"
+        },
+        {
+          "utterance": "绝对能线上扫码向客户发它咱们货的溯源，一直认定咱们家的。",
+          "use_case": "担心质量和价值较高",
+          "purpose": "让客户追求强感知",
+          "effectiveness_pct": "80%",
+          "why_effective": "增加信任感。"
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        }
+      ],
+      "section_14_opening_matrix": [
+        {
+          "customer_type": "中年商务男，行色匆匆",
+          "opening_line": "您好，您今天是用于什么场合呢？",
+          "why_this_line": "了解使用场景，精准推荐。",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "年轻情侣，手牵手闲逛",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "老年人，独自前来",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "女性白领，精致妆容",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "三五成群的年轻男性",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "穿着随意但气场强大",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "明显在对比价格",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "第二次来店的顾客",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "带小孩的家庭",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "外国人/港澳台顾客",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        }
+      ],
+      "section_15_closing_arsenal": [
+        {
+          "scenario": "顾客犹豫不决时",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客说“我考虑考虑”",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客问“能便宜吗”",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客与同伴商量时",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客掏出手机查价时",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客说“我回去问问老婆”",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客看起来很想买但在纠结",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客已拿起产品但未开口",
+          "utterance": null
+        },
+        {
+          "scenario": "快到下班/店要关门时",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客说“下次再来”",
+          "utterance": null
+        },
+        {
+          "scenario": "其他",
+          "utterance": null
+        }
+      ],
+      "section_16_competitor_battle": [
+        {
+          "competitor_name": "五粮液",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "国窖1573",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "剑南春",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "洋河/汾酒",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "洋酒",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "其他",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        }
+      ],
+      "section_17_product_matrix": [
+        {
+          "customer_feature": "商务送礼，预算3000+",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "个人收藏，懂酒",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "婚宴用酒，要面子",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "孝敬长辈",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "初次尝试茅台",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "投资保值",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "年轻人送礼",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "企业团购",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "其他",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        }
+      ],
+      "section_18_role_play": [
+        {
+          "customer_opening": "你们这是真的吗？我在网上看到好多假货",
+          "full_dialogue": [
+            {
+              "role": "customer",
+              "utterance": "你们这是真的吗？"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "我们可以给您看溯源、中鉴名酒鉴定和三重防伪。"
+            }
+          ],
+          "result": "成交"
+        },
+        {
+          "customer_opening": "太贵了，我在XX店看到便宜500",
+          "full_dialogue": [
+            {
+              "role": "customer",
+              "utterance": "太贵了。"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "茅台最怕买到假货，咱们主要卖的是保障和放心。"
+            }
+          ],
+          "result": "成交"
+        },
+        {
+          "customer_opening": "我就随便看看",
+          "full_dialogue": [
+            {
+              "role": "customer",
+              "utterance": "我就随便看看。"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "没关系，您慢慢看，需要我再介绍。"
+            }
+          ],
+          "result": "成交"
+        },
+        {
+          "customer_opening": "能不能再便宜点",
+          "full_dialogue": [
+            {
+              "role": "customer",
+              "utterance": "能不能再便宜点？"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "我帮您看一下现在能申请到的活动。"
+            }
+          ],
+          "result": "成交"
+        },
+        {
+          "customer_opening": "我得问问我老婆",
+          "full_dialogue": [
+            {
+              "role": "customer",
+              "utterance": "我得问问我老婆。"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "当然可以，也可以先把今天的行情和产品信息发给您参考。"
+            }
+          ],
+          "result": "成交"
+        },
+        {
+          "customer_opening": "现在茅台还值得买吗",
+          "full_dialogue": [
+            {
+              "role": "customer",
+              "utterance": "现在茅台还值得买吗？"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "茅台价格会随行情变化，关键还是看您用途，是自饮、送礼还是收藏。"
+            }
+          ],
+          "result": "成交"
+        },
+        {
+          "customer_opening": "我朋友说五粮液更好",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我不懂酒，怕送错",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我喝不惯白酒",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "你给我推荐一款，我不懂",
+          "full_dialogue": [],
+          "result": null
+        }
+      ],
+      "section_19_sales_philosophy": {
+        "q1_core_ability": {
+          "selected": "话术技巧",
+          "options": [
+            "专业知识储备",
+            "察言观色能力",
+            "话术技巧",
+            "抗压能力和韧性",
+            "真诚与同理心",
+            "其他"
+          ],
+          "why": "会遇到很多不同的顾客，拉高能力和话术技巧很重要。",
+          "sales_essence": "挖掘品牌。"
+        },
+        "q2_initial_misconception": {
+          "misconception": "销售就是单纯卖东西。",
+          "awakening_moment": "绝不是单纯卖东西，要满足客户需求。",
+          "changed_approach": "慢慢调整话术。"
+        },
+        "q3_best_competitor_trick": {
+          "their_uniqueness": null,
+          "example": null,
+          "did_i_learn": null
+        },
+        "q4_uncopiable_ability": {
+          "description": null,
+          "how_acquired": null
+        }
+      },
+      "section_20_evolution_stages": {
+        "stage_1_0to6mo": {
+          "max_confusion": null,
+          "common_mistake": null,
+          "turning_point": null
+        },
+        "stage_2_6moTo2y": {
+          "max_breakthrough": null,
+          "core_skill": null,
+          "unsolved_problem": null
+        },
+        "stage_3_2yPlus": {
+          "unique_approach": null,
+          "difference_from_newbies": null,
+          "still_learning": null
+        },
+        "dislike_newbie_behavior": null,
+        "most_admired_self_trait": null
+      },
+      "section_21_godlike_moment": {
+        "customer_background": null,
+        "difficulty": null,
+        "how_breakthrough": null,
+        "deal_moment_scene": null,
+        "biggest_inspiration": null
+      },
+      "section_22_statistics": {
+        "daily_avg": {
+          "customers_per_day": null,
+          "conversion_rate": null,
+          "deep_chat_rate": null,
+          "deal_rate": null,
+          "avg_order_value": null,
+          "upsell_success_rate": null
+        },
+        "by_customer_type": [
+          {
+            "type": "商务送礼男",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "中年女性",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "年轻人",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "老年人",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "情侣/夫妻",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "团体客户",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          }
+        ]
+      },
+      "section_23_time_distribution": {
+        "golden_hour_of_day": "9:00-11:30",
+        "golden_day_of_week": "周五",
+        "golden_day_of_month": "月底",
+        "why": null,
+        "avg_time_to_deal": {
+          "impulse_type": "1分钟",
+          "normal_type": "5分钟",
+          "rational_compare_type": "15分钟",
+          "slow_warm_type": "20分钟"
+        }
+      },
+      "section_24_ai_advice": {
+        "suggestion_1": "心理需求沟通。",
+        "suggestion_2": null,
+        "suggestion_3": null,
+        "suggestion_4": null,
+        "suggestion_5": null
+      },
+      "section_25_ai_limits": {
+        "what_ai_cant_do": "对于同一个问题，不同的回答，因为客户需求不同，建议也不同。",
+        "why": null
+      },
+      "section_26_golden_sentence": {
+        "sentence": null,
+        "why_effective": null
+      },
+      "section_27_hardware_interaction": {
+        "overall_strategy": "给顾客介绍店面情况，以及怡和小众应用场景；智能小茅台酒柜三重防伪、酒柜客户链接，给客户带去信任；有X-ray机器和4K放大镜用于打消疑虑。",
+        "scenario_details": "目前以上做法店里都有成熟，还需进一步提升技巧。",
+        "top_3_hardware": [
+          {
+            "item": "无价位点达成价值",
+            "reason": "吸引客户"
+          },
+          {
+            "item": "品鉴台",
+            "reason": "用于客户品鉴"
+          },
+          {
+            "item": "中鉴名酒鉴定公司",
+            "reason": "更方便信服"
+          }
+        ]
+      },
+      "section_appendix_multimodal": {
+        "willing_to_record_5_scenes": null,
+        "willing_to_be_observed": null,
+        "willing_2hr_interview": null,
+        "preferred_participation_method": null
+      },
+      "section_open_share": {
+        "memorable_success_case": null,
+        "key_to_success": null
+      },
+      "transcription_notes": [
+        "A 为手写扫描 PDF，部分字迹无法确认，使用 [unreadable] 或保守转录。",
+        "section_13 以后部分表格行仅录入可辨认内容，空白字段保留 null。"
+      ]
+    },
+    {
+      "annotator_id": "salesperson_B",
+      "source_file": "茅台金牌导购深度知识-02.docx",
+      "section_1_profile": {
+        "experience_band": {
+          "selected": "1年以下（新手上路）",
+          "options": [
+            "1年以下（新手上路）",
+            "1-3年（逐渐熟练）",
+            "3-5年（独当一面）",
+            "5-10年（资深专家）",
+            "10年以上（大师级）"
+          ],
+          "free_text": null
+        }
+      },
+      "section_2_customer_types": [
+        {
+          "rank": "2",
+          "type": "商务送礼",
+          "age_range": "40-50",
+          "dress_code": "商务休闲",
+          "behavior_pattern": "目标明确直奔主题",
+          "purchase_motivation": "领导送礼",
+          "budget_range": "10000",
+          "share_percent": "60",
+          "difficulty": "4"
+        },
+        {
+          "rank": "3",
+          "type": "商务宴请",
+          "age_range": "40-50",
+          "dress_code": "商务休闲",
+          "behavior_pattern": "目标明确直奔主题、常看手机",
+          "purchase_motivation": "领导送礼",
+          "budget_range": "15000",
+          "share_percent": "60",
+          "difficulty": "5"
+        },
+        {
+          "rank": "4",
+          "type": "商务宴请",
+          "age_range": "40-50",
+          "dress_code": "商务休闲",
+          "behavior_pattern": "目标明确直奔主题、常看手机",
+          "purchase_motivation": "宴请",
+          "budget_range": "12000",
+          "share_percent": "60",
+          "difficulty": "4"
+        },
+        {
+          "rank": "5",
+          "type": null,
+          "age_range": null,
+          "dress_code": "商务休闲",
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": "6",
+          "type": null,
+          "age_range": null,
+          "dress_code": "商务休闲",
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": "7",
+          "type": null,
+          "age_range": null,
+          "dress_code": "商务休闲",
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": "8",
+          "type": null,
+          "age_range": null,
+          "dress_code": "商务休闲",
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": "9",
+          "type": null,
+          "age_range": null,
+          "dress_code": null,
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": 9,
+          "type": null,
+          "age_range": null,
+          "dress_code": null,
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        }
+      ],
+      "section_3_human_scanner": {
+        "what_i_see": "穿着、年龄、是否直奔目标、是否询问价格。",
+        "what_i_judge": "判断购买力、购买场景、是否为送礼或自用。",
+        "decision": {
+          "selected": "主动迎接",
+          "options": [
+            "主动迎接",
+            "保持观察",
+            "递上资料/水",
+            "直接报价",
+            "其他"
+          ],
+          "free_text": null
+        },
+        "decision_basis": "顾客进入门店后用开放式问题确认场景。",
+        "advanced_observation_table": [
+          {
+            "priority": "2",
+            "observation_point": "着装档次",
+            "what_to_look_for": "判断年龄、职业",
+            "inferred_info": "购买意向强度"
+          },
+          {
+            "priority": "3",
+            "observation_point": "大致年龄、着装档次、步伐",
+            "what_to_look_for": "直接看货品",
+            "inferred_info": "是否有明确目标"
+          },
+          {
+            "priority": "4",
+            "observation_point": "进店速度",
+            "what_to_look_for": "选择商品",
+            "inferred_info": "是否有明确目标"
+          },
+          {
+            "priority": "5",
+            "observation_point": null,
+            "what_to_look_for": null,
+            "inferred_info": null
+          }
+        ],
+        "followup_selected": [],
+        "followup_free_text": null
+      },
+      "section_4_behavior_signals": [
+        {
+          "customer_behavior": "拿起酒盒端详后又放回，重复2次",
+          "duration": "3–5秒",
+          "interpretation": "对此酒感兴趣",
+          "real_intent": "还在比较价格",
+          "immediate_response": "根据客户需求重点推荐",
+          "matching_utterance": "这款酒的卖点，核心价值",
+          "absolute_dont": "不能没有侧重点的介绍"
+        },
+        {
+          "customer_behavior": "双臂抱胸，身体微微后仰",
+          "duration": "3–5秒",
+          "interpretation": "对此酒还在犹豫",
+          "real_intent": "价格、使用场景",
+          "immediate_response": "给客户思考时间",
+          "matching_utterance": "这款酒的优势在于",
+          "absolute_dont": "追问客户选择"
+        },
+        {
+          "customer_behavior": "频繁看手机，眼神不聚焦",
+          "duration": "3--5秒",
+          "interpretation": "客户还有更紧急的事情",
+          "real_intent": "跟老板沟通后还不确定购买意向",
+          "immediate_response": "等待客户看完手机再沟通",
+          "matching_utterance": "咱们价格目前是同行最低，品质保证",
+          "absolute_dont": "逼单"
+        },
+        {
+          "customer_behavior": "与同伴低声商量，同伴摇头",
+          "duration": "3~5秒。",
+          "interpretation": "客户的同伴，扭曲决策。",
+          "real_intent": "更坏是在犹豫。",
+          "immediate_response": "尽量跟客户的同伴来一起沟通。",
+          "matching_utterance": null,
+          "absolute_dont": "逼单。"
+        },
+        {
+          "customer_behavior": "突然露出笑容并点头",
+          "duration": "2~3秒。",
+          "interpretation": "客户确定要这个商品",
+          "real_intent": "跟客户确定商品。",
+          "immediate_response": "嘱咐客户。客户，我们的服务。客户，我们的服务。",
+          "matching_utterance": "立即给客户备货。",
+          "absolute_dont": "多余的不用说。"
+        },
+        {
+          "customer_behavior": "用手指轻敲柜台，沉默不语",
+          "duration": "2~3秒。",
+          "interpretation": "客户还在犹豫？",
+          "real_intent": "价格或者是场合。",
+          "immediate_response": "帮客户解决疑虑。",
+          "matching_utterance": "给客户确定。",
+          "absolute_dont": null
+        },
+        {
+          "customer_behavior": "触摸酒瓶但不拿起",
+          "duration": "2~3秒。",
+          "interpretation": "客户在犹豫这一款商品要不要。",
+          "real_intent": "由于价格或者使用场景。",
+          "immediate_response": "帮客户尽快的做决定。",
+          "matching_utterance": "侧重点根据客户的需求。",
+          "absolute_dont": "多余的话不说"
+        },
+        {
+          "customer_behavior": "深呼吸+叹气",
+          "duration": "2~3秒。",
+          "interpretation": "客户在犹豫这款酒是不是适合。",
+          "real_intent": "主要是它的场景是不是？",
+          "immediate_response": "帮客户确定不同酒类的使用场景。",
+          "matching_utterance": "根据客户需求确定。",
+          "absolute_dont": null
+        },
+        {
+          "customer_behavior": "眼神在两款产品间反复",
+          "duration": "2~3秒。",
+          "interpretation": "客户在两款酒之间进行比较。",
+          "real_intent": "比较价格和使用场景。",
+          "immediate_response": "帮客户去做决定，重点介绍他中意的产品。",
+          "matching_utterance": "帮顾客，帮顾客做酒。",
+          "absolute_dont": "逼单。"
+        },
+        {
+          "customer_behavior": "掏出钱包但没打开",
+          "duration": null,
+          "interpretation": null,
+          "real_intent": null,
+          "immediate_response": null,
+          "matching_utterance": null,
+          "absolute_dont": null
+        },
+        {
+          "customer_behavior": "往后退半步",
+          "duration": "2~3年。",
+          "interpretation": "客户，客户还在犹豫要不要选择这款？",
+          "real_intent": "他整体在考虑。",
+          "immediate_response": "帮顾客做决定给顾客介绍优劣势。",
+          "matching_utterance": "比较后看顾客需求。",
+          "absolute_dont": "逼单。"
+        },
+        {
+          "customer_behavior": "身体前倾凑近看",
+          "duration": "2~3年。",
+          "interpretation": "客户比较中意这款产品。",
+          "real_intent": "我们重点介绍。",
+          "immediate_response": "直接给顾客备货。叮嘱客户使用场景跟注意事项。",
+          "matching_utterance": "多余的话不说。",
+          "absolute_dont": "逼单。"
+        }
+      ],
+      "section_5_tone_analysis": {
+        "set_A": [
+          {
+            "scenario_name": "A1 假性拒绝",
+            "speech_speed": {
+              "selected": "中",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "平稳/下降",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "中",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "随意",
+            "body_posture": "放松",
+            "real_thought": "想要优惠",
+            "response_utterance": "咱们价格目前行业最低，但我们更注重品质。",
+            "success_rate": "70%"
+          },
+          {
+            "scenario_name": "A2 真性犹豫",
+            "speech_speed": {
+              "selected": "中",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "平稳",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "中",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "带有试探性的注视着销售顾问",
+            "body_posture": "跟销售保持沟通距离",
+            "real_thought": "还在犹豫",
+            "response_utterance": "咱们看重茅台最重要的是品质而非价格，目前市场上我们可以说是行业标杆。",
+            "success_rate": "70%"
+          },
+          {
+            "scenario_name": "A3 礼貌性拒绝",
+            "speech_speed": {
+              "selected": "快",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "上扬",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "大/小",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "坚定",
+            "body_posture": "放松",
+            "real_thought": "不买",
+            "response_utterance": "没关系，加微信，保持联系。",
+            "success_rate": null
+          }
+        ],
+        "set_B": [
+          {
+            "scenario_name": "B1 试探能否降价",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "询问式"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "询问式"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "期待",
+            "body_posture": "期待",
+            "real_thought": "想优惠",
+            "response_utterance": "是的，我也觉得贵，但我们也是紧贴着行情价销售，并且有自己的独创三重防伪。",
+            "success_rate": "60%"
+          },
+          {
+            "scenario_name": "B2 真的超出预算",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "诚恳"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "诚恳"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "期待优惠或者降价",
+            "body_posture": "期待优惠或者降价",
+            "real_thought": "想购买又想优惠",
+            "response_utterance": "咱们还有一款酒和您需要的这款口感接近。",
+            "success_rate": "70%"
+          },
+          {
+            "scenario_name": "B3 想要更高性价比",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "询问式"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "询问式"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "诚恳询问",
+            "body_posture": "诚恳询问",
+            "real_thought": "购买",
+            "response_utterance": "咱们还有公斤酒，性价比更高。",
+            "success_rate": "80%"
+          }
+        ],
+        "set_C": [
+          {
+            "scenario_name": "C1 真的在对比",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "明显的询问口气"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "明显的询问口气"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "眼神有疑问",
+            "body_posture": "眼神有疑问",
+            "real_thought": "想便宜",
+            "response_utterance": "您好！目前市场价位基本保持一致，若有差异，降价必降质。",
+            "success_rate": "80%"
+          },
+          {
+            "scenario_name": "C2 想听专业意见",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "咨询请教式"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "咨询请教式"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "诚恳",
+            "body_posture": "诚恳",
+            "real_thought": "若顾问够专业就会购买",
+            "response_utterance": "咱们怡和小众独创的茅台酒三重防伪是行业标杆。",
+            "success_rate": "70%"
+          },
+          {
+            "scenario_name": "C3 已有倾向，求验证",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "偏向性更强"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "偏向性更强"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "多在意向商品，确定性更高",
+            "body_posture": "多在意向商品，确定性更高",
+            "real_thought": "心里已有答案，求验证",
+            "response_utterance": "根据客户需求讲述跟客户意向相符的商品。",
+            "success_rate": "90%"
+          },
+          {
+            "scenario_name": "补充1 为什么比其他家贵",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "疑问"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "疑问"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "疑问",
+            "body_posture": "疑问",
+            "real_thought": "想知道为什么贵",
+            "response_utterance": "每箱每瓶酒都经过中鉴名酒鉴定认证，都有三重防伪，因此成本高。",
+            "success_rate": "60%"
+          },
+          {
+            "scenario_name": "补充2 价格贵100-200",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "询问"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "询问"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "看向销售顾问",
+            "body_posture": "看向销售顾问",
+            "real_thought": "想跟其他价格一样",
+            "response_utterance": "保价保质，茅台最重要的是保真，不是比价。",
+            "success_rate": "60%"
+          },
+          {
+            "scenario_name": "补充3 开了多久怎么不知道",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "询问"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "询问"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "询问",
+            "body_posture": "询问",
+            "real_thought": "了解后以后有购买意向就过来",
+            "response_utterance": "我们已经12年了，您是第一次过来吗，我给您介绍下我们的三重防伪。",
+            "success_rate": "50%"
+          }
+        ]
+      },
+      "section_6_complete_dialogue": {
+        "customer_profile": {
+          "gender_age": "男、36",
+          "dress": "商务休闲",
+          "entry_mode": "独自",
+          "first_impression": "成交的可能性2瓶",
+          "initial_judgment": "5000左右"
+        },
+        "round_1_icebreaker": {
+          "first_action": "先看中岛",
+          "wait_seconds": 2,
+          "opening_line": "您好！这边是咱们茅台系列。",
+          "distance": "1.2-1.5米",
+          "tone": "热情",
+          "body_action": "稍微欠身，微笑",
+          "possible_reactions": [
+            {
+              "type": "positive",
+              "customer": "飞天现在多少？",
+              "reply": "咱们飞天1899元",
+              "purchase_intent_score": 5
+            },
+            {
+              "type": "neutral",
+              "customer": "又涨价了",
+              "reply": "最近茅台行情一天一个价，一直在涨",
+              "purchase_intent_score": 5
+            },
+            {
+              "type": "negative",
+              "customer": "飞天现在多少？",
+              "reply": "咱们飞天1899元",
+              "purchase_intent_score": 4
+            }
+          ]
+        },
+        "round_2_need_discovery": {
+          "continue_based_on": "最近茅台行情上涨，预计明天还要上涨。",
+          "question_1": "咱们是商务接待还是自用？",
+          "question_1_purpose": "自用推性价比高点儿的，商务接待推荐品质高的。",
+          "customer_answer_1": "商务接待",
+          "interpretation": {
+            "real_thought": "想优惠",
+            "pain_point": "想比别人优惠",
+            "budget_range": "11000",
+            "decision_stage": "方案对比"
+          },
+          "question_2": "您预算大概多少？",
+          "customer_answer_2": "11000",
+          "question_3": "精品和飞天商务接待都可以，看您规格，高一点的就选择精品？",
+          "customer_answer_3": "就是普通接待",
+          "complete_judgment": {
+            "purchase_purpose": "客户目的就是选择飞天",
+            "core_need": "保真",
+            "concern": "只要是正品，可以接受",
+            "expected_amount": "11000",
+            "deal_probability": "90%"
+          }
+        },
+        "round_3_5_value_creation": {
+          "recommended_product": "精品",
+          "round_3_interest": "精品比飞天口感更好。",
+          "customer_reaction_3": "需要飞天",
+          "round_4_trust": "飞天的口感以及使用场景。",
+          "customer_reaction_4": "飞天的口感以及使用场景",
+          "round_5_value_anchor": "普通接待用飞天，商务接待用精品。",
+          "customer_reaction_5": "接受飞天，但心锚已种下，精品比飞天口感更好。",
+          "buying_signal": "目前只购买飞天，以后规格高点儿可以用精品。"
+        },
+        "round_6_8_objection_handling": {
+          "objection": "五粮液也不错啊，为什么一定要买茅台？",
+          "response_sentences": [
+            "五粮液是很不错的，但对于消费者认可度来讲茅台是当之无愧的第一。",
+            "五粮液从市场认可度上不及茅台，使用场景也是。",
+            "重要商务场合茅台是大家的必选。",
+            "因此建议您选择茅台。"
+          ],
+          "resolution_effect": "完全打消/部分认可",
+          "second_objection": null,
+          "second_response": null
+        },
+        "round_9_10_closing": {
+          "closing_signal": "客户很直接明确要对应商品，明确使用场景、喝酒习惯、询问开发票事宜。",
+          "selected_signals": [
+            "主动问有什么优惠吗",
+            "拿出手机查价格但没有离开",
+            "开始关心支付方式、发票、配送"
+          ],
+          "closing_utterance": "目前咱们是紧贴着行情价销售，有伴手礼。",
+          "if_hesitate": "制造稀缺感；用成功案例刺激。",
+          "hesitation_utterance": "咱们15年最近销量很大，订单很多。",
+          "final_amount": "10000-20000元",
+          "duration_minutes": "15分钟",
+          "key_turning_point": null
+        }
+      },
+      "section_7_high_frequency_cases": {
+        "case_A": {
+          "customer_profile": "进店悠闲，明确表示只是来转转。",
+          "dialogue_rounds": [
+            {
+              "round": 1,
+              "customer": "飞天多钱？"
+            },
+            {
+              "round": 2,
+              "salesperson": "1899元"
+            },
+            {
+              "round": 3,
+              "customer": "比其他店贵点儿"
+            },
+            {
+              "round": 4,
+              "salesperson": "茅台现在每天一个价，我们保证正规渠道和防伪"
+            },
+            {
+              "round": 5,
+              "customer": "我下次来买"
+            }
+          ],
+          "result_and_key_point": "加微信，发信息联系，下次成交。"
+        },
+        "case_B": {
+          "customer_profile": "进店步伐坚定，理性比价。",
+          "dialogue_rounds": [
+            {
+              "round": 1,
+              "salesperson": "您今天是自己喝还是送礼？"
+            },
+            {
+              "round": 2,
+              "customer": "看看价格，有需要就买。"
+            }
+          ],
+          "result_and_key_point": "需要购买，就是看价格有没有可能优惠。"
+        },
+        "case_C": {
+          "customer_profile": "衣着得体，眼神四处环顾。",
+          "dialogue_rounds": [
+            {
+              "round": 1,
+              "salesperson": "您今天主要看哪一款？"
+            },
+            {
+              "round": 2,
+              "customer": "那给我囤一箱。"
+            }
+          ],
+          "result_and_key_point": "利用价格上涨趋势，以及货品紧缺，促成销售。"
+        }
+      },
+      "section_8_upsell_art": {
+        "step_1_budget_probe": {
+          "utterance": "精品比飞天口感更好，适合高级宴请。",
+          "budget_judgment": "下次购买。"
+        },
+        "step_2_need_upgrade": {
+          "higher_need": "若您是商务宴请可以考虑精品，价格比十五年划算。",
+          "utterance": "今天精品价格合适，最近精品销量特别好，口感要比飞天好，客户需求量也在飙升。"
+        },
+        "step_3_product_switch": {
+          "timing_round": "第三、四轮",
+          "transition_utterance": "精品的口感更好，因此比飞天更受欢迎。"
+        },
+        "step_4_anchor_new_price": "同样是一瓶，只差了500元，口感更好，因此选择精品的人更多。",
+        "step_5_risk_avoidance": "好的，那就给您拿飞天，下次需要精品随时微信，我们都可以免费送货。",
+        "upsell_success_rate": "50%",
+        "failure_reason": "客户今天可能真的只是想买飞天。"
+      },
+      "section_9_objection_library": {
+        "price": {
+          "customer_original_words": "你们太贵了！网上才1499。",
+          "step_1_emotion_mgmt": "网上的渠道不敢保证，品质更无法保障。",
+          "step_2_value_reshape": "咱们茅台独创的三重防伪有溯源确保真品。",
+          "step_3_risk_hint": "降价必降质，品质没办法保障。",
+          "step_4_action_guide": "怡和小众的茅台都是正规渠道，一手货源，且有中鉴名酒鉴定认证。",
+          "absolute_taboo": "攻击同行。",
+          "success_rate": "90%"
+        },
+        "authenticity": {
+          "customer_original_words": "你们怎么保证是真品？",
+          "step_1_emotion_mgmt": "咱们所有货品都可以溯源，六流合一。",
+          "step_2_value_reshape": "每瓶每箱都有中鉴名酒鉴定认证证明是真品。",
+          "step_3_risk_hint": "目前很多肉眼辨别不出来真伪，尤其打孔或者拔头酒。",
+          "step_4_action_guide": "我给您介绍下我们的三重防伪和中鉴名酒鉴定机构。",
+          "absolute_taboo": "其他地方的货品都是假货。",
+          "success_rate": "90%"
+        },
+        "delay": {
+          "customer_original_words": null,
+          "step_1_emotion_mgmt": "您可以考虑下，没关系的。",
+          "step_2_value_reshape": "我们怡和小众是经过中鉴名酒鉴定机构认证的，确保真品。",
+          "step_3_risk_hint": "网上、回收等渠道无法保证正品。",
+          "step_4_action_guide": "您可以移步到中鉴名酒鉴定机构，我给您介绍下。",
+          "absolute_taboo": "其他同行的酒都是假酒。",
+          "success_rate": "100%"
+        },
+        "supplementary": [
+          {
+            "rank": 1,
+            "customer_objection": "你们茅台为什么价格高于同行",
+            "severity": "4",
+            "full_response": "咱们是独创的三重防伪，整箱、单瓶都有中鉴名酒鉴定LOGO。",
+            "success_rate": "70%",
+            "fallback": "茅台酒不比价格。"
+          },
+          {
+            "rank": 2,
+            "customer_objection": "您的价格高于同行。",
+            "severity": "4",
+            "full_response": "我们是中鉴名酒鉴定认证，所以成本稍微高一点。但茅台酒的价格都是透明。",
+            "success_rate": "80%",
+            "fallback": null
+          },
+          {
+            "rank": 3,
+            "customer_objection": "你那比网上贵一点。",
+            "severity": "4",
+            "full_response": "网上的进货渠道无法保证。",
+            "success_rate": "80%",
+            "fallback": null
+          },
+          {
+            "rank": 4,
+            "customer_objection": "你们的品质如何保证？",
+            "severity": "5",
+            "full_response": "我们属于中鉴名酒鉴定认证，每瓶酒、每箱酒都有鉴定认证证明，并且所有流程都是按标准流程执行。",
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 5,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 6,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 7,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 8,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 9,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 10,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          }
+        ]
+      },
+      "section_10_emergency_cases": [
+        {
+          "customer_background": "客户属于老客户。",
+          "crisis_trigger": "早上价格比下午价格低。",
+          "emotional_state": {
+            "customer": "愤怒",
+            "salesperson": null
+          },
+          "ta_expression": "质疑。",
+          "immediate_5sec_response": {
+            "utterance": "茅台酒价格变化，随行就市。",
+            "action": null
+          },
+          "rescue_steps": "第一，解释茅台价格情况以及变化频次；第二，说明价格随行就市，由定价委员会统一定价；第三，说明酒价紧贴市场行情。",
+          "turning_point": "客户信任。",
+          "result": null,
+          "deal_amount": null,
+          "reflection": null
+        },
+        {
+          "customer_background": "客户是新客户。",
+          "crisis_trigger": "质疑我们的求证。",
+          "emotional_state": {
+            "customer": "很平常的心态",
+            "salesperson": null
+          },
+          "ta_expression": "客户有询问口气。",
+          "immediate_5sec_response": {
+            "utterance": "讲述三重防伪以及中鉴名酒鉴定机构。",
+            "action": "带客户参观全店。"
+          },
+          "rescue_steps": "讲述三重防伪，参观中鉴名酒鉴定机构后，再讲述质量管理体系。",
+          "turning_point": "[unreadable]",
+          "result": null,
+          "deal_amount": null,
+          "reflection": null
+        },
+        {
+          "customer_background": "新客户。",
+          "crisis_trigger": "客户用精确的价格跟我们做比较。",
+          "emotional_state": {
+            "customer": "质疑",
+            "salesperson": null
+          },
+          "ta_expression": "质疑。",
+          "immediate_5sec_response": {
+            "utterance": "帮顾客讲解三重防伪、中鉴名酒鉴定认证以及我们的管理体系。",
+            "action": null
+          },
+          "rescue_steps": null,
+          "turning_point": null,
+          "result": null,
+          "deal_amount": null,
+          "reflection": null
+        }
+      ],
+      "section_11_failure_cases": [
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        },
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        },
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        },
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        },
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        }
+      ],
+      "section_11_newbie_pitfalls": [
+        {
+          "wrong_behavior": "不清楚价格",
+          "typical_scenario": "顾客问一个查一个",
+          "consequence": "顾客觉得不专业",
+          "correct_approach": "您是想在哪个价位区间选择？"
+        },
+        {
+          "wrong_behavior": "专业知识不够",
+          "typical_scenario": "顾客问到差别说不清楚",
+          "consequence": "客户觉得想要的答案不清晰",
+          "correct_approach": "您是什么场合使用？"
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        }
+      ],
+      "section_13_utterance_arsenal": [
+        {
+          "utterance": "一看您就是行家",
+          "use_case": "客户想下定决心购买，又在犹豫",
+          "purpose": "确定客户的选择",
+          "effectiveness_pct": "70%",
+          "why_effective": "提供情绪价值"
+        },
+        {
+          "utterance": "看来您对酒特别了解",
+          "use_case": "客户比自己还讲得好",
+          "purpose": "给足客户情绪价值",
+          "effectiveness_pct": "60%",
+          "why_effective": "肯定专业"
+        },
+        {
+          "utterance": "一看就知道您经常和茅台",
+          "use_case": "客户询问经典款价格",
+          "purpose": "肯定客户对茅台的了解",
+          "effectiveness_pct": "70%",
+          "why_effective": "满足其虚荣心"
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        }
+      ],
+      "section_14_opening_matrix": [
+        {
+          "customer_type": "中年商务男，行色匆匆",
+          "opening_line": "您好，您今天是用于什么场合呢？",
+          "why_this_line": "了解使用场景，精准推荐。",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "年轻情侣，手牵手闲逛",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "老年人，独自前来",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "女性白领，精致妆容",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "三五成群的年轻男性",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "穿着随意但气场强大",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "明显在对比价格",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "第二次来店的顾客",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "带小孩的家庭",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "外国人/港澳台顾客",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        }
+      ],
+      "section_15_closing_arsenal": [
+        {
+          "scenario": "顾客犹豫不决时",
+          "utterance": "最近行情上涨。"
+        },
+        {
+          "scenario": "顾客说“我考虑考虑”",
+          "utterance": "你可以考虑下，咱们确保真品。"
+        },
+        {
+          "scenario": "顾客问“能便宜吗”",
+          "utterance": "咱们是紧贴行情价购买。"
+        },
+        {
+          "scenario": "顾客与同伴商量时",
+          "utterance": "重点跟他的同事沟通。"
+        },
+        {
+          "scenario": "顾客掏出手机查价时",
+          "utterance": "价格随行就市。"
+        },
+        {
+          "scenario": "顾客说“我回去问问老婆”",
+          "utterance": "可以跟家人商量。"
+        },
+        {
+          "scenario": "顾客看起来很想买但在纠结",
+          "utterance": "讲述清楚价格。"
+        },
+        {
+          "scenario": "顾客已拿起产品但未开口",
+          "utterance": "帮顾客讲解商品特点。"
+        },
+        {
+          "scenario": "快到下班/店要关门时",
+          "utterance": "明天的价格还有可能会上升，最近行情不错。"
+        },
+        {
+          "scenario": "顾客说“下次再来”",
+          "utterance": "最新行情普涨，建议您可以尽快购买。"
+        },
+        {
+          "scenario": "其他",
+          "utterance": null
+        }
+      ],
+      "section_16_competitor_battle": [
+        {
+          "competitor_name": "五粮液",
+          "customer_question": "五粮液也很好啊/也不错啊，为什么要选茅台？/和茅台比怎么样？",
+          "full_response": [
+            {
+              "label": "先认可",
+              "sentence": "五粮液很好。"
+            },
+            {
+              "label": "建立差异",
+              "sentence": "五粮液属于浓香型，茅台属于酱香型。"
+            },
+            {
+              "label": "价值锚定",
+              "sentence": "但是客户对茅台的认可度远远高于五粮液。"
+            },
+            {
+              "label": "情感共鸣",
+              "sentence": "接受度也高于五粮液。"
+            },
+            {
+              "label": "引导选择",
+              "sentence": "所以建议选择茅台。"
+            }
+          ],
+          "taboo": "五粮液不好。",
+          "success_rate": "100%"
+        },
+        {
+          "competitor_name": "国窖1573",
+          "customer_question": "国窖1573也是高端酒，差不多吧？",
+          "full_response": [
+            {
+              "label": "回应",
+              "sentence": "国窖属于浓香型。"
+            }
+          ],
+          "taboo": "国窖1573不好。",
+          "success_rate": "100%"
+        },
+        {
+          "competitor_name": "剑南春",
+          "customer_question": "剑南春属于浓香型。",
+          "full_response": [
+            {
+              "label": "回应",
+              "sentence": "是的，但是茅台属于酱香型，茅台的口感更温和。"
+            }
+          ],
+          "taboo": "剑南春不好。",
+          "success_rate": "100%"
+        },
+        {
+          "competitor_name": "洋河/汾酒",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "洋酒",
+          "customer_question": "我朋友喜欢喝洋酒，送茅台合适吗？",
+          "full_response": [
+            {
+              "label": "回应",
+              "sentence": "不适合。"
+            }
+          ],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "其他",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        }
+      ],
+      "section_17_product_matrix": [
+        {
+          "customer_feature": "商务送礼，预算3000+",
+          "recommended_product": "十五年",
+          "recommendation_reason": "档次更高，适合商务宴请或送礼",
+          "alternative_product": "精品飞天",
+          "downgrade_option": "飞天"
+        },
+        {
+          "customer_feature": "个人收藏，懂酒",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "婚宴用酒，要面子",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "孝敬长辈",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "初次尝试茅台",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "投资保值",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "年轻人送礼",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "企业团购",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "其他",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        }
+      ],
+      "section_18_role_play": [
+        {
+          "customer_opening": "你们这是真的吗？我在网上看到好多假货",
+          "full_dialogue": [
+            {
+              "role": "salesperson",
+              "utterance": "咱都是一手经销商货源，经过北京中鉴名酒鉴定，含税，覆防伪膜，配定制手提袋。"
+            },
+            {
+              "role": "customer",
+              "utterance": "怎么保证？"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "讲述三重防伪。"
+            },
+            {
+              "role": "customer",
+              "utterance": "正规门店也不敢卖假酒。"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "是的，但行业内只有我们是三重防伪，标准流程和服务，有中鉴名酒鉴定机构鉴定每箱、每瓶酒真伪。"
+            }
+          ],
+          "result": "成交"
+        },
+        {
+          "customer_opening": "太贵了，我在XX店看到便宜500",
+          "full_dialogue": [
+            {
+              "role": "salesperson",
+              "utterance": "您好！降价比降质，我们茅台酒保证真品，都是随行就市，价格透明，真品不会那么便宜。"
+            },
+            {
+              "role": "customer",
+              "utterance": "那也是。"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "咱们茅台都是六流合一，正规进货渠道，一手货源，都可以追溯。"
+            },
+            {
+              "role": "customer",
+              "utterance": "怎么个追溯？"
+            },
+            {
+              "role": "salesperson",
+              "utterance": "讲解三重防伪。"
+            }
+          ],
+          "result": "成交"
+        },
+        {
+          "customer_opening": "我就随便看看",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "能不能再便宜点",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我得问问我老婆",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "现在茅台还值得买吗",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我朋友说五粮液更好",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我不懂酒，怕送错",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我喝不惯白酒",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "你给我推荐一款，我不懂",
+          "full_dialogue": [],
+          "result": null
+        }
+      ],
+      "section_19_sales_philosophy": {
+        "q1_core_ability": {
+          "selected": null,
+          "options": [
+            "专业知识储备",
+            "察言观色能力",
+            "话术技巧",
+            "抗压能力和韧性",
+            "真诚与同理心",
+            "其他"
+          ],
+          "why": null,
+          "sales_essence": null
+        },
+        "q2_initial_misconception": {
+          "misconception": null,
+          "awakening_moment": null,
+          "changed_approach": null
+        },
+        "q3_best_competitor_trick": {
+          "their_uniqueness": null,
+          "example": null,
+          "did_i_learn": null
+        },
+        "q4_uncopiable_ability": {
+          "description": null,
+          "how_acquired": null
+        }
+      },
+      "section_20_evolution_stages": {
+        "stage_1_0to6mo": {
+          "max_confusion": null,
+          "common_mistake": null,
+          "turning_point": null
+        },
+        "stage_2_6moTo2y": {
+          "max_breakthrough": null,
+          "core_skill": null,
+          "unsolved_problem": null
+        },
+        "stage_3_2yPlus": {
+          "unique_approach": null,
+          "difference_from_newbies": null,
+          "still_learning": null
+        },
+        "dislike_newbie_behavior": null,
+        "most_admired_self_trait": null
+      },
+      "section_21_godlike_moment": {
+        "customer_background": null,
+        "difficulty": null,
+        "how_breakthrough": null,
+        "deal_moment_scene": null,
+        "biggest_inspiration": null
+      },
+      "section_22_statistics": {
+        "daily_avg": {
+          "customers_per_day": null,
+          "conversion_rate": null,
+          "deep_chat_rate": null,
+          "deal_rate": null,
+          "avg_order_value": null,
+          "upsell_success_rate": null
+        },
+        "by_customer_type": [
+          {
+            "type": "商务送礼男",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "中年女性",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "年轻人",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "老年人",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "情侣/夫妻",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "团体客户",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          }
+        ]
+      },
+      "section_23_time_distribution": {
+        "golden_hour_of_day": null,
+        "golden_day_of_week": null,
+        "golden_day_of_month": null,
+        "why": null,
+        "avg_time_to_deal": {
+          "impulse_type": null,
+          "normal_type": null,
+          "rational_compare_type": null,
+          "slow_warm_type": null
+        }
+      },
+      "section_24_ai_advice": {
+        "suggestion_1": null,
+        "suggestion_2": null,
+        "suggestion_3": null,
+        "suggestion_4": null,
+        "suggestion_5": null
+      },
+      "section_25_ai_limits": {
+        "what_ai_cant_do": null,
+        "why": null
+      },
+      "section_26_golden_sentence": {
+        "sentence": null,
+        "why_effective": null
+      },
+      "section_27_hardware_interaction": {
+        "overall_strategy": "三重防伪；智能酒柜；裸眼3D。",
+        "scenario_details": null,
+        "top_3_hardware": [
+          {
+            "item": null,
+            "reason": null
+          },
+          {
+            "item": null,
+            "reason": null
+          },
+          {
+            "item": null,
+            "reason": null
+          }
+        ]
+      },
+      "section_appendix_multimodal": {
+        "willing_to_record_5_scenes": null,
+        "willing_to_be_observed": null,
+        "willing_2hr_interview": null,
+        "preferred_participation_method": null
+      },
+      "section_open_share": {
+        "memorable_success_case": "2月11日之前的客户吴总原来一直在军区购买茅台酒，第一次在怡和小众购买且因为付款问题出现了一点小磕绊，但因后期通话以及服务态度诚恳，让客户感受到我们服务比军区更好，因此2月11日联系购买十五年，沟通完毕后派人过来购买，最后顺利成交。",
+        "key_to_success": "后期通话、服务态度诚恳、让客户感受到服务更好。"
+      },
+      "transcription_notes": [
+        "B 为 DOCX，主要按文档文本和表格结构抽取。",
+        "未填写的问卷空格保留 null。"
+      ]
+    },
+    {
+      "annotator_id": "salesperson_C",
+      "source_file": "茅台金牌导购深度知识-03.docx",
+      "section_1_profile": {
+        "experience_band": {
+          "selected": "1年以下（新手上路）",
+          "options": [
+            "1年以下（新手上路）",
+            "1-3年（逐渐熟练）",
+            "3-5年（独当一面）",
+            "5-10年（资深专家）",
+            "10年以上（大师级）"
+          ],
+          "free_text": null
+        }
+      },
+      "section_2_customer_types": [
+        {
+          "rank": "2",
+          "type": "商务人士",
+          "age_range": "35~50",
+          "dress_code": "商务正装或行政夹克",
+          "behavior_pattern": "目标明确，直奔主题。",
+          "purchase_motivation": "商务接待。",
+          "budget_range": "2000~3000",
+          "share_percent": null,
+          "difficulty": "5"
+        },
+        {
+          "rank": "3",
+          "type": "家庭宴请",
+          "age_range": "40~50",
+          "dress_code": "休闲穿着",
+          "behavior_pattern": "根据预算询问相对应商品。",
+          "purchase_motivation": "自用。",
+          "budget_range": "1000~2000",
+          "share_percent": null,
+          "difficulty": "4"
+        },
+        {
+          "rank": "4",
+          "type": "朋友聚会",
+          "age_range": "30~40",
+          "dress_code": "休闲穿着",
+          "behavior_pattern": "询问多种商品",
+          "purchase_motivation": "聚会使用",
+          "budget_range": "1000~3000",
+          "share_percent": null,
+          "difficulty": "3或4"
+        },
+        {
+          "rank": "5",
+          "type": "商务送礼",
+          "age_range": "30~40.",
+          "dress_code": "穿着正式",
+          "behavior_pattern": "咨询畅销商品",
+          "purchase_motivation": "领导送礼。",
+          "budget_range": "2000~5000.",
+          "share_percent": null,
+          "difficulty": "4"
+        },
+        {
+          "rank": "6",
+          "type": null,
+          "age_range": null,
+          "dress_code": null,
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": "7",
+          "type": null,
+          "age_range": null,
+          "dress_code": null,
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": "8",
+          "type": null,
+          "age_range": null,
+          "dress_code": null,
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": "9",
+          "type": null,
+          "age_range": null,
+          "dress_code": null,
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        },
+        {
+          "rank": 9,
+          "type": null,
+          "age_range": null,
+          "dress_code": null,
+          "behavior_pattern": null,
+          "purchase_motivation": null,
+          "budget_range": null,
+          "share_percent": null,
+          "difficulty": null
+        }
+      ],
+      "section_3_human_scanner": {
+        "what_i_see": "衣着、大致年龄、是否有同行、言谈举止。",
+        "what_i_judge": "判断购买力、使用场景、谁是决策者。",
+        "decision": {
+          "selected": "主动迎接",
+          "options": [
+            "主动迎接",
+            "保持观察",
+            "递上资料/水",
+            "直接报价",
+            "其他"
+          ],
+          "free_text": null
+        },
+        "decision_basis": "通过衣着、年龄和同伴关系判断需求。",
+        "advanced_observation_table": [
+          {
+            "priority": "2",
+            "observation_point": "衣着",
+            "what_to_look_for": "直奔飞天还是四处游离",
+            "inferred_info": "是否有购买力"
+          },
+          {
+            "priority": "3",
+            "observation_point": "大致年龄",
+            "what_to_look_for": "观察可能使用场景",
+            "inferred_info": "购买什么档次的酒"
+          },
+          {
+            "priority": "4",
+            "observation_point": "是否有同行",
+            "what_to_look_for": "观察两人或几人关系",
+            "inferred_info": "谁是决策者"
+          },
+          {
+            "priority": "5",
+            "observation_point": "言谈举止",
+            "what_to_look_for": "通过交谈，判断可能的职业层次",
+            "inferred_info": "购买力"
+          }
+        ],
+        "followup_selected": [],
+        "followup_free_text": null
+      },
+      "section_4_behavior_signals": [
+        {
+          "customer_behavior": "拿起酒盒端详后又放回，重复2次",
+          "duration": "5秒",
+          "interpretation": "感兴趣或有购买意图",
+          "real_intent": "内心比对价格",
+          "immediate_response": "肯定客户眼光，进一步询问使用场景",
+          "matching_utterance": "您是自用接待还是礼赠呢？",
+          "absolute_dont": "催促购买"
+        },
+        {
+          "customer_behavior": "双臂抱胸，身体微微后仰",
+          "duration": "5-10秒",
+          "interpretation": "在考虑是否有需求，或价格是否合适",
+          "real_intent": "价格合适能用到就购买",
+          "immediate_response": "及时搭话，详细介绍和告知促销活动",
+          "matching_utterance": "这款酒现在价格很合适，咱们还有伴手礼赠送",
+          "absolute_dont": null
+        },
+        {
+          "customer_behavior": "频繁看手机，眼神不聚焦",
+          "duration": null,
+          "interpretation": "有需求，但临时有其他事需沟通",
+          "real_intent": "稍等忙完再说酒的事情",
+          "immediate_response": "给客户一定空间，但仍然关注，及时响应需求",
+          "matching_utterance": "没事您先忙，有需要您随时叫我",
+          "absolute_dont": "不能给客户夸夸其谈"
+        },
+        {
+          "customer_behavior": "与同伴低声商量，同伴摇头",
+          "duration": "5秒",
+          "interpretation": "跟同伴沟通，同伴不认可",
+          "real_intent": "也许只是询价，了解行情",
+          "immediate_response": "在旁边观察，客户沟通过程中尽量了解客户想法",
+          "matching_utterance": "微笑跟随，适时介绍三重防伪，让客户放心品质",
+          "absolute_dont": "追问：您有什么不满意"
+        },
+        {
+          "customer_behavior": "突然露出笑容并点头",
+          "duration": "3秒",
+          "interpretation": "对价格满意",
+          "real_intent": "决定购买或自有的酒升值了",
+          "immediate_response": "肯定当下行情对购买者性价比很高",
+          "matching_utterance": "现价这个价格很划算，购酒囤货或者自用的性价比很高",
+          "absolute_dont": "直接询问是否要购买"
+        },
+        {
+          "customer_behavior": "用手指轻敲柜台，沉默不语",
+          "duration": "5秒",
+          "interpretation": "内心在思考，作斗争",
+          "real_intent": "觉得价格偏高，但又有需求",
+          "immediate_response": "询问客户使用场景，提供更多选择",
+          "matching_utterance": "您是什么场合用呢，我们还有xxx，您可以考虑",
+          "absolute_dont": "催客户购买"
+        },
+        {
+          "customer_behavior": "触摸酒瓶但不拿起",
+          "duration": "5秒",
+          "interpretation": "对酒有兴趣但是购买意愿不强",
+          "real_intent": "想了解跟多信息",
+          "immediate_response": "直接询问客户想法",
+          "matching_utterance": "您还想了解哪方面呢",
+          "absolute_dont": "这酒不错，您要多少"
+        },
+        {
+          "customer_behavior": "深呼吸+叹气",
+          "duration": "3秒",
+          "interpretation": "价格出乎意料",
+          "real_intent": "几乎无购买可能",
+          "immediate_response": "肯定客户眼光",
+          "matching_utterance": "给客户介绍同系列价格较低的商品",
+          "absolute_dont": "不搭理客户"
+        },
+        {
+          "customer_behavior": "眼神在两款产品间反复",
+          "duration": "10秒",
+          "interpretation": "比较权衡",
+          "real_intent": "有需求但无法做选择",
+          "immediate_response": "您现在是考虑哪方面呢",
+          "matching_utterance": "根据客户回答给出建议",
+          "absolute_dont": "不分青红皂白推荐贵的"
+        },
+        {
+          "customer_behavior": "掏出钱包但没打开",
+          "duration": "10秒",
+          "interpretation": "犹豫买不买",
+          "real_intent": "有需求，但是觉得价格贵",
+          "immediate_response": "询问客户使用场景，或推荐性价比高的",
+          "matching_utterance": "咱们现在还有xxx，您可以了解一下",
+          "absolute_dont": "催促购买"
+        },
+        {
+          "customer_behavior": "往后退半步",
+          "duration": "3秒",
+          "interpretation": "客户只是看看",
+          "real_intent": "购买意愿不强",
+          "immediate_response": "向客户多介绍不同的系列",
+          "matching_utterance": "咱们现在还有xx和xx，您也可以了解",
+          "absolute_dont": "冷淡，怠慢客户"
+        },
+        {
+          "customer_behavior": "身体前倾凑近看",
+          "duration": "5秒",
+          "interpretation": "没见过，想仔细看看",
+          "real_intent": "之前没见到过，觉得好奇",
+          "immediate_response": "给客户详细介绍",
+          "matching_utterance": "介绍客户感兴趣的酒的相关信息",
+          "absolute_dont": "光看不说话"
+        }
+      ],
+      "section_5_tone_analysis": {
+        "set_A": [
+          {
+            "scenario_name": "A1 假性拒绝",
+            "speech_speed": {
+              "selected": "慢",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "平稳",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "小",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "持续关注商品",
+            "body_posture": "在原地不动",
+            "real_thought": "想要购买但是略微犹豫",
+            "response_utterance": "肯定客户的选择，再次强化购买意愿。",
+            "success_rate": "100%"
+          },
+          {
+            "scenario_name": "A2 真性犹豫",
+            "speech_speed": {
+              "selected": "中",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "上扬",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "大",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "游离不定",
+            "body_posture": "向门外移步，但脚步不坚决",
+            "real_thought": "还需拉扯还价，或有其他促销也许会购买",
+            "response_utterance": "给客户介绍促销活动（如有），或提供伴手礼。",
+            "success_rate": "50%"
+          },
+          {
+            "scenario_name": "A3 礼貌性拒绝",
+            "speech_speed": {
+              "selected": "快",
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": "上扬",
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": "大",
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "看向门外",
+            "body_posture": "快步离开，礼貌点头",
+            "real_thought": "无购买意向，避免尴尬，快速离场",
+            "response_utterance": "留下客户联系方式，保持后续联系，合适时机促成交易。",
+            "success_rate": null
+          }
+        ],
+        "set_B": [
+          {
+            "scenario_name": "B1 试探能否降价",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "半开玩笑的语气"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "半开玩笑的语气"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "眼神随和，肢体放松",
+            "body_posture": "眼神随和，肢体放松",
+            "real_thought": "试探性地询问是否能降价",
+            "response_utterance": "您经常在咱家购酒肯定知道咱们都是最优的价格，品质有保障。",
+            "success_rate": "100%"
+          },
+          {
+            "scenario_name": "B2 真的超出预算",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "略有为难"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "略有为难"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "眼神犹豫，肢体略微拘谨",
+            "body_posture": "眼神犹豫，肢体略微拘谨",
+            "real_thought": "想要优惠",
+            "response_utterance": "咱们的价格都是紧贴行情，而且咱们家都是正规渠道，一手货源、中鉴名酒鉴定认证，品质您放心。",
+            "success_rate": "80%"
+          },
+          {
+            "scenario_name": "B3 想要更高性价比",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "犹豫不决"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "犹豫不决"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "眼神游离",
+            "body_posture": "眼神游离",
+            "real_thought": "认可商品，但是觉得贵，购买力有限",
+            "response_utterance": "这款酒非常匹配您的需求。",
+            "success_rate": null
+          }
+        ],
+        "set_C": [
+          {
+            "scenario_name": "C1 真的在对比",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": null
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": null
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "眉头紧锁，抱胸思考",
+            "body_posture": "眉头紧锁，抱胸思考",
+            "real_thought": "有需求，但还在犹豫购买哪一款。",
+            "response_utterance": null,
+            "success_rate": null
+          },
+          {
+            "scenario_name": "C2 想听专业意见",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "疑问的语气"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "疑问的语气"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "思考的眼神",
+            "body_posture": "思考的眼神",
+            "real_thought": "有购买意图，但是不知道买哪一款。",
+            "response_utterance": null,
+            "success_rate": null
+          },
+          {
+            "scenario_name": "C3 已有倾向，求验证",
+            "speech_speed": {
+              "selected": null,
+              "options": [
+                "快",
+                "中",
+                "慢"
+              ],
+              "free_text": "有明确的目标商品"
+            },
+            "tone": {
+              "selected": null,
+              "options": [
+                "上扬",
+                "平稳",
+                "下降"
+              ],
+              "free_text": "有明确的目标商品"
+            },
+            "volume": {
+              "selected": null,
+              "options": [
+                "大",
+                "中",
+                "小"
+              ],
+              "free_text": null
+            },
+            "eyes": "眼神笃定",
+            "body_posture": "眼神笃定",
+            "real_thought": "有购买意向，但是还希望得到导购肯定。",
+            "response_utterance": null,
+            "success_rate": null
+          }
+        ]
+      },
+      "section_6_complete_dialogue": {
+        "customer_profile": {
+          "gender_age": "男，35岁左右",
+          "dress": "商务休闲装",
+          "entry_mode": "独自",
+          "first_impression": "商务人士，有接待需求",
+          "initial_judgment": "商务接待使用"
+        },
+        "round_1_icebreaker": {
+          "first_action": "迎上打招呼",
+          "wait_seconds": null,
+          "opening_line": "您好！",
+          "distance": "1米",
+          "tone": "热情",
+          "body_action": "微笑上前",
+          "possible_reactions": [
+            {
+              "type": "positive",
+              "customer": "你好，飞天今天多少钱？",
+              "reply": "给客户报价",
+              "purchase_intent_score": 8
+            },
+            {
+              "type": "neutral",
+              "customer": null,
+              "reply": null,
+              "purchase_intent_score": null
+            },
+            {
+              "type": "negative",
+              "customer": null,
+              "reply": null,
+              "purchase_intent_score": null
+            }
+          ]
+        },
+        "round_2_need_discovery": {
+          "continue_based_on": null,
+          "question_1": "您是接待需要吗？",
+          "question_1_purpose": "了解使用场景。",
+          "customer_answer_1": "晚上有宴请。",
+          "interpretation": {
+            "real_thought": "想了解不同规格接待用酒档次",
+            "pain_point": "接待规格相符的酒",
+            "budget_range": "2000-4000",
+            "decision_stage": "信息收集/方案对比"
+          },
+          "question_2": "咱们有几款不同的接待用酒，分别是普通飞天、精品和十五年，您可以都了解一下。",
+          "customer_answer_2": "精品和十五年多少钱？",
+          "question_3": "您几位用餐呢？",
+          "customer_answer_3": "8-10位",
+          "complete_judgment": {
+            "purchase_purpose": "商务宴请",
+            "core_need": "不能怠慢宴请对方",
+            "concern": "考虑预算和档次的匹配度",
+            "expected_amount": "3000",
+            "deal_probability": "70%"
+          }
+        },
+        "round_3_5_value_creation": {
+          "recommended_product": "两瓶飞天",
+          "round_3_interest": null,
+          "round_4_trust": null,
+          "round_5_value_anchor": null,
+          "buying_signal": null
+        },
+        "round_6_8_objection_handling": {
+          "objection": "五粮液也不错啊，为什么一定要买茅台？",
+          "response_sentences": [],
+          "resolution_effect": null,
+          "second_objection": null,
+          "second_response": null
+        },
+        "round_9_10_closing": {
+          "closing_signal": "询问总价，询问付款方式，询问是否开发票。",
+          "selected_signals": [
+            "反复询问同一款产品的细节",
+            "主动问有什么优惠吗",
+            "开始关心支付方式、发票、配送",
+            "身体前倾凑近看"
+          ],
+          "closing_utterance": "马上给您备货。",
+          "if_hesitate": null,
+          "final_amount": null,
+          "duration_minutes": null,
+          "key_turning_point": null
+        }
+      },
+      "section_7_high_frequency_cases": {
+        "case_A": {
+          "customer_profile": null,
+          "dialogue_rounds": [],
+          "result_and_key_point": null
+        },
+        "case_B": {
+          "customer_profile": null,
+          "dialogue_rounds": [],
+          "result_and_key_point": null
+        },
+        "case_C": {
+          "customer_profile": null,
+          "dialogue_rounds": [],
+          "result_and_key_point": null
+        }
+      },
+      "section_8_upsell_art": {
+        "step_1_budget_probe": {
+          "utterance": null,
+          "budget_judgment": null
+        },
+        "step_2_need_upgrade": {
+          "higher_need": null,
+          "utterance": null
+        },
+        "step_3_product_switch": {
+          "timing_round": null,
+          "transition_utterance": null
+        },
+        "step_4_anchor_new_price": null,
+        "step_5_risk_avoidance": null,
+        "upsell_success_rate": null,
+        "failure_reason": null
+      },
+      "section_9_objection_library": {
+        "price": {
+          "customer_original_words": "你们比别的地方都贵。",
+          "step_1_emotion_mgmt": "价格是有差别。",
+          "step_2_value_reshape": "您也知道茅台最怕的是买到假货。",
+          "step_3_risk_hint": "正规渠道和质量保障是核心，低价渠道可能存在风险。",
+          "step_4_action_guide": "我们最重要的核心价值是没有假货，开店12年来没有一起质量差评，您完全可以放心。",
+          "absolute_taboo": "我们的价格确实是比别人高。",
+          "success_rate": null
+        },
+        "authenticity": {
+          "customer_original_words": "你们也不是经销商，怎么保证是真货？",
+          "step_1_emotion_mgmt": "先认可顾客对真伪的担心。",
+          "step_2_value_reshape": "强调正规渠道、防伪和门店长期信誉。",
+          "step_3_risk_hint": "买到假货的风险远高于价格差。",
+          "step_4_action_guide": "介绍店内鉴定和保障流程。",
+          "absolute_taboo": null,
+          "success_rate": null
+        },
+        "delay": {
+          "customer_original_words": "我再考虑一下，打个电话。",
+          "step_1_emotion_mgmt": "可以，您先考虑。",
+          "step_2_value_reshape": "说明价格和货源会变化。",
+          "step_3_risk_hint": "提醒错过当前价格或货源的风险。",
+          "step_4_action_guide": "留下联系方式或再次确认需求。",
+          "absolute_taboo": null,
+          "success_rate": null
+        },
+        "supplementary": [
+          {
+            "rank": 1,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 2,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 3,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 4,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 5,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 6,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 7,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 8,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 9,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          },
+          {
+            "rank": 10,
+            "customer_objection": null,
+            "severity": null,
+            "full_response": null,
+            "success_rate": null,
+            "fallback": null
+          }
+        ]
+      },
+      "section_10_emergency_cases": [
+        {
+          "customer_background": null,
+          "crisis_trigger": null,
+          "emotional_state": {
+            "customer": null,
+            "salesperson": null
+          },
+          "ta_expression": null,
+          "immediate_5sec_response": {
+            "utterance": null,
+            "action": null
+          },
+          "rescue_steps": null,
+          "turning_point": null,
+          "result": null,
+          "deal_amount": null,
+          "reflection": null
+        },
+        {
+          "customer_background": null,
+          "crisis_trigger": null,
+          "emotional_state": {
+            "customer": null,
+            "salesperson": null
+          },
+          "ta_expression": null,
+          "immediate_5sec_response": {
+            "utterance": null,
+            "action": null
+          },
+          "rescue_steps": null,
+          "turning_point": null,
+          "result": null,
+          "deal_amount": null,
+          "reflection": null
+        },
+        {
+          "customer_background": null,
+          "crisis_trigger": null,
+          "emotional_state": {
+            "customer": null,
+            "salesperson": null
+          },
+          "ta_expression": null,
+          "immediate_5sec_response": {
+            "utterance": null,
+            "action": null
+          },
+          "rescue_steps": null,
+          "turning_point": null,
+          "result": null,
+          "deal_amount": null,
+          "reflection": null
+        }
+      ],
+      "section_11_failure_cases": [
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        },
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        },
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        },
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        },
+        {
+          "customer_type": null,
+          "stage_reached": null,
+          "fatal_node": null,
+          "what_i_said": null,
+          "customer_reaction": null,
+          "failure_reason": null,
+          "redo_plan": null
+        }
+      ],
+      "section_11_newbie_pitfalls": [
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        },
+        {
+          "wrong_behavior": null,
+          "typical_scenario": null,
+          "consequence": null,
+          "correct_approach": null
+        }
+      ],
+      "section_13_utterance_arsenal": [
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        },
+        {
+          "utterance": null,
+          "use_case": null,
+          "purpose": null,
+          "effectiveness_pct": null,
+          "why_effective": null
+        }
+      ],
+      "section_14_opening_matrix": [
+        {
+          "customer_type": "中年商务男，行色匆匆",
+          "opening_line": "您好，您今天是用于什么场合呢？",
+          "why_this_line": "了解使用场景，精准推荐。",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "年轻情侣，手牵手闲逛",
+          "opening_line": "二位好，有什么想了解的吗？",
+          "why_this_line": "询问需求",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "老年人，独自前来",
+          "opening_line": "您好，您想了解什么呢？",
+          "why_this_line": "了解是否有购买意愿。",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "女性白领，精致妆容",
+          "opening_line": "您好，您是看白酒还是红酒呢？",
+          "why_this_line": "根据人群推荐适合的产品。",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "三五成群的年轻男性",
+          "opening_line": "各位好！咱家主营茅台酒。",
+          "why_this_line": "给客户介绍主营产品。",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "穿着随意但气场强大",
+          "opening_line": "领导好，咱们不仅有畅销飞天系列，还有陈年老酒。",
+          "why_this_line": "向客户推荐高端产品。",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "明显在对比价格",
+          "opening_line": "强调品质保真。",
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "第二次来店的顾客",
+          "opening_line": "您好，您今天想了解什么呢？",
+          "why_this_line": "了解客户需求。",
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "带小孩的家庭",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        },
+        {
+          "customer_type": "外国人/港澳台顾客",
+          "opening_line": null,
+          "why_this_line": null,
+          "effectiveness_pct": null
+        }
+      ],
+      "section_15_closing_arsenal": [
+        {
+          "scenario": "顾客犹豫不决时",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客说“我考虑考虑”",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客问“能便宜吗”",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客与同伴商量时",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客掏出手机查价时",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客说“我回去问问老婆”",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客看起来很想买但在纠结",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客已拿起产品但未开口",
+          "utterance": null
+        },
+        {
+          "scenario": "快到下班/店要关门时",
+          "utterance": null
+        },
+        {
+          "scenario": "顾客说“下次再来”",
+          "utterance": null
+        },
+        {
+          "scenario": "其他",
+          "utterance": null
+        }
+      ],
+      "section_16_competitor_battle": [
+        {
+          "competitor_name": "五粮液",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "国窖1573",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "剑南春",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "洋河/汾酒",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "洋酒",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        },
+        {
+          "competitor_name": "其他",
+          "customer_question": null,
+          "full_response": [],
+          "taboo": null,
+          "success_rate": null
+        }
+      ],
+      "section_17_product_matrix": [
+        {
+          "customer_feature": "商务送礼，预算3000+",
+          "recommended_product": "十五年",
+          "recommendation_reason": "价格超预算不多，档次高很多",
+          "alternative_product": "精品飞天 公斤",
+          "downgrade_option": "精品"
+        },
+        {
+          "customer_feature": "个人收藏，懂酒",
+          "recommended_product": "茅台老酒，年份酒",
+          "recommendation_reason": "茅台越放越有价值",
+          "alternative_product": "彩釉，散花",
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "婚宴用酒，要面子",
+          "recommended_product": "普茅",
+          "recommendation_reason": "标准用酒，谁都认识",
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "孝敬长辈",
+          "recommended_product": "精品 普茅 十五年",
+          "recommendation_reason": "酒质较好，价格没有高太多",
+          "alternative_product": "陈年飞天",
+          "downgrade_option": "普茅"
+        },
+        {
+          "customer_feature": "初次尝试茅台",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "投资保值",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "年轻人送礼",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "企业团购",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        },
+        {
+          "customer_feature": "其他",
+          "recommended_product": null,
+          "recommendation_reason": null,
+          "alternative_product": null,
+          "downgrade_option": null
+        }
+      ],
+      "section_18_role_play": [
+        {
+          "customer_opening": "你们这是真的吗？我在网上看到好多假货",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "太贵了，我在XX店看到便宜500",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我就随便看看",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "能不能再便宜点",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我得问问我老婆",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "现在茅台还值得买吗",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我朋友说五粮液更好",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我不懂酒，怕送错",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "我喝不惯白酒",
+          "full_dialogue": [],
+          "result": null
+        },
+        {
+          "customer_opening": "你给我推荐一款，我不懂",
+          "full_dialogue": [],
+          "result": null
+        }
+      ],
+      "section_19_sales_philosophy": {
+        "q1_core_ability": {
+          "selected": "真诚与同理心",
+          "options": [
+            "专业知识储备",
+            "察言观色能力",
+            "话术技巧",
+            "抗压能力和韧性",
+            "真诚与同理心",
+            "其他"
+          ],
+          "why": null,
+          "sales_essence": null
+        },
+        "q2_initial_misconception": {
+          "misconception": null,
+          "awakening_moment": null,
+          "changed_approach": null
+        },
+        "q3_best_competitor_trick": {
+          "their_uniqueness": null,
+          "example": null,
+          "did_i_learn": null
+        },
+        "q4_uncopiable_ability": {
+          "description": "察言观色，判断顾客的深层需求。",
+          "how_acquired": "常年的工作经验，与人沟通锻炼出来的。"
+        }
+      },
+      "section_20_evolution_stages": {
+        "stage_1_0to6mo": {
+          "max_confusion": null,
+          "common_mistake": null,
+          "turning_point": null
+        },
+        "stage_2_6moTo2y": {
+          "max_breakthrough": null,
+          "core_skill": null,
+          "unsolved_problem": null
+        },
+        "stage_3_2yPlus": {
+          "unique_approach": null,
+          "difference_from_newbies": null,
+          "still_learning": null
+        },
+        "dislike_newbie_behavior": null,
+        "most_admired_self_trait": null
+      },
+      "section_21_godlike_moment": {
+        "customer_background": null,
+        "difficulty": null,
+        "how_breakthrough": null,
+        "deal_moment_scene": null,
+        "biggest_inspiration": null
+      },
+      "section_22_statistics": {
+        "daily_avg": {
+          "customers_per_day": null,
+          "conversion_rate": null,
+          "deep_chat_rate": null,
+          "deal_rate": null,
+          "avg_order_value": null,
+          "upsell_success_rate": null
+        },
+        "by_customer_type": [
+          {
+            "type": "商务送礼男",
+            "deal_rate": "70",
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "中年女性",
+            "deal_rate": "95",
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "年轻人",
+            "deal_rate": "50",
+            "hardest_point": null,
+            "easiest_point": null
+          },
+          {
+            "type": "老年人",
+            "deal_rate": "30",
+            "hardest_point": "价格原因。",
+            "easiest_point": null
+          },
+          {
+            "type": "情侣/夫妻",
+            "deal_rate": "30",
+            "hardest_point": "有针对性的商品，但是考虑价格。",
+            "easiest_point": null
+          },
+          {
+            "type": "团体客户",
+            "deal_rate": null,
+            "hardest_point": null,
+            "easiest_point": null
+          }
+        ]
+      },
+      "section_23_time_distribution": {
+        "golden_hour_of_day": "中午和下午4点左右",
+        "golden_day_of_week": "周一周二、周三和周六",
+        "golden_day_of_month": null,
+        "why": null,
+        "avg_time_to_deal": {
+          "impulse_type": null,
+          "normal_type": null,
+          "rational_compare_type": null,
+          "slow_warm_type": null
+        }
+      },
+      "section_24_ai_advice": {
+        "suggestion_1": "分析客户类型。",
+        "suggestion_2": "了解客户需求。",
+        "suggestion_3": "进行精准推荐。",
+        "suggestion_4": "向客户介绍防伪。",
+        "suggestion_5": null
+      },
+      "section_25_ai_limits": {
+        "what_ai_cant_do": "完全替代人来接待不同的客户。",
+        "why": "千人千面，不同的人有不同的想法。数据库再强大，没有办法涵盖所有情况，碰到未收集到的情况，AI就无法判断如何解决。"
+      },
+      "section_26_golden_sentence": {
+        "sentence": null,
+        "why_effective": null
+      },
+      "section_27_hardware_interaction": {
+        "overall_strategy": null,
+        "scenario_details": null,
+        "top_3_hardware": [
+          {
+            "item": "货品陈列",
+            "reason": "向客户展示我们所售商品。"
+          },
+          {
+            "item": null,
+            "reason": null
+          },
+          {
+            "item": "舒适明亮的购物环境",
+            "reason": "购物环境决定客户在店内的环境体验。"
+          }
+        ]
+      },
+      "section_appendix_multimodal": {
+        "willing_to_record_5_scenes": null,
+        "willing_to_be_observed": null,
+        "willing_2hr_interview": null,
+        "preferred_participation_method": null
+      },
+      "section_open_share": {
+        "memorable_success_case": null,
+        "key_to_success": null
+      },
+      "transcription_notes": [
+        "C 为 DOCX，后半部分大量空白，按规则保留 null。"
+      ]
+    }
+  ],
+  "summary": {
+    "annotator_count": 3,
+    "field_value_count": 3088,
+    "null_value_count": 1323,
+    "unreadable_marker_count": 5,
+    "difficult_sections": [
+      {
+        "annotator_id": "salesperson_A",
+        "sections": [
+          "section_8_upsell_art",
+          "section_9_objection_library",
+          "section_10_emergency_cases",
+          "section_13_utterance_arsenal",
+          "section_18_role_play"
+        ],
+        "reason": "手写扫描件局部字迹较淡或连笔，需要人工二次复核。"
+      },
+      {
+        "annotator_id": "salesperson_C",
+        "sections": [
+          "section_7_high_frequency_cases",
+          "section_8_upsell_art",
+          "section_10_emergency_cases",
+          "section_11_failure_cases",
+          "section_13_utterance_arsenal",
+          "section_18_role_play",
+          "section_20_evolution_stages",
+          "section_21_godlike_moment"
+        ],
+        "reason": "原文大量空白。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+<rationale>顾客已完成基本查看，注意力集中且犹豫感低，状态显示他希望节省时间并接受明确推荐来确认购买；软性推荐比继续说明价格更贴合其当前需求，Hold也不合适，因为他已接近决策点。</rationale>
+<chosen>Recommend_8d7f8993e333</chosen>
+<intervention_action>智能售货柜轻柔高亮推荐饮品，在屏幕上突出该商品，并用低压力语音给出确认式推荐。</intervention_action>
+<intervention_utterance>如果您想省时间，可以先从这款开始看，它比较符合您现在关注的点。</intervention_utterance>

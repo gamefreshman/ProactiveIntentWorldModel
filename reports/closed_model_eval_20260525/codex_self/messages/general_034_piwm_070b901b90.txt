@@ -1,0 +1,4 @@
+<rationale>顾客仍在手机陈列区围绕候选商品与同伴确认选择，决策受同伴反馈影响。此时最适合低压力地帮助双方明确比较维度，让讨论从泛泛确认转向价格、功能或使用场景，而不是直接推荐或打断演示。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜以温和语音发问，并在屏幕显示“功能、价格、场景”三个选择气泡供顾客和同伴一起确认关注点。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

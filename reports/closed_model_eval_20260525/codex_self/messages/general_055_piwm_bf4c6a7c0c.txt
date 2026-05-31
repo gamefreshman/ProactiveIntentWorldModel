@@ -1,0 +1,4 @@
+<rationale>顾客已从查看商品转为抬头环顾，仍停留在家电展示台旁，符合接近确认选择但需要人工确认的状态；开放式询问可快速定位她想确认的是功能、价格还是使用场景，比继续静默更贴合当前求助信号。</rationale>
+<chosen>Elicit_b1166d372e5e</chosen>
+<intervention_action>智能售货柜以温和语音主动询问，并在屏幕显示“功能、价格、场景”三个选择气泡供顾客点选。</intervention_action>
+<intervention_utterance>您想先看价格、功能，还是使用场景？</intervention_utterance>

@@ -1,0 +1,4 @@
+<rationale>顾客身体偏离柜台并回避交流，状态指向避免继续互动和可能离开；此时任何语音提示都可能增加打扰感，因此最合适的是保持安静等待。</rationale>
+<chosen>Hold_eda24b4bb712</chosen>
+<intervention_action>售货柜保持低干预待机状态，不主动发声、不显示推进性CTA，只维持当前柔和灯效。</intervention_action>
+<intervention_utterance>（静默）</intervention_utterance>

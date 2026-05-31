@@ -1,0 +1,4 @@
+<rationale>顾客已进入 desire 阶段，视线稳定锁定目标且接近确认购买，但当前意图是比较性价比；简短显示价格和优惠能直接支持其快速确认，不会打断或施加推荐压力。</rationale>
+<chosen>Inform_053014d173cc</chosen>
+<intervention_action>智能售货柜在屏幕上显示所选商品的价格与优惠信息，并用柔和灯效聚焦价格区域。</intervention_action>
+<intervention_utterance>我先把价格和优惠信息放在屏幕上，方便您判断。</intervention_utterance>

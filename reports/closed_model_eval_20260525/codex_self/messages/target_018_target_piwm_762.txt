@@ -1,0 +1,4 @@
+<rationale>顾客停留观察、目光在选项间移动并伴随轻微犹豫，状态已进入想选择但需要信心的阶段；她并非需要安静等待，而是适合一个低压力、明确的推荐来帮助缩小选择。</rationale>
+<chosen>Recommend_8d7f8993e333</chosen>
+<intervention_action>智能售货柜用柔和语音提示，同时在屏幕上高亮推荐商品，并配合轻柔灯效引导她先查看该选项。</intervention_action>
+<intervention_utterance>如果您想省时间，可以先从这款开始看，它比较符合您现在关注的点。</intervention_utterance>

@@ -129,6 +129,40 @@ def test_policy_candidate_specs_split_soft_and_firm_recommendation():
     ]
 
 
+def test_policy_candidate_specs_are_strict_operational_five_act():
+    for state in rules.LATENT_STATES:
+        for aida_stage in rules.AIDA_STAGES:
+            specs = rules.derive_policy_candidate_specs(state, aida_stage, intent_tier="exploring")
+            acts = {spec["act"] for spec in specs}
+            assert acts <= {"Greet", "Elicit", "Inform", "Recommend", "Hold"}
+            assert "Reassure" not in acts
+
+
+def test_policy_candidate_specs_use_soft_recommend_as_reassure_fallback():
+    specs = rules.derive_policy_candidate_specs(
+        "high_hesitation",
+        "attention",
+        intent_tier="exploring",
+    )
+
+    assert {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}} in specs
+    assert {"act": "Recommend", "params": {"target": "item", "pressure": "firm"}} not in specs
+    assert all(spec["act"] != "Reassure" for spec in specs)
+
+
+def test_policy_candidate_specs_only_use_soft_recommend_before_desire():
+    specs = rules.derive_policy_candidate_specs(
+        "active_evaluation",
+        "interest",
+        intent_tier="exploring",
+    )
+
+    recommend_specs = [spec for spec in specs if spec["act"] == "Recommend"]
+    assert recommend_specs == [
+        {"act": "Recommend", "params": {"target": "item", "pressure": "soft"}},
+    ]
+
+
 def test_policy_candidate_specs_keep_low_intent_filter():
     specs = rules.derive_policy_candidate_specs(
         "early_browsing",
@@ -137,6 +171,7 @@ def test_policy_candidate_specs_keep_low_intent_filter():
     )
 
     assert all(spec["act"] != "Recommend" for spec in specs)
+    assert all(spec["act"] != "Reassure" for spec in specs)
 
 
 def test_negative_intervention_transitions_cross_zero():

@@ -1,0 +1,4 @@
+<rationale>顾客只是路过时短暂抬头观察设备，处于注意阶段但没有明确需求；适合低压力地提示设备可用性。Greet 比 Elicit 和 Inform 更不打扰，也比 Hold 更能回应其短暂好奇。</rationale>
+<chosen>Greet_attention_stage_conditioned_target_piwm_703_b337b63da88c</chosen>
+<intervention_action>智能售货柜显示简短欢迎语，并用柔和灯效提示可随时提供帮助。</intervention_action>
+<intervention_utterance>欢迎光临，需要时我可以帮您。</intervention_utterance>

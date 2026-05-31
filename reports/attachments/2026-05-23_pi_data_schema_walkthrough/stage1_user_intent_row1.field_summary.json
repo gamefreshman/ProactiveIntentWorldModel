@@ -1,0 +1,33 @@
+{
+  "top_level_keys": [
+    "messages",
+    "images",
+    "task",
+    "source_id",
+    "weight",
+    "loss_weight",
+    "meta"
+  ],
+  "roles": [
+    "system",
+    "user",
+    "assistant"
+  ],
+  "image_count": 3,
+  "has_video_field": false,
+  "task": "user_intent",
+  "source_id": "piwm_09df40aae2",
+  "weight": 1.0,
+  "loss_weight": 1.0,
+  "meta": {
+    "split": "train",
+    "qa_status": null,
+    "human_review_status": null,
+    "viewpoint": "salesperson_observable",
+    "stage": "interest",
+    "intent_label": "request_demonstration",
+    "loss_weight": 1.0,
+    "loss_weight_policy": "a3plus_visual_intent_low_confidence"
+  },
+  "aida_stage_in_prompt_or_target": "interest"
+}

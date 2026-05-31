@@ -1,0 +1,56 @@
+% Merge paragraphs into Related Work. Copy BibTeX entries at the end into custom.bib if missing.
+
+% Insertion position: Section 2.1, after the paragraph on World Models and World Action Models.
+\paragraph{Embodied VLA models.}
+Vision-language-action models such as RT-2~\cite{brohan2023rt2}, OpenVLA~\cite{kim2024openvla}, and $\pi_0$~\cite{black2024pi0} translate visual observations and language instructions into robot actions. PIWM differs from this line in both action semantics and evaluation target: its action space is communicative and service-oriented (\textsc{Greet}, \textsc{Elicit}, \textsc{Inform}, \textsc{Recommend}, and \textsc{Hold}) rather than motor control, and success is measured by best intervention selection under customer-state constraints rather than physical task completion.
+
+% Insertion position: Section 2.2, after the current proactive interaction paragraph.
+\paragraph{Proactive multimodal assistants.}
+ContextAgent~\cite{yang2026contextagent} explores proactive LLM agents with open-world sensory perception, while streaming-video and egocentric-assistance systems study when an assistant should speak or offer help. PIWM targets a narrower but more decision-critical setting: a third-party customer is observed from retail video, and the agent must compare candidate service interventions with explicit action-conditioned outcome supervision. This shifts the core question from whether to respond proactively to which low-intrusion service move should be selected.
+
+% Insertion position: Section 2.4, after the current retail dataset paragraph.
+\paragraph{Shopping and retail agents.}
+WebShop~\cite{yao2022webshop} studies text-based shopping agents that navigate product pages, and Shopping MMLU~\cite{jin2024shoppingmmlu} evaluates LLMs on online shopping knowledge and reasoning tasks. PIWM instead operates on video observations of in-store customers and selects service interventions rather than navigating product catalogs or answering product-knowledge questions. The closest distinction is that PIWM models the customer's latent state and the expected effect of a service action before any explicit customer query is issued.
+
+% --- BibTeX entries for custom.bib if missing. Do not merge this block into the main tex body. ---
+\iffalse
+@inproceedings{brohan2023rt2,
+  title = {RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control},
+  author = {Brohan, Anthony and Brown, Noah and Carbajal, Justice and Chebotar, Yevgen and Chen, Xi and Choromanski, Krzysztof and Ding, Tianli and Driess, Danny and Dubey, Avinava and Finn, Chelsea and others},
+  booktitle = {Conference on Robot Learning},
+  year = {2023},
+  url = {https://arxiv.org/abs/2307.15818}
+}
+
+@article{kim2024openvla,
+  title = {OpenVLA: An Open-Source Vision-Language-Action Model},
+  author = {Kim, Moo Jin and Pertsch, Karl and Karamcheti, Siddharth and Xiao, Ted and Balakrishna, Ashwin and Nair, Suraj and Rafailov, Rafael and Foster, Ethan and Lam, Grace and Sanketi, Pannag and others},
+  journal = {arXiv preprint arXiv:2406.09246},
+  year = {2024},
+  url = {https://arxiv.org/abs/2406.09246}
+}
+
+@article{black2024pi0,
+  title = {$\pi_0$: A Vision-Language-Action Flow Model for General Robot Control},
+  author = {Black, Kevin and Brown, Noah and Driess, Danny and Finn, Chelsea and Hausman, Karol and Ichter, Brian and Levine, Sergey and Pertsch, Karl and Shi, Lucy Xiaoyang and Vuong, Quan and Zhilinsky, Ury and others},
+  journal = {arXiv preprint arXiv:2410.24164},
+  year = {2024},
+  url = {https://arxiv.org/abs/2410.24164}
+}
+
+@inproceedings{yao2022webshop,
+  title = {WebShop: Towards Scalable Real-World Web Interaction with Grounded Language Agents},
+  author = {Yao, Shunyu and Chen, Howard and Yang, John and Narasimhan, Karthik},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year = {2022},
+  url = {https://arxiv.org/abs/2207.01206}
+}
+
+@article{jin2024shoppingmmlu,
+  title = {Shopping MMLU: A Massive Multi-Task Online Shopping Benchmark for Large Language Models},
+  author = {Jin, Yilun and Li, Zheng and Zhang, Chenwei and Cao, Tianyu and Gao, Yifan and Jayarao, Pratik and Li, Mao and Liu, Xin and Sarkhel, Ritesh and Tang, Xianfeng and others},
+  journal = {arXiv preprint arXiv:2410.20745},
+  year = {2024},
+  url = {https://arxiv.org/abs/2410.20745}
+}
+\fi

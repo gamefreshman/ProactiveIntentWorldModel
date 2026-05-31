@@ -1,0 +1,37 @@
+{
+  "top_level_keys": [
+    "messages",
+    "images",
+    "task",
+    "source_id",
+    "weight",
+    "loss_weight",
+    "meta"
+  ],
+  "roles": [
+    "system",
+    "user",
+    "assistant"
+  ],
+  "image_count": 3,
+  "has_video_field": false,
+  "task": "next_state_prediction",
+  "source_id": "piwm_09df40aae2#Elicit_b1166d372e5e",
+  "weight": 1.0,
+  "loss_weight": 1.0,
+  "meta": {
+    "parent_state_id": "piwm_09df40aae2",
+    "candidate_action": "Elicit_b1166d372e5e",
+    "candidate_act": "Elicit",
+    "candidate_params": {
+      "openness": "open",
+      "slot": "need_focus"
+    },
+    "no_intervention_branch": false,
+    "split": "train",
+    "qa_status": null,
+    "human_review_status": null,
+    "viewpoint": "salesperson_observable"
+  },
+  "aida_stage_in_prompt_or_target": null
+}

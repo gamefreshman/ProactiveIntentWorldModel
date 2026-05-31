@@ -1,0 +1,30 @@
+% Merge position: after \section{Conclusion} and before \bibliography{custom}.
+% ACL/EMNLP requires Limitations as a standalone section.
+\section*{Limitations}
+\label{sec:limitations}
+
+PIWM has several limitations.
+
+\begin{enumerate}
+    \item \textbf{Best-action evaluation primarily relies on oracle customer state.}
+    The main best-action result conditions on ground-truth customer state, which isolates action selection from upstream state grounding. When the model must infer state from video alone, performance drops from 0.641 with oracle state to 0.295 end-to-end on Target-Test E2E (n=30), identifying state grounding as the primary bottleneck. Future work should improve video-to-state grounding before treating end-to-end action selection as the main deployment metric.
+
+    \item \textbf{\textsc{Hold} remains the weakest action class.}
+    \textsc{Hold} has strict F1 0.250 on Target-Test, indicating that deciding when not to intervene is harder than choosing among active service actions. The per-class sample size is small (6 examples per action in Target-Test), so per-class F1 estimates are less stable than aggregate macro F1. A larger \textsc{Hold}-rich evaluation set is needed to measure non-intervention behavior more reliably.
+
+    \item \textbf{The sim-to-real pilot is limited in scale.}
+    The real-video evaluation covers Real-Store Pilot (n=20) with full human annotation plus 10 additional group-labeled videos. We treat this result as a preliminary transfer indicator rather than a final real-store benchmark. Completing the planned 50-video benchmark requires recovering 20 currently inaccessible video files and expanding full session-level annotation.
+
+    \item \textbf{Inference-time counterfactual planning underperforms direct selection.}
+    Direct best-action selection outperforms explicit counterfactual planning in the current model, even though the model receives next-state supervision during training. This suggests that the world-model component in this work functions more reliably as training-time auxiliary supervision than as an inference-time planner. Stronger next-state prediction, better reward calibration, or separate planner training may be required before explicit decision-time planning becomes competitive.
+
+    \item \textbf{Intent classification from 3-frame video remains weak.}
+    Intent prediction remains an open challenge under sparse visual input. Macro F1 0.114 across PIWM and comparable State-Outcome Model results suggests that the bottleneck is visual-temporal intent inference under 3-frame input, not only the specific training recipe. Finer temporal sampling, longer clips, or additional gaze/interaction cues may be needed for robust intent recognition.
+
+    \item \textbf{Closed-source mid-tier baselines were not run.}
+    GPT-4o, Gemini 2.5 Flash, Claude Sonnet 4.6, and Grok-3 were planned as mid-tier closed-source baselines but were not completed because of API access issues. We report GPT-5.5 via the Codex CLI as a frontier-model diagnostic, but this is not an API-level role-separated comparison. A direct OpenRouter-style evaluation with the planned mid-tier models remains future work.
+
+    \item \textbf{Schema choice ablations remain pending.}
+    We additionally report ablations on BDI fields, observable evidence, and frame count in Section X. These results suggest [PLACEHOLDER: fill with Batch 2 ablation observations before merging, or remove this item if the ablations are not included].
+\end{enumerate}
+

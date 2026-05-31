@@ -1,0 +1,4 @@
+<rationale>顾客正面靠近售货柜，手持手机和校园卡，姿态稳定且略前倾，表现出已接近下单并希望快速完成购买；其意图倾向接受明确推荐，因此直接高亮单品并提供立即购买入口最匹配。</rationale>
+<chosen>Recommend_9ff23b139b07</chosen>
+<intervention_action>售货柜用屏幕高亮推荐饮品，配合明确语音提示和强提示灯效，引导顾客直接点击立即购买。</intervention_action>
+<intervention_utterance>这款最适合您，建议直接选这款。</intervention_utterance>

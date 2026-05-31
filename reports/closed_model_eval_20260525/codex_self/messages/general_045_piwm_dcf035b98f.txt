@@ -1,0 +1,4 @@
+<rationale>顾客和同伴持续围绕这件外套观察、触摸并交流，当前意图是请求演示；简短展示关键细节能支持她们比较版型、面料和搭配，而不会过早施压。</rationale>
+<chosen>Inform_5ff00ba15ca5</chosen>
+<intervention_action>终端播放该商品的简短演示，并用柔和灯效引导顾客关注关键细节。</intervention_action>
+<intervention_utterance>我给您演示一下这款的关键细节。</intervention_utterance>

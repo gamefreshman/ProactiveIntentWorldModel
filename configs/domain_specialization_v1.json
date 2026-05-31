@@ -1,24 +1,78 @@
 {
   "artifact": "piwm_domain_specialization_config_v1",
   "is_training_result": false,
-  "created_at_cst": "2026-05-16 21:25:17",
+  "updated_at_cst": "2026-05-22 05:20:00",
   "base_model": "Qwen/Qwen2.5-VL-7B-Instruct",
-  "method": "two_stage_sft_with_lora_stage2",
+  "method": "two_stage_user_intent_world_model_then_5act_target_action_model",
   "datasets": {
     "stage1_general": {
-      "name": "PIWM-Train-Synth-v2",
-      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
-      "rows": 2554,
-      "corpus_role": "general_retail_guidance"
+      "name": "PIWM-Stage1-UserIntent-v1",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_stage1_user_intent_v1.jsonl",
+      "rows": 2544,
+      "task_counts": {
+        "user_intent": 543,
+        "next_state_prediction": 2001
+      },
+      "corpus_role": "general user-intent and action-conditioned next-state world modeling",
+      "train_val_split_seed42": {
+        "train_parent_count": 493,
+        "val_parent_count": 50,
+        "train_examples": 2309,
+        "val_examples": 235,
+        "train_files": [
+          "data/official/ms_swift/piwm_train_stage1_user_intent_train_v1.jsonl",
+          "data/official/ms_swift/piwm_train_stage1_next_state_prediction_train_v1.jsonl"
+        ],
+        "val_files": [
+          "data/official/ms_swift/piwm_train_stage1_user_intent_val_v1.jsonl",
+          "data/official/ms_swift/piwm_train_stage1_next_state_prediction_val_v1.jsonl"
+        ],
+        "split_summary": "data/official/piwm_train_synth_v2/general_split_seed42.json",
+        "train_task_counts": {
+          "user_intent": 493,
+          "next_state_prediction": 1816
+        },
+        "val_task_counts": {
+          "user_intent": 50,
+          "next_state_prediction": 185
+        }
+      }
     },
-    "stage2_target": {
-      "name": "PIWM-Target-Frontcam-v1",
-      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
-      "rows": 708,
-      "corpus_role": "target_frontcam_smart_vending",
-      "qa_status": "mixed_synthetic_train_with_codex_visual_qa_test_pass",
-      "qa_reviewed_test_records": 30,
-      "qa_reviewed_eval_jsonl": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl"
+    "stage2_target_5act": {
+      "name": "PIWM-Stage2-Target-5Act-v1",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl",
+      "rows": 71,
+      "task_counts": {
+        "action_selection_5act": 71
+      },
+      "corpus_role": "leakage-free target-frontcam 5-act action selection",
+      "qa_status": "video_backed_synthetic_train; balanced 5-act test is project-lead QA-reviewed pass",
+      "clean_5act_accounting": {
+        "total_target_records": 118,
+        "excluded_best_reassure": 17,
+        "candidate_reassure_rows_filtered": 39,
+        "empty_after_reassure_candidate_filter": 0,
+        "clean_5act_records": 101,
+        "balanced_test_records": 30,
+        "stage2_train_records": 71
+      },
+      "target_test_qa": {
+        "status": "qa_reviewed_pass",
+        "records": 30,
+        "rows": 90,
+        "eval_jsonl": "data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl"
+      }
+    },
+    "joint_baseline": {
+      "name": "PIWM-Stage1PlusStage2-Target5Act-v1",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_v1.jsonl",
+      "rows": 2615,
+      "task_counts": {
+        "user_intent": 543,
+        "next_state_prediction": 2001,
+        "action_selection_5act": 71
+      },
+      "corpus_role": "joint SFT ablation for the revised two-stage story"
     },
     "target_promptready": {
       "name": "PIWM-Target-PromptReady-v1",
@@ -26,73 +80,221 @@
       "records": 318,
       "video_backed_records": 118,
       "video_pending_records": 200,
-      "corpus_role": "target_frontcam_generation_queue"
+      "corpus_role": "future target-frontcam generation queue; not current multimodal training data"
     },
-    "joint_baseline": {
-      "name": "PIWM-GeneralPlusTarget-v1",
-      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl",
-      "rows": 3262,
-      "corpus_role": "mixed_view_joint_sft"
+    "stage2_target_5act_greet_aug_v2": {
+      "name": "PIWM-Stage2-Target-5Act-GreetAug-v2",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v2.jsonl",
+      "rows": 86,
+      "task_counts": {
+        "action_selection_5act": 86
+      },
+      "corpus_role": "Stage-2 prelaunch patch with 15 synthetic general-domain attention-stage Greet rows and stage-conditioned candidate lists",
+      "best_act_counts": {
+        "Elicit": 14,
+        "Greet": 26,
+        "Inform": 41,
+        "Recommend": 5,
+        "Hold": 0
+      },
+      "qa_status": "canonical target train remains video-backed synthetic; 15 Greet augmentation rows are synthetic_augmented_unreviewed",
+      "recommended_use": "Use as next Stage-2 A0-A4 input after Path C health check; keep v1 and canonical 71-row files as audit baselines."
+    },
+    "joint_baseline_greet_aug_v2": {
+      "name": "PIWM-Stage1PlusStage2-Target5Act-GreetAug-v2",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2.jsonl",
+      "rows": 2630,
+      "task_counts": {
+        "user_intent": 543,
+        "next_state_prediction": 2001,
+        "action_selection_5act": 86
+      },
+      "corpus_role": "joint SFT ablation using the balanced Stage-2 Greet augmentation v2 patch"
+    },
+    "joint_baseline_greet_aug_v2_targetx8": {
+      "name": "PIWM-Stage1PlusStage2-Target5Act-GreetAug-v2-TargetX8",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2_targetx8_v1.jsonl",
+      "rows": 3232,
+      "task_counts": {
+        "user_intent": 543,
+        "next_state_prediction": 2001,
+        "action_selection_5act": 688
+      },
+      "target_repeat": 8,
+      "corpus_role": "A4 weighted joint SFT ablation; target 5-act rows repeated 8x"
+    },
+    "stage2_target_5act_greet_aug_audit_v1": {
+      "name": "PIWM-Stage2-Target-5Act-GreetAug-v1",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v1.jsonl",
+      "rows": 111,
+      "task_counts": {
+        "action_selection_5act": 111
+      },
+      "corpus_role": "Superseded Stage-2 prelaunch patch with 40 Greet rows; retained for audit only.",
+      "best_act_counts": {
+        "Elicit": 14,
+        "Greet": 51,
+        "Inform": 41,
+        "Recommend": 5,
+        "Hold": 0
+      },
+      "qa_status": "canonical target train remains video-backed synthetic; 40 Greet augmentation rows are synthetic_augmented_unreviewed",
+      "recommended_use": "Audit artifact only; replaced by stage2_target_5act_greet_aug_v2 after Claude review."
+    },
+    "joint_baseline_greet_aug_audit_v1": {
+      "name": "PIWM-Stage1PlusStage2-Target5Act-GreetAug-v1",
+      "ms_swift_jsonl": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v1.jsonl",
+      "rows": 2655,
+      "task_counts": {
+        "user_intent": 543,
+        "next_state_prediction": 2001,
+        "action_selection_5act": 111
+      },
+      "corpus_role": "Superseded joint SFT artifact using GreetAug-v1; retained for audit only."
     }
   },
   "training_stages": [
     {
       "stage": "stage1_general",
       "input_model": "Qwen/Qwen2.5-VL-7B-Instruct",
-      "dataset": "data/official/ms_swift/piwm_train_synth_v2.jsonl",
+      "dataset": "data/official/ms_swift/piwm_train_stage1_user_intent_train_v1.jsonl,data/official/ms_swift/piwm_train_stage1_next_state_prediction_train_v1.jsonl",
       "output_name": "checkpoint_general",
       "tuning": "lora",
       "lora_rank": 16,
       "lora_alpha": 32,
-      "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+      "target_modules": "all-linear",
+      "val_dataset": "data/official/ms_swift/piwm_train_stage1_user_intent_val_v1.jsonl,data/official/ms_swift/piwm_train_stage1_next_state_prediction_val_v1.jsonl",
+      "learning_rate": "2e-5",
+      "num_train_epochs": 3,
+      "per_device_train_batch_size": 4,
+      "gradient_accumulation_steps": 2,
+      "input_frames": 3,
+      "max_length": 4096
     },
     {
-      "stage": "stage2_target",
+      "stage": "stage2_target_5act",
       "input_model": "checkpoint_general",
-      "dataset": "data/official/ms_swift/piwm_train_target_specialization_v1.jsonl",
+      "dataset": "data/official/ms_swift/piwm_train_stage2_target_5act_v1.jsonl",
       "output_name": "checkpoint_target",
       "tuning": "lora_continued",
       "lora_rank": 16,
       "lora_alpha": 32,
-      "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj"
+      ]
     },
     {
       "stage": "joint_baseline",
       "input_model": "Qwen/Qwen2.5-VL-7B-Instruct",
-      "dataset": "data/official/ms_swift/piwm_train_general_plus_target_v1.jsonl",
-      "output_name": "checkpoint_joint_general_target",
+      "dataset": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_v1.jsonl",
+      "output_name": "checkpoint_joint_stage1_stage2_target_5act",
       "tuning": "lora",
       "lora_rank": 16,
       "lora_alpha": 32,
-      "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj"
+      ]
+    },
+    {
+      "stage": "stage2_target_5act_greet_aug_v2",
+      "input_model": "checkpoint_general",
+      "dataset": "data/official/ms_swift/piwm_train_stage2_target_5act_greet_aug_v2.jsonl",
+      "output_name": "checkpoint_target_greet_aug_v2",
+      "tuning": "lora_continued",
+      "lora_rank": 16,
+      "lora_alpha": 32,
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj"
+      ],
+      "eval_hold_prior_lambda_default": 1.0
+    },
+    {
+      "stage": "a4_weighted_joint_greet_aug_v2_targetx8",
+      "input_model": "Path C Stage-1 checkpoint",
+      "dataset": "data/official/ms_swift/piwm_train_stage1_plus_stage2_target_5act_greet_aug_v2_targetx8_v1.jsonl",
+      "output_name": "checkpoint_a4_weighted_joint_greet_aug_v2_targetx8",
+      "tuning": "lora_continued_or_joint_probe",
+      "target_repeat": 8,
+      "eval_hold_prior_lambda_default": 1.0
     }
   ],
   "evaluation_matrix": [
     {
+      "eval_label": "general_on_general",
       "checkpoint": "checkpoint_general",
-      "eval_set": "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl",
-      "purpose": "general eval after stage1"
+      "eval_set": "data/official/domain_specialization_eval_v2/general_qa_stage1_all.jsonl",
+      "purpose": "Stage-1 health check on general QA: AIDA macro F1, intent accuracy, next-stage accuracy."
     },
     {
+      "eval_label": "general_on_target",
       "checkpoint": "checkpoint_general",
-      "eval_set": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
-      "purpose": "zero-shot target transfer on Codex visual QA reviewed target test split"
+      "eval_set": "data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl",
+      "purpose": "Zero-shot target transfer on the balanced 5-act target-frontcam test."
     },
     {
+      "eval_label": "target_specialized_on_target",
       "checkpoint": "checkpoint_target",
-      "eval_set": "data/official/domain_specialization_eval_v1/target_frontcam_test_qa_reviewed_all.jsonl",
-      "purpose": "target specialization on Codex visual QA reviewed target test split"
+      "eval_set": "data/official/domain_specialization_eval_v2/target_frontcam_5act_test_all.jsonl",
+      "purpose": "Low-resource target specialization gain under 5-act macro F1 and go/no-go precision/recall."
     },
     {
+      "eval_label": "target_specialized_on_general",
       "checkpoint": "checkpoint_target",
-      "eval_set": "data/official/ms_swift/piwm_eval_qa_all_v1.jsonl",
-      "purpose": "catastrophic forgetting check on general eval"
+      "eval_set": "data/official/domain_specialization_eval_v2/general_qa_stage1_all.jsonl",
+      "purpose": "Catastrophic forgetting check on general Stage-1 evaluation."
     }
   ],
   "red_lines": [
-    "Do not call the full 118-record PIWM-Target-Frontcam-v1 corpus human-QA-reviewed; only the 30-record target test split has Codex visual QA pass status.",
+    "Do not report Reassure inside the main 5-act macro F1; Greet/Elicit/Inform/Recommend/Hold is the current locked operational 5-act set.",
+    "Do not use action-selection prompts that expose gold reward, risk, benefit, predicted_next_stage, or next_state.",
     "Do not use the 200 PIWM-Target-PromptReady-v1 video-pending rows as multimodal SFT data until Kling videos and sampled frames exist.",
-    "Do not report checkpoint_target results as final EMNLP evidence without running the evaluation matrix.",
-    "Use joint_baseline only as an ablation; the main story is two-stage specialization."
-  ]
+    "Do not report real-50 or salesperson-majority-vote results until those assets and labels exist.",
+    "Recommend must preserve pressure=soft|firm in action params; Reassure must be zero in Stage-2 train, target eval, inference, and runtime export.",
+    "The balanced 30-record 5-act target test is project-lead QA-reviewed pass; do not extend that QA claim to the 71 Stage-2 train records or the full 118-record target corpus."
+  ],
+  "hold_prior_calibration": {
+    "scope": "Stage-2 action_selection_5act inference/eval only",
+    "formula": "subtract lambda * log(observed_hold_prior / target_hold_prior) from Hold candidate label token logits",
+    "default_lambda": 1.0,
+    "lambda_sweep": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "observed_hold_prior": "16/30 from Path C quick target probe",
+    "target_hold_prior": "6/30 balanced target test prior"
+  },
+  "stage_conditioned_candidates": {
+    "attention": [
+      "Greet",
+      "Elicit",
+      "Inform",
+      "Hold"
+    ],
+    "interest": [
+      "Elicit",
+      "Inform",
+      "Recommend",
+      "Hold"
+    ],
+    "desire": [
+      "Inform",
+      "Recommend",
+      "Hold"
+    ],
+    "action": [
+      "Greet",
+      "Recommend",
+      "Hold"
+    ]
+  }
 }

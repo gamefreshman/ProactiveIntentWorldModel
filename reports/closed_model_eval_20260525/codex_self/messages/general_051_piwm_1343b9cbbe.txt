@@ -1,0 +1,4 @@
+<rationale>顾客已从观看转为触摸并拿起鞋子，正在确认鞋面、鞋底和穿着体验，处于明确的体验式评估阶段。此时简短演示关键细节最贴合她的决策需求；直接询问价格/功能/场景偏泛，静默等待会错过辅助确认的时机。</rationale>
+<chosen>Inform_5ff00ba15ca5</chosen>
+<intervention_action>终端播放该鞋款的简短产品演示，并用中性语音提示关键细节。</intervention_action>
+<intervention_utterance>我给您演示一下这款的关键细节。</intervention_utterance>

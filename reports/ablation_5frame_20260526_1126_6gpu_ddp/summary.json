@@ -1,0 +1,114 @@
+{
+  "artifact": "batch2_ablation_eval",
+  "schema": "full",
+  "frame_mode": "five",
+  "checkpoint": "/home1/zhh/workspace/ProactiveIntentWorldModel/checkpoints/ablation_5frame_20260526_1126_6gpu_ddp/v0-20260526-112751/checkpoint-684",
+  "target_oracle": {
+    "n": 30,
+    "parse_rate": 1.0,
+    "macro_f1_strict": 0.6272727272727272,
+    "macro_f1_parsed": 0.6272727272727272,
+    "by_domain": {
+      "combined": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.6272727272727272,
+        "macro_f1_parsed": 0.6272727272727272,
+        "prediction_counts": {
+          "Elicit": 10,
+          "Inform": 10,
+          "Greet": 5,
+          "Recommend": 5
+        }
+      },
+      "target": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.6272727272727272,
+        "macro_f1_parsed": 0.6272727272727272,
+        "prediction_counts": {
+          "Elicit": 10,
+          "Inform": 10,
+          "Greet": 5,
+          "Recommend": 5
+        }
+      }
+    }
+  },
+  "cross_oracle": {
+    "n": 60,
+    "parse_rate": 0.9833333333333333,
+    "macro_f1_strict": 0.7698917060316848,
+    "macro_f1_parsed": 0.7756888074809603,
+    "by_domain": {
+      "combined": {
+        "n": 60,
+        "parse_rate": 0.9833333333333333,
+        "macro_f1_strict": 0.7698917060316848,
+        "macro_f1_parsed": 0.7756888074809603,
+        "prediction_counts": {
+          "Elicit": 22,
+          "Inform": 12,
+          "Greet": 5,
+          "Recommend": 13,
+          "Hold": 7,
+          "PARSE_FAIL": 1
+        }
+      },
+      "general": {
+        "n": 30,
+        "parse_rate": 0.9666666666666667,
+        "macro_f1_strict": 0.6253333333333333,
+        "macro_f1_parsed": 0.6396190476190476,
+        "prediction_counts": {
+          "Inform": 2,
+          "Hold": 7,
+          "Elicit": 12,
+          "Recommend": 8,
+          "PARSE_FAIL": 1
+        }
+      },
+      "target": {
+        "n": 30,
+        "parse_rate": 1.0,
+        "macro_f1_strict": 0.6272727272727272,
+        "macro_f1_parsed": 0.6272727272727272,
+        "prediction_counts": {
+          "Elicit": 10,
+          "Inform": 10,
+          "Greet": 5,
+          "Recommend": 5
+        }
+      }
+    }
+  },
+  "user_intent_60": {
+    "n": 60,
+    "parse_rate": 1.0,
+    "stage_macro_f1_strict": 0.4121794871794872,
+    "intent_macro_f1_strict": 0.1154078971875582,
+    "intent_macro_f1_parsed": 0.1154078971875582
+  },
+  "next_state_80": {
+    "n": 80,
+    "parse_rate": 1.0,
+    "next_stage_macro_f1_strict": 0.22199994055977829,
+    "next_stage_macro_f1_parsed": 0.22199994055977829
+  },
+  "e2e_target": {
+    "n": 30,
+    "step1_parse_rate": 1.0,
+    "step2_parse_rate": 0.8666666666666667,
+    "macro_f1_strict": 0.23376623376623376
+  },
+  "resume_from_existing_raw": true,
+  "merged_from_shards": true,
+  "paper_table_metrics": {
+    "target_test_f1": 0.6272727272727272,
+    "cross_domain_f1": 0.7698917060316848,
+    "e2e_f1": 0.23376623376623376,
+    "aida_f1": 0.4121794871794872,
+    "intent_f1": 0.1154078971875582,
+    "next_state_f1": 0.22199994055977829
+  }
+}
